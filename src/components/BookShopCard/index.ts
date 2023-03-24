@@ -1,0 +1,1 @@
+export { BookShopCard } from './BookShopCard';

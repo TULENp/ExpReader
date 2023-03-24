@@ -4,18 +4,18 @@ import { useNavigation } from '@react-navigation/native';
 
 export default function LibraryScreen() {
     //TODO fix TS navigation error
-    const navigation = useNavigation();
+    const { navigate } = useNavigation();
 
     return (
         <View>
             <Text>LibraryScreen</Text>
             <Button
                 title='to book screen'
-                onPress={() => navigation.navigate('Book')}
+                onPress={() => navigate('Book')}
             />
             <Button
                 title='to reader screen'
-                onPress={() => navigation.navigate('Reader')}
+                onPress={() => navigate('Reader')}
             />
         </View>
     );
