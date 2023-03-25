@@ -1,0 +1,11 @@
+{
+  "configurations": [
+    {
+      "name": "Attach to Hermes application - Experimental",
+      "request": "attach",
+      "type": "reactnativedirect",
+      "cwd": "${workspaceFolder}",
+      "port": 19000
+    }
+  ]
+}

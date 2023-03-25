@@ -7,6 +7,7 @@ export default function LibraryScreen() {
     //TODO fix TS navigation error
     const navigation = useNavigation();
 
+    console.log("HEllo RASIM");
 
     return (
         <View>
