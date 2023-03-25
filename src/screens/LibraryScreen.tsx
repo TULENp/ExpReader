@@ -22,8 +22,10 @@ export default function LibraryScreen() {
         return await FileSystem.StorageAccessFramework.readAsStringAsync(filePath)
     }
 
+    //TODO optimize this method
+    // Add books from file to app dir and to local storage
     async function AddFromFile() {
-        const result = await DocumentPicker.getDocumentAsync({ copyToCacheDirectory: false });
+        const result = await DocumentPicker.getDocumentAsync({ copyToCacheDirectory: false, type: 'text/txt' });
 
         if (result.type === "success" && FileSystem.documentDirectory) {
             //* copy file to app's dir/fileBooks
@@ -52,7 +54,6 @@ export default function LibraryScreen() {
 
     async function getAllFileBooks() {
         const bookFileNames: string[] = await FileSystem.readDirectoryAsync(fileBooksDir);
-        console.log(bookFileNames);
 
         const books = await getFileBooksFromStorage(bookFileNames);
         setFileBooks(books);
@@ -64,6 +65,7 @@ export default function LibraryScreen() {
                 data={fileBooks}
                 keyExtractor={(item) => item.title}
                 renderItem={({ item }) => <BookLibCard book={item} />} />
+
             <Button
                 title='Add book'
                 onPress={AddFromFile}
