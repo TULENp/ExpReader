@@ -1,4 +1,6 @@
-export type TShopBook = {
+export { TAllBook, TBook, TLibBook, TShopBook };
+
+type TShopBook = {
     id: number,
     title: string,
     author: string,
@@ -6,7 +8,7 @@ export type TShopBook = {
     price?: number,
 }
 
-export type TLibBook = {
+type TLibBook = {
     id: number,
     title: string,
     author: string,
@@ -18,7 +20,7 @@ export type TLibBook = {
     isRead: boolean,
 }
 
-export type TBigBook = {
+type TBook = {
     id: number,
     title: string,
     author: string,
@@ -31,7 +33,7 @@ export type TBigBook = {
     isFavorite: boolean,
 }
 
-export type TBook = {
+type TAllBook = {
     id: number,
     title: string,
     author: string,
@@ -47,3 +49,5 @@ export type TBook = {
     fragment: string,
     isFavorite: boolean,
 }
+
+

@@ -1,6 +1,6 @@
-import { TBook } from "../types/types";
+import { TAllBook } from "../types";
 
-export const books: TBook = {
+export const books: TAllBook = {
     id: 0,
     title: "Book title",
     author: "Book author",
