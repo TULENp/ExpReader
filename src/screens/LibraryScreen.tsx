@@ -82,9 +82,4 @@ export default function LibraryScreen() {
     );
 }
 
-const styles = StyleSheet.create({
-    mainText:{
-        color:pink
-    }
-})
 
