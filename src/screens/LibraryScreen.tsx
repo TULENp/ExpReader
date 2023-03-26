@@ -39,7 +39,7 @@ export default function LibraryScreen() {
                 // const text = await readText(fileBooksDir + result.name);
                 // alert(Math.ceil(text.length / 600));
                 const bookInit: TLibBook = {
-                    id: 0,
+                    id: result.name,
                     title: result.name,
                     author: '',
                     cover: '',

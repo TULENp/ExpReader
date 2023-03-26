@@ -1,16 +1,21 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TLibBook } from '../types';
 
-//save books added from file to async storage
-function saveFileBooksToStorage(book: TLibBook) {
-    AsyncStorage.setItem('book_' + book.title, JSON.stringify(book));
+// save books to async storage
+function saveBookStats(book: TLibBook) {
+    AsyncStorage.setItem(book.id, JSON.stringify(book));
 }
 
-//Get all books added from file from async storage
+// update book statistics in async storage 
+function updateBookStats(book: TLibBook) {
+    AsyncStorage.mergeItem(book.id, JSON.stringify(book));
+}
+
+// Get all books added from file from async storage
 async function getFileBooksFromStorage(bookNames: string[]): Promise<TLibBook[]> {
     let books: TLibBook[] = [];
     for (let name of bookNames) {
-        const book = await AsyncStorage.getItem('book_' + name);
+        const book = await AsyncStorage.getItem(name);
 
         if (book) {
             books.push(JSON.parse(book));
@@ -19,8 +24,10 @@ async function getFileBooksFromStorage(bookNames: string[]): Promise<TLibBook[]>
     return books;
 }
 
+
+
 function clearStorage() {
     AsyncStorage.clear();
 }
 
-export { saveFileBooksToStorage, getFileBooksFromStorage, clearStorage };
+export { saveBookStats as saveFileBooksToStorage, getFileBooksFromStorage, clearStorage };

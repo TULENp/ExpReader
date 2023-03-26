@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, ScrollView, Button } from 'react-native';
 import { pageChars } from '../../constants';
 import { TLibBook } from '../../types';
@@ -8,14 +8,17 @@ interface ReaderProps {
     book: TLibBook;
 }
 
+//TODO update book stats in AS
 export function Reader({ bookText, book }: ReaderProps) {
 
     const [pageText, setPageText] = useState(''); // text on one page
     const [currentPage, setCurrentPage] = useState(book.currentPage); // starts from 1, not from 0
     //TODO optimize rerender
     const bookPages = getBookPages(); // number of pages in book
-    
+    const scrollViewRef = useRef<ScrollView>(null); // ref to ScrollView with pageText
+
     useEffect(() => {
+        scrollToTop();
         ReadCurrentPage();
     }, [currentPage])
 
@@ -69,15 +72,20 @@ export function Reader({ bookText, book }: ReaderProps) {
         }
     }
 
+    function scrollToTop() {
+        scrollViewRef.current?.scrollTo({ y: 0 });
+    }
+
     return (
         <>
-            <ScrollView >
-                <Text >{pageText}</Text>
+            {/* TODO remove scroll animation */}
+            <ScrollView ref={scrollViewRef} >
+                <Text style={{ alignSelf: 'center', fontSize: 25, margin: 10 }}>{pageText}</Text>
             </ScrollView>
 
             <View >
                 <Button title={'<'} onPress={toPrevPage} />
-                <Text style={{ color: 'black', alignSelf: 'center' }}>{currentPage}/{bookPages}</Text>
+                <Text style={{ alignSelf: 'center', fontSize: 15 }}>{currentPage}/{bookPages}</Text>
                 <Button title={'>'} onPress={toNextPage} />
             </View>
         </>

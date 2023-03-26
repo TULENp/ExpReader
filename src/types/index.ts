@@ -1,7 +1,7 @@
 export { TAllBook, TBook, TLibBook, TShopBook };
 
 type TShopBook = {
-    id: number,
+    id: string,
     title: string,
     author: string,
     cover: string,
@@ -9,7 +9,7 @@ type TShopBook = {
 }
 
 type TLibBook = {
-    id: number,
+    id: string,
     title: string,
     author: string,
     cover: string,
@@ -22,7 +22,7 @@ type TLibBook = {
 }
 
 type TBook = {
-    id: number,
+    id: string,
     title: string,
     author: string,
     cover: string,
@@ -35,7 +35,7 @@ type TBook = {
 }
 
 type TAllBook = {
-    id: number,
+    id: string,
     title: string,
     author: string,
     cover: string,
