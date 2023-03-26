@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, ScrollView, Button } from 'react-native';
 import { pageChars } from '../../constants';
+import { saveBookStats, updateReadBookStats } from '../../service/asyncStorage';
 import { TLibBook } from '../../types';
 
 interface ReaderProps {
@@ -14,22 +15,16 @@ export function Reader({ bookText, book }: ReaderProps) {
     const [pageText, setPageText] = useState(''); // text on one page
     const [currentPage, setCurrentPage] = useState(book.currentPage); // starts from 1, not from 0
     //TODO optimize rerender
-    const bookPages = getBookPages(); // number of pages in book
+    const bookPages = book.bookPages || Math.ceil(bookText.length / pageChars); // number of pages in book
     const scrollViewRef = useRef<ScrollView>(null); // ref to ScrollView with pageText
 
     useEffect(() => {
         scrollToTop();
-        ReadCurrentPage();
+        readCurrentPage();
+        updateReadBookStats(book.id, currentPage, currentPage);
     }, [currentPage])
 
-    function getBookPages() {
-        if (book.bookPages == 0) {
-            return Math.ceil(bookText.length / pageChars)
-        }
-        return book.bookPages;
-    }
-
-    function ReadCurrentPage() {
+    function readCurrentPage() {
         if (bookText) {
             const pageFirstCharNum: number = (currentPage - 1) * pageChars; // number of the first char of current page
             const nextPageFirstCharNum: number = pageFirstCharNum + pageChars; // number of the last char of current page

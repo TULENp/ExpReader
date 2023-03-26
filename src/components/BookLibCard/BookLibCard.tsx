@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 
 export function BookLibCard({ book }: { book: TLibBook }) {
     const { author, bookPages, cover, currentPage, id, isRead, readDate, readPages, title } = book;
+    //TODO fix TS navigation error
     const { navigate } = useNavigation<any>();
 
     return (

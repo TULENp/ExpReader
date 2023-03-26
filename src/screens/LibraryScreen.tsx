@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, FlatList } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { View, Button, FlatList } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import { TLibBook } from '../types';
-import { clearStorage, getFileBooksFromStorage, saveFileBooksToStorage } from '../service/asyncStorage';
+import { clearStorage, getFileBooksFromStorage, saveBookStats } from '../service/asyncStorage';
 import { BookLibCard } from '../components/BookLibCard';
 import { fileBooksDir } from '../constants';
 
-
 export default function LibraryScreen() {
-    //TODO fix TS navigation error
-    // const fileBooksDir = FileSystem.documentDirectory + 'fileBooks/'; // directory for books added from file
     const [fileBooks, setFileBooks] = useState<TLibBook[]>([]);
 
     useEffect(() => {
@@ -20,7 +16,7 @@ export default function LibraryScreen() {
 
     //TODO optimize this method
     // Add books from file to app dir and to local storage
-    async function AddFromFile() {
+    async function addFromFile() {
         //FIXME if close picker window promise will never be resolved
         try {
             const result = await DocumentPicker.getDocumentAsync({
@@ -36,8 +32,6 @@ export default function LibraryScreen() {
                         to: fileBooksDir
                     });
 
-                // const text = await readText(fileBooksDir + result.name);
-                // alert(Math.ceil(text.length / 600));
                 const bookInit: TLibBook = {
                     id: result.name,
                     title: result.name,
@@ -50,7 +44,7 @@ export default function LibraryScreen() {
                     isRead: false,
                     fileName: result.name
                 };
-                saveFileBooksToStorage(bookInit);
+                saveBookStats(bookInit);
             }
         } catch (e) {
             //@ts-ignore
@@ -58,12 +52,10 @@ export default function LibraryScreen() {
         }
     }
 
-
     async function getAllFileBooks() {
         const bookFileNames: string[] = await FileSystem.readDirectoryAsync(fileBooksDir);
-
-        const books = await getFileBooksFromStorage(bookFileNames);
-        setFileBooks(books);
+        const booksArray: TLibBook[] = await getFileBooksFromStorage(bookFileNames);
+        setFileBooks(booksArray);
     }
 
     return (
@@ -75,7 +67,7 @@ export default function LibraryScreen() {
 
             <Button
                 title='Add book'
-                onPress={AddFromFile}
+                onPress={addFromFile}
             />
             <Button
                 title='get books'

@@ -6,9 +6,9 @@ function saveBookStats(book: TLibBook) {
     AsyncStorage.setItem(book.id, JSON.stringify(book));
 }
 
-// update book statistics in async storage 
-function updateBookStats(book: TLibBook) {
-    AsyncStorage.mergeItem(book.id, JSON.stringify(book));
+// update book statistics: currentPage and readPages in async storage 
+function updateReadBookStats(id: string, currentPage: number, readPages: number) {
+    AsyncStorage.mergeItem(id, `{currentPage:${currentPage}, readPages:${readPages}}`);
 }
 
 // Get all books added from file from async storage
@@ -30,4 +30,4 @@ function clearStorage() {
     AsyncStorage.clear();
 }
 
-export { saveBookStats as saveFileBooksToStorage, getFileBooksFromStorage, clearStorage };
+export { saveBookStats, getFileBooksFromStorage, clearStorage, updateReadBookStats };
