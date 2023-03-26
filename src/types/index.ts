@@ -18,6 +18,7 @@ type TLibBook = {
     readPages: number,
     readDate: Date,
     isRead: boolean,
+    fileName:string
 }
 
 type TBook = {

@@ -6,51 +6,58 @@ import * as FileSystem from 'expo-file-system';
 import { TLibBook } from '../types';
 import { clearStorage, getFileBooksFromStorage, saveFileBooksToStorage } from '../service/asyncStorage';
 import { BookLibCard } from '../components/BookLibCard';
+import { fileBooksDir } from '../constants';
 
 
 export default function LibraryScreen() {
     //TODO fix TS navigation error
-    const fileBooksDir = FileSystem.documentDirectory + 'fileBooks/'; // directory for books added from file
-    const { navigate } = useNavigation();
+    // const fileBooksDir = FileSystem.documentDirectory + 'fileBooks/'; // directory for books added from file
     const [fileBooks, setFileBooks] = useState<TLibBook[]>([]);
 
     useEffect(() => {
         getAllFileBooks();
     }, [])
 
-    async function readText(filePath: string) {
-        return await FileSystem.StorageAccessFramework.readAsStringAsync(filePath)
-    }
-
     //TODO optimize this method
     // Add books from file to app dir and to local storage
     async function AddFromFile() {
-        const result = await DocumentPicker.getDocumentAsync({ copyToCacheDirectory: false, type: 'text/txt' });
+        //FIXME if close picker window promise will never be resolved
+        try {
+            const result = await DocumentPicker.getDocumentAsync({
+                copyToCacheDirectory: false,
+                type: ['text/plain', 'application/x-fictionbook+xml']
+            });
 
-        if (result.type === "success" && FileSystem.documentDirectory) {
-            //* copy file to app's dir/fileBooks
-            await FileSystem.StorageAccessFramework.copyAsync(
-                {
-                    from: result.uri,
-                    to: fileBooksDir
-                });
+            if (result.type === "success") {
+                //* copy file to app's dir/fileBooks
+                await FileSystem.StorageAccessFramework.copyAsync(
+                    {
+                        from: result.uri,
+                        to: fileBooksDir
+                    });
 
-            // const text = await readText(fileBooksDir + result.name);
-            // alert(Math.ceil(text.length / 600));
-            const bookInit: TLibBook = {
-                id: 0,
-                title: result.name,
-                author: '',
-                cover: '',
-                bookPages: 0,
-                currentPage: 0,
-                readPages: 0,
-                readDate: new Date(),
-                isRead: false
-            };
-            saveFileBooksToStorage(bookInit);
+                // const text = await readText(fileBooksDir + result.name);
+                // alert(Math.ceil(text.length / 600));
+                const bookInit: TLibBook = {
+                    id: 0,
+                    title: result.name,
+                    author: '',
+                    cover: '',
+                    bookPages: 0,
+                    currentPage: 1,
+                    readPages: 0,
+                    readDate: new Date(),
+                    isRead: false,
+                    fileName: result.name
+                };
+                saveFileBooksToStorage(bookInit);
+            }
+        } catch (e) {
+            //@ts-ignore
+            console.log('Something went wrong: ' + e.message);
         }
     }
+
 
     async function getAllFileBooks() {
         const bookFileNames: string[] = await FileSystem.readDirectoryAsync(fileBooksDir);
