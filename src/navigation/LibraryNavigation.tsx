@@ -6,17 +6,18 @@ import LibraryScreen from "../screens/LibraryScreen";
 
 const Stack = createNativeStackNavigator();
 
-const screenOptionStyle = {
-    headerStyle: {
-        backgroundColor: "#9AC4F8",
-    },
-    headerTintColor: "white",
-    headerBackTitle: "Back",
-};
+// const screenOptionStyle = {
+//     headerStyle: {
+//         backgroundColor: "#9AC4F8",
+        
+//     },
+//     headerTintColor: "white",
+//     headerBackTitle: "Back",
+// };
 
 export function LibraryNavigation() {
     return (
-        <Stack.Navigator screenOptions={screenOptionStyle}>
+        <Stack.Navigator screenOptions={{headerShown:false}}>
             <Stack.Screen name="Library" component={LibraryScreen} />
             <Stack.Screen name="Book" component={BookScreen} />
             <Stack.Screen name="Reader" component={ReaderScreen} />
