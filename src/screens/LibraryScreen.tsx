@@ -6,6 +6,8 @@ import * as FileSystem from 'expo-file-system';
 import { TLibBook } from '../types';
 import { clearStorage, getFileBooksFromStorage, saveFileBooksToStorage } from '../service/asyncStorage';
 import { BookLibCard } from '../components/BookLibCard';
+import { stylesLibraryScreen } from './stylesScreen';
+
 
 
 export default function LibraryScreen() {
@@ -60,7 +62,7 @@ export default function LibraryScreen() {
     }
 
     return (
-        <View>
+        <View style={stylesLibraryScreen.container}>
             <FlatList
                 data={fileBooks}
                 keyExtractor={(item) => item.title}
@@ -81,5 +83,3 @@ export default function LibraryScreen() {
         </View>
     );
 }
-
-
