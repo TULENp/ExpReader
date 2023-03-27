@@ -44,6 +44,7 @@ export default function LibraryScreen() {
                     isRead: false,
                     fileName: result.name
                 };
+                //TODO don't set initBook if file already exist
                 saveBookStatsAS(bookInit);
             }
         } catch (e) {

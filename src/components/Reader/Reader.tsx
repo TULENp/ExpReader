@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, ScrollView, Button } from 'react-native';
 import { pageChars } from '../../constants';
-import { setFileBookPagesAS, updateBookReadDateAS, updateBookReadStatsAS } from '../../service/asyncStorage';
+import { setBookIsReadAS, setFileBookPagesAS, updateBookReadDateAS, updateBookReadStatsAS } from '../../service/asyncStorage';
 import { TLibBook } from '../../types';
 
 interface ReaderProps {
@@ -30,7 +30,15 @@ export function Reader({ bookText, book }: ReaderProps) {
     useEffect(() => {
         scrollToTop();
         readCurrentPage();
-        updateBookReadStatsAS(book.id, currentPage, readPages);
+        
+        // if this page is last and all previous page is read 
+        if (currentPage === bookPages && (readPages + 1) === bookPages) {
+            setBookIsReadAS(book.id, bookPages);
+        }
+        else { 
+            updateBookReadStatsAS(book.id, currentPage, readPages);
+        }
+
     }, [currentPage])
 
     function readCurrentPage() {

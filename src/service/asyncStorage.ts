@@ -11,17 +11,18 @@ function updateBookReadStatsAS(id: string, currentPage: number, readPages: numbe
     AsyncStorage.mergeItem(id, `{currentPage:${currentPage}, readPages:${readPages}}`);
 }
 
-// update book statistics: currentPage and readPages in async storage 
+// update book statistic: readDate in async storage 
 function updateBookReadDateAS(id: string) {
     const date = new Date();
     AsyncStorage.mergeItem(id, `{readDate:"${date}"}`);
 }
 
-// update book statistics: currentPage and readPages in async storage 
-function updateBookIsReadAS(id: string) {
-    AsyncStorage.mergeItem(id, `{currentPage:true}`);
+// set isRead = true; set currentPage and readPages to bookPages in async storage 
+function setBookIsReadAS(id: string, pages: number) {
+    AsyncStorage.mergeItem(id, `{isRead:true, currentPage: ${pages}, readPages: ${pages}}`);
 }
 
+// set bookPages to book added from file in async storage 
 function setFileBookPagesAS(id: string, pages: number) {
     AsyncStorage.mergeItem(id, `{bookPages:${pages}}`);
 }
@@ -48,7 +49,7 @@ export {
     getFileBooksAS,
     clearAS,
     updateBookReadStatsAS,
-    updateBookIsReadAS,
+    setBookIsReadAS,
     updateBookReadDateAS,
     setFileBookPagesAS
 };
