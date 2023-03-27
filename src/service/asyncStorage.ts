@@ -2,17 +2,32 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TLibBook } from '../types';
 
 // save books to async storage
-function saveBookStats(book: TLibBook) {
+function saveBookStatsAS(book: TLibBook) {
     AsyncStorage.setItem(book.id, JSON.stringify(book));
 }
 
 // update book statistics: currentPage and readPages in async storage 
-function updateReadBookStats(id: string, currentPage: number, readPages: number) {
+function updateBookReadStatsAS(id: string, currentPage: number, readPages: number) {
     AsyncStorage.mergeItem(id, `{currentPage:${currentPage}, readPages:${readPages}}`);
 }
 
+// update book statistics: currentPage and readPages in async storage 
+function updateBookReadDateAS(id: string) {
+    const date = new Date();
+    AsyncStorage.mergeItem(id, `{readDate:"${date}"}`);
+}
+
+// update book statistics: currentPage and readPages in async storage 
+function updateBookIsReadAS(id: string) {
+    AsyncStorage.mergeItem(id, `{currentPage:true}`);
+}
+
+function setFileBookPagesAS(id: string, pages: number) {
+    AsyncStorage.mergeItem(id, `{bookPages:${pages}}`);
+}
+
 // Get all books added from file from async storage
-async function getFileBooksFromStorage(bookNames: string[]): Promise<TLibBook[]> {
+async function getFileBooksAS(bookNames: string[]): Promise<TLibBook[]> {
     let books: TLibBook[] = [];
     for (let name of bookNames) {
         const book = await AsyncStorage.getItem(name);
@@ -24,10 +39,16 @@ async function getFileBooksFromStorage(bookNames: string[]): Promise<TLibBook[]>
     return books;
 }
 
-
-
-function clearStorage() {
+function clearAS() {
     AsyncStorage.clear();
 }
 
-export { saveBookStats, getFileBooksFromStorage, clearStorage, updateReadBookStats };
+export {
+    saveBookStatsAS,
+    getFileBooksAS,
+    clearAS,
+    updateBookReadStatsAS,
+    updateBookIsReadAS,
+    updateBookReadDateAS,
+    setFileBookPagesAS
+};

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, ScrollView, Button } from 'react-native';
 import { pageChars } from '../../constants';
-import { saveBookStats, updateReadBookStats } from '../../service/asyncStorage';
+import { setFileBookPagesAS, updateBookReadDateAS, updateBookReadStatsAS } from '../../service/asyncStorage';
 import { TLibBook } from '../../types';
 
 interface ReaderProps {
@@ -14,14 +14,23 @@ export function Reader({ bookText, book }: ReaderProps) {
 
     const [pageText, setPageText] = useState(''); // text on one page
     const [currentPage, setCurrentPage] = useState(book.currentPage); // starts from 1, not from 0
-    //TODO optimize rerender
+    const [readPages, setReadPages] = useState(book.readPages); // number of book pages read
+
     const bookPages = book.bookPages || Math.ceil(bookText.length / pageChars); // number of pages in book
     const scrollViewRef = useRef<ScrollView>(null); // ref to ScrollView with pageText
 
     useEffect(() => {
+        updateBookReadDateAS(book.id);
+
+        if (bookPages !== book.bookPages) {
+            setFileBookPagesAS(book.id, bookPages);
+        }
+    }, [])
+
+    useEffect(() => {
         scrollToTop();
         readCurrentPage();
-        updateReadBookStats(book.id, currentPage, currentPage);
+        updateBookReadStatsAS(book.id, currentPage, readPages);
     }, [currentPage])
 
     function readCurrentPage() {
@@ -57,13 +66,16 @@ export function Reader({ bookText, book }: ReaderProps) {
 
     function toNextPage() {
         if (currentPage < bookPages) {
-            setCurrentPage(currentPage + 1);
+            if (currentPage === readPages + 1) {
+                setReadPages(prev => prev + 1);
+            }
+            setCurrentPage(prev => prev + 1);
         }
     }
 
     function toPrevPage() {
         if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
+            setCurrentPage(prev => prev - 1);
         }
     }
 
@@ -80,7 +92,7 @@ export function Reader({ bookText, book }: ReaderProps) {
 
             <View >
                 <Button title={'<'} onPress={toPrevPage} />
-                <Text style={{ alignSelf: 'center', fontSize: 15 }}>{currentPage}/{bookPages}</Text>
+                <Text style={{ alignSelf: 'center', fontSize: 15 }}>{currentPage}/{bookPages}. {readPages}</Text>
                 <Button title={'>'} onPress={toNextPage} />
             </View>
         </>

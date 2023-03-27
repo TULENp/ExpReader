@@ -3,7 +3,7 @@ import { View, Button, FlatList } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import { TLibBook } from '../types';
-import { clearStorage, getFileBooksFromStorage, saveBookStats } from '../service/asyncStorage';
+import { clearAS, getFileBooksAS, saveBookStatsAS } from '../service/asyncStorage';
 import { BookLibCard } from '../components/BookLibCard';
 import { fileBooksDir } from '../constants';
 
@@ -44,7 +44,7 @@ export default function LibraryScreen() {
                     isRead: false,
                     fileName: result.name
                 };
-                saveBookStats(bookInit);
+                saveBookStatsAS(bookInit);
             }
         } catch (e) {
             //@ts-ignore
@@ -52,9 +52,10 @@ export default function LibraryScreen() {
         }
     }
 
+    //TODO update fileBooks when data updates / on navigate to LibraryScreen
     async function getAllFileBooks() {
         const bookFileNames: string[] = await FileSystem.readDirectoryAsync(fileBooksDir);
-        const booksArray: TLibBook[] = await getFileBooksFromStorage(bookFileNames);
+        const booksArray: TLibBook[] = await getFileBooksAS(bookFileNames);
         setFileBooks(booksArray);
     }
 
@@ -75,7 +76,7 @@ export default function LibraryScreen() {
             />
             <Button
                 title='Clear'
-                onPress={clearStorage}
+                onPress={clearAS}
             />
         </View>
     );
