@@ -33,7 +33,8 @@ export function Reader({ bookText, book }: ReaderProps) {
         
         // if this page is last and all previous page is read 
         if (currentPage === bookPages && (readPages + 1) === bookPages) {
-            setBookIsReadAS(book.id, bookPages);
+            setReadPages(bookPages);
+            setBookIsReadAS(book.id, bookPages);   
         }
         else { 
             updateBookReadStatsAS(book.id, currentPage, readPages);
