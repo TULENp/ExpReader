@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, FlatList } from 'react-native';
+import { View, Text, Button, FlatList, StatusBar, Image, } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
@@ -7,6 +7,10 @@ import { TLibBook } from '../types';
 import { clearStorage, getFileBooksFromStorage, saveFileBooksToStorage } from '../service/asyncStorage';
 import { BookLibCard } from '../components/BookLibCard';
 import { stylesLibraryScreen } from './stylesScreen';
+import { srcImgLibraryHeader } from '../constants/images';
+import {  } from 'react-native-elements';
+import { Input } from '@rneui/themed';
+
 
 
 
@@ -15,6 +19,8 @@ export default function LibraryScreen() {
     const fileBooksDir = FileSystem.documentDirectory + 'fileBooks/'; // directory for books added from file
     const { navigate } = useNavigation();
     const [fileBooks, setFileBooks] = useState<TLibBook[]>([]);
+
+    const [searchText, setSearchText] = useState<string>('');
 
     useEffect(() => {
         getAllFileBooks();
@@ -62,7 +68,16 @@ export default function LibraryScreen() {
     }
 
     return (
-        <View style={stylesLibraryScreen.container}>
+        <>
+        <StatusBar backgroundColor = "#276AA1" />
+        <View style={stylesLibraryScreen.lib_page}>
+            <View style={stylesLibraryScreen.container_header}>
+                <Image source={srcImgLibraryHeader} style={stylesLibraryScreen.img_header}/>
+                <Input onChangeText={text => setSearchText(text)}
+                           placeholder={'Найти книги'}
+                           inputContainerStyle={{borderBottomWidth:0}}
+                           style={stylesLibraryScreen.search_input}/>
+            </View>
             <FlatList
                 data={fileBooks}
                 keyExtractor={(item) => item.title}
@@ -81,5 +96,6 @@ export default function LibraryScreen() {
                 onPress={clearStorage}
             />
         </View>
+        </>
     );
 }
