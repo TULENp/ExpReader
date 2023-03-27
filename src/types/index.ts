@@ -1,4 +1,4 @@
-export { TAllBook, TBook, TLibBook, TShopBook };
+export { TAllBook, TBook, TLibBook, TShopBook, LibStackParams, ProfileStackParams, ShopStackParams };
 
 type TShopBook = {
     id: string,
@@ -18,7 +18,7 @@ type TLibBook = {
     readPages: number,
     readDate: Date,
     isRead: boolean,
-    fileName:string
+    fileName: string
 }
 
 type TBook = {
@@ -50,5 +50,23 @@ type TAllBook = {
     fragment: string,
     isFavorite: boolean,
 }
+
+type LibStackParams = {
+    Library: undefined;
+    Reader: { book: TLibBook };
+};
+
+type ProfileStackParams = {
+    Profile: undefined;
+    DailyTask: undefined;
+    Achievements: undefined;
+};
+
+type ShopStackParams = {
+    Shop: undefined;
+    ShopBook: undefined;
+    Favorites: undefined;
+    Checkout: undefined;
+};
 
 

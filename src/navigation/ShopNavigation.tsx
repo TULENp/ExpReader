@@ -4,8 +4,9 @@ import ShopScreen from "../screens/ShopScreen";
 import BookScreen from "../screens/BookScreen";
 import FavoritesScreen from "../screens/FavoritesScreen";
 import CheckoutScreen from "../screens/CheckoutScreen";
+import { ShopStackParams } from "../types";
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<ShopStackParams>();
 
 const screenOptionStyle = {
     headerStyle: {

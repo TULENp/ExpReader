@@ -28,7 +28,7 @@ function setFileBookPagesAS(id: string, pages: number) {
 }
 
 // Get all books added from file from async storage
-async function getFileBooksAS(bookNames: string[]): Promise<TLibBook[]> {
+async function getAllFileBooksAS(bookNames: string[]): Promise<TLibBook[]> {
     let books: TLibBook[] = [];
     for (let name of bookNames) {
         const book = await AsyncStorage.getItem(name);
@@ -46,7 +46,7 @@ function clearAS() {
 
 export {
     saveBookStatsAS,
-    getFileBooksAS,
+    getAllFileBooksAS,
     clearAS,
     updateBookReadStatsAS,
     setBookIsReadAS,

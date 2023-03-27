@@ -3,8 +3,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ProfileScreen from "../screens/ProfileScreen";
 import DailyTaskScreen from "../screens/DailyTaskScreen";
 import AchievementsScreen from "../screens/AchievementsScreen";
+import { ProfileStackParams } from "../types";
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<ProfileStackParams>();
 
 const screenOptionStyle = {
     headerStyle: {

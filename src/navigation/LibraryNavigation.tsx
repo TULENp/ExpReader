@@ -1,10 +1,10 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import BookScreen from "../screens/BookScreen";
 import ReaderScreen from "../screens/ReaderScreen";
 import LibraryScreen from "../screens/LibraryScreen";
+import { LibStackParams } from "../types";
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<LibStackParams>();
 
 const screenOptionStyle = {
     headerStyle: {
@@ -18,7 +18,6 @@ export function LibraryNavigation() {
     return (
         <Stack.Navigator screenOptions={screenOptionStyle}>
             <Stack.Screen name="Library" component={LibraryScreen} />
-            <Stack.Screen name="Book" component={BookScreen} />
             <Stack.Screen name="Reader" component={ReaderScreen} />
         </Stack.Navigator>
     );

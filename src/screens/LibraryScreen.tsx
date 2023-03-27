@@ -3,60 +3,58 @@ import { View, Button, FlatList } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import { TLibBook } from '../types';
-import { clearAS, getFileBooksAS, saveBookStatsAS } from '../service/asyncStorage';
+import { clearAS, getAllFileBooksAS, saveBookStatsAS } from '../service/asyncStorage';
 import { BookLibCard } from '../components/BookLibCard';
 import { fileBooksDir } from '../constants';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function LibraryScreen() {
     const [fileBooks, setFileBooks] = useState<TLibBook[]>([]);
 
-    useEffect(() => {
-        getAllFileBooks();
-    }, [])
+    useFocusEffect(
+        React.useCallback(() => {
+            getAllFileBooks();
+        }, [])
+    );
 
     //TODO optimize this method
     // Add books from file to app dir and to local storage
-    async function addFromFile() {
-        //FIXME if close picker window promise will never be resolved
-        try {
-            const result = await DocumentPicker.getDocumentAsync({
-                copyToCacheDirectory: false,
-                type: ['text/plain', 'application/x-fictionbook+xml']
+    async function addBookFromFile() {
+        //! //FIXME if close picker window promise will never be resolved
+        const result = await DocumentPicker.getDocumentAsync({
+            copyToCacheDirectory: false,
+            type: ['text/plain', 'application/x-fictionbook+xml']
+        });
+
+        if (result.type === "cancel") return;
+
+        //* copy file to app's dir/fileBooks
+        await FileSystem.StorageAccessFramework.copyAsync(
+            {
+                from: result.uri,
+                to: fileBooksDir
             });
 
-            if (result.type === "success") {
-                //* copy file to app's dir/fileBooks
-                await FileSystem.StorageAccessFramework.copyAsync(
-                    {
-                        from: result.uri,
-                        to: fileBooksDir
-                    });
-
-                const bookInit: TLibBook = {
-                    id: result.name,
-                    title: result.name,
-                    author: '',
-                    cover: '',
-                    bookPages: 0,
-                    currentPage: 1,
-                    readPages: 0,
-                    readDate: new Date(),
-                    isRead: false,
-                    fileName: result.name
-                };
-                //TODO don't set initBook if file already exist
-                saveBookStatsAS(bookInit);
-            }
-        } catch (e) {
-            //@ts-ignore
-            console.log('Something went wrong: ' + e.message);
-        }
+        const bookInit: TLibBook = {
+            id: result.name,
+            title: result.name,
+            author: '',
+            cover: '',
+            bookPages: 0,
+            currentPage: 1,
+            readPages: 0,
+            readDate: new Date(),
+            isRead: false,
+            fileName: result.name
+        };
+        //TODO don't set initBook if file already exist
+        saveBookStatsAS(bookInit);
+        getAllFileBooks();
     }
 
-    //TODO update fileBooks when data updates / on navigate to LibraryScreen
     async function getAllFileBooks() {
         const bookFileNames: string[] = await FileSystem.readDirectoryAsync(fileBooksDir);
-        const booksArray: TLibBook[] = await getFileBooksAS(bookFileNames);
+        const booksArray: TLibBook[] = await getAllFileBooksAS(bookFileNames);
         setFileBooks(booksArray);
     }
 
@@ -69,7 +67,7 @@ export default function LibraryScreen() {
 
             <Button
                 title='Add book'
-                onPress={addFromFile}
+                onPress={addBookFromFile}
             />
             <Button
                 title='get books'
