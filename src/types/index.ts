@@ -1,4 +1,13 @@
-export { TAllBook, TBook, TLibBook, TShopBook, LibStackParams, ProfileStackParams, ShopStackParams };
+export {
+    TAllBook,
+    TBook,
+    TLibBook,
+    TShopBook,
+    LibStackParams,
+    ProfileStackParams,
+    ShopStackParams,
+    TRarity
+};
 
 type TShopBook = {
     id: string,
@@ -68,5 +77,8 @@ type ShopStackParams = {
     Favorites: undefined;
     Checkout: undefined;
 };
+
+type TRarity = 'common' | 'rare' | 'epic' | 'legendary';
+
 
 
