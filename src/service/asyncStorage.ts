@@ -1,6 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TLibBook, TUserData } from '../types';
 
+const userDataKey = 'userData'; // key for userData in async storage
+
 // save books to async storage
 function saveBookStatsAS(book: TLibBook) {
     AsyncStorage.setItem(book.id, JSON.stringify(book));
@@ -9,6 +11,7 @@ function saveBookStatsAS(book: TLibBook) {
 // update book statistics: currentPage and readPages in async storage 
 function updateBookReadStatsAS(id: string, currentPage: number, readPages: number) {
     AsyncStorage.mergeItem(id, `{currentPage:${currentPage}, readPages:${readPages}}`);
+    incUserReadPagesAS();
 }
 
 // update book statistic: readDate in async storage 
@@ -20,6 +23,7 @@ function updateBookReadDateAS(id: string) {
 // set isRead = true; set currentPage and readPages to bookPages in async storage 
 function setBookIsReadAS(id: string, pages: number) {
     AsyncStorage.mergeItem(id, `{isRead:true, currentPage: ${pages}, readPages: ${pages}}`);
+    incUserReadBooksAS();
 }
 
 // set bookPages to book added from file in async storage 
@@ -51,11 +55,25 @@ async function getUserDataAS(): Promise<TUserData | null> {
     // }));
 
     let userData: TUserData | null = null;
-    const userDataJSON = await AsyncStorage.getItem('userData');
+    const userDataJSON = await AsyncStorage.getItem(userDataKey);
     if (userDataJSON) {
         userData = JSON.parse(userDataJSON);
     }
     return userData;
+}
+
+async function incUserReadPagesAS() {
+    const userData = await getUserDataAS();
+    if (userData) {
+        AsyncStorage.mergeItem(userDataKey, `{readPagesNum:${userData.readPagesNum + 1}}`);
+    }
+}
+
+async function incUserReadBooksAS() {
+    const userData = await getUserDataAS();
+    if (userData) {
+        AsyncStorage.mergeItem(userDataKey, `{readBooksNum:${userData.readBooksNum + 1}}`);
+    }
 }
 
 function clearAS() {

@@ -2,14 +2,17 @@ import { View, Text, SafeAreaView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { TUserData } from '../types';
 import { getUserDataAS } from '../service/asyncStorage';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function ProfileScreen() {
 
     const [userData, setUserData] = useState<TUserData | null>(null);
 
-    useEffect(() => {
-        getUserData();
-    }, [])
+    useFocusEffect(
+        React.useCallback(() => {
+            getUserData();
+        }, [])
+    );
 
     async function getUserData() {
         const data = await getUserDataAS();
