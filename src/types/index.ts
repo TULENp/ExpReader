@@ -81,7 +81,7 @@ type ShopStackParams = {
 
 type TRarity = 'common' | 'rare' | 'epic' | 'legendary';
 
-type TBookmark = null | 'bronze' | 'silver' | 'gold';
+type TBookmark = 'bookmark_empty' | 'bronze' | 'silver' | 'gold';
 
 
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { LibStackParams, TBookmark, TLibBook, TRarity } from '../../types';
-import { useNavigation, NavigationProp, useFocusEffect } from '@react-navigation/native';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { calculateBookmark, calculateRarity } from '../../service/motivation';
 
 type BookLibCardProps = {

@@ -19,7 +19,7 @@ export function calculateRarity(pages: number): TRarity {
 }
 
 export function calculateBookmark(readPages: number, bookPages: number): TBookmark {
-    let bookmark: TBookmark = null;
+    let bookmark: TBookmark = 'bookmark_empty';
     if (bookPages !== 0) {
         const readPercent = Math.floor((readPages / bookPages) * 100);
 
