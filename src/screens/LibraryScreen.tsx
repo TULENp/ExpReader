@@ -14,7 +14,7 @@ import { useFonts } from 'expo-font';
 import { Montserrat_300Light, Montserrat_400Regular, Montserrat_500Medium, Montserrat_700Bold, } from '@expo-google-fonts/montserrat'
 import { MontserratAlternates_300Light, MontserratAlternates_400Regular,MontserratAlternates_500Medium,MontserratAlternates_700Bold,} from '@expo-google-fonts/montserrat-alternates'
 import AppLoading from 'expo-app-loading';
-import { gray, pink } from '../constants/colors';
+import { deepBlue, gray, pink, white } from '../constants/colors';
 import { ScrollView } from 'react-native';
 import { ScrollViewBase } from 'react-native';
 
@@ -89,29 +89,27 @@ export default function LibraryScreen() {
 
     return (
         <>
-        
-
         <FlatList ListHeaderComponent={
           <>
             <KeyboardAvoidingView behavior='height' style={stylesLibraryScreen.lib_page}>
-                <StatusBar backgroundColor = "#276AA1" />
+                <StatusBar backgroundColor = {deepBlue} />
                 <ImageBackground source={srcImgLibraryHeader} style={stylesLibraryScreen.container_header}>
                     <View style={stylesLibraryScreen.container_search_input}>
                         <Input onChangeText={text => setSearchText(text)}
                             placeholder={'Найти книги'}
-                            inputContainerStyle={{borderBottomWidth:0, backgroundColor:"#FFFFF" , }}
+                            inputContainerStyle={{borderBottomWidth:0 }}
                             leftIcon={{ type: 'octicons', name: 'search' }}
                             style={[stylesLibraryScreen.search_input, {fontFamily: 'MontserratAlt400'}]}/>
                     </View>
                 </ImageBackground>
-                <View>
+                <View style={stylesLibraryScreen.container_read_later}>
                     <Image source={srcImgHarryPotter3} style={stylesLibraryScreen.img_cover_read_later}/>
-                    <View>
-                        <Text>Продолжить чтение</Text>
-                        <Text>Гарри Поттер и кзник Азкабана</Text>
-                        <Text>Джоан Роулинг</Text>
-                        <Text>56% прочитано</Text>
-                        <LinearProgress value={0.56} color={pink} trackColor={gray} variant='determinate'/>
+                    <View style={{paddingLeft:16, flex:1,}}>
+                        <Text style={stylesLibraryScreen.text_h1_read_later}>Продолжить чтение</Text>
+                        <Text style={stylesLibraryScreen.text_h2_read_later}>Гарри Поттер и узник Азкабана</Text>
+                        <Text style={stylesLibraryScreen.text_h3_read_later}>Джоан Роулинг</Text>
+                        <Text style={stylesLibraryScreen.text_progress_bar}>56% прочитано</Text>
+                        <LinearProgress value={0.56} color={pink} style={stylesLibraryScreen.progress_bar}  trackColor={gray} variant='determinate'/>
                     </View>
                 </View>
                 </KeyboardAvoidingView>

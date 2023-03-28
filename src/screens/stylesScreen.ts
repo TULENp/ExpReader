@@ -1,5 +1,5 @@
 import {Dimensions, StyleSheet} from 'react-native';
-import { lightBlue } from '../constants/colors';
+import { deepBlue, lightBlue, white } from '../constants/colors';
 //fonts
 import { useFonts } from 'expo-font';
 import {
@@ -17,16 +17,7 @@ import {
 
 
 let {width} = Dimensions.get('window');
-// let [fontsLoaded] = useFonts({
-//     'Montserrat300': Montserrat_300Light,
-//     'Montserrat400': Montserrat_400Regular,
-//     'Montserrat500': Montserrat_500Medium,
-//     'Montserrat700': Montserrat_700Bold,
-//     'MontserratAlt300': MontserratAlternates_300Light,
-//     'MontserratAlt400': MontserratAlternates_400Regular,
-//     'MontserratAlt500': MontserratAlternates_500Medium,
-//     'MontserratAlt700': MontserratAlternates_700Bold,
-// })
+
 
 export const stylesLibraryScreen = StyleSheet.create({
     lib_page:{
@@ -38,7 +29,7 @@ export const stylesLibraryScreen = StyleSheet.create({
     container_header:{
         flex:1,
         width: width,
-        height:115,
+        height:120,
     },
     img_header:{
         width: width,
@@ -59,8 +50,8 @@ export const stylesLibraryScreen = StyleSheet.create({
     container_search_input:{
         backgroundColor:'#FFFFFF', 
         height:50, 
-        marginLeft:'1.4%', 
-        marginRight:'1.4%', 
+        marginLeft:13, 
+        marginRight:13, 
         borderRadius:8,
         marginTop:35,
     },
@@ -69,5 +60,40 @@ export const stylesLibraryScreen = StyleSheet.create({
         width:139,
         height:199,
         borderRadius:8,
+    },
+    container_read_later:{
+        flexDirection:'row', 
+        paddingRight:13, 
+        paddingLeft:13, 
+        paddingTop:25, 
+        paddingBottom:25,
+        backgroundColor:deepBlue,
+    },
+    text_h1_read_later:{
+        fontFamily:'MontserratAlt700',
+        color:white, 
+        fontSize:20,
+    },
+    text_h2_read_later:{
+        fontFamily:'Montserrat700',
+        color:white, 
+        fontSize:14,
+        marginTop:16,
+    },
+    text_h3_read_later:{
+        fontFamily:'Montserrat400',
+        color:white, 
+        fontSize:14,
+    },
+    text_progress_bar:{
+        fontFamily:'Montserrat300',
+        color:white, 
+        fontSize:14,
+        marginTop:21,
+    },
+    progress_bar:{
+        transform: [{scaleY: 1.5}], 
+        borderRadius:8, 
+        marginTop:10,
     }
 })
