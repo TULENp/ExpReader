@@ -38,7 +38,7 @@ export const stylesLibraryScreen = StyleSheet.create({
     container_header:{
         flex:1,
         width: width,
-        
+        height:'39%',
     },
     img_header:{
         width: width,

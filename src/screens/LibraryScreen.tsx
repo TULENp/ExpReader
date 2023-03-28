@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, FlatList, StatusBar, Image, KeyboardAvoidingView, InputAccessoryView } from 'react-native';
+import { View, Text, Button, FlatList, StatusBar, Image, KeyboardAvoidingView, InputAccessoryView, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
@@ -88,10 +88,9 @@ export default function LibraryScreen() {
         <>
         <StatusBar backgroundColor = "#276AA1" />
 
-
+        
         <KeyboardAvoidingView behavior='height' style={stylesLibraryScreen.lib_page}>
-            <View style={stylesLibraryScreen.container_header}>
-                <Image source={srcImgLibraryHeader} style={stylesLibraryScreen.img_header}/>
+            <ImageBackground source={srcImgLibraryHeader} style={stylesLibraryScreen.container_header}>
                 <View style={stylesLibraryScreen.container_search_input}>
                     <Input onChangeText={text => setSearchText(text)}
                            placeholder={'Найти книги'}
@@ -99,6 +98,8 @@ export default function LibraryScreen() {
                            leftIcon={{ type: 'octicons', name: 'search' }}
                            style={[stylesLibraryScreen.search_input, {fontFamily: 'MontserratAlt400'}]}/>
                 </View>
+            </ImageBackground>
+            <View>
             </View>
             <FlatList
                 data={fileBooks}
