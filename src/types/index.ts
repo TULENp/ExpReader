@@ -6,7 +6,8 @@ export {
     LibStackParams,
     ProfileStackParams,
     ShopStackParams,
-    TRarity
+    TRarity,
+    TBookmark,
 };
 
 type TShopBook = {
@@ -79,6 +80,8 @@ type ShopStackParams = {
 };
 
 type TRarity = 'common' | 'rare' | 'epic' | 'legendary';
+
+type TBookmark = null | 'bronze' | 'silver' | 'gold';
 
 
 

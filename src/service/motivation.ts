@@ -1,12 +1,12 @@
 import { realBookPageChars, pageChars } from "../constants";
-import { TRarity } from "../types";
+import { TBookmark, TRarity } from "../types";
 
-function calculateRarity(pages: number): TRarity {
+export function calculateRarity(pages: number): TRarity {
     let rarity: TRarity = 'legendary'
     // conversion from app pages to "real" pages, which depends on pageChars
-    const realPages = pages / (realBookPageChars / pageChars);
+    const realPages = Math.ceil(pages / (realBookPageChars / pageChars));
 
-    if (realPages <= 300 * pageChars) {
+    if (realPages <= 300) {
         rarity = 'common'
     }
     else if (realPages > 300 && realPages <= 600) {
@@ -16,4 +16,22 @@ function calculateRarity(pages: number): TRarity {
         rarity = 'epic'
     }
     return rarity;
+}
+
+export function calculateBookmark(readPages: number, bookPages: number): TBookmark {
+    let bookmark: TBookmark = null;
+    if (bookPages !== 0) {
+        const readPercent = Math.floor((readPages / bookPages) * 100);
+
+        if (readPercent >= 30 && readPercent < 60) {
+            bookmark = 'bronze'
+        }
+        else if (readPercent >= 60 && readPercent < 100) {
+            bookmark = 'silver'
+        }
+        else if (readPercent == 100) {
+            bookmark = 'gold'
+        }
+    }
+    return bookmark;
 }
