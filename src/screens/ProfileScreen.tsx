@@ -1,12 +1,13 @@
-import { View, Text, SafeAreaView } from 'react-native'
+import { View, Text, SafeAreaView, Button } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { TUserData } from '../types';
+import { ProfileStackParams, TUserData } from '../types';
 import { getUserDataAS } from '../service/asyncStorage';
-import { useFocusEffect } from '@react-navigation/native';
+import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native';
 
 export default function ProfileScreen() {
 
     const [userData, setUserData] = useState<TUserData | null>(null);
+    const { navigate } = useNavigation<NavigationProp<ProfileStackParams>>();
 
     useFocusEffect(
         React.useCallback(() => {
@@ -23,11 +24,15 @@ export default function ProfileScreen() {
         <SafeAreaView style={{ padding: 10 }}>
             {userData
                 ?
-                <View>
-                    <Text>{userData.nickname}</Text>
-                    <Text>pages: {userData.readPagesNum}</Text>
-                    <Text>books: {userData.readBooksNum}</Text>
-                </View>
+                <>
+                    <View>
+                        <Text>{userData.nickname}</Text>
+                        <Text>pages: {userData.readPagesNum}</Text>
+                        <Text>books: {userData.readBooksNum}</Text>
+                    </View>
+                    <Button title='to achievements' onPress={() => navigate('Achievements')} />
+                    <Button title='to daily task settings' onPress={() => navigate('DailyTask')} />
+                </>
                 :
                 <Text>Ошибка. Пользователь не найден</Text>
             }

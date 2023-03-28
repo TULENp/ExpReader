@@ -10,7 +10,7 @@ type BookLibCardProps = {
 
 export function BookLibCard({ book }: BookLibCardProps) {
     // Define the navigation prop with the appropriate type for the Reader screen
-    const navigation = useNavigation<NavigationProp<LibStackParams>>();
+    const { navigate } = useNavigation<NavigationProp<LibStackParams>>();
     const { author, bookPages, cover, currentPage, id, isRead, readDate, readPages, title } = book;
 
     const [rarity, setRarity] = useState<TRarity>();
@@ -25,7 +25,7 @@ export function BookLibCard({ book }: BookLibCardProps) {
     }, [readPages])
 
     return (
-        <TouchableOpacity onPress={() => navigation.navigate('Reader', { book })}>
+        <TouchableOpacity onPress={() => navigate('Reader', { book })}>
             <View style={{ margin: 10, padding: 5, borderBottomWidth: 1 }}>
                 <Text>{rarity}</Text>
                 <Text>{bookmark}</Text>
