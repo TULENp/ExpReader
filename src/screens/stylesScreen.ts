@@ -38,7 +38,7 @@ export const stylesLibraryScreen = StyleSheet.create({
     container_header:{
         flex:1,
         width: width,
-        height:'39%',
+        height:115,
     },
     img_header:{
         width: width,
@@ -64,5 +64,10 @@ export const stylesLibraryScreen = StyleSheet.create({
         borderRadius:8,
         marginTop:35,
     },
-
+    img_cover_read_later:{
+        resizeMode:'contain',
+        width:139,
+        height:199,
+        borderRadius:8,
+    }
 })

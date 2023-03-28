@@ -6,6 +6,7 @@ const pink='#F27E81';
 const greenRarity='#00CB96';
 const blueRarity='#0380AE';
 const redRarity='#F50058';
+const gray = '#D9D9D9';
 
 export {deepBlue, lightBlue, darkBlue, purple,
-        pink, greenRarity, blueRarity, redRarity};
+        pink, greenRarity, blueRarity, redRarity, gray};

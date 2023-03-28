@@ -7,13 +7,16 @@ import { TLibBook } from '../types';
 import { clearStorage, getFileBooksFromStorage, saveFileBooksToStorage } from '../service/asyncStorage';
 import { BookLibCard } from '../components/BookLibCard';
 import { stylesLibraryScreen } from './stylesScreen';
-import { srcImgLibraryHeader } from '../constants/images';
+import { srcImgHarryPotter3, srcImgLibraryHeader } from '../constants/images';
 import {  } from 'react-native-elements';
-import { Input, Icon } from '@rneui/themed';
+import { Input, Icon, LinearProgress } from '@rneui/themed';
 import { useFonts } from 'expo-font';
 import { Montserrat_300Light, Montserrat_400Regular, Montserrat_500Medium, Montserrat_700Bold, } from '@expo-google-fonts/montserrat'
 import { MontserratAlternates_300Light, MontserratAlternates_400Regular,MontserratAlternates_500Medium,MontserratAlternates_700Bold,} from '@expo-google-fonts/montserrat-alternates'
 import AppLoading from 'expo-app-loading';
+import { gray, pink } from '../constants/colors';
+import { ScrollView } from 'react-native';
+import { ScrollViewBase } from 'react-native';
 
 
 export default function LibraryScreen() {
@@ -86,39 +89,53 @@ export default function LibraryScreen() {
 
     return (
         <>
-        <StatusBar backgroundColor = "#276AA1" />
-
         
-        <KeyboardAvoidingView behavior='height' style={stylesLibraryScreen.lib_page}>
-            <ImageBackground source={srcImgLibraryHeader} style={stylesLibraryScreen.container_header}>
-                <View style={stylesLibraryScreen.container_search_input}>
-                    <Input onChangeText={text => setSearchText(text)}
-                           placeholder={'Найти книги'}
-                           inputContainerStyle={{borderBottomWidth:0, backgroundColor:"#FFFFF" , }}
-                           leftIcon={{ type: 'octicons', name: 'search' }}
-                           style={[stylesLibraryScreen.search_input, {fontFamily: 'MontserratAlt400'}]}/>
+
+        <FlatList ListHeaderComponent={
+          <>
+            <KeyboardAvoidingView behavior='height' style={stylesLibraryScreen.lib_page}>
+                <StatusBar backgroundColor = "#276AA1" />
+                <ImageBackground source={srcImgLibraryHeader} style={stylesLibraryScreen.container_header}>
+                    <View style={stylesLibraryScreen.container_search_input}>
+                        <Input onChangeText={text => setSearchText(text)}
+                            placeholder={'Найти книги'}
+                            inputContainerStyle={{borderBottomWidth:0, backgroundColor:"#FFFFF" , }}
+                            leftIcon={{ type: 'octicons', name: 'search' }}
+                            style={[stylesLibraryScreen.search_input, {fontFamily: 'MontserratAlt400'}]}/>
+                    </View>
+                </ImageBackground>
+                <View>
+                    <Image source={srcImgHarryPotter3} style={stylesLibraryScreen.img_cover_read_later}/>
+                    <View>
+                        <Text>Продолжить чтение</Text>
+                        <Text>Гарри Поттер и кзник Азкабана</Text>
+                        <Text>Джоан Роулинг</Text>
+                        <Text>56% прочитано</Text>
+                        <LinearProgress value={0.56} color={pink} trackColor={gray} variant='determinate'/>
+                    </View>
                 </View>
-            </ImageBackground>
-            <View>
-            </View>
-            <FlatList
-                data={fileBooks}
+                </KeyboardAvoidingView>
+            </> } data={fileBooks}
                 keyExtractor={(item) => item.title}
-                renderItem={({ item }) => <BookLibCard book={item} />} />
-            <Text style={{color:"#FFFFF", fontFamily:'MontserratAlt700'}}>ПРивет</Text>
-            <Button
-                title='Add book'
-                onPress={AddFromFile}
-            />
-            <Button
-                title='get books'
-                onPress={getAllFileBooks}
-            />
-            <Button
-                title='Clear'
-                onPress={clearStorage}
-            />
-        </KeyboardAvoidingView>
+                renderItem={({ item }) => <BookLibCard book={item} />}
+                ListFooterComponent={
+                  <>
+                    <Button
+                        title='Add book'
+                        onPress={AddFromFile}
+                    />
+                    <Button
+                        title='get books'
+                        onPress={getAllFileBooks}
+                    />
+                    <Button
+                        title='Clear'
+                        onPress={clearStorage}
+                    />
+                  </>} />
+            
+           
+        
         
         </>
     );
