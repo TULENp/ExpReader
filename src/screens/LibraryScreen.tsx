@@ -17,6 +17,7 @@ import AppLoading from 'expo-app-loading';
 import { deepBlue, gray, pink, white } from '../constants/colors';
 import { ScrollView } from 'react-native';
 import { ScrollViewBase } from 'react-native';
+import { BookReadLaterCard } from '../components/BookReadLaterCard/BookReadLaterCard';
 
 
 export default function LibraryScreen() {
@@ -102,16 +103,7 @@ export default function LibraryScreen() {
                             style={[stylesLibraryScreen.search_input, {fontFamily: 'MontserratAlt400'}]}/>
                     </View>
                 </ImageBackground>
-                <View style={stylesLibraryScreen.container_read_later}>
-                    <Image source={srcImgHarryPotter3} style={stylesLibraryScreen.img_cover_read_later}/>
-                    <View style={{paddingLeft:16, flex:1,}}>
-                        <Text style={stylesLibraryScreen.text_h1_read_later}>Продолжить чтение</Text>
-                        <Text style={stylesLibraryScreen.text_h2_read_later}>Гарри Поттер и узник Азкабана</Text>
-                        <Text style={stylesLibraryScreen.text_h3_read_later}>Джоан Роулинг</Text>
-                        <Text style={stylesLibraryScreen.text_progress_bar}>56% прочитано</Text>
-                        <LinearProgress value={0.56} color={pink} style={stylesLibraryScreen.progress_bar}  trackColor={gray} variant='determinate'/>
-                    </View>
-                </View>
+                <BookReadLaterCard/>
                 </KeyboardAvoidingView>
             </> } data={fileBooks}
                 keyExtractor={(item) => item.title}
