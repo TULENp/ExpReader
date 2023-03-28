@@ -1,5 +1,4 @@
 export {
-    TAllBook,
     TBook,
     TLibBook,
     TShopBook,
@@ -8,6 +7,8 @@ export {
     ShopStackParams,
     TRarity,
     TBookmark,
+    TUserData,
+    TAchieves,
 };
 
 type TShopBook = {
@@ -44,23 +45,6 @@ type TBook = {
     isFavorite: boolean,
 }
 
-type TAllBook = {
-    id: string,
-    title: string,
-    author: string,
-    cover: string,
-    price: number,
-    bookPages: number,
-    currentPage: number,
-    readPages: number,
-    readDate: Date,
-    isRead: boolean,
-    genre: string[],
-    description: string,
-    fragment: string,
-    isFavorite: boolean,
-}
-
 type LibStackParams = {
     Library: undefined;
     Reader: { book: TLibBook };
@@ -83,5 +67,18 @@ type TRarity = 'common' | 'rare' | 'epic' | 'legendary';
 
 type TBookmark = 'bookmark_empty' | 'bronze' | 'silver' | 'gold';
 
+type TUserData = {
+    nickname: string,
+    readPagesNum: number,
+    readBooksNum: number,
+    achievesImg: string[],
+    userBooks: TLibBook[],
+}
 
+type TAchieves = {
+    image: string,
+    title: string,
+    description: string,
+    isCompleted: boolean
+}
 

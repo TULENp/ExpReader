@@ -23,7 +23,7 @@
     "react-native-screens": "~3.20.0",
     "expo-file-system": "~15.2.2",
     "@react-native-async-storage/async-storage": "1.17.11",
-    "expo-document-picker": "~11.2.1"
+    "expo-document-picker": "~11.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

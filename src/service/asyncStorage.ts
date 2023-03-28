@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { TLibBook } from '../types';
+import { TLibBook, TUserData } from '../types';
 
 // save books to async storage
 function saveBookStatsAS(book: TLibBook) {
@@ -40,6 +40,24 @@ async function getAllFileBooksAS(bookNames: string[]): Promise<TLibBook[]> {
     return books;
 }
 
+async function getUserDataAS(): Promise<TUserData | null> {
+    //? test set user data
+    // await AsyncStorage.setItem('userData', JSON.stringify({
+    //     nickname: 'TULENb',
+    //     readPagesNum: 451,
+    //     readBooksNum: 2,
+    //     achievesImg: [],
+    //     userBooks: [],
+    // }));
+
+    let userData: TUserData | null = null;
+    const userDataJSON = await AsyncStorage.getItem('userData');
+    if (userDataJSON) {
+        userData = JSON.parse(userDataJSON);
+    }
+    return userData;
+}
+
 function clearAS() {
     AsyncStorage.clear();
 }
@@ -51,5 +69,6 @@ export {
     updateBookReadStatsAS,
     setBookIsReadAS,
     updateBookReadDateAS,
-    setFileBookPagesAS
+    setFileBookPagesAS,
+    getUserDataAS,
 };

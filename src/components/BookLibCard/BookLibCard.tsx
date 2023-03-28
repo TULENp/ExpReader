@@ -16,16 +16,12 @@ export function BookLibCard({ book }: BookLibCardProps) {
     const [rarity, setRarity] = useState<TRarity>();
     const [bookmark, setBookmark] = useState<TBookmark>();
 
-
     useEffect(() => {
         setRarity(calculateRarity(bookPages));
-        console.log('rarity');
-
     }, [bookPages])
 
     useEffect(() => {
         setBookmark(calculateBookmark(readPages, bookPages));
-        console.log('bookmark');
     }, [readPages])
 
     return (

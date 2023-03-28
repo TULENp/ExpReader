@@ -1,6 +1,5 @@
-import { TAllBook } from "../types";
 
-export const books: TAllBook = {
+export const books = {
     id: 0,
     title: "Book title",
     author: "Book author",
