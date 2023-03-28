@@ -9,7 +9,7 @@ const Tab = createBottomTabNavigator();
 export function TabNavigation() {
     return (
         <NavigationContainer>
-            <Tab.Navigator screenOptions={{ headerShown:false}} initialRouteName='LibraryTab'>
+            <Tab.Navigator  screenOptions={{ headerShown:false, tabBarHideOnKeyboard:true}} initialRouteName='LibraryTab'>
                 <Tab.Screen name="ShopTab" component={ShopNavigation} />
                 <Tab.Screen name="LibraryTab"  component={LibraryNavigation} />
                 <Tab.Screen name="ProfileTab" component={ProfileNavigation} />

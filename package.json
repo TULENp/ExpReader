@@ -18,6 +18,7 @@
     "@react-navigation/native-stack": "^6.9.12",
     "@rneui/themed": "^4.0.0-rc.7",
     "expo": "~48.0.9",
+    "expo-app-loading": "^2.1.1",
     "expo-document-picker": "~11.2.1",
     "expo-file-system": "~15.2.2",
     "expo-font": "^11.1.1",

@@ -17,16 +17,16 @@ import {
 
 
 let {width} = Dimensions.get('window');
-let [fontsLoaded] = useFonts({
-    'Montserrat300': Montserrat_300Light,
-    'Montserrat400': Montserrat_400Regular,
-    'Montserrat500': Montserrat_500Medium,
-    'Montserrat700': Montserrat_700Bold,
-    'MontserratAlt300': MontserratAlternates_300Light,
-    'MontserratAlt400': MontserratAlternates_400Regular,
-    'MontserratAlt500': MontserratAlternates_500Medium,
-    'MontserratAlt700': MontserratAlternates_700Bold,
-})
+// let [fontsLoaded] = useFonts({
+//     'Montserrat300': Montserrat_300Light,
+//     'Montserrat400': Montserrat_400Regular,
+//     'Montserrat500': Montserrat_500Medium,
+//     'Montserrat700': Montserrat_700Bold,
+//     'MontserratAlt300': MontserratAlternates_300Light,
+//     'MontserratAlt400': MontserratAlternates_400Regular,
+//     'MontserratAlt500': MontserratAlternates_500Medium,
+//     'MontserratAlt700': MontserratAlternates_700Bold,
+// })
 
 export const stylesLibraryScreen = StyleSheet.create({
     lib_page:{
@@ -43,17 +43,26 @@ export const stylesLibraryScreen = StyleSheet.create({
     img_header:{
         width: width,
         height:'39%',
+        position:'absolute',
+        elevation:1,
+
     },
     search_input:{
         marginLeft:'1.4%',
         marginRight:'1.4%',
-        backgroundColor: '#FFFFFF',
+        // backgroundColor: '#FFFFFF',
         color:'#000000',
         maxWidth: width,
-     
-        // maxWidth: width,
-        
-    }
-
+        fontSize:14,
+        borderRadius:8,
+    },
+    container_search_input:{
+        backgroundColor:'#FFFFFF', 
+        height:50, 
+        marginLeft:'1.4%', 
+        marginRight:'1.4%', 
+        borderRadius:8,
+        marginTop:35,
+    },
 
 })
