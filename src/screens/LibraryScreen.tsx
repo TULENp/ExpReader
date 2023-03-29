@@ -125,7 +125,11 @@ export default function LibraryScreen() {
             </> } 
                 data={libCategory === 0 ? books : fileBooks}
                 keyExtractor={(item) => item.title}
-                renderItem={({ item }) => <BookLibCard book={item} />}
+                renderItem={({ item }) => {
+                    return(
+                        <View style={{backgroundColor:white}}>
+                            <BookLibCard book={item} />
+                        </View>)}}
                 ListFooterComponent={
                   <>
                     <Button

@@ -1,19 +1,6 @@
 import {Dimensions, StyleSheet} from 'react-native';
 import { black, deepBlue, lightBlue, white } from '../constants/colors';
-//fonts
-import { useFonts } from 'expo-font';
-import {
-    Montserrat_300Light,
-    Montserrat_400Regular,
-    Montserrat_500Medium,
-    Montserrat_700Bold,
-    } from '@expo-google-fonts/montserrat'
-import {
-    MontserratAlternates_300Light,
-    MontserratAlternates_400Regular,
-    MontserratAlternates_500Medium,
-    MontserratAlternates_700Bold,
-   } from '@expo-google-fonts/montserrat-alternates'
+
 
 
 let {width} = Dimensions.get('window');

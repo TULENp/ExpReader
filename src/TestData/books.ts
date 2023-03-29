@@ -36,7 +36,7 @@ export const books: TAllBook[] = [{
     id: 3,
     title: "Мерцание серебра",
     author: "Джулиент Кемп",
-    cover: "silver.png",
+    cover: "silver.jpg",
     price: 670,
     bookPages: 777,
     genre: ["Фантастика", "Приключения"],
