@@ -9,6 +9,7 @@ export {
     TBookmark,
     TUserData,
     TAchieves,
+    TDailyTask,
 };
 
 type TShopBook = {
@@ -81,4 +82,6 @@ type TAchieves = {
     description: string,
     isCompleted: boolean
 }
+
+type TDailyTask = 'Легкий' | 'Нормальный' | 'Серьезный';
 

@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { TLibBook, TUserData } from '../types';
+import { TDailyTask, TLibBook, TUserData } from '../types';
 
 const userDataKey = 'userData'; // key for userData in async storage
 
@@ -31,7 +31,7 @@ function setFileBookPagesAS(id: string, pages: number) {
     AsyncStorage.mergeItem(id, `{bookPages:${pages}}`);
 }
 
-// Get all books added from file from async storage
+// get all books added from file from async storage
 async function getAllFileBooksAS(bookNames: string[]): Promise<TLibBook[]> {
     let books: TLibBook[] = [];
     for (let name of bookNames) {
@@ -45,6 +45,7 @@ async function getAllFileBooksAS(bookNames: string[]): Promise<TLibBook[]> {
 }
 
 async function getUserDataAS(): Promise<TUserData | null> {
+
     //? test set user data
     // await AsyncStorage.setItem('userData', JSON.stringify({
     //     nickname: 'TULENb',
@@ -76,6 +77,30 @@ async function incUserReadBooksAS() {
     }
 }
 
+
+//* Daily task functions
+// get number of pages read today
+async function getTodayPagesAS(): Promise<number> {
+    return JSON.parse(await AsyncStorage.getItem('todayPages') || '0');
+}
+
+async function incTodayPagesAS() {
+    const todayPages = await getTodayPagesAS();
+    AsyncStorage.setItem('todayPages', `${todayPages + 1}`);
+}
+
+async function getDailyTaskAS(): Promise<string | null> {
+    return await AsyncStorage.getItem('dailyTask');
+}
+
+async function setDailyTaskAS(dailyTask: TDailyTask) {
+    AsyncStorage.setItem('dailyTask', dailyTask);
+}
+
+async function checkDailyTaskCompletionAS() {
+
+}
+
 function clearAS() {
     AsyncStorage.clear();
 }
@@ -89,4 +114,6 @@ export {
     updateBookReadDateAS,
     setFileBookPagesAS,
     getUserDataAS,
+    incTodayPagesAS,
+    getTodayPagesAS,
 };
