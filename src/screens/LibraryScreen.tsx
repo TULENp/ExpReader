@@ -9,7 +9,7 @@ import { BookLibCard } from '../components/BookLibCard';
 import { stylesLibraryScreen } from './stylesScreen';
 import { srcImgLibraryHeader } from '../constants/images';
 import { } from 'react-native-elements';
-import { ButtonGroup, Input, ListItem } from '@rneui/themed';
+import { ButtonGroup, FAB, Input, ListItem } from '@rneui/themed';
 import { useFonts } from 'expo-font';
 import { Montserrat_300Light, Montserrat_400Regular, Montserrat_500Medium, Montserrat_700Bold, } from '@expo-google-fonts/montserrat'
 import { MontserratAlternates_300Light, MontserratAlternates_400Regular,MontserratAlternates_500Medium,MontserratAlternates_700Bold,} from '@expo-google-fonts/montserrat-alternates'
@@ -132,6 +132,8 @@ export default function LibraryScreen() {
                         </View>)}}
                 ListFooterComponent={
                   <>
+                  <View style={{flex:1}}>
+                  
                     <Button
                         title='Add book'
                         onPress={AddFromFile}
@@ -144,7 +146,9 @@ export default function LibraryScreen() {
                         title='Clear'
                         onPress={clearStorage}
                     />
+                  </View>
                   </>} />
+                  <FAB icon={{ name: 'add', color: 'white' }} color={deepBlue} size='large' style={{position:'absolute', elevation:1,zIndex:5, right:'8%', bottom:'5%'}}/>
         </>
     );
 }
