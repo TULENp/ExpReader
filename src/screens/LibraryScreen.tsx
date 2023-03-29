@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, FlatList, StatusBar, Image, KeyboardAvoidingView, InputAccessoryView, ImageBackground } from 'react-native';
+import { View, Text, Button, FlatList, StatusBar, Image, KeyboardAvoidingView, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
@@ -7,17 +7,16 @@ import { TLibBook } from '../types';
 import { clearStorage, getFileBooksFromStorage, saveFileBooksToStorage } from '../service/asyncStorage';
 import { BookLibCard } from '../components/BookLibCard';
 import { stylesLibraryScreen } from './stylesScreen';
-import { srcImgHarryPotter3, srcImgLibraryHeader } from '../constants/images';
-import {  } from 'react-native-elements';
-import { Input, Icon, LinearProgress } from '@rneui/themed';
+import { srcImgLibraryHeader } from '../constants/images';
+import { } from 'react-native-elements';
+import { ButtonGroup, Input, ListItem } from '@rneui/themed';
 import { useFonts } from 'expo-font';
 import { Montserrat_300Light, Montserrat_400Regular, Montserrat_500Medium, Montserrat_700Bold, } from '@expo-google-fonts/montserrat'
 import { MontserratAlternates_300Light, MontserratAlternates_400Regular,MontserratAlternates_500Medium,MontserratAlternates_700Bold,} from '@expo-google-fonts/montserrat-alternates'
 import AppLoading from 'expo-app-loading';
-import { deepBlue, gray, pink, white } from '../constants/colors';
-import { ScrollView } from 'react-native';
-import { ScrollViewBase } from 'react-native';
+import { black, deepBlue, gray, pink, white } from '../constants/colors';
 import { BookReadLaterCard } from '../components/BookReadLaterCard/BookReadLaterCard';
+import { books } from '../TestData/books';
 
 
 export default function LibraryScreen() {
@@ -37,7 +36,10 @@ export default function LibraryScreen() {
     const { navigate } = useNavigation();
     const [fileBooks, setFileBooks] = useState<TLibBook[]>([]);
 
+    
+
     const [searchText, setSearchText] = useState<string>('');
+    const [libCategory, setLibCategory] = useState<number>(0);
 
     useEffect(() => {
         getAllFileBooks();
@@ -104,8 +106,24 @@ export default function LibraryScreen() {
                     </View>
                 </ImageBackground>
                 <BookReadLaterCard/>
+                <View style={{paddingTop:25, paddingBottom:20}}>
+                    <Text style={stylesLibraryScreen.h1_library}>Библиотека</Text>
+                    <ButtonGroup buttons={['Купленные книги','Добавленные книги']}
+                                 selectedIndex={libCategory}
+                                 onPress={(value) => {
+                                    setLibCategory(value);
+                                  }}
+                                 containerStyle={stylesLibraryScreen.button_group_containerStyle}
+                                 textStyle={stylesLibraryScreen.button_group_textStyle}
+                                 buttonContainerStyle={{}}
+                                 selectedButtonStyle={{backgroundColor:deepBlue}}
+                                 buttonStyle={{}}
+                                 
+                                 />            
+                </View>
                 </KeyboardAvoidingView>
-            </> } data={fileBooks}
+            </> } 
+                data={libCategory === 0 ? books : fileBooks}
                 keyExtractor={(item) => item.title}
                 renderItem={({ item }) => <BookLibCard book={item} />}
                 ListFooterComponent={
@@ -123,10 +141,6 @@ export default function LibraryScreen() {
                         onPress={clearStorage}
                     />
                   </>} />
-            
-           
-        
-        
         </>
     );
 }

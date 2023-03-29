@@ -9,7 +9,6 @@ export function BookLibCard({ book }: { book: TLibBook }) {
             <Text>{title}</Text>
             <Text>{author}</Text>
             <Text>{readPages + '/' + bookPages}</Text>
-
         </View>
     )
 }

@@ -8,6 +8,7 @@ const blueRarity='#0380AE';
 const redRarity='#F50058';
 const gray = '#D9D9D9';
 const white = '#FFFFFF'
+const black = '000000';
 
 export {deepBlue, lightBlue, darkBlue, purple,
-        pink, greenRarity, blueRarity, redRarity, gray, white};
+        pink, greenRarity, blueRarity, redRarity, gray, white, black};

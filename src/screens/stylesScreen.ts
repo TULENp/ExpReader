@@ -1,5 +1,5 @@
 import {Dimensions, StyleSheet} from 'react-native';
-import { deepBlue, lightBlue, white } from '../constants/colors';
+import { black, deepBlue, lightBlue, white } from '../constants/colors';
 //fonts
 import { useFonts } from 'expo-font';
 import {
@@ -24,7 +24,7 @@ export const stylesLibraryScreen = StyleSheet.create({
         maxWidth: width,
         flex:1,
         alignContent:'center',
-        backgroundColor:'#F50058',
+        backgroundColor:white,
     },
     container_header:{
         flex:1,
@@ -95,5 +95,23 @@ export const stylesLibraryScreen = StyleSheet.create({
         transform: [{scaleY: 1.5}], 
         borderRadius:8, 
         marginTop:10,
+    },
+    h1_library:{
+        fontFamily:'MontserratAlt700',
+        fontSize:25,
+        marginLeft:13,
+    },
+    button_group_containerStyle:{
+        backgroundColor:white, 
+        borderColor:black, 
+        borderRadius:8, 
+        marginLeft:13, 
+        marginRight:13, 
+        alignItems:'center',
+    },
+    button_group_textStyle:{
+        color:deepBlue, 
+        fontFamily:'Montserrat500', 
+        fontSize:15,
     }
 })
