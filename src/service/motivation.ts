@@ -1,5 +1,5 @@
 import { realBookPageChars, pageChars } from "../constants";
-import { TBookmark, TRarity } from "../types";
+import { TBookmark, TDailyTask, TRarity } from "../types";
 
 export function calculateRarity(pages: number): TRarity {
     let rarity: TRarity = 'legendary'
@@ -34,4 +34,16 @@ export function calculateBookmark(readPages: number, bookPages: number): TBookma
         }
     }
     return bookmark;
+}
+
+export function getDailyTaskLevel(dailyTaskPages: TDailyTask) {
+    let level = '';
+    if (dailyTaskPages === 60) {
+        level = 'Легкий';
+    } else if (dailyTaskPages === 120) {
+        level = 'Нормальный';
+    } else if (dailyTaskPages === 240) {
+        level = 'Серьезный';
+    }
+    return level;
 }

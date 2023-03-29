@@ -118,11 +118,6 @@ async function checkDailyTaskCompletionAS(todayPages: number) {
     }
 }
 
-async function completeDailyTask() {
-    const dailyTask: number = await getDailyTaskAS();
-    incUserReadPagesAS(dailyTask);
-}
-
 function clearAS() {
     AsyncStorage.clear();
 }
