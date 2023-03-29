@@ -83,5 +83,14 @@ type TAchieves = {
     isCompleted: boolean
 }
 
-type TDailyTask = 'Легкий' | 'Нормальный' | 'Серьезный';
+// type TDailyTask = {
+//     level: TDailyTaskLevel,
+//     value: TDailyTaskValue,
+//     isCompleted: boolean,
+//     todayPages: number,
+// }
+
+// type TDailyTaskLevel = 'Легкий' | 'Нормальный' | 'Серьезный';
+
+type TDailyTask = 60 | 120 | 240;
 

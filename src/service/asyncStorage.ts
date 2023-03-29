@@ -3,6 +3,8 @@ import { TDailyTask, TLibBook, TUserData } from '../types';
 
 const userDataKey = 'userData'; // key for userData in async storage
 
+//* Book stats functions
+
 // save books to async storage
 function saveBookStatsAS(book: TLibBook) {
     AsyncStorage.setItem(book.id, JSON.stringify(book));
@@ -11,7 +13,6 @@ function saveBookStatsAS(book: TLibBook) {
 // update book statistics: currentPage and readPages in async storage 
 function updateBookReadStatsAS(id: string, currentPage: number, readPages: number) {
     AsyncStorage.mergeItem(id, `{currentPage:${currentPage}, readPages:${readPages}}`);
-    incUserReadPagesAS();
 }
 
 // update book statistic: readDate in async storage 
@@ -44,12 +45,15 @@ async function getAllFileBooksAS(bookNames: string[]): Promise<TLibBook[]> {
     return books;
 }
 
+
+//* User data functions 
+
 async function getUserDataAS(): Promise<TUserData | null> {
 
     //? test set user data
     // await AsyncStorage.setItem('userData', JSON.stringify({
     //     nickname: 'TULENb',
-    //     readPagesNum: 451,
+    //     readPagesNum: 100,
     //     readBooksNum: 2,
     //     achievesImg: [],
     //     userBooks: [],
@@ -63,10 +67,10 @@ async function getUserDataAS(): Promise<TUserData | null> {
     return userData;
 }
 
-async function incUserReadPagesAS() {
+async function incUserReadPagesAS(incNumber: number = 1) {
     const userData = await getUserDataAS();
     if (userData) {
-        AsyncStorage.mergeItem(userDataKey, `{readPagesNum:${userData.readPagesNum + 1}}`);
+        AsyncStorage.mergeItem(userDataKey, `{readPagesNum:${userData.readPagesNum + incNumber}}`);
     }
 }
 
@@ -79,26 +83,44 @@ async function incUserReadBooksAS() {
 
 
 //* Daily task functions
+
 // get number of pages read today
+
+async function getDailyTaskAS(): Promise<TDailyTask> {
+    let dailyTask: TDailyTask = 60;
+    const dailyTaskJSON = await AsyncStorage.getItem('dailyTask');
+    if (dailyTaskJSON) {
+        dailyTask = JSON.parse(dailyTaskJSON);
+    }
+    return dailyTask;
+}
+
+async function setDailyTaskAS(dailyTask: TDailyTask) {
+    AsyncStorage.setItem('dailyTask', dailyTask.toString());
+}
+
 async function getTodayPagesAS(): Promise<number> {
     return JSON.parse(await AsyncStorage.getItem('todayPages') || '0');
 }
 
 async function incTodayPagesAS() {
-    const todayPages = await getTodayPagesAS();
-    AsyncStorage.setItem('todayPages', `${todayPages + 1}`);
+    const todayPages = await getTodayPagesAS() + 1;
+    AsyncStorage.setItem('todayPages', todayPages.toString());
+    checkDailyTaskCompletionAS(todayPages);
 }
 
-async function getDailyTaskAS(): Promise<string | null> {
-    return await AsyncStorage.getItem('dailyTask');
+async function checkDailyTaskCompletionAS(todayPages: number) {
+    const dailyTask: TDailyTask = await getDailyTaskAS();
+    // const todayPages: number = await getTodayPagesAS();
+
+    if (todayPages === dailyTask) {
+        incUserReadPagesAS(dailyTask);
+    }
 }
 
-async function setDailyTaskAS(dailyTask: TDailyTask) {
-    AsyncStorage.setItem('dailyTask', dailyTask);
-}
-
-async function checkDailyTaskCompletionAS() {
-
+async function completeDailyTask() {
+    const dailyTask: number = await getDailyTaskAS();
+    incUserReadPagesAS(dailyTask);
 }
 
 function clearAS() {
@@ -116,4 +138,7 @@ export {
     getUserDataAS,
     incTodayPagesAS,
     getTodayPagesAS,
+    getDailyTaskAS,
+    setDailyTaskAS,
+    incUserReadPagesAS,
 };

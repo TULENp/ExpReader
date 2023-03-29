@@ -3,6 +3,7 @@ import { View, Text, ScrollView, Button } from 'react-native';
 import { pageChars } from '../../constants';
 import {
     incTodayPagesAS,
+    incUserReadPagesAS,
     setBookIsReadAS,
     setFileBookPagesAS,
     updateBookReadDateAS,
@@ -35,16 +36,15 @@ export function Reader({ bookText, book }: ReaderProps) {
 
     useEffect(() => {
         scrollToTop();
-        readCurrentPage();
-        // if this page is last and all previous page is read 
-        if (currentPage === bookPages && (readPages + 1) === bookPages) {
-            setReadPages(bookPages);
-            setBookIsReadAS(book.id, bookPages);
-        }
-        else {
-            updateBookReadStatsAS(book.id, currentPage, readPages);
-        }
 
+        readCurrentPage();
+
+        updateBookReadStatsAS(book.id, currentPage, readPages);
+        // Read last page 
+        if ((readPages + 1) === bookPages) {
+            setBookIsReadAS(book.id, bookPages);
+            setReadPages(prev => prev + 1);
+        }
     }, [currentPage])
 
     function readCurrentPage() {
@@ -85,6 +85,7 @@ export function Reader({ bookText, book }: ReaderProps) {
             }
             setCurrentPage(prev => prev + 1);
             incTodayPagesAS();
+            incUserReadPagesAS();
         }
     }
 

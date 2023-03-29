@@ -1,19 +1,22 @@
 import { View, Text, SafeAreaView, Button, Pressable } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { ProfileStackParams, TUserData } from '../types';
-import { getTodayPagesAS, getUserDataAS } from '../service/asyncStorage';
+import { ProfileStackParams, TDailyTask, TUserData } from '../types';
+import { getDailyTaskAS, getTodayPagesAS, getUserDataAS } from '../service/asyncStorage';
 import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native';
+import { DailyTaskProgress } from '../components/DailyTaskProgress';
 
 export default function ProfileScreen() {
 
     const [userData, setUserData] = useState<TUserData | null>(null);
     const [todayPages, setTodayPages] = useState<number>(0);
+    const [dailyTaskPages, setDailyTaskPages] = useState<TDailyTask>(60);
     const { navigate } = useNavigation<NavigationProp<ProfileStackParams>>();
 
     useFocusEffect(
         React.useCallback(() => {
             getUserData();
-            getTodayPages()
+            getTodayPages();
+            getDailyTask();
         }, [])
     );
 
@@ -27,6 +30,11 @@ export default function ProfileScreen() {
         setTodayPages(todayPages);
     }
 
+    async function getDailyTask() {
+        const dailyTask = await getDailyTaskAS();
+        setDailyTaskPages(dailyTask);
+    }
+
     return (
         <SafeAreaView style={{ padding: 10 }}>
             {userData
@@ -37,10 +45,7 @@ export default function ProfileScreen() {
                         <Text>pages: {userData.readPagesNum}</Text>
                         <Text>books: {userData.readBooksNum}</Text>
                     </View>
-                    <Pressable>
-                        <Text>Прочитанные страницы: {todayPages}</Text>
-                    </Pressable>
-                    <Button title='to daily task settings' onPress={() => navigate('DailyTask')} />
+                    <DailyTaskProgress dailyTaskPages={dailyTaskPages} todayPages={todayPages} />
                     <Button title='to achievements' onPress={() => navigate('Achievements')} />
                 </>
                 :
