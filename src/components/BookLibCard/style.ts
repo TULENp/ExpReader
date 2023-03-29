@@ -45,7 +45,7 @@ export const stylesBookLibCard = StyleSheet.create({
     },
     text_progress:{
         fontSize:15,
-        fontFamily:'Montserrat300'
+        fontFamily:'Montserrat300',
     },
     btn_read:{
         width:99,
@@ -57,7 +57,8 @@ export const stylesBookLibCard = StyleSheet.create({
         alignItems:'center',
         flexDirection:'row',
         alignSelf:'flex-end',
-        marginRight:22
-    }
+        marginRight:22,
+    },
+    
 
 });

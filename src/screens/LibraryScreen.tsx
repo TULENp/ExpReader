@@ -148,7 +148,7 @@ export default function LibraryScreen() {
                     />
                   </View>
                   </>} />
-                  <FAB icon={{ name: 'add', color: 'white' }} color={deepBlue} size='large' style={{position:'absolute', elevation:1,zIndex:5, right:'8%', bottom:'5%'}}/>
+                  <FAB icon={{ name: 'add', color: 'white' }} color={deepBlue} size='large' style={stylesLibraryScreen.fab_button}/>
         </>
     );
 }

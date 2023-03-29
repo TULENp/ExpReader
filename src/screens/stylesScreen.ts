@@ -100,5 +100,12 @@ export const stylesLibraryScreen = StyleSheet.create({
         color:deepBlue, 
         fontFamily:'Montserrat500', 
         fontSize:15,
+    },
+    fab_button:{
+        position:'absolute', 
+        elevation:1,
+        zIndex:5, 
+        right:'8%', 
+        bottom:'5%',
     }
 })
