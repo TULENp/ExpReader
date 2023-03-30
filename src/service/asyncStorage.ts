@@ -1,10 +1,26 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TDailyTask, TLibBook, TUserData } from '../types';
 
+export {
+    saveBookStatsAS,
+    getAllFileBooksAS,
+    clearAS,
+    updateBookReadStatsAS,
+    setBookIsReadAS,
+    updateBookReadDateAS,
+    setFileBookPagesAS,
+    getUserDataAS,
+    setTodayPagesAS,
+    getTodayPagesAS,
+    getDailyTaskAS,
+    setDailyTaskAS,
+    setUserReadPagesAS,
+    getUserPagesAS,
+};
+
 const userDataKey = 'userData'; // key for userData in async storage
 
 //* Book stats functions
-
 // save books to async storage
 function saveBookStatsAS(book: TLibBook) {
     AsyncStorage.setItem(book.id, JSON.stringify(book));
@@ -67,11 +83,13 @@ async function getUserDataAS(): Promise<TUserData | null> {
     return userData;
 }
 
-async function incUserReadPagesAS(incNumber: number = 1) {
+async function getUserPagesAS(): Promise<number> {
     const userData = await getUserDataAS();
-    if (userData) {
-        AsyncStorage.mergeItem(userDataKey, `{readPagesNum:${userData.readPagesNum + incNumber}}`);
-    }
+    return userData?.readPagesNum || 0;
+}
+
+async function setUserReadPagesAS(pages: number) {
+    AsyncStorage.mergeItem(userDataKey, `{readPagesNum:${pages}}`);
 }
 
 async function incUserReadBooksAS() {
@@ -83,9 +101,7 @@ async function incUserReadBooksAS() {
 
 
 //* Daily task functions
-
-// get number of pages read today
-
+// Get number of pages to complete daily task
 async function getDailyTaskAS(): Promise<TDailyTask> {
     let dailyTask: TDailyTask = 60;
     const dailyTaskJSON = await AsyncStorage.getItem('dailyTask');
@@ -99,22 +115,20 @@ async function setDailyTaskAS(dailyTask: TDailyTask) {
     AsyncStorage.setItem('dailyTask', dailyTask.toString());
 }
 
+// Get number of pages read today
 async function getTodayPagesAS(): Promise<number> {
     return JSON.parse(await AsyncStorage.getItem('todayPages') || '0');
 }
 
-async function incTodayPagesAS() {
-    const todayPages = await getTodayPagesAS() + 1;
-    AsyncStorage.setItem('todayPages', todayPages.toString());
-    checkDailyTaskCompletionAS(todayPages);
+async function setTodayPagesAS(pages: number) {
+    AsyncStorage.setItem('todayPages', pages.toString());
+    checkDailyTaskCompletionAS(pages);
 }
 
 async function checkDailyTaskCompletionAS(todayPages: number) {
     const dailyTask: TDailyTask = await getDailyTaskAS();
-    // const todayPages: number = await getTodayPagesAS();
-
     if (todayPages === dailyTask) {
-        incUserReadPagesAS(dailyTask);
+        setUserReadPagesAS(dailyTask);
     }
 }
 
@@ -122,18 +136,3 @@ function clearAS() {
     AsyncStorage.clear();
 }
 
-export {
-    saveBookStatsAS,
-    getAllFileBooksAS,
-    clearAS,
-    updateBookReadStatsAS,
-    setBookIsReadAS,
-    updateBookReadDateAS,
-    setFileBookPagesAS,
-    getUserDataAS,
-    incTodayPagesAS,
-    getTodayPagesAS,
-    getDailyTaskAS,
-    setDailyTaskAS,
-    incUserReadPagesAS,
-};

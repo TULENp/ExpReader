@@ -24,13 +24,13 @@ export function calculateBookmark(readPages: number, bookPages: number): TBookma
         const readPercent = Math.floor((readPages / bookPages) * 100);
 
         if (readPercent >= 30 && readPercent < 60) {
-            bookmark = 'bronze'
+            bookmark = 'bronze';
         }
         else if (readPercent >= 60 && readPercent < 100) {
-            bookmark = 'silver'
+            bookmark = 'silver';
         }
         else if (readPercent == 100) {
-            bookmark = 'gold'
+            bookmark = 'gold';
         }
     }
     return bookmark;

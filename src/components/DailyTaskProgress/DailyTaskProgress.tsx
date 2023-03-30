@@ -20,28 +20,6 @@ export function DailyTaskProgress({ todayPages, dailyTaskPages, level }: IDailyT
     //     }, [])
     // );
 
-    // function getDailyTaskLevel(dailyTaskPages: TDailyTask) {
-    //     let level = '';
-    //     switch (dailyTaskPages) {
-    //         case 60:
-    //             {
-    //                 level = 'Легкий';
-    //                 break;
-    //             }
-    //         case 120:
-    //             {
-    //                 level = 'Нормальный';
-    //                 break;
-    //             }
-    //         case 240:
-    //             {
-    //                 level = 'Серьезный';
-    //                 break;
-    //             }
-    //     }
-    //     setLevel(level);
-    // }
-
     return (
         <Pressable onPress={() => navigate('DailyTask')} style={{ padding: 10, backgroundColor: 'gray' }}>
             {/* FIXME //! level is not updating  */}
