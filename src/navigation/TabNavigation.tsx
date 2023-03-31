@@ -12,7 +12,7 @@ const Tab = createBottomTabNavigator();
 export function TabNavigation() {
     return (
         <NavigationContainer>
-            <Tab.Navigator  screenOptions={{ headerShown:false, tabBarShowLabel:false, tabBarStyle:{height:'8%'},  tabBarActiveTintColor:deepBlue, tabBarInactiveTintColor:black, tabBarHideOnKeyboard:true}} initialRouteName='LibraryTab'>
+            <Tab.Navigator   screenOptions={{ headerShown:false, tabBarShowLabel:false, tabBarStyle:{height:'8%'},  tabBarActiveTintColor:deepBlue, tabBarInactiveTintColor:black, tabBarHideOnKeyboard:true}} initialRouteName='LibraryTab'>
                 <Tab.Screen name="ShopTab" component={ShopNavigation} 
                     options={{
                         tabBarIcon: ({ color }) => (

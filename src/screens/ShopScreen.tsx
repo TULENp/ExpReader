@@ -1,5 +1,5 @@
 import { View, Text, KeyboardAvoidingView, FlatList, ImageBackground, StatusBar, Image, ImageSourcePropType, Dimensions, ScrollView } from 'react-native'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { stylesShopScreen } from './stylesScreen'
 import { books } from '../TestData/books';
 import { BookShopCard } from '../components/BookShopCard';
@@ -9,6 +9,7 @@ import Carousel from 'react-native-reanimated-carousel';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { srcIcnFilter, srcIcnRedHeart, srcImgShopHeader } from '../constants/images';
 import { TAllBook } from '../types';
+import { useScrollToTop } from '@react-navigation/native';
 
 const width = Dimensions.get('window').width;
 
@@ -22,11 +23,14 @@ export default function ShopScreen() {
     })
 
     const ads = [require('../../assets/Ad1.png'),require('../../assets/Ad2.png'), require('../../assets/Ad3.png')]
+    const scrollToTop = useRef(null);
+
+    useScrollToTop(scrollToTop);
 
     return (
         <>
           <KeyboardAvoidingView behavior='height' style={stylesShopScreen.shop_page}>
-            <ScrollView>
+            <ScrollView ref={scrollToTop}>
                   <StatusBar backgroundColor = {deepBlue}/>
                   <ImageBackground style={stylesShopScreen.img_header} source={srcImgShopHeader}>
                     <View style={stylesShopScreen.container_search_input}>
@@ -39,7 +43,7 @@ export default function ShopScreen() {
                     <Image style={{width:36, height:36, }} source={srcIcnRedHeart}/>
                     <Image style={{width:36, height:36, }} source={srcIcnFilter}/>
                   </ImageBackground>
-                  <View style={{flex:1}}>
+                  <View style={{flex:1, marginTop:10}}>
                     <GestureHandlerRootView>
                       <Carousel  width={width}  autoPlay={true} autoPlayInterval={3000}  scrollAnimationDuration={1000} height={151}   data={ads} renderItem={({item}) => 
                           <View style={stylesShopScreen.container_adds_carousel}>
