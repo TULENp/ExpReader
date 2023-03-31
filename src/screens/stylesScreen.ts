@@ -28,7 +28,6 @@ export const stylesLibraryScreen = StyleSheet.create({
     search_input:{
         marginLeft:'1.4%',
         marginRight:'1.4%',
-        // backgroundColor: '#FFFFFF',
         color:'#000000',
         maxWidth: width,
         fontSize:14,
@@ -108,4 +107,41 @@ export const stylesLibraryScreen = StyleSheet.create({
         right:'8%', 
         bottom:'5%',
     }
+})
+
+export const stylesShopScreen = StyleSheet.create({
+    shop_page:{
+        flex:1,
+        maxWidth:width,
+        backgroundColor:white,
+    },
+    img_header:{
+        flex:1,
+        width: width,
+        height:120,
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'space-between',
+        paddingLeft:13,
+        paddingRight:13
+        
+    },
+    container_search_input:{
+        backgroundColor:'#FFFFFF', 
+        height:50, 
+        // marginLeft:13, 
+        // marginRight:13, 
+        borderRadius:8,
+        // marginTop:35,
+        width:'65%',
+    },
+    search_input:{
+        marginLeft:'1.4%',
+        marginRight:'1.4%',
+        color:'#000000',
+        maxWidth: '100%',
+        fontSize:14,
+        borderRadius:8,
+    },
+
 })
