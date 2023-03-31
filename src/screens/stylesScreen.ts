@@ -152,10 +152,22 @@ export const stylesShopScreen = StyleSheet.create({
         width:364, 
         height:151
     },
-    text_h1:{
+    text_shop:{
         fontFamily:'MontserratAlt700',
         fontSize:25,
         marginLeft:13,
+        marginTop:25,
+        marginBottom:14,
+    },
+    container_books_shop_card:{
+        flex:1,
+        width:width,
+        paddingLeft:13,
+        paddingRight:12,
+        flexDirection:'row',
+        gap:9.5,
+        flexWrap:'wrap',
+        
     }
 
 })

@@ -17,7 +17,7 @@ export default function ShopScreen() {
     
     const testList:JSX.Element[] = books.map((item)=> {
       return(
-        <BookShopCard/>
+        <BookShopCard book={item}/>
       )
     })
 
@@ -48,9 +48,11 @@ export default function ShopScreen() {
                       } />
                     </GestureHandlerRootView>
                   </View>
-                  <Text style={stylesShopScreen.text_h1}>Магазин</Text>
-                  {testList}
-
+                  <Text style={stylesShopScreen.text_shop}>Магазин</Text>
+                  <View style={stylesShopScreen.container_books_shop_card}>
+                    {testList}
+                    {testList}
+                  </View>
             </ScrollView>
           </KeyboardAvoidingView>
         </>
