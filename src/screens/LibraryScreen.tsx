@@ -118,7 +118,6 @@ export default function LibraryScreen() {
                                  buttonContainerStyle={{}}
                                  selectedButtonStyle={{backgroundColor:deepBlue}}
                                  buttonStyle={{}}
-                                 
                                  />            
                 </View>
                 </KeyboardAvoidingView>

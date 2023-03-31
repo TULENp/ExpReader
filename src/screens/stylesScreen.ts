@@ -147,6 +147,15 @@ export const stylesShopScreen = StyleSheet.create({
         flex:1, 
         alignItems:'center', 
         justifyContent:'center'
+    },
+    img_add:{
+        width:364, 
+        height:151
+    },
+    text_h1:{
+        fontFamily:'MontserratAlt700',
+        fontSize:25,
+        marginLeft:13,
     }
 
 })
