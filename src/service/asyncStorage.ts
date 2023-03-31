@@ -10,11 +10,11 @@ export {
     updateBookReadDateAS,
     setFileBookPagesAS,
     getUserDataAS,
-    setTodayPagesAS,
+    incTodayPagesAS,
     getTodayPagesAS,
     getDailyTaskAS,
     setDailyTaskAS,
-    setUserReadPagesAS,
+    incUserReadPagesAS,
     getUserPagesAS,
 };
 
@@ -88,7 +88,8 @@ async function getUserPagesAS(): Promise<number> {
     return userData?.readPagesNum || 0;
 }
 
-async function setUserReadPagesAS(pages: number) {
+async function incUserReadPagesAS(inc: number) {
+    const pages = await getUserPagesAS() + inc;
     AsyncStorage.mergeItem(userDataKey, `{readPagesNum:${pages}}`);
 }
 
@@ -120,7 +121,8 @@ async function getTodayPagesAS(): Promise<number> {
     return JSON.parse(await AsyncStorage.getItem('todayPages') || '0');
 }
 
-async function setTodayPagesAS(pages: number) {
+async function incTodayPagesAS(inc: number) {
+    const pages = await getTodayPagesAS() + inc;
     AsyncStorage.setItem('todayPages', pages.toString());
     checkDailyTaskCompletionAS(pages);
 }
@@ -128,7 +130,7 @@ async function setTodayPagesAS(pages: number) {
 async function checkDailyTaskCompletionAS(todayPages: number) {
     const dailyTask: TDailyTask = await getDailyTaskAS();
     if (todayPages === dailyTask) {
-        setUserReadPagesAS(dailyTask);
+        incUserReadPagesAS(dailyTask);
     }
 }
 

@@ -1,19 +1,17 @@
 
-import { useFocusEffect } from '@react-navigation/native';
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, ScrollView, Button, AppState } from 'react-native';
 import { pageChars } from '../../constants';
 import {
-    getTodayPagesAS,
-    getUserPagesAS,
-    setTodayPagesAS,
-    setUserReadPagesAS,
+    incTodayPagesAS,
+    incUserReadPagesAS,
     setBookIsReadAS,
     setFileBookPagesAS,
     updateBookReadDateAS,
     updateBookReadStatsAS
 } from '../../service/asyncStorage';
 import { TLibBook } from '../../types';
+import { useNavigation } from '@react-navigation/native';
 
 interface ReaderProps {
     bookText: string;
@@ -21,27 +19,21 @@ interface ReaderProps {
 }
 
 export function Reader({ bookText, book }: ReaderProps) {
+    const scrollViewRef = useRef<ScrollView>(null); // ref to ScrollView with pageText
+    const navigation = useNavigation();
+    const bookPages = book.bookPages || Math.ceil(bookText.length / pageChars); // number of pages in book
+
+    const [sessionPages, setSessionPages] = useState<number>(0); // number of pages read today
+
     const [pageText, setPageText] = useState(''); // text on one page
     const [currentPage, setCurrentPage] = useState(book.currentPage); // starts from 1, not from 0
     const [readPages, setReadPages] = useState(book.readPages); // number of book pages read
 
-    const [todayPages, setTodayPages] = useState<number>(0); // number of pages read today
-    const [userPages, setUserPages] = useState<number>(0); // number of pages read by user 
 
-    const bookPages = book.bookPages || Math.ceil(bookText.length / pageChars); // number of pages in book
-    const scrollViewRef = useRef<ScrollView>(null); // ref to ScrollView with pageText
-
-    async function getPages() {
-        setTodayPages(await getTodayPagesAS());
-        setUserPages(await getUserPagesAS());
-        // set bookPages if book added by file
+    useEffect(() => {
         if (bookPages !== book.bookPages) {
             setFileBookPagesAS(book.id, bookPages);
         }
-    }
-
-    useEffect(() => {
-        getPages();
         updateBookReadDateAS(book.id);
     }, []);
 
@@ -61,23 +53,24 @@ export function Reader({ bookText, book }: ReaderProps) {
                 updateASData();
             }
         });
+        // Called just before the component is destroyed
+        const unsubscribe = navigation.addListener('beforeRemove', () => updateASData());
+
         return () => {
+            unsubscribe();
             subscription.remove();
         };
-    }, [currentPage]);
-
-    // Update as data when component goes out of focus
-    useFocusEffect(
-        React.useCallback(() => {
-            return () => updateASData();
-        }, [currentPage])
-    );
+    }, [currentPage, sessionPages]);
 
     // Update data in async storage
     function updateASData() {
         updateBookReadStatsAS(book.id, currentPage, readPages);
-        setUserReadPagesAS(userPages);
-        setTodayPagesAS(todayPages);
+        if (sessionPages !== 0) {
+            incUserReadPagesAS(sessionPages);
+            incTodayPagesAS(sessionPages);
+
+            setSessionPages(0);
+        }
     }
 
     function readCurrentPage() {
@@ -117,8 +110,7 @@ export function Reader({ bookText, book }: ReaderProps) {
             if (currentPage === readPages + 1) {
                 setReadPages(prev => prev + 1);
             }
-            setTodayPages(prev => prev + 1);
-            setUserPages(prev => prev + 1);
+            setSessionPages(prev => prev + 1);
             setCurrentPage(prev => prev + 1);
         }
     }
