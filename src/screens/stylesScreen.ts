@@ -143,5 +143,10 @@ export const stylesShopScreen = StyleSheet.create({
         fontSize:14,
         borderRadius:8,
     },
+    container_adds_carousel:{
+        flex:1, 
+        alignItems:'center', 
+        justifyContent:'center'
+    }
 
 })
