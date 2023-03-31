@@ -146,7 +146,8 @@ export const stylesShopScreen = StyleSheet.create({
     container_adds_carousel:{
         flex:1, 
         alignItems:'center', 
-        justifyContent:'center'
+        justifyContent:'center',
+        
     },
     img_add:{
         width:364, 
@@ -156,7 +157,7 @@ export const stylesShopScreen = StyleSheet.create({
         fontFamily:'MontserratAlt700',
         fontSize:25,
         marginLeft:13,
-        marginTop:25,
+        marginTop:15,
         marginBottom:14,
     },
     container_books_shop_card:{
