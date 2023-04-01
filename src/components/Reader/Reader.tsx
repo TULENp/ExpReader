@@ -12,6 +12,7 @@ import {
 } from '../../service/asyncStorage';
 import { TLibBook } from '../../types';
 import { useNavigation } from '@react-navigation/native';
+import { checkBookmarkReward } from '../../service/motivation';
 
 interface ReaderProps {
     bookText: string;
@@ -62,6 +63,10 @@ export function Reader({ bookText, book }: ReaderProps) {
             setBookIsReadAS(book.id, bookPages);
             setReadPages(prev => prev + 1);
             setSessionPages(prev => prev + 1);
+        }
+
+        if (sessionPages !== 0) {
+            checkBookmarkReward(readPages, bookPages);
         }
     }, [readPages])
 

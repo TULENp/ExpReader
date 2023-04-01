@@ -1,5 +1,6 @@
 import { realBookPageChars, pageChars } from "../constants";
 import { TBookmark, TDailyTask, TRarity } from "../types";
+import { incUserReadPagesAS } from "./asyncStorage";
 
 export function calculateRarity(pages: number): TRarity {
     let rarity: TRarity = 'legendary'
@@ -46,4 +47,27 @@ export function getDailyTaskLevel(dailyTaskPages: TDailyTask) {
         level = 'Серьезный';
     }
     return level;
+}
+
+export function checkBookmarkReward(readPages: number, bookPages: number) {
+    let readReward: number = 0;
+    const bronze = Math.floor(bookPages / 3); //read 1/3 of the book
+    const silver = Math.floor(2 * bookPages / 3); //read 2/3 of the book
+
+    if (readPages === bronze) {
+        readReward = Math.ceil(bookPages * 0.1);
+        alert(`Поздравляю, вы прочли 1/3 книги. + ${readReward} очка чтения`);
+    }
+    else if (readPages === silver) {
+        readReward = Math.ceil(bookPages * 0.2);
+        alert(`Поздравляю, вы прочли 2/3 книги. + ${readReward} очка чтения`);
+    }
+    else if (readPages === bookPages) { //read the whole book
+        readReward = Math.ceil(bookPages * 0.3);
+        alert(`Поздравляю, вы прочли книгу. + ${readReward} очка чтения`);
+    }
+
+    if (readReward !== 0) {
+        incUserReadPagesAS(readReward);
+    }
 }
