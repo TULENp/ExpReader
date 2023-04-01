@@ -25,11 +25,10 @@ export function Reader({ bookText, book }: ReaderProps) {
     const bookPages = book.bookPages || Math.ceil(bookText.length / pageChars); // number of pages in book
 
     const [sessionPages, setSessionPages] = useState<number>(0); // number of pages read today
-
     const [pageText, setPageText] = useState(''); // text on one page
     const [currentPage, setCurrentPage] = useState(book.currentPage); // starts from 1, not from 0
     const [readPages, setReadPages] = useState(book.readPages); // number of book pages read
-
+    const [readTimer, setReadTimer] = useState<NodeJS.Timeout | null>(null) // timer after which the page is considered read
 
     useEffect(() => {
         if (bookPages !== book.bookPages) {
@@ -41,16 +40,14 @@ export function Reader({ bookText, book }: ReaderProps) {
     useEffect(() => {
         scrollToTop();
         readCurrentPage();
-
+        // Called just before the component is destroyed
+        const unsubscribe = navigation.addListener('beforeRemove', () => updateASData());
         // Called when the application goes into the background
         const subscription = AppState.addEventListener('change', appState => {
             if (appState == 'background') {
                 updateASData();
             }
         });
-        // Called just before the component is destroyed
-        const unsubscribe = navigation.addListener('beforeRemove', () => updateASData());
-
         return () => {
             unsubscribe();
             subscription.remove();
@@ -64,12 +61,10 @@ export function Reader({ bookText, book }: ReaderProps) {
             setReadPages(prev => prev + 1);
             setSessionPages(prev => prev + 1);
         }
-
-        if (sessionPages !== 0) {
+        if (sessionPages !== 0) { // check counter to prevent reading points farm
             checkBookmarkReward(readPages, bookPages);
         }
     }, [readPages])
-
 
     // Update data in async storage
     function updateASData() {
@@ -77,7 +72,7 @@ export function Reader({ bookText, book }: ReaderProps) {
         if (sessionPages !== 0) {
             incUserReadPagesAS(sessionPages);
             incTodayPagesAS(sessionPages);
-
+            // drop counter to prevent reading points farm
             setSessionPages(0);
         }
     }
@@ -113,14 +108,22 @@ export function Reader({ bookText, book }: ReaderProps) {
         }
     }
 
-    //TODO add read timer 
     function toNextPage() {
         if (currentPage < bookPages) {
-            if (currentPage === readPages + 1) {
-                setReadPages(prev => prev + 1);
+            setCurrentPage((prev) => prev + 1);
+
+            if (readTimer) {
+                clearTimeout(readTimer);
+                setReadTimer(null)
             }
-            setSessionPages(prev => prev + 1);
-            setCurrentPage(prev => prev + 1);
+
+            const timer = setTimeout(() => {
+                if (currentPage > readPages) {
+                    setReadPages(prev => prev + 1);
+                }
+                setSessionPages(prev => prev + 1);
+            }, 3000);
+            setReadTimer(timer);
         }
     }
 
@@ -140,7 +143,6 @@ export function Reader({ bookText, book }: ReaderProps) {
             <ScrollView ref={scrollViewRef} >
                 <Text style={{ alignSelf: 'center', fontSize: 25, margin: 10 }}>{pageText}</Text>
             </ScrollView>
-
             <View >
                 <Button title={'<'} onPress={toPrevPage} />
                 <Text style={{ alignSelf: 'center', fontSize: 15 }}>{currentPage}/{bookPages}. {readPages}</Text>
@@ -148,5 +150,4 @@ export function Reader({ bookText, book }: ReaderProps) {
             </View>
         </>
     );
-
 }
