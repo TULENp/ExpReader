@@ -172,3 +172,36 @@ export const stylesShopScreen = StyleSheet.create({
     }
 
 })
+
+export const stylesProfileScreen = StyleSheet.create({
+    img_header:{
+        flex:1,
+        width:width,
+        height:159,
+        paddingTop:40,
+        paddingLeft:13,
+        paddingRight:13,
+        flexDirection:'row',
+    },
+    avatar:{
+        backgroundColor:lightBlue,
+    },
+    icn_points:{
+        width:25,
+        height:25,
+    },
+    container_avatar_points:{
+        marginLeft:10
+    },
+    text_points:{
+        fontFamily:'Montserrat700',
+        fontSize:18,
+        color:white,
+    },
+    text_name:{
+        fontFamily:'Montserrat700',
+        fontSize:20,
+        color:white,
+        marginBottom:10,
+    }
+})
