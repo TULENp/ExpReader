@@ -12,10 +12,11 @@ const srcImgNoir = require('../../assets/noir.jpg');
 const srcImgSilver= require('../../assets/silver.jpg');
 const srcIcnBook = require('../../assets/book.png');
 const srcIcnPoints = require('../../assets/coin.png');
+const srcIcnSetting = require('../../assets/settings.png');
 
 
 export {srcImgLibraryHeader, srcImgHarryPotter3, 
     srcImgHarryPotter4, srcImg451, srcImgNoir,
     srcImgSilver, srcIcnBook, srcImgShopHeader, 
     srcIcnRedHeart, srcIcnFilter, srcImgProfileHeader,
-    srcIcnPoints};
+    srcIcnPoints, srcIcnSetting};

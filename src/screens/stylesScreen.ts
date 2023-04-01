@@ -1,5 +1,5 @@
 import {Dimensions, StyleSheet} from 'react-native';
-import { black, deepBlue, lightBlue, white } from '../constants/colors';
+import { black, deepBlue, lightBlue, purple, white } from '../constants/colors';
 
 
 
@@ -23,7 +23,6 @@ export const stylesLibraryScreen = StyleSheet.create({
         height:'39%',
         position:'absolute',
         elevation:1,
-
     },
     search_input:{
         marginLeft:'1.4%',
@@ -129,10 +128,7 @@ export const stylesShopScreen = StyleSheet.create({
     container_search_input:{
         backgroundColor:'#FFFFFF', 
         height:50, 
-        // marginLeft:13, 
-        // marginRight:13, 
         borderRadius:8,
-        // marginTop:35,
         width:'65%',
     },
     search_input:{
@@ -147,7 +143,6 @@ export const stylesShopScreen = StyleSheet.create({
         flex:1, 
         alignItems:'center', 
         justifyContent:'center',
-        
     },
     img_add:{
         width:364, 
@@ -168,14 +163,12 @@ export const stylesShopScreen = StyleSheet.create({
         flexDirection:'row',
         gap:9.5,
         flexWrap:'wrap',
-        
     }
 
 })
 
 export const stylesProfileScreen = StyleSheet.create({
     img_header:{
-        flex:1,
         width:width,
         height:159,
         paddingTop:40,
@@ -189,6 +182,7 @@ export const stylesProfileScreen = StyleSheet.create({
     icn_points:{
         width:25,
         height:25,
+        marginRight:10,
     },
     container_avatar_points:{
         marginLeft:10
@@ -203,5 +197,45 @@ export const stylesProfileScreen = StyleSheet.create({
         fontSize:20,
         color:white,
         marginBottom:10,
+    },
+    container_level:{
+        width:width,
+        padding:13,
+        justifyContent:'center',
+        alignItems:'center',
+        backgroundColor:purple,
+    },
+    icn_settings:{
+        width:18,
+        height:18,
+        marginLeft:'20%',
+        
+    },
+    progress_bar:{
+        width:'75%',
+        borderRadius:12,
+        marginTop:12,
+    },
+    text_level_bold:{
+        fontFamily:'MontserratAlt700',
+        fontSize:16,
+        color:white,
+        
+    },
+    text_level_medium:{
+        fontFamily:'MontserratAlt500',
+        fontSize:16,
+    },
+    text_level_light:{
+        fontFamily:'MontserratAlt300',
+        fontSize:16,
+        color:white,
+        marginTop:12,
+    },
+    wrapper_text_level_settings:{
+        width:'75%',
+        flexDirection:'row',
+        justifyContent:'flex-end',
+        alignItems:'center',
     }
 })
