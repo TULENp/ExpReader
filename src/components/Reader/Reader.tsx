@@ -116,13 +116,13 @@ export function Reader({ bookText, book }: ReaderProps) {
                 clearTimeout(readTimer);
                 setReadTimer(null)
             }
-
+            // 5 second timer 
             const timer = setTimeout(() => {
                 if (currentPage > readPages) {
                     setReadPages(prev => prev + 1);
                 }
                 setSessionPages(prev => prev + 1);
-            }, 3000);
+            }, 5000);
             setReadTimer(timer);
         }
     }
