@@ -23,6 +23,7 @@ export function Reader({ bookText, book }: ReaderProps) {
     const scrollViewRef = useRef<ScrollView>(null); // ref to ScrollView with pageText
     const navigation = useNavigation();
     const bookPages = book.bookPages || Math.ceil(bookText.length / pageChars); // number of pages in book
+    const silver = Math.floor(2 * bookPages / 3); // 2/3 of all pages of the book
 
     const [sessionPages, setSessionPages] = useState<number>(0); // number of pages read today
     const [pageText, setPageText] = useState(''); // text on one page
@@ -54,28 +55,15 @@ export function Reader({ bookText, book }: ReaderProps) {
         };
     }, [currentPage, sessionPages]);
 
+    // useEffect(() => {
+    // }, [sessionPages])
+
+
     useEffect(() => {
-        // Read last page
-        if ((readPages + 1) === bookPages) {
-            setBookIsReadAS(book.id, bookPages);
-            setReadPages(prev => prev + 1);
-            setSessionPages(prev => prev + 1);
-        }
         if (sessionPages !== 0) { // check counter to prevent reading points farm
             checkBookmarkReward(readPages, bookPages);
         }
     }, [readPages])
-
-    // Update data in async storage
-    function updateASData() {
-        updateBookReadStatsAS(book.id, currentPage, readPages);
-        if (sessionPages !== 0) {
-            incUserReadPagesAS(sessionPages);
-            incTodayPagesAS(sessionPages);
-            // drop counter to prevent reading points farm
-            setSessionPages(0);
-        }
-    }
 
     function readCurrentPage() {
         if (bookText) {
@@ -111,10 +99,10 @@ export function Reader({ bookText, book }: ReaderProps) {
     function toNextPage() {
         if (currentPage < bookPages) {
             setCurrentPage((prev) => prev + 1);
-
+            // reset the timer if it exists
             if (readTimer) {
                 clearTimeout(readTimer);
-                setReadTimer(null)
+                setReadTimer(null);
             }
             // 5 second timer 
             const timer = setTimeout(() => {
@@ -122,7 +110,16 @@ export function Reader({ bookText, book }: ReaderProps) {
                     setReadPages(prev => prev + 1);
                 }
                 setSessionPages(prev => prev + 1);
-            }, 5000);
+
+                // Read last page
+                if (currentPage + 1 === bookPages && readPages >= silver && readPages < bookPages) {
+                    setBookIsReadAS(book.id, bookPages);
+                    //! DO NOT swap lines
+                    setReadPages(bookPages);
+                    setSessionPages(prev => prev + 1);
+                    //! 
+                }
+            }, 500);
             setReadTimer(timer);
         }
     }
@@ -135,6 +132,17 @@ export function Reader({ bookText, book }: ReaderProps) {
 
     function scrollToTop() {
         scrollViewRef.current?.scrollTo({ y: 0 });
+    }
+
+    // Update data in async storage
+    function updateASData() {
+        updateBookReadStatsAS(book.id, currentPage, readPages);
+        if (sessionPages !== 0) {
+            incUserReadPagesAS(sessionPages);
+            incTodayPagesAS(sessionPages);
+            // drop counter to prevent reading points farm
+            setSessionPages(0);
+        }
     }
 
     return (
