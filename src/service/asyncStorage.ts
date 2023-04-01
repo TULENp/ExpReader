@@ -69,8 +69,8 @@ async function getUserDataAS(): Promise<TUserData | null> {
     //? test set user data
     // await AsyncStorage.setItem('userData', JSON.stringify({
     //     nickname: 'TULENb',
-    //     readPagesNum: 100,
-    //     readBooksNum: 2,
+    //     readPagesNum: 0,
+    //     readBooksNum: 0,
     //     achievesImg: [],
     //     userBooks: [],
     // }));

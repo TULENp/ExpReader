@@ -41,12 +41,6 @@ export function Reader({ bookText, book }: ReaderProps) {
         scrollToTop();
         readCurrentPage();
 
-        // Read last page
-        if ((readPages + 1) === bookPages) {
-            setBookIsReadAS(book.id, bookPages);
-            setReadPages(prev => prev + 1);
-        }
-
         // Called when the application goes into the background
         const subscription = AppState.addEventListener('change', appState => {
             if (appState == 'background') {
@@ -61,6 +55,16 @@ export function Reader({ bookText, book }: ReaderProps) {
             subscription.remove();
         };
     }, [currentPage, sessionPages]);
+
+    useEffect(() => {
+        // Read last page
+        if ((readPages + 1) === bookPages) {
+            setBookIsReadAS(book.id, bookPages);
+            setReadPages(prev => prev + 1);
+            setSessionPages(prev => prev + 1);
+        }
+    }, [readPages])
+
 
     // Update data in async storage
     function updateASData() {
