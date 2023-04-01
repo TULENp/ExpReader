@@ -1,0 +1,1 @@
+export { BookProfileCard } from './BookCard';

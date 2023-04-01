@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-export function BookCard() {
+export function BookProfileCard() {
     return (
         <View>
-            <Text>BookCard</Text>
+            <Text>BookProfileCard</Text>
         </View>
     )
 }

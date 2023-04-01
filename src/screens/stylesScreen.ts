@@ -237,5 +237,38 @@ export const stylesProfileScreen = StyleSheet.create({
         flexDirection:'row',
         justifyContent:'flex-end',
         alignItems:'center',
-    }
+    },
+    h1_profile_bold:{
+        fontFamily:'MontserratAlt700',
+        fontSize:20,
+    },
+    h1_profile_medium:{
+        fontFamily:'MontserratAlt500',
+        fontSize:20,
+    },
+    container_achievements:{
+        width:width,
+        height:width/2,
+        paddingLeft:13,
+        paddingRight:13,
+        marginTop:20,
+    },
+    wrapper_pins:{
+        width:'100%',
+        height:'50%',
+        borderWidth:1,
+        borderRadius:8,
+        overflow:'hidden',
+        backgroundColor:lightBlue,
+        flexDirection:'row',
+        justifyContent:'center',
+        alignItems:'center',
+        marginTop:10,
+    },
+    img_pin:{
+        width:'20%',
+        height:'60%',
+    },
+    
+
 })

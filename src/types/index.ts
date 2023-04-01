@@ -1,4 +1,6 @@
-export { TAllBook, TBook, TLibBook, TShopBook };
+import { ImageSourcePropType } from "react-native";
+
+export { TAllBook, TBook, TLibBook, TShopBook, TPin };
 
 type TShopBook = {
     id: number,
@@ -50,4 +52,11 @@ type TAllBook = {
     isFavorite: boolean,
 }
 
+type TPin = {
+    id:number,
+    title:string,
+    description:string,
+    img:ImageSourcePropType,
+    isGet:boolean,
+}
 
