@@ -5,7 +5,6 @@ export {
     saveBookStatsAS,
     getAllFileBooksAS,
     clearAS,
-    updateBookReadStatsAS,
     setBookIsReadAS,
     updateBookReadDateAS,
     setFileBookPagesAS,
@@ -16,6 +15,8 @@ export {
     setDailyTaskAS,
     incUserReadPagesAS,
     getUserPagesAS,
+    updateBookReadPagesAS,
+    updateBookCurrentPageAS,
 };
 
 const userDataKey = 'userData'; // key for userData in async storage
@@ -27,8 +28,13 @@ function saveBookStatsAS(book: TLibBook) {
 }
 
 // update book statistics: currentPage and readPages in async storage 
-function updateBookReadStatsAS(id: string, currentPage: number, readPages: number) {
-    AsyncStorage.mergeItem(id, `{currentPage:${currentPage}, readPages:${readPages}}`);
+function updateBookReadPagesAS(id: string, readPages: number) {
+    AsyncStorage.mergeItem(id, `{readPages:${readPages}}`);
+}
+
+// update book statistics: currentPage and readPages in async storage 
+function updateBookCurrentPageAS(id: string, currentPage: number) {
+    AsyncStorage.mergeItem(id, `{currentPage:${currentPage}}`);
 }
 
 // update book statistic: readDate in async storage 

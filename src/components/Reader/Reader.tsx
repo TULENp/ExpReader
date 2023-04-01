@@ -7,8 +7,9 @@ import {
     incUserReadPagesAS,
     setBookIsReadAS,
     setFileBookPagesAS,
+    updateBookCurrentPageAS,
     updateBookReadDateAS,
-    updateBookReadStatsAS
+    updateBookReadPagesAS,
 } from '../../service/asyncStorage';
 import { TLibBook } from '../../types';
 import { useNavigation } from '@react-navigation/native';
@@ -41,6 +42,10 @@ export function Reader({ bookText, book }: ReaderProps) {
     useEffect(() => {
         scrollToTop();
         readCurrentPage();
+        updateBookCurrentPageAS(book.id, currentPage);
+    }, [currentPage]);
+
+    useEffect(() => {
         // Called just before the component is destroyed
         const unsubscribe = navigation.addListener('beforeRemove', () => updateASData());
         // Called when the application goes into the background
@@ -53,17 +58,24 @@ export function Reader({ bookText, book }: ReaderProps) {
             unsubscribe();
             subscription.remove();
         };
-    }, [currentPage, sessionPages]);
-
-    // useEffect(() => {
-    // }, [sessionPages])
-
+    }, [sessionPages])
 
     useEffect(() => {
         if (sessionPages !== 0) { // check counter to prevent reading points farm
             checkBookmarkReward(readPages, bookPages);
         }
     }, [readPages])
+
+    // Update data in async storage
+    function updateASData() {
+        updateBookReadPagesAS(book.id, readPages);
+        if (sessionPages !== 0) {
+            incUserReadPagesAS(sessionPages);
+            incTodayPagesAS(sessionPages);
+            // drop counter to prevent reading points farm
+            setSessionPages(0);
+        }
+    }
 
     function readCurrentPage() {
         if (bookText) {
@@ -119,7 +131,7 @@ export function Reader({ bookText, book }: ReaderProps) {
                     setSessionPages(prev => prev + 1);
                     //! 
                 }
-            }, 500);
+            }, 5000); // 5000 = 5000 ms = 5 second timer
             setReadTimer(timer);
         }
     }
@@ -132,17 +144,6 @@ export function Reader({ bookText, book }: ReaderProps) {
 
     function scrollToTop() {
         scrollViewRef.current?.scrollTo({ y: 0 });
-    }
-
-    // Update data in async storage
-    function updateASData() {
-        updateBookReadStatsAS(book.id, currentPage, readPages);
-        if (sessionPages !== 0) {
-            incUserReadPagesAS(sessionPages);
-            incTodayPagesAS(sessionPages);
-            // drop counter to prevent reading points farm
-            setSessionPages(0);
-        }
     }
 
     return (
