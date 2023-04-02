@@ -248,14 +248,13 @@ export const stylesProfileScreen = StyleSheet.create({
     },
     container_achievements:{
         width:width,
-        height:width/2,
         paddingLeft:13,
         paddingRight:13,
         marginTop:20,
     },
     wrapper_pins:{
         width:'100%',
-        height:'50%',
+        // height:'50%',
         borderWidth:1,
         borderRadius:8,
         overflow:'hidden',
@@ -264,11 +263,31 @@ export const stylesProfileScreen = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
         marginTop:10,
+        paddingTop:8,
+        paddingBottom:8,
     },
     img_pin:{
-        width:'20%',
-        height:'60%',
+        width:70,
+        height:70,
     },
-    
+    container_profile_books:{
+        flex:1,
+        width:width,
+        flexWrap:'wrap',
+        gap:24,
+        marginTop:10,
+        alignItems:'center',
+        flexDirection:'row',
+    },
+    profile_page:{
+        flex:1,
+        width:width,
+    },
+    container_bookshelf:{
+        width:width,
+        paddingLeft:13,
+        paddingRight:13,
+        marginTop:20,
+    }
 
 })

@@ -7,6 +7,7 @@ import { LinearProgress } from '@rneui/themed'
 import { greenRarity, white } from '../constants/colors'
 import { TPin } from '../types'
 import { pins } from '../TestData/pins'
+import { BookProfileCard } from '../components/BookProfileCard'
 
 export default function ProfileScreen() {
 
@@ -18,6 +19,9 @@ export default function ProfileScreen() {
     return (
         <>
         <ScrollView >
+          <View style={stylesProfileScreen.profile_page}>
+
+          
           <ImageBackground style={stylesProfileScreen.img_header} source={srcImgProfileHeader}>
               <Avatar  titleStyle={{fontSize:32, fontFamily:'Montserrat700'}} size={'large'} containerStyle={stylesProfileScreen.avatar} rounded title='И'/>
               <View style={stylesProfileScreen.container_avatar_points}>
@@ -49,10 +53,20 @@ export default function ProfileScreen() {
             </View>
           </View>
 
-          <View>
-          <Text style={stylesProfileScreen.h1_profile_bold}>Полка:
-              <Text style={stylesProfileScreen.h1_profile_medium}> 5</Text>
+          <View style={stylesProfileScreen.container_bookshelf}>
+            <Text style={stylesProfileScreen.h1_profile_bold}>Полка:
+                <Text style={stylesProfileScreen.h1_profile_medium}> 5</Text>
             </Text>
+            <View style={stylesProfileScreen.container_profile_books}>
+              <BookProfileCard/>
+              <BookProfileCard/>
+              <BookProfileCard/>
+              <BookProfileCard/>
+              <BookProfileCard/>
+              
+            </View>
+          </View>
+          
           </View>
         </ScrollView>
         </>

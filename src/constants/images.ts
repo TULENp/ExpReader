@@ -1,5 +1,4 @@
 
-
 const srcImgLibraryHeader = require('../../assets/libraryHeader.png');
 const srcImgShopHeader = require('../../assets/shopHeader.png');
 const srcImgProfileHeader = require('../../assets/profileHeader.png');
@@ -13,10 +12,14 @@ const srcImgSilver= require('../../assets/silver.jpg');
 const srcIcnBook = require('../../assets/book.png');
 const srcIcnPoints = require('../../assets/coin.png');
 const srcIcnSetting = require('../../assets/settings.png');
+const srcIcnBronze = require('../../assets/bronze.png');
+const srcIcnSilver = require('../../assets/silver.png');
+const srcIcnGold = require('../../assets/gold.png');
 
 
 export {srcImgLibraryHeader, srcImgHarryPotter3, 
     srcImgHarryPotter4, srcImg451, srcImgNoir,
     srcImgSilver, srcIcnBook, srcImgShopHeader, 
     srcIcnRedHeart, srcIcnFilter, srcImgProfileHeader,
-    srcIcnPoints, srcIcnSetting};
+    srcIcnPoints, srcIcnSetting, srcIcnBronze, srcIcnSilver,
+    srcIcnGold};
