@@ -12,16 +12,8 @@ interface IDailyTaskProgressProps {
 export function DailyTaskProgress({ todayPages, dailyTaskPages, level }: IDailyTaskProgressProps) {
     const { navigate } = useNavigation<NavigationProp<ProfileStackParams>>();
 
-    // const [level, setLevel] = useState<string>('');
-
-    // useFocusEffect(
-    //     React.useCallback(() => {
-    //         getDailyTaskLevel(dailyTaskPages);
-    //     }, [])
-    // );
-
     return (
-        <Pressable onPress={() => navigate('DailyTask')} style={{ padding: 10, backgroundColor: 'gray' }}>
+        <Pressable style={{ padding: 10, backgroundColor: 'gray' }} onPress={() => navigate('DailyTask', { todayPages })}>
             {/* FIXME //! level is not updating  */}
             <Text>Уровень: {level}</Text>
             {todayPages >= dailyTaskPages

@@ -53,7 +53,7 @@ type LibStackParams = {
 
 type ProfileStackParams = {
     Profile: undefined;
-    DailyTask: undefined;
+    DailyTask: { todayPages: number };
     Achievements: undefined;
 };
 

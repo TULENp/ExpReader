@@ -17,6 +17,8 @@ export {
     getUserPagesAS,
     updateBookReadPagesAS,
     updateBookCurrentPageAS,
+    setTodayAS,
+    getNewDailyTaskAS,
 };
 
 const userDataKey = 'userData'; // key for userData in async storage
@@ -81,12 +83,7 @@ async function getUserDataAS(): Promise<TUserData | null> {
     //     userBooks: [],
     // }));
 
-    let userData: TUserData | null = null;
-    const userDataJSON = await AsyncStorage.getItem(userDataKey);
-    if (userDataJSON) {
-        userData = JSON.parse(userDataJSON);
-    }
-    return userData;
+    return JSON.parse(await AsyncStorage.getItem(userDataKey) || 'null');
 }
 
 async function getUserPagesAS(): Promise<number> {
@@ -110,16 +107,18 @@ async function incUserReadBooksAS() {
 //* Daily task functions
 // Get number of pages to complete daily task
 async function getDailyTaskAS(): Promise<TDailyTask> {
-    let dailyTask: TDailyTask = 60;
-    const dailyTaskJSON = await AsyncStorage.getItem('dailyTask');
-    if (dailyTaskJSON) {
-        dailyTask = JSON.parse(dailyTaskJSON);
-    }
-    return dailyTask;
+    return JSON.parse(await AsyncStorage.getItem('dailyTask') || '60');
 }
 
-async function setDailyTaskAS(dailyTask: TDailyTask) {
-    AsyncStorage.setItem('dailyTask', dailyTask.toString());
+async function getNewDailyTaskAS(): Promise<TDailyTask> {
+    return JSON.parse(await AsyncStorage.getItem('newDailyTask') || '60');
+}
+
+async function setDailyTaskAS(dailyTask: TDailyTask, todayPages: number) {
+    AsyncStorage.setItem('newDailyTask', dailyTask.toString());
+    if (todayPages == 0) {
+        AsyncStorage.setItem('dailyTask', dailyTask.toString());
+    }
 }
 
 // Get number of pages read today
@@ -137,6 +136,20 @@ async function checkDailyTaskCompletionAS(todayPages: number) {
     const dailyTask: TDailyTask = await getDailyTaskAS();
     if (todayPages === dailyTask) {
         incUserReadPagesAS(dailyTask);
+    }
+}
+
+// save current date to AS and update daily stats
+async function setTodayAS() {
+    const oldDate = JSON.parse(await AsyncStorage.getItem('today') || '0');
+    const date = new Date().setHours(0, 0, 0, 0); // get date without time
+    AsyncStorage.setItem('today', date.toString());
+    if (date !== oldDate) {
+        // reset todayPages counter
+        AsyncStorage.setItem('todayPages', '0');
+        // update daily task
+        const newTask = await getNewDailyTaskAS();
+        AsyncStorage.setItem('dailyTask', newTask.toString());
     }
 }
 

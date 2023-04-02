@@ -1,19 +1,15 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+
+import React, { useEffect } from 'react';
 import { TabNavigation } from './src/navigation/TabNavigation';
+import { setTodayAS } from './src/service/asyncStorage';
 
 export default function App() {
+
+	useEffect(() => {
+		setTodayAS();
+	}, [])
+
 	return (
 		<TabNavigation />
 	);
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-});
