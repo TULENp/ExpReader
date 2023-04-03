@@ -3,7 +3,7 @@ import { redRarity } from '../../constants/colors';
 
 export const stylesBookShopCard = StyleSheet.create({
     img_cover:{
-        width:116,
+        width:'100%',
         height:174,
         resizeMode:'contain',
         borderRadius:8,
@@ -25,7 +25,8 @@ export const stylesBookShopCard = StyleSheet.create({
         marginTop:5,
     },
     wrapper_book_shop_card:{
-        width:116,
+        width:'100%',
+        maxWidth:116,
         marginBottom:15,
         
     }

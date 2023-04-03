@@ -1,4 +1,4 @@
-import { View, Text, KeyboardAvoidingView, FlatList, ImageBackground, StatusBar, Image, ImageSourcePropType, Dimensions, ScrollView } from 'react-native'
+import { View, Text, KeyboardAvoidingView, FlatList, ImageBackground, StatusBar, Image, TouchableOpacity, ImageSourcePropType, Dimensions, ScrollView } from 'react-native'
 import React, { useRef, useState } from 'react'
 import { stylesShopScreen } from './stylesScreen'
 import { books } from '../TestData/books';
@@ -10,15 +10,18 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { srcIcnFilter, srcIcnRedHeart, srcImgShopHeader } from '../constants/images';
 import { TAllBook } from '../types';
 import { useScrollToTop } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 const width = Dimensions.get('window').width;
 
-export default function ShopScreen() {
+export default function ShopScreen({navigation}:any) {
     const [searchText, setSearchText] = useState<string>('');
     
     const testList:JSX.Element[] = books.map((item)=> {
       return(
-        <BookShopCard book={item}/>
+        <TouchableOpacity style={{maxWidth:116, width:'100%'}} onPress={() => navigation.navigate('ShopBook', {id: item.id, title: item.title})}>
+          <BookShopCard book={item}/>
+        </TouchableOpacity>
       )
     })
 
@@ -40,7 +43,9 @@ export default function ShopScreen() {
                                leftIcon={{ type: 'octicons', name: 'search' }}
                                style={[stylesShopScreen.search_input, {fontFamily: 'MontserratAlt400'}]}/>
                     </View>
-                    <Image style={{width:36, height:36, }} source={srcIcnRedHeart}/>
+                    <TouchableOpacity onPress={() => navigation.navigate('Favorites')}>
+                      <Image style={{width:36, height:36, }} source={srcIcnRedHeart}/>
+                    </TouchableOpacity>
                     <Image style={{width:36, height:36, }} source={srcIcnFilter}/>
                   </ImageBackground>
                   <View style={{flex:1, marginTop:10}}>

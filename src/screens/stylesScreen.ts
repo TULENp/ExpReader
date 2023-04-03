@@ -291,3 +291,32 @@ export const stylesProfileScreen = StyleSheet.create({
     }
 
 })
+
+export const stylesFavoritesScreen = StyleSheet.create({
+    fav_page:{
+        flex:1,
+        
+        backgroundColor:white,
+        paddingLeft:13,
+        paddingRight:13,
+        paddingTop:20,
+    },
+    header_fav:{
+        flexDirection:'row',
+        alignItems:'center',
+        
+    },
+    container_books:{
+        flexDirection:'row',
+        width:'100%',
+        gap:8,
+        flexWrap:'wrap',
+        marginTop:20,
+    },
+    fav_title:{
+        fontFamily:'MontserratAlt700',
+        fontSize:25,
+        marginLeft:20,
+    }
+    
+})

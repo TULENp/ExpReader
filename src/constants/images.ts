@@ -15,6 +15,8 @@ const srcIcnSetting = require('../../assets/settings.png');
 const srcIcnBronze = require('../../assets/bronze.png');
 const srcIcnSilver = require('../../assets/silver.png');
 const srcIcnGold = require('../../assets/gold.png');
+const srcIcnBack = require('../../assets/back.png');
+const srcIcnBackWhite = require('../../assets/backWhite.png');
 
 
 export {srcImgLibraryHeader, srcImgHarryPotter3, 
@@ -22,4 +24,4 @@ export {srcImgLibraryHeader, srcImgHarryPotter3,
     srcImgSilver, srcIcnBook, srcImgShopHeader, 
     srcIcnRedHeart, srcIcnFilter, srcImgProfileHeader,
     srcIcnPoints, srcIcnSetting, srcIcnBronze, srcIcnSilver,
-    srcIcnGold};
+    srcIcnGold, srcIcnBack, srcIcnBackWhite};
