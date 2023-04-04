@@ -61,7 +61,6 @@ async function getAllFileBooksAS(bookNames: string[]): Promise<TLibBook[]> {
     let books: TLibBook[] = [];
     for (let name of bookNames) {
         const book = await AsyncStorage.getItem(name);
-
         if (book) {
             books.push(JSON.parse(book));
         }
@@ -82,6 +81,7 @@ async function getUserDataAS(): Promise<TUserData | null> {
     //     achievesImg: [],
     //     userBooks: [],
     // }));
+    // AsyncStorage.setItem('todayPages', '0');
 
     return JSON.parse(await AsyncStorage.getItem(userDataKey) || 'null');
 }

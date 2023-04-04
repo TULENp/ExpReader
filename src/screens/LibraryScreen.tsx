@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, FlatList, StatusBar, Image, KeyboardAvoidingView, ImageBackground } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { View, Text, Button, FlatList, StatusBar, Image, KeyboardAvoidingView, ImageBackground, Pressable } from 'react-native';
+import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
-import { TLibBook } from '../types';
+import { LibStackParams, TLibBook } from '../types';
 import { clearAS, getAllFileBooksAS, saveBookStatsAS } from '../service/asyncStorage';
 import { BookLibCard } from '../components/BookLibCard';
 import { stylesLibraryScreen } from './stylesScreen';
@@ -33,18 +33,18 @@ export default function LibraryScreen() {
 
     //TODO fix TS navigation error
     const fileBooksDir = FileSystem.documentDirectory + 'fileBooks/'; // directory for books added from file
-    const { navigate } = useNavigation();
+    const { navigate } = useNavigation<NavigationProp<LibStackParams>>();
     const [fileBooks, setFileBooks] = useState<TLibBook[]>([]);
     const [books, setBooks] = useState<TLibBook[]>([]);
-
-
 
     const [searchText, setSearchText] = useState<string>('');
     const [libCategory, setLibCategory] = useState<number>(0);
 
-    useEffect(() => {
-        getAllFileBooks();
-    }, [])
+    useFocusEffect(
+        React.useCallback(() => {
+            getAllFileBooks();
+        }, [])
+    );
 
     async function readText(filePath: string) {
         return await FileSystem.StorageAccessFramework.readAsStringAsync(filePath)
@@ -132,10 +132,12 @@ export default function LibraryScreen() {
                 }
                 data={libCategory === 0 ? books : fileBooks}
                 keyExtractor={(item) => item.title}
-                renderItem={({ item }) => {
+                renderItem={({ item: book }) => {
                     return (
                         <View style={{ backgroundColor: white }}>
-                            <BookLibCard book={item} />
+                            <Pressable onPress={() => navigate('Reader', { book })}>
+                                <BookLibCard book={book} />
+                            </Pressable>
                         </View>)
                 }}
                 ListFooterComponent={
@@ -143,20 +145,23 @@ export default function LibraryScreen() {
                         <View style={{ flex: 1 }}>
 
                             <Button
-                                title='Add book'
-                                onPress={addBookFromFile}
-                            />
-                            <Button
                                 title='get books'
                                 onPress={getAllFileBooks}
                             />
+                            {/* <Button
+                                title='Add book'
+                                onPress={addBookFromFile}
+                            /> */}
                             <Button
                                 title='Clear'
                                 onPress={clearAS}
                             />
                         </View>
                     </>} />
-            <FAB icon={{ name: 'add', color: 'white' }} color={deepBlue} size='large' style={stylesLibraryScreen.fab_button} />
+            <FAB onPress={addBookFromFile}
+                icon={{ name: 'add', color: 'white' }}
+                color={deepBlue} size='large'
+                style={stylesLibraryScreen.fab_button} />
         </>
     );
 }

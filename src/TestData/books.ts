@@ -1,5 +1,30 @@
+import { TShopBook } from "../types";
 
-export const books: any[] = [
+
+export const books: TShopBook[] = [
+    {
+        id: '0',
+        title: "Гарри Поттер и узник Азкабана",
+        author: "Джоан Роулинг",
+        cover: "harryPotter3.jpg",
+        price: 420,
+    },
+    {
+        id: '1',
+        title: "457 градусов по фаренгейту",
+        author: "Рэй Брэдбери",
+        cover: "451.png",
+        price: 229,
+    },
+    {
+        id: '3',
+        title: "Мерцание серебра",
+        author: "Джулиент Кемп",
+        cover: "silver.jpg",
+        price: 670,
+    },
+]
+export const allBooks: any[] = [
     {
         id: 0,
         title: "Гарри Поттер и узник Азкабана",

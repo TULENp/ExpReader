@@ -131,7 +131,7 @@ export function Reader({ bookText, book }: ReaderProps) {
                     setSessionPages(prev => prev + 1);
                     //! 
                 }
-            }, 5000); // 5000 = 5000 ms = 5 second timer
+            }, 0); // 5000 = 5000 ms = 5 second timer
             setReadTimer(timer);
         }
     }
