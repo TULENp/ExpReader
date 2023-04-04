@@ -64,7 +64,7 @@ type ShopStackParams = {
     Shop: undefined;
     ShopBook: { id: string };
     Favorites: undefined;
-    Checkout: undefined;
+    Checkout: { book: TBook };
 };
 
 type TRarity = 'common' | 'rare' | 'epic' | 'legendary';
