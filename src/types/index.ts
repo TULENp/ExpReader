@@ -1,3 +1,5 @@
+import { ImageSourcePropType } from "react-native/types";
+
 export {
     TBook,
     TLibBook,
@@ -10,6 +12,7 @@ export {
     TUserData,
     TAchieves,
     TDailyTask,
+    TPin
 };
 
 type TShopBook = {
@@ -94,3 +97,10 @@ type TAchieves = {
 
 type TDailyTask = 60 | 120 | 240;
 
+type TPin = {
+    id: number,
+    title: string,
+    description: string,
+    img: ImageSourcePropType,
+    isGet: boolean,
+}

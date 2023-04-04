@@ -1,0 +1,322 @@
+import {Dimensions, StyleSheet} from 'react-native';
+import { black, deepBlue, lightBlue, purple, white } from '../constants/colors';
+
+
+
+let {width} = Dimensions.get('window');
+
+
+export const stylesLibraryScreen = StyleSheet.create({
+    lib_page:{
+        maxWidth: width,
+        flex:1,
+        alignContent:'center',
+        backgroundColor:white,
+    },
+    container_header:{
+        flex:1,
+        width: width,
+        height:120,
+    },
+    img_header:{
+        width: width,
+        height:'39%',
+        position:'absolute',
+        elevation:1,
+    },
+    search_input:{
+        marginLeft:'1.4%',
+        marginRight:'1.4%',
+        color:'#000000',
+        maxWidth: width,
+        fontSize:14,
+        borderRadius:8,
+    },
+    container_search_input:{
+        backgroundColor:'#FFFFFF', 
+        height:50, 
+        marginLeft:13, 
+        marginRight:13, 
+        borderRadius:8,
+        marginTop:35,
+    },
+    img_cover_read_later:{
+        resizeMode:'contain',
+        width:139,
+        height:199,
+        borderRadius:8,
+    },
+    container_read_later:{
+        flexDirection:'row', 
+        paddingRight:13, 
+        paddingLeft:13, 
+        paddingTop:25, 
+        paddingBottom:25,
+        backgroundColor:deepBlue,
+    },
+    text_h1_read_later:{
+        fontFamily:'MontserratAlt700',
+        color:white, 
+        fontSize:20,
+    },
+    text_h2_read_later:{
+        fontFamily:'Montserrat700',
+        color:white, 
+        fontSize:14,
+        marginTop:16,
+    },
+    text_h3_read_later:{
+        fontFamily:'Montserrat400',
+        color:white, 
+        fontSize:14,
+    },
+    text_progress_bar:{
+        fontFamily:'Montserrat300',
+        color:white, 
+        fontSize:14,
+        marginTop:21,
+    },
+    progress_bar:{
+        transform: [{scaleY: 1.5}], 
+        borderRadius:8, 
+        marginTop:10,
+    },
+    h1_library:{
+        fontFamily:'MontserratAlt700',
+        fontSize:25,
+        marginLeft:13,
+    },
+    button_group_containerStyle:{
+        backgroundColor:white, 
+        borderColor:black, 
+        borderRadius:8, 
+        marginLeft:13, 
+        marginRight:13, 
+        alignItems:'center',
+    },
+    button_group_textStyle:{
+        color:deepBlue, 
+        fontFamily:'Montserrat500', 
+        fontSize:15,
+    },
+    fab_button:{
+        position:'absolute', 
+        elevation:1,
+        zIndex:5, 
+        right:'8%', 
+        bottom:'5%',
+    }
+})
+
+export const stylesShopScreen = StyleSheet.create({
+    shop_page:{
+        flex:1,
+        maxWidth:width,
+        backgroundColor:white,
+    },
+    img_header:{
+        flex:1,
+        width: width,
+        height:120,
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'space-between',
+        paddingLeft:13,
+        paddingRight:13
+        
+    },
+    container_search_input:{
+        backgroundColor:'#FFFFFF', 
+        height:50, 
+        borderRadius:8,
+        width:'65%',
+    },
+    search_input:{
+        marginLeft:'1.4%',
+        marginRight:'1.4%',
+        color:'#000000',
+        maxWidth: '100%',
+        fontSize:14,
+        borderRadius:8,
+    },
+    container_adds_carousel:{
+        flex:1, 
+        alignItems:'center', 
+        justifyContent:'center',
+    },
+    img_add:{
+        width:364, 
+        height:151
+    },
+    text_shop:{
+        fontFamily:'MontserratAlt700',
+        fontSize:25,
+        marginLeft:13,
+        marginTop:15,
+        marginBottom:14,
+    },
+    container_books_shop_card:{
+        flex:1,
+        width:width,
+        paddingLeft:13,
+        paddingRight:12,
+        flexDirection:'row',
+        gap:9.5,
+        flexWrap:'wrap',
+    }
+
+})
+
+export const stylesProfileScreen = StyleSheet.create({
+    img_header:{
+        width:width,
+        height:159,
+        paddingTop:40,
+        paddingLeft:13,
+        paddingRight:13,
+        flexDirection:'row',
+    },
+    avatar:{
+        backgroundColor:lightBlue,
+    },
+    icn_points:{
+        width:25,
+        height:25,
+        marginRight:10,
+    },
+    container_avatar_points:{
+        marginLeft:10
+    },
+    text_points:{
+        fontFamily:'Montserrat700',
+        fontSize:18,
+        color:white,
+    },
+    text_name:{
+        fontFamily:'Montserrat700',
+        fontSize:20,
+        color:white,
+        marginBottom:10,
+    },
+    container_level:{
+        width:width,
+        padding:13,
+        justifyContent:'center',
+        alignItems:'center',
+        backgroundColor:purple,
+    },
+    icn_settings:{
+        width:18,
+        height:18,
+        marginLeft:'20%',
+        
+    },
+    progress_bar:{
+        width:'75%',
+        borderRadius:12,
+        marginTop:12,
+    },
+    text_level_bold:{
+        fontFamily:'MontserratAlt700',
+        fontSize:16,
+        color:white,
+        
+    },
+    text_level_medium:{
+        fontFamily:'MontserratAlt500',
+        fontSize:16,
+    },
+    text_level_light:{
+        fontFamily:'MontserratAlt300',
+        fontSize:16,
+        color:white,
+        marginTop:12,
+    },
+    wrapper_text_level_settings:{
+        width:'75%',
+        flexDirection:'row',
+        justifyContent:'flex-end',
+        alignItems:'center',
+    },
+    h1_profile_bold:{
+        fontFamily:'MontserratAlt700',
+        fontSize:20,
+    },
+    h1_profile_medium:{
+        fontFamily:'MontserratAlt500',
+        fontSize:20,
+    },
+    container_achievements:{
+        width:width,
+        paddingLeft:13,
+        paddingRight:13,
+        marginTop:20,
+    },
+    wrapper_pins:{
+        width:'100%',
+        // height:'50%',
+        borderWidth:1,
+        borderRadius:8,
+        overflow:'hidden',
+        backgroundColor:lightBlue,
+        flexDirection:'row',
+        justifyContent:'center',
+        alignItems:'center',
+        marginTop:10,
+        paddingTop:8,
+        paddingBottom:8,
+    },
+    img_pin:{
+        width:70,
+        height:70,
+    },
+    container_profile_books:{
+        flex:1,
+        width:width,
+        flexWrap:'wrap',
+        gap:24,
+        marginTop:10,
+        alignItems:'center',
+        flexDirection:'row',
+    },
+    profile_page:{
+        flex:1,
+        width:width,
+    },
+    container_bookshelf:{
+        width:width,
+        paddingLeft:13,
+        paddingRight:13,
+        marginTop:20,
+    }
+
+})
+
+export const stylesFavoritesScreen = StyleSheet.create({
+    fav_page:{
+        flex:1,
+        
+        backgroundColor:white,
+        paddingLeft:13,
+        paddingRight:13,
+        paddingTop:20,
+    },
+    header_fav:{
+        flexDirection:'row',
+        alignItems:'center',
+        
+    },
+    container_books:{
+        flexDirection:'row',
+        width:'100%',
+        gap:8,
+        flexWrap:'wrap',
+        marginTop:20,
+    },
+    fav_title:{
+        fontFamily:'MontserratAlt700',
+        fontSize:25,
+        marginLeft:20,
+    }
+    
+})
