@@ -1,27 +1,42 @@
-import { TShopBook } from "../types";
+import { TLibBook, TShopBook } from "../types";
 
 
-export const books: TShopBook[] = [
+export const books: TLibBook[] = [
     {
         id: '0',
         title: "Гарри Поттер и узник Азкабана",
         author: "Джоан Роулинг",
         cover: "harryPotter3.jpg",
-        price: 420,
+        bookPages: 1000,
+        currentPage: 0,
+        readPages: 0,
+        readDate: new Date(),
+        isRead: false,
+        fileName: 'potter.txt',
     },
     {
         id: '1',
         title: "457 градусов по фаренгейту",
         author: "Рэй Брэдбери",
         cover: "451.png",
-        price: 229,
+        bookPages: 600,
+        currentPage: 0,
+        readPages: 0,
+        readDate: new Date(),
+        isRead: false,
+        fileName: '451.txt',
     },
     {
         id: '3',
         title: "Мерцание серебра",
         author: "Джулиент Кемп",
         cover: "silver.jpg",
-        price: 670,
+        bookPages: 2300,
+        currentPage: 0,
+        readPages: 0,
+        readDate: new Date(),
+        isRead: false,
+        fileName: 'silver.txt',
     },
 ]
 export const allBooks: any[] = [

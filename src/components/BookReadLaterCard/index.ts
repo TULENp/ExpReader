@@ -1,1 +1,0 @@
-export { BookReadLaterCard} from './BookReadLaterCard';

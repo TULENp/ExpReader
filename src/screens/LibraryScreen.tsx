@@ -3,7 +3,7 @@ import { View, Text, Button, FlatList, StatusBar, Image, KeyboardAvoidingView, I
 import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
-import { LibStackParams, TLibBook } from '../types';
+import { LibStackParams, TLibBook, TShopBook } from '../types';
 import { clearAS, getAllFileBooksAS, saveBookStatsAS } from '../service/asyncStorage';
 import { BookLibCard } from '../components/BookLibCard';
 import { stylesLibraryScreen } from './stylesScreen';
@@ -15,8 +15,8 @@ import { Montserrat_300Light, Montserrat_400Regular, Montserrat_500Medium, Monts
 import { MontserratAlternates_300Light, MontserratAlternates_400Regular, MontserratAlternates_500Medium, MontserratAlternates_700Bold, } from '@expo-google-fonts/montserrat-alternates'
 import AppLoading from 'expo-app-loading';
 import { black, deepBlue, gray, pink, white } from '../constants/colors';
-import { BookReadLaterCard } from '../components/BookReadLaterCard/BookReadLaterCard';
-// import { books } from '../TestData/books';
+import { BookLastReadCard } from '../components/BookLastReadCard';
+import { books } from '../TestData/books';
 
 
 export default function LibraryScreen() {
@@ -35,7 +35,7 @@ export default function LibraryScreen() {
     const fileBooksDir = FileSystem.documentDirectory + 'fileBooks/'; // directory for books added from file
     const { navigate } = useNavigation<NavigationProp<LibStackParams>>();
     const [fileBooks, setFileBooks] = useState<TLibBook[]>([]);
-    const [books, setBooks] = useState<TLibBook[]>([]);
+    const [shopBooks, setBooks] = useState<TLibBook[]>(books.slice(1));
 
     const [searchText, setSearchText] = useState<string>('');
     const [libCategory, setLibCategory] = useState<number>(0);
@@ -112,7 +112,11 @@ export default function LibraryScreen() {
                                         style={[stylesLibraryScreen.search_input, { fontFamily: 'MontserratAlt400' }]} />
                                 </View>
                             </ImageBackground>
-                            <BookReadLaterCard />
+
+                            <Pressable onPress={() => navigate('Reader', { book: books[0] })}>
+                                <BookLastReadCard book={books[0]} />
+                            </Pressable>
+                            
                             <View style={{ paddingTop: 25, paddingBottom: 20 }}>
                                 <Text style={stylesLibraryScreen.h1_library}>Библиотека</Text>
                                 <ButtonGroup buttons={['Купленные книги', 'Добавленные книги']}
@@ -130,7 +134,7 @@ export default function LibraryScreen() {
                         </KeyboardAvoidingView>
                     </>
                 }
-                data={libCategory === 0 ? books : fileBooks}
+                data={libCategory === 0 ? shopBooks : fileBooks}
                 keyExtractor={(item) => item.title}
                 renderItem={({ item: book }) => {
                     return (

@@ -1,0 +1,1 @@
+export { BookLastReadCard } from './BookLastReadCard';
