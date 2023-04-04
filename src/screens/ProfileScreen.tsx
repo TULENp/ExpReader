@@ -80,7 +80,17 @@ export default function ProfileScreen() {
 									<Image style={stylesProfileScreen.icn_settings} source={srcIcnSetting} />
 								</View>
 								<LinearProgress value={todayPages / dailyTaskPages} color={greenRarity} style={stylesProfileScreen.progress_bar} trackColor={white} variant='determinate' />
-								<Text style={stylesProfileScreen.text_level_light}>Прочитано сегодня {todayPages} / {dailyTaskPages}</Text>
+								{todayPages >= dailyTaskPages
+									?
+									<>
+										<Text style={stylesProfileScreen.text_level_light}>Задание выполнено! Получено: {dailyTaskPages} очков чтения</Text>
+										<Text style={stylesProfileScreen.text_level_light}>За сегодня прочитано: {todayPages}</Text>
+									</>
+									:
+									<>
+										<Text style={stylesProfileScreen.text_level_light}>Прочитано сегодня {todayPages} / {dailyTaskPages} страниц</Text>
+									</>
+								}
 							</View>
 						</Pressable>
 
