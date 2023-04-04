@@ -1,13 +1,16 @@
 import { View, Text, Button } from 'react-native'
 import React from 'react'
+import { RouteProp, useRoute } from '@react-navigation/native';
 
-export default function BookScreen({route, navigation }) {
-   console.log("BOOOK SCREEN");
-   const {id, title} = route.params;
+interface BookParams {
+    id: string
+}
+export default function BookScreen() {
+    const { id } = useRoute<RouteProp<Record<string, BookParams>, string>>().params; // get book id from params
+
     return (
         <View>
-            <Text>{title}</Text>
-            <Button title='to reader screen' onPress={() => navigation.navigate("Reader")} />
+            <Text>{id}</Text>
         </View>
     )
 }
