@@ -72,7 +72,7 @@ export default function LibraryScreen() {
         const bookInit: TLibBook = {
             id: result.name,
             title: result.name,
-            author: '',
+            authors: [],
             cover: '',
             bookPages: 0,
             currentPage: 1,

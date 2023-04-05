@@ -1,4 +1,4 @@
-import { View, Text, Button, SafeAreaView } from 'react-native'
+import { View, Text, Button, SafeAreaView, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { NavigationProp, RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { ShopStackParams, TBook } from '../types';
@@ -25,14 +25,17 @@ export default function BookScreen() {
 
     //TODO add Loading
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{ padding: 10 }}>
             {!book
                 ?
                 <Text>Книга не найдена</Text>
                 :
                 <>
-                    <Text>{id}</Text>
-                    <Text>{book?.title}</Text>
+                    {/* <Image source={{ uri: book.cover }} /> */}
+                    <Text>{book.title}</Text>
+                    <Text>{book.authors}</Text>
+                    <Text>{book.price}</Text>
+                    <Text>{book.genres.join(', ')}</Text>
                     <Button title='Купить' onPress={() => navigate('Checkout', { book })} />
                 </>
             }

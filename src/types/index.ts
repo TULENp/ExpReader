@@ -18,7 +18,7 @@ export {
 type TShopBook = {
     id: string,
     title: string,
-    author: string,
+    authors: string[],
     cover: string,
     price?: number,
 }
@@ -26,7 +26,7 @@ type TShopBook = {
 type TLibBook = {
     id: string,
     title: string,
-    author: string,
+    authors: string[],
     cover: string,
     bookPages: number,
     currentPage: number,
@@ -39,11 +39,11 @@ type TLibBook = {
 type TBook = {
     id: string,
     title: string,
-    author: string,
+    authors: string[],
     cover: string,
     price: number,
     bookPages: number,
-    genre: string[],
+    genres: string[],
     description: string,
     fragment: string,
     isFavorite: boolean,
