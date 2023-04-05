@@ -19,6 +19,8 @@ export {
     updateBookCurrentPageAS,
     setTodayAS,
     getNewDailyTaskAS,
+    setTokenAS,
+    getTokenAS
 };
 
 const userDataKey = 'userData'; // key for userData in async storage
@@ -151,6 +153,17 @@ async function setTodayAS() {
         const newTask = await getNewDailyTaskAS();
         AsyncStorage.setItem('dailyTask', newTask.toString());
     }
+}
+
+
+//* Api functions
+// save user auth token to AS
+function setTokenAS(token: string) {
+    AsyncStorage.setItem('token', token);
+}
+
+async function getTokenAS() {
+    return await AsyncStorage.getItem('token');
 }
 
 function clearAS() {

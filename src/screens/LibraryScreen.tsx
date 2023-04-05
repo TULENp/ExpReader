@@ -4,7 +4,7 @@ import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import { LibStackParams, TLibBook, TShopBook } from '../types';
-import { clearAS, getAllFileBooksAS, saveBookStatsAS } from '../service/asyncStorage';
+import { clearAS, getAllFileBooksAS, getTokenAS, saveBookStatsAS } from '../service/asyncStorage';
 import { BookLibCard } from '../components/BookLibCard';
 import { stylesLibraryScreen } from './stylesScreen';
 import { srcImgLibraryHeader } from '../constants/images';
@@ -17,6 +17,7 @@ import AppLoading from 'expo-app-loading';
 import { black, deepBlue, gray, pink, white } from '../constants/colors';
 import { BookLastReadCard } from '../components/BookLastReadCard';
 import { books } from '../TestData/books';
+import { Register, SignIn } from '../service/api';
 
 
 export default function LibraryScreen() {
@@ -95,8 +96,20 @@ export default function LibraryScreen() {
         return <AppLoading />;
     }
 
+    //! //TODO  test func. need to be removed
+    async function signIn() {
+        const res = await SignIn('log', 'pass');
+    }
+
+    async function register() {
+        const res = await Register('log', 'pass', 'nick');
+    }
+
     return (
         <>
+            <Button title='Login' onPress={signIn} />
+            <Button title='Register' onPress={register} />
+            {/* //! Test func */}
             <FlatList
                 ListHeaderComponent=
                 {
@@ -116,7 +129,7 @@ export default function LibraryScreen() {
                             <Pressable onPress={() => navigate('Reader', { book: books[0] })}>
                                 <BookLastReadCard book={books[0]} />
                             </Pressable>
-                            
+
                             <View style={{ paddingTop: 25, paddingBottom: 20 }}>
                                 <Text style={stylesLibraryScreen.h1_library}>Библиотека</Text>
                                 <ButtonGroup buttons={['Купленные книги', 'Добавленные книги']}

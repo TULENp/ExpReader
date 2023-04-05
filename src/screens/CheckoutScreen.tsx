@@ -10,7 +10,8 @@ export default function CheckoutScreen() {
 
     return (
         <View>
-            <Text>CheckoutScreen</Text>
+            <Text>{book.title}</Text>
+            <Text>{book.price}</Text>
             <Button title='Оплатить' />
         </View>
     )
