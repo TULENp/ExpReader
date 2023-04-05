@@ -9,7 +9,6 @@ import Carousel from 'react-native-reanimated-carousel';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { srcIcnFilter, srcIcnRedHeart, srcImgShopHeader } from '../constants/images';
 import { NavigationProp, useNavigation, useScrollToTop } from '@react-navigation/native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ShopStackParams } from '../types';
 
 const width = Dimensions.get('window').width;

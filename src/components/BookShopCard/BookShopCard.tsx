@@ -4,7 +4,7 @@ import { stylesBookShopCard } from './style'
 import { TShopBook } from '../../types'
 
 export function BookShopCard({ book }: { book: TShopBook }) {
-	const { id, author, cover, title, price } = book;
+	const { id, authors, cover, title, price } = book;
 
 	const truncateTitle = (str: string) => {
 		if (str.length >= 13) {
@@ -17,7 +17,7 @@ export function BookShopCard({ book }: { book: TShopBook }) {
 		<View style={stylesBookShopCard.wrapper_book_shop_card}>
 			<Image style={stylesBookShopCard.img_cover} source={require(`../../../assets/harryPotter3.jpg`)} />
 			<Text style={stylesBookShopCard.text_title}>{truncateTitle(title)}</Text>
-			<Text style={stylesBookShopCard.text_author}>{truncateTitle(author)}</Text>
+			<Text style={stylesBookShopCard.text_author}>{authors}</Text>
 			<Text style={stylesBookShopCard.text_price}>{price}₽</Text>
 		</View>
 	)
