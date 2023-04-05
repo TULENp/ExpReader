@@ -18,6 +18,7 @@ import { black, deepBlue, gray, pink, white } from '../constants/colors';
 import { BookLastReadCard } from '../components/BookLastReadCard';
 import { books } from '../TestData/books';
 import { Register, SignIn } from '../service/api';
+import { booksDir, fileBooksDir } from '../constants';
 
 
 export default function LibraryScreen() {
@@ -32,8 +33,6 @@ export default function LibraryScreen() {
         'MontserratAlt700': MontserratAlternates_700Bold,
     })
 
-    //TODO fix TS navigation error
-    const fileBooksDir = FileSystem.documentDirectory + 'fileBooks/'; // directory for books added from file
     const { navigate } = useNavigation<NavigationProp<LibStackParams>>();
     const [fileBooks, setFileBooks] = useState<TLibBook[]>([]);
     const [shopBooks, setBooks] = useState<TLibBook[]>(books.slice(1));
@@ -107,9 +106,6 @@ export default function LibraryScreen() {
 
     return (
         <>
-            <Button title='Login' onPress={signIn} />
-            <Button title='Register' onPress={register} />
-            {/* //! Test func */}
             <FlatList
                 ListHeaderComponent=
                 {
@@ -160,7 +156,9 @@ export default function LibraryScreen() {
                 ListFooterComponent={
                     <>
                         <View style={{ flex: 1 }}>
-
+                            {/* //! Test func */}
+                            <Button title='Login' onPress={signIn} />
+                            <Button title='Register' onPress={register} />
                             <Button
                                 title='get books'
                                 onPress={getAllFileBooks}
@@ -173,6 +171,7 @@ export default function LibraryScreen() {
                                 title='Clear'
                                 onPress={clearAS}
                             />
+                            {/* //! Test func */}
                         </View>
                     </>} />
             <FAB onPress={addBookFromFile}

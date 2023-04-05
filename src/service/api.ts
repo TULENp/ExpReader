@@ -66,3 +66,34 @@ export async function SwitchFavorite(id: string) {
         })
         .catch(error => error.response.status);
 }
+
+export async function DownloadBook(id: string) {
+    const token = await getTokenAS();
+    if (!token) return '401';
+    return await axios.post('/books/downloadBook',
+        {
+            bookId: id
+        },
+        {
+            headers: {
+                Authorization: token
+            }
+        })
+        .then(response => response.data)
+        .catch(error => error.response.status);
+}
+
+export async function BuyBook(id: string) {
+    const token = await getTokenAS();
+    if (!token) return '401';
+    return await axios.post('/books/buyABook',
+        {
+            bookId: id
+        },
+        {
+            headers: {
+                Authorization: token
+            }
+        })
+        .catch(error => error.response.status);
+}
