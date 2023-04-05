@@ -9,5 +9,11 @@ const fileBooksDir: string = FileSystem.documentDirectory + 'fileBooks/';
 // directory for books added from shop
 const booksDir: string = FileSystem.documentDirectory + 'books/';
 
-export { fileBooksDir, booksDir, pageChars, realBookPageChars };
+// url to server
+const baseURL = 'https://exp-reader-backend.vercel.app';
+// url to images 
+const imageURL = baseURL + '/public/covers/';
+
+
+export { fileBooksDir, booksDir, pageChars, realBookPageChars, imageURL, baseURL };
 

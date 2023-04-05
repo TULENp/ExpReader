@@ -1,10 +1,10 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { ShopStackParams } from "../types";
 import ShopScreen from "../screens/ShopScreen";
 import BookScreen from "../screens/BookScreen";
 import FavoritesScreen from "../screens/FavoritesScreen";
 import CheckoutScreen from "../screens/CheckoutScreen";
-import { ShopStackParams } from "../types";
 
 const Stack = createNativeStackNavigator<ShopStackParams>();
 

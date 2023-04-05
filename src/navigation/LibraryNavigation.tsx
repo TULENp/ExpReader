@@ -1,8 +1,8 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { LibStackParams } from "../types";
 import ReaderScreen from "../screens/ReaderScreen";
 import LibraryScreen from "../screens/LibraryScreen";
-import { LibStackParams } from "../types";
 
 const Stack = createNativeStackNavigator<LibStackParams>();
 

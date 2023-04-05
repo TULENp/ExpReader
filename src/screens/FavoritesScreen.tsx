@@ -1,31 +1,51 @@
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { View, Text, ScrollView, TouchableOpacity, FlatList } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { BookShopCard } from '../components/BookShopCard'
-import { books } from '../TestData/books'
 import { srcIcnBack } from '../constants/images'
-
-import { Ionicons, MaterialIcons } from '@expo/vector-icons'; 
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { stylesFavoritesScreen } from './stylesScreen'
+import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native'
+import { ShopStackParams, TShopBook } from '../types'
+import { GetFavorites } from '../service/api'
 
-export default function FavoritesScreen({navigation}:any) {
-    
-    const listBooks:JSX.Element[] = books.map((book)=> <BookShopCard book={book}/>)
-    
-    return (
-          <View style={stylesFavoritesScreen.fav_page}>
-          <ScrollView>
-            {/* <Image source={srcIcnBack}/> */}
-            <View style={stylesFavoritesScreen.header_fav}>
-              <TouchableOpacity onPress={() => navigation.navigate('Shop')} >
-                <MaterialIcons name="keyboard-backspace" size={36} color="black" />
-              </TouchableOpacity>
-              <Text style={stylesFavoritesScreen.fav_title}>Избранное</Text>
-            </View>
-            <View style={stylesFavoritesScreen.container_books}>
-              {listBooks}
-              {listBooks}
-            </View>
-          </ScrollView>
-          </View>
-    )
+export default function FavoritesScreen() {
+	const { navigate } = useNavigation<NavigationProp<ShopStackParams>>();
+
+	const [favorites, setFavorites] = useState<TShopBook[]>([]);
+
+	useFocusEffect(
+		React.useCallback(() => {
+			getFavorites();
+		}, [])
+	)
+
+	async function getFavorites() {
+		const result = await GetFavorites();
+		if (typeof result !== "string") {
+			setFavorites(result);
+		}
+	}
+
+	return (
+		<View style={stylesFavoritesScreen.fav_page}>
+			{/* <Image source={srcIcnBack}/> */}
+			<View style={stylesFavoritesScreen.header_fav}>
+				<TouchableOpacity onPress={() => navigate('Shop')} >
+					<MaterialIcons name="keyboard-backspace" size={36} color="black" />
+				</TouchableOpacity>
+				<Text style={stylesFavoritesScreen.fav_title}>Избранное</Text>
+			</View>
+			{favorites.length == 0
+				?
+				<Text>Пусто</Text>
+				:
+				<View style={stylesFavoritesScreen.container_books}>
+					<FlatList
+						data={favorites}
+						keyExtractor={(item) => item.id}
+						renderItem={({ item: book }) => <BookShopCard book={book} />} />
+				</View>
+			}
+		</View>
+	)
 }
