@@ -97,3 +97,16 @@ export async function BuyBook(id: string) {
         })
         .catch(error => error.response.status);
 }
+
+export async function GetBooks() {
+    const token = await getTokenAS();
+    if (!token) return '401';
+    return await axios.get('/books/getLibBooks',
+        {
+            headers: {
+                Authorization: token
+            }
+        })
+        .then(response => response.data)
+        .catch(error => error.response.status)
+}

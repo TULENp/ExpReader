@@ -17,7 +17,7 @@ import AppLoading from 'expo-app-loading';
 import { black, deepBlue, gray, pink, white } from '../constants/colors';
 import { BookLastReadCard } from '../components/BookLastReadCard';
 import { books } from '../TestData/books';
-import { Register, SignIn } from '../service/api';
+import { GetBooks, Register, SignIn } from '../service/api';
 import { booksDir, fileBooksDir } from '../constants';
 
 
@@ -35,7 +35,7 @@ export default function LibraryScreen() {
 
     const { navigate } = useNavigation<NavigationProp<LibStackParams>>();
     const [fileBooks, setFileBooks] = useState<TLibBook[]>([]);
-    const [shopBooks, setBooks] = useState<TLibBook[]>(books.slice(1));
+    const [shopBooks, setShopBooks] = useState<TLibBook[]>([]);
 
     const [searchText, setSearchText] = useState<string>('');
     const [libCategory, setLibCategory] = useState<number>(0);
@@ -43,12 +43,9 @@ export default function LibraryScreen() {
     useFocusEffect(
         React.useCallback(() => {
             getAllFileBooks();
+            getAllLibBooks();
         }, [])
     );
-
-    async function readText(filePath: string) {
-        return await FileSystem.StorageAccessFramework.readAsStringAsync(filePath)
-    }
 
     //TODO optimize this method
     // Add books from file to app dir and to local storage
@@ -89,6 +86,11 @@ export default function LibraryScreen() {
         const bookFileNames: string[] = await FileSystem.readDirectoryAsync(fileBooksDir);
         const booksArray: TLibBook[] = await getAllFileBooksAS(bookFileNames);
         setFileBooks(booksArray);
+    }
+
+    async function getAllLibBooks() {
+        const booksArray = await GetBooks();
+        setShopBooks(booksArray);
     }
 
     if (!fontsLoaded) {
