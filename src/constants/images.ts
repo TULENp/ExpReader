@@ -19,7 +19,7 @@ const srcIcnSilver = require('../../assets/silver.png');
 const srcIcnGold = require('../../assets/gold.png');
 const srcIcnBack = require('../../assets/back.png');
 const srcIcnBackWhite = require('../../assets/backWhite.png');
-
+const srcIcnSberbank = require('../../assets/sberbank.png');
 
 export {srcImgLibraryHeader, srcImgHarryPotter3, 
     srcImgHarryPotter4, srcImg451, srcImgNoir,
@@ -27,4 +27,4 @@ export {srcImgLibraryHeader, srcImgHarryPotter3,
     srcIcnRedHeart, srcIcnFilter, srcImgProfileHeader,
     srcIcnPoints, srcIcnSetting, srcIcnBronze, srcIcnSilver,
     srcIcnGold, srcIcnBack, srcIcnBackWhite, srcImgBookHeader,
-    srcIcnHeart};
+    srcIcnHeart, srcIcnSberbank};

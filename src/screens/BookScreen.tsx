@@ -25,6 +25,8 @@ export default function BookScreen() {
    const {id, title, cover, author, price, description, bookPages, fragment, genre, isFavorite} = book;
    const [colorRarity, setColorRarity] = useState<string>('');
    const [rarityOfBook, setRarityofBook] = useState<string>('');
+   const { navigate } = useNavigation<NavigationProp<ShopStackParams>>();
+
    const listGenres:JSX.Element[] = genre.map((item)=> {
     return(
       <View style={stylesBookScreen.container_genres}>
@@ -85,7 +87,9 @@ export default function BookScreen() {
                         <Text style={stylesBookScreen.title}>{title}</Text>
                         <Text style={stylesBookScreen.author}>{author}</Text>
                         <View style={stylesBookScreen.container_all_buttons}>
-                          <Button title={<Text style={stylesBookScreen.button_buy_label_bold}>Купить за 
+                          <Button title={<Text style={stylesBookScreen.button_buy_label_bold}
+                                  onPress={()=> navigate('Checkout')}
+                          >Купить за 
                           <Text style={stylesBookScreen.button_buy_label_light}> {price}₽</Text></Text>}
                                 buttonStyle={stylesBookScreen.button_buy}
                                 containerStyle={{borderRadius:8}}/>

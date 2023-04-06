@@ -479,5 +479,39 @@ export const stylesBookScreen = StyleSheet.create({
     text_description:{
         fontFamily:'Montserrat500',
         fontSize:16
+    },
+
+})
+
+export const stylesCheckoutScreen = StyleSheet.create({
+    checkout_page:{
+        flex:1
+    },
+    icn_sber:{
+        width:26,
+        height:26
+    },
+    text_header:{
+        fontFamily:'MontserratAlt700',
+        fontSize:25, 
+    },
+    container_header:{
+        flexDirection:'row', 
+        gap:8, 
+        alignItems:'center', 
+        marginTop:20, 
+        marginLeft:13
+    },
+    text_header_light:{
+        fontFamily:'MontserratAlt500',
+        fontSize:22, 
+    },
+    text_sber_online:{
+        fontFamily:'Montserrat500',
+        fontSize:16, 
+    },
+    text_without_commission:{
+        fontFamily:'Montserrat300',
+        fontSize:16, 
     }
 })
