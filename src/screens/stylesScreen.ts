@@ -1,5 +1,5 @@
 import {Dimensions, StyleSheet} from 'react-native';
-import { black, deepBlue, lightBlue, purple, white } from '../constants/colors';
+import { black, deepBlue, gray, lightBlue, pink, purple, white } from '../constants/colors';
 
 
 
@@ -328,7 +328,7 @@ export const stylesBookScreen = StyleSheet.create({
     },
     book_header:{
         width:width,
-        height:'30%',
+        height:290,
         position:'relative',
     },
     img_header:{
@@ -414,10 +414,11 @@ export const stylesBookScreen = StyleSheet.create({
     },
     button_fav_grow:{
         flexGrow:1,
+        borderRadius:8,
     },
     button_fragment_grow:{
         flexGrow:3,
-        
+        borderRadius:8,
     },
     button_fav:{
         backgroundColor:lightBlue,
@@ -437,5 +438,46 @@ export const stylesBookScreen = StyleSheet.create({
     },
     container_all_buttons:{
         paddingTop:30,
+    },
+    container_genres:{
+        alignItems:'center',
+        justifyContent:'center',
+        borderWidth:1,
+        borderRadius:8,
+        paddingTop:8,
+        paddingBottom:8,
+        paddingRight:13,
+        paddingLeft:13,
+        marginRight:8,
+    },
+    text_genres:{
+        fontFamily:'MontserratAlt400',
+        fontSize:14,
+        color:pink
+    },
+    text_header:{
+        fontFamily:'MontserratAlt700',
+        fontSize:18,
+        marginBottom:8,
+    },
+    text_amount_pages:{
+        fontFamily:'MontserratAlt700',
+        fontSize:18,
+        marginLeft:13,
+        marginTop:20,
+    },
+    text_rarity_bold:{
+        fontFamily:'MontserratAlt700',
+        fontSize:18,
+    },
+    text_rarity_light:{
+        fontFamily:'MontserratAlt400',
+        color:'#737373',
+        fontSize:18,
+        marginLeft:8
+    },
+    text_description:{
+        fontFamily:'Montserrat500',
+        fontSize:16
     }
 })
