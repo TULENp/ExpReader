@@ -29,13 +29,18 @@ export function BookLibCard({ book }: { book: TLibBook }) {
     }, [readPages])
 
     async function downloadBook() {
-        //FIXME Error: Directory 'file:///data/user/0/host.exp.exponent/files/ExperienceData/%2540tulenb%252FExpReader/books/' could not be read.
-        // if (!(await FileSystem.getInfoAsync(booksDir)).exists) {
-        //     await FileSystem.makeDirectoryAsync(booksDir);
-        // }
-        // const res = await DownloadBook(id);
-        // await FileSystem.writeAsStringAsync(booksDir, res);
-        // console.log('completed');
+        if (!(await FileSystem.getInfoAsync(booksDir)).exists) {
+            await FileSystem.makeDirectoryAsync(booksDir);
+        }
+        const res = await DownloadBook(id);
+        await FileSystem.writeAsStringAsync(booksDir + book.fileName, res);
+        console.log('completed');
+    }
+
+    //TODO add path checking or set correct path
+    async function deleteBook() {
+        await FileSystem.deleteAsync(booksDir + book.fileName, { idempotent: true })
+        console.log('deleted');
     }
 
     return (
@@ -54,6 +59,7 @@ export function BookLibCard({ book }: { book: TLibBook }) {
                 <Text style={stylesBookLibCard.text_progress}>{`${percent}% прочитано`}</Text>
                 <LinearProgress value={percent / 100} color={pink} style={stylesBookLibCard.progress_bar} trackColor={gray} variant='determinate' />
                 <Button title='Скачать' onPress={downloadBook} />
+                <Button title='Удалить' onPress={deleteBook} />
             </View>
         </View>
     )

@@ -7,7 +7,7 @@ const pageChars: number = 600;
 // directory for books added from file
 const fileBooksDir: string = FileSystem.documentDirectory + 'fileBooks/';
 // directory for books added from shop
-const booksDir: string = FileSystem.documentDirectory + 'books/';
+const booksDir: string = FileSystem.documentDirectory + 'shopBooks/';
 
 // url to server
 const baseURL = 'https://exp-reader-backend.vercel.app';

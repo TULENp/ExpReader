@@ -2,7 +2,7 @@ import { Text } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { TLibBook } from '../types'
 import * as FileSystem from 'expo-file-system';
-import { fileBooksDir } from '../constants';
+import { booksDir, fileBooksDir } from '../constants';
 import { useRoute, RouteProp } from '@react-navigation/native';
 import { Reader } from '../components/Reader';
 
@@ -16,10 +16,19 @@ export default function ReaderScreen() {
     const [bookText, setBookText] = useState<string>('');
 
     useEffect(() => {
-        getBookText(fileBooksDir + book.fileName);
+        getBookText();
     }, [])
 
-    async function getBookText(filePath: string) {
+    //TODO fix path problem
+    async function getBookText() {
+        let filePath = '';
+        if ((await FileSystem.getInfoAsync(fileBooksDir + book.fileName)).exists) {
+            filePath = fileBooksDir + book.fileName;
+        }
+        else {
+            filePath = booksDir + book.fileName;
+        }
+
         await FileSystem.StorageAccessFramework.readAsStringAsync(filePath)
             .then(text => readFB2(text))
             .then(text => setBookText(text));
