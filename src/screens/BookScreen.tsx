@@ -21,11 +21,12 @@ export default function BookScreen() {
    console.log("BOOOK SCREEN");
 //    const {id, title} = route.params;
    const { book } = useRoute<RouteProp<Record<string, BookParams>, string>>().params;
-   const { goBack } = useNavigation<NavigationProp<ShopStackParams>>();
    const {id, title, cover, author, price, description, bookPages, fragment, genre, isFavorite} = book;
+   
    const [colorRarity, setColorRarity] = useState<string>('');
    const [rarityOfBook, setRarityofBook] = useState<string>('');
-   const { navigate } = useNavigation<NavigationProp<ShopStackParams>>();
+   
+   const { navigate, goBack } = useNavigation<NavigationProp<ShopStackParams>>();
 
    const listGenres:JSX.Element[] = genre.map((item)=> {
     return(
@@ -88,7 +89,7 @@ export default function BookScreen() {
                         <Text style={stylesBookScreen.author}>{author}</Text>
                         <View style={stylesBookScreen.container_all_buttons}>
                           <Button title={<Text style={stylesBookScreen.button_buy_label_bold}
-                                  onPress={()=> navigate('Checkout')}
+                                  onPress={() => navigate('Checkout', { book })}
                           >Купить за 
                           <Text style={stylesBookScreen.button_buy_label_light}> {price}₽</Text></Text>}
                                 buttonStyle={stylesBookScreen.button_buy}
@@ -112,7 +113,6 @@ export default function BookScreen() {
                         </View>
                       </View>
                     </View>
-                    {/* bookScreen header */}
                 </View>
                 {/* section genres of book */}
                 <View style={{paddingLeft:13, marginTop:20}}>
@@ -126,7 +126,6 @@ export default function BookScreen() {
                               </View>}
                             />
                 </View> 
-                {/* section genres of book */}
                 <Text style={stylesBookScreen.text_amount_pages}>Кол-во страниц:
                   <Text style={{fontFamily:'MontserratAlt500'}}> {bookPages}</Text>
                 </Text>

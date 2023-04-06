@@ -1,5 +1,5 @@
 import {Dimensions, StyleSheet} from 'react-native';
-import { black, deepBlue, gray, lightBlue, pink, purple, white } from '../constants/colors';
+import { black, deepBlue, gray, greenRarity, lightBlue, pink, purple, redRarity, white } from '../constants/colors';
 
 
 
@@ -485,7 +485,10 @@ export const stylesBookScreen = StyleSheet.create({
 
 export const stylesCheckoutScreen = StyleSheet.create({
     checkout_page:{
-        flex:1
+        flex:1,
+        paddingLeft:13,
+        paddingRight:13,
+        paddingTop:20,
     },
     icn_sber:{
         width:26,
@@ -497,10 +500,9 @@ export const stylesCheckoutScreen = StyleSheet.create({
     },
     container_header:{
         flexDirection:'row', 
-        gap:8, 
+        gap:20, 
         alignItems:'center', 
-        marginTop:20, 
-        marginLeft:13
+        
     },
     text_header_light:{
         fontFamily:'MontserratAlt500',
@@ -513,5 +515,30 @@ export const stylesCheckoutScreen = StyleSheet.create({
     text_without_commission:{
         fontFamily:'Montserrat300',
         fontSize:16, 
+    },
+    cover:{
+        maxWidth:110,
+        maxHeight:166,
+        borderRadius:8,
+    },
+    title:{
+        fontFamily:'Montserrat700',
+        fontSize:16,
+    },
+    author:{
+        fontFamily:'Montserrat500',
+        fontSize:14,
+        marginTop:8,
+    },
+    price:{
+        fontFamily:'Montserrat700',
+        fontSize:18,
+        marginTop:8,
+        color:redRarity,
+    },
+    button_buy:{
+        borderRadius:8,
+        backgroundColor:greenRarity,
+        
     }
 })
