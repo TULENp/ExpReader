@@ -320,3 +320,122 @@ export const stylesFavoritesScreen = StyleSheet.create({
     }
     
 })
+
+export const stylesBookScreen = StyleSheet.create({
+    book_screen:{
+        flex:1,
+        width:width
+    },
+    book_header:{
+        width:width,
+        height:'30%',
+        position:'relative',
+    },
+    img_header:{
+        width:'100%',
+        maxWidth:width,
+        height:210,
+        position:'absolute',
+    },
+    img_heart:{
+        width:28,
+        height:28,
+    },
+    container__cover_book_info:{
+        
+        width:width,
+        flexDirection:'row',
+        justifyContent:'space-between',
+        paddingTop:20,
+        paddingLeft:13,
+        paddingRight:13,
+    },
+    icn_back:{
+        marginLeft:13,
+        marginTop:20,
+    },
+    img_cover:{
+        // width:'100%',
+        // maxWidth:133,
+        width:133,
+        // height:150,
+        height:198,
+        overflow:'hidden',
+        borderRadius:8,
+        resizeMode:'contain',
+    },
+    wrapper_img_cover:{
+        maxWidth:146, 
+        height:208
+    },
+    title:{
+        fontFamily:'Montserrat700',
+        fontSize:18,
+        color:white,
+        // flexShrink:1,
+    },
+    author:{
+        fontFamily:'Montserrat500',
+        fontSize:16,
+        color:white,
+        marginTop:15,
+    },
+    icn_rarity:{
+        width:41,
+        height:41,
+        marginTop:7,
+    },
+    book_info:{
+        width:'100%',
+        // maxWidth:'100%',
+        flexShrink:1,
+        paddingLeft:36,
+
+    },
+    button_buy:{
+        backgroundColor:purple,
+        borderRadius:8,
+        borderWidth:1,
+        borderColor:black,
+    },
+    button_buy_label_bold:{
+        fontFamily:'Montserrat700',
+        fontSize:18,
+        color:white,
+    },
+    button_buy_label_light:{
+        fontFamily:'Montserrat300',
+    },
+    container_fav_fragment_buttons:{
+        flexDirection:'row',
+        alignItems:'stretch',
+        paddingTop:8,
+        gap:8,
+    },
+    button_fav_grow:{
+        flexGrow:1,
+    },
+    button_fragment_grow:{
+        flexGrow:3,
+        
+    },
+    button_fav:{
+        backgroundColor:lightBlue,
+        borderWidth:1,
+        borderColor:black,
+        borderRadius:8,
+    },
+    button_fragment:{
+        backgroundColor:deepBlue,
+        borderWidth:1,
+        borderColor:black,
+        borderRadius:8,
+    },
+    button_title:{
+        fontFamily:'MontserratAlt700',
+        fontSize:18,
+    },
+    container_all_buttons:{
+        paddingTop:30,
+    }
+})

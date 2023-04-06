@@ -1,26 +1,26 @@
 import { View, Text, KeyboardAvoidingView, FlatList, ImageBackground, StatusBar, Image, TouchableOpacity, ImageSourcePropType, Dimensions, ScrollView } from 'react-native'
 import React, { useRef, useState } from 'react'
 import { stylesShopScreen } from './stylesScreen'
-import { books } from '../TestData/books';
+import { allBooks, books } from '../TestData/books';
 import { BookShopCard } from '../components/BookShopCard';
 import { deepBlue } from '../constants/colors';
 import { Input } from '@rneui/themed';
 import Carousel from 'react-native-reanimated-carousel';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { srcIcnFilter, srcIcnRedHeart, srcImgShopHeader } from '../constants/images';
-import { TAllBook } from '../types';
-import { useScrollToTop } from '@react-navigation/native';
+import {  ShopStackParams } from '../types';
+import { NavigationProp, useNavigation, useScrollToTop } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 const width = Dimensions.get('window').width;
 
-export default function ShopScreen({navigation}:any) {
+export default function ShopScreen() {
     const [searchText, setSearchText] = useState<string>('');
-    
-    const testList:JSX.Element[] = books.map((item)=> {
+    const { navigate } = useNavigation<NavigationProp<ShopStackParams>>();
+    const testList:JSX.Element[] = allBooks.map((book)=> {
       return(
-        <TouchableOpacity style={{maxWidth:116, width:'100%'}} onPress={() => navigation.navigate('ShopBook', {id: item.id, title: item.title})}>
-          <BookShopCard book={item}/>
+        <TouchableOpacity style={{maxWidth:116, width:'100%'}} onPress={() => navigate('ShopBook', { book })}>
+          <BookShopCard book={book}/>
         </TouchableOpacity>
       )
     })
@@ -29,6 +29,7 @@ export default function ShopScreen({navigation}:any) {
     const scrollToTop = useRef(null);
 
     useScrollToTop(scrollToTop);
+    
 
     return (
         <>
@@ -43,14 +44,19 @@ export default function ShopScreen({navigation}:any) {
                                leftIcon={{ type: 'octicons', name: 'search' }}
                                style={[stylesShopScreen.search_input, {fontFamily: 'MontserratAlt400'}]}/>
                     </View>
-                    <TouchableOpacity onPress={() => navigation.navigate('Favorites')}>
+                    <TouchableOpacity onPress={() => navigate('Favorites')}>
                       <Image style={{width:36, height:36, }} source={srcIcnRedHeart}/>
                     </TouchableOpacity>
                     <Image style={{width:36, height:36, }} source={srcIcnFilter}/>
                   </ImageBackground>
                   <View style={{flex:1, marginTop:10}}>
                     <GestureHandlerRootView>
-                      <Carousel  width={width}  autoPlay={true} autoPlayInterval={3000}  scrollAnimationDuration={1000} height={151}   data={ads} renderItem={({item}) => 
+                      <Carousel width={width} autoPlay={true} 
+                                autoPlayInterval={3000} 
+                                scrollAnimationDuration={2000} 
+                                height={151} 
+                                data={ads} 
+                                renderItem={({item}) => 
                           <View style={stylesShopScreen.container_adds_carousel}>
                             <Image style={stylesShopScreen.img_add} source={item}/>
                           </View>

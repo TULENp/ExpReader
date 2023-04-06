@@ -2,6 +2,8 @@
 const srcImgLibraryHeader = require('../../assets/libraryHeader.png');
 const srcImgShopHeader = require('../../assets/shopHeader.png');
 const srcImgProfileHeader = require('../../assets/profileHeader.png');
+const srcImgBookHeader = require('../../assets/bookHeader.png');
+const srcIcnHeart = require('../../assets/heart.png');
 const srcIcnRedHeart = require('../../assets/heartRed.png');
 const srcIcnFilter =require('../../assets/filter.png');
 const srcImgHarryPotter3 = require('../../assets/harryPotter3.jpg');
@@ -24,4 +26,5 @@ export {srcImgLibraryHeader, srcImgHarryPotter3,
     srcImgSilver, srcIcnBook, srcImgShopHeader, 
     srcIcnRedHeart, srcIcnFilter, srcImgProfileHeader,
     srcIcnPoints, srcIcnSetting, srcIcnBronze, srcIcnSilver,
-    srcIcnGold, srcIcnBack, srcIcnBackWhite};
+    srcIcnGold, srcIcnBack, srcIcnBackWhite, srcImgBookHeader,
+    srcIcnHeart};

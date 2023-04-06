@@ -62,7 +62,7 @@ type ProfileStackParams = {
 
 type ShopStackParams = {
     Shop: undefined;
-    ShopBook: undefined;
+    ShopBook: { book: TShopBook };
     Favorites: undefined;
     Checkout: undefined;
 };
