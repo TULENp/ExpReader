@@ -9,7 +9,7 @@ import { LinearProgress } from '@rneui/themed';
 import { srcIcnBook } from '../../constants/images';
 import { calculateBookmark, calculateRarity } from '../../service/motivation';
 import { DownloadBook } from '../../service/api';
-import { booksDir, fileBooksDir } from '../../constants';
+import { bookCoversDir, booksDir, fileBooksDir, imageURL } from '../../constants';
 import * as FileSystem from 'expo-file-system';
 
 
@@ -43,11 +43,19 @@ export function BookLibCard({ book }: { book: TLibBook }) {
         console.log('deleted');
     }
 
+    async function downloadBookCover() {
+        if (!(await FileSystem.getInfoAsync(bookCoversDir)).exists) {
+            await FileSystem.makeDirectoryAsync(bookCoversDir);
+        }
+        await FileSystem.downloadAsync(imageURL + book.cover, bookCoversDir + book.cover)
+        console.log('cover downloaded');
+    }
+
     return (
         <View style={stylesBookLibCard.container_lib_book}>
             {/* <Image source={require(`../../../assets/${cover}`)}/> */}
             <Shadow distance={1} startColor={greenRarity} offset={[7, 6]}>
-                <ImageBackground style={stylesBookLibCard.cover_book} source={require(`../../../assets/harryPotter3.jpg`)} />
+                <ImageBackground style={stylesBookLibCard.cover_book} source={{ uri: bookCoversDir + book.cover }} />
             </Shadow>
             <View style={stylesBookLibCard.container_info_book}>
                 <Text style={stylesBookLibCard.title}>{title}</Text>
@@ -60,6 +68,7 @@ export function BookLibCard({ book }: { book: TLibBook }) {
                 <LinearProgress value={percent / 100} color={pink} style={stylesBookLibCard.progress_bar} trackColor={gray} variant='determinate' />
                 <Button title='Скачать' onPress={downloadBook} />
                 <Button title='Удалить' onPress={deleteBook} />
+                <Button title='Скачать обложку' onPress={downloadBookCover} />
             </View>
         </View>
     )

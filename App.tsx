@@ -14,8 +14,6 @@ export default function App() {
 	async function getUserData() {
 		const result = await GetUserData();
 		if (typeof result !== "string") {
-			console.log(result);
-			
 			setUserDataAS(result);
 		}
 	}

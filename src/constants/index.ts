@@ -8,6 +8,8 @@ const pageChars: number = 600;
 const fileBooksDir: string = FileSystem.documentDirectory + 'fileBooks/';
 // directory for books added from shop
 const booksDir: string = FileSystem.documentDirectory + 'shopBooks/';
+// directory for book covers
+const bookCoversDir: string = FileSystem.documentDirectory + 'covers/';
 
 // url to server
 const baseURL = 'https://exp-reader-backend.vercel.app';
@@ -15,5 +17,5 @@ const baseURL = 'https://exp-reader-backend.vercel.app';
 const imageURL = baseURL + '/public/covers/';
 
 
-export { fileBooksDir, booksDir, pageChars, realBookPageChars, imageURL, baseURL };
+export { fileBooksDir, booksDir, pageChars, realBookPageChars, imageURL, baseURL, bookCoversDir };
 

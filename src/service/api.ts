@@ -106,6 +106,19 @@ export async function DownloadBook(id: string) {
         .catch(error => error.response.status);
 }
 
+// export async function DownloadBookCover(coverName: string) {
+//     const token = await getTokenAS();
+//     if (!token) return '401';
+//     return await axios.get('/public/covers/' + coverName,
+//         {
+//             headers: {
+//                 Authorization: token
+//             }
+//         })
+//         .then(response => response.data)
+//         .catch(error => error.response.status);
+// }
+
 export async function BuyBook(id: string) {
     const token = await getTokenAS();
     if (!token) return '401';
