@@ -17,7 +17,7 @@ import AppLoading from 'expo-app-loading';
 import { black, deepBlue, gray, pink, white } from '../constants/colors';
 import { BookLastReadCard } from '../components/BookLastReadCard';
 import { books } from '../TestData/books';
-import { GetBooks, Register, SignIn } from '../service/api';
+import { GetLibBooks, Register, SignIn } from '../service/api';
 import { booksDir, fileBooksDir } from '../constants';
 
 
@@ -82,6 +82,7 @@ export default function LibraryScreen() {
         getAllFileBooks();
     }
 
+    //TODO mb save all books array using 1 as key.
     async function getAllFileBooks() {
         const bookFileNames: string[] = await FileSystem.readDirectoryAsync(fileBooksDir);
         const booksArray: TLibBook[] = await getAllFileBooksAS(bookFileNames);
@@ -89,8 +90,10 @@ export default function LibraryScreen() {
     }
 
     async function getAllLibBooks() {
-        const booksArray = await GetBooks();
-        setShopBooks(booksArray);
+        const result = await GetLibBooks();
+        if (typeof result !== "string") {
+            setShopBooks(result);
+        }
     }
 
     if (!fontsLoaded) {

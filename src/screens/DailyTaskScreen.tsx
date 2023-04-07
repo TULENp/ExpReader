@@ -16,7 +16,6 @@ export default function DailyTaskScreen() {
         getDailyTask();
     }, [])
 
-    //TODO mb get newDailyTask instead
     async function getDailyTask() {
         const dailyTask: TDailyTask = await getNewDailyTaskAS();
         const level: string = getDailyTaskLevel(dailyTask);

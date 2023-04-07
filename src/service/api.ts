@@ -1,8 +1,10 @@
 import axios from "axios";
 import { getTokenAS, setTokenAS } from "./asyncStorage";
-import { TBook } from "../types";
+import { TBook, TUserData } from "../types";
 import { baseURL } from "../constants";
 axios.defaults.baseURL = baseURL + '/api';
+
+//* Auth api
 
 export async function Register(userLogin: string, userPassword: string, userNickname: string): Promise<number> {
     return await axios.post('/auth/register',
@@ -26,18 +28,24 @@ export async function SignIn(userLogin: string, userPassword: string) {
         .catch(error => error.response.status);
 }
 
-export async function GetBook(id: string): Promise<TBook | string> {
+
+//* User api
+
+export async function GetUserData(): Promise<TUserData | string> {
     const token = await getTokenAS();
     if (!token) return '401';
-    return await axios.get('/books/getBook?id=' + id,
+    return await axios.get('/user/getUserData',
         {
             headers: {
                 Authorization: token
             }
         })
         .then(response => response.data)
-        .catch(error => error.response.status)
+        .catch(error => error.response.status);
 }
+
+
+//* Favorites api
 
 export async function GetFavorites() {
     const token = await getTokenAS();
@@ -65,6 +73,21 @@ export async function SwitchFavorite(id: string) {
             }
         })
         .catch(error => error.response.status);
+}
+
+//* Book api
+
+export async function GetBook(id: string): Promise<TBook | string> {
+    const token = await getTokenAS();
+    if (!token) return '401';
+    return await axios.get('/books/getBook?id=' + id,
+        {
+            headers: {
+                Authorization: token
+            }
+        })
+        .then(response => response.data)
+        .catch(error => error.response.status)
 }
 
 export async function DownloadBook(id: string) {
@@ -98,7 +121,7 @@ export async function BuyBook(id: string) {
         .catch(error => error.response.status);
 }
 
-export async function GetBooks() {
+export async function GetLibBooks() {
     const token = await getTokenAS();
     if (!token) return '401';
     return await axios.get('/books/getLibBooks',
@@ -110,3 +133,5 @@ export async function GetBooks() {
         .then(response => response.data)
         .catch(error => error.response.status)
 }
+
+

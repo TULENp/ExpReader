@@ -1,4 +1,4 @@
-import { View, Text, ImageBackground, Image, ScrollView, Pressable } from 'react-native'
+import { View, Text, ImageBackground, Image, ScrollView, Pressable, FlatList } from 'react-native'
 import React, { useState } from 'react'
 import { srcIcnPoints, srcIcnSetting, srcImgProfileHeader } from '../constants/images'
 import { stylesProfileScreen } from './stylesScreen'
@@ -45,9 +45,9 @@ export default function ProfileScreen() {
 	}
 
 	//return first five pins
-	const firstFivePins: JSX.Element[] = pins.slice(0, 5).map(item => {
-		return <Image style={stylesProfileScreen.img_pin} source={item.img} />;
-	});
+	// const firstFivePins: JSX.Element[] = pins.slice(0, 5).map(item => {
+	// 	return <Image style={stylesProfileScreen.img_pin} source={item.img} />;
+	// });
 
 	return (
 		<>
@@ -97,10 +97,17 @@ export default function ProfileScreen() {
 						{/* Achievements */}
 						<View style={stylesProfileScreen.container_achievements}>
 							<Text style={stylesProfileScreen.h1_profile_bold}>Достижения:
-								<Text style={stylesProfileScreen.h1_profile_medium}> 5</Text>
+								<Text style={stylesProfileScreen.h1_profile_medium}> {userData.achievesImg.length}</Text>
 							</Text>
 							<View style={stylesProfileScreen.wrapper_pins}>
-								{firstFivePins}
+								<FlatList
+									horizontal
+									data={userData.achievesImg}
+									keyExtractor={(item) => item}
+									renderItem={(item) =>
+										<Image style={stylesProfileScreen.img_pin} source={require('../../assets/owlPin.png')} />
+									}
+								/>
 							</View>
 						</View>
 
@@ -110,11 +117,13 @@ export default function ProfileScreen() {
 								<Text style={stylesProfileScreen.h1_profile_medium}> 5</Text>
 							</Text>
 							<View style={stylesProfileScreen.container_profile_books}>
-								<BookProfileCard />
-								<BookProfileCard />
-								<BookProfileCard />
-								<BookProfileCard />
-								<BookProfileCard />
+								{/* FIXME //! don't use flatList in scrollView */}
+								<FlatList
+									data={userData.userBooks}
+									keyExtractor={(item) => item.id}
+									renderItem={({ item }) =>
+										<BookProfileCard book={item} />
+									} />
 							</View>
 						</View>
 
