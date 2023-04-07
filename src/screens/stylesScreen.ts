@@ -604,3 +604,48 @@ export const stylesDailyTaskScreen= StyleSheet.create({
     }
 
 })
+
+export const stylesAchievementsScreen = StyleSheet.create({
+    container_achiv:{
+        flex:1,
+        flexDirection:'row', 
+        gap:8,
+        marginBottom:10,
+    },
+    wrapper_pin:{
+        maxWidth:100,
+        flexGrow:1, 
+        backgroundColor:deepBlue, 
+        paddingTop:5, 
+        paddingBottom:5,
+        paddingLeft:10,
+        paddingRight:10,
+        borderTopRightRadius:10,
+        borderBottomEndRadius:10,
+    },
+    wrapper_pin_info:{
+        flexGrow:3,
+        maxWidth:'100%',
+        backgroundColor:deepBlue,
+        borderBottomStartRadius:10,
+        borderTopLeftRadius:10,
+        paddingBottom:8,
+        paddingTop:8,
+        paddingLeft:8,
+        paddingRight:8,
+    },
+    title:{
+        fontFamily:'MontserratAlt700',
+        fontSize:14,
+        color:white,
+    },
+    author:{
+        fontFamily:'MontserratAlt500',
+        fontSize:12,
+        color:white,
+    },
+    achievements_page:{
+        paddingTop:20,
+        flex:1,
+    }
+})

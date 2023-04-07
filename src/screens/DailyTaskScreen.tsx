@@ -40,8 +40,8 @@ export default function DailyTaskScreen() {
         <View style={stylesDailyTaskScreen.daily_task_page}>
           <ScrollView>
             <StatusBar backgroundColor = {deepBlue}/>
+            
             {/* Header */}
-              {/* Icon back and header text */}
             <View style={stylesCheckoutScreen.container_header}>
               <TouchableOpacity onPress={()=> goBack()}
                                 >

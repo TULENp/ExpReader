@@ -52,7 +52,7 @@ export default function ProfileScreen() {
 	return (
 		<>
 			{!userData
-				? <Pressable onPress={() => navigate('DailyTask', { todayPages })}><Text>Пользователь не найден</Text></Pressable>
+				? <Pressable onPress={() => navigate('Achievements')}><Text>Пользователь не найден</Text></Pressable>
 				:
 				<ScrollView >
 					<View style={stylesProfileScreen.profile_page}>
