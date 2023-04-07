@@ -1,5 +1,5 @@
 import {Dimensions, StyleSheet} from 'react-native';
-import { black, deepBlue, gray, greenRarity, lightBlue, pink, purple, redRarity, white } from '../constants/colors';
+import { black, deepBlue, gray, greenRarity, lightBlue, pink, purple, redRarity, white, yellowRarity } from '../constants/colors';
 
 
 
@@ -541,4 +541,66 @@ export const stylesCheckoutScreen = StyleSheet.create({
         backgroundColor:greenRarity,
         
     }
+})
+
+export const stylesDailyTaskScreen= StyleSheet.create({
+    daily_task_page:{
+        alignSelf: 'center', 
+        paddingLeft:13, 
+        paddingRight:13, 
+        paddingTop:20, 
+        flex:1
+    },
+    text_bold_large:{
+        fontFamily:'MontserratAlt700',
+        color:white,
+        fontSize:32,
+    },
+    text_bold_medium:{
+        fontFamily:'MontserratAlt700',
+        fontSize:18,
+    },
+    text_medium:{
+        fontFamily:'MontserratAlt500',
+        color:white,
+        fontSize:14,
+        textAlign:'center',
+    },
+    container_daily_task:{
+        width:116,
+        height:116,
+        paddingTop:20,
+        paddingBottom:20,
+        paddingRight:5,
+        paddingLeft:5,
+        borderWidth:1,
+        borderRadius:8,
+        alignItems:'center',
+        justifyContent:'center',
+        borderColor:'#000000',
+    },
+    container_daily_task_active:{
+        width:116,
+        height:116,
+        paddingTop:20,
+        paddingBottom:20,
+        paddingRight:5,
+        paddingLeft:5,
+        borderWidth:5,
+        borderColor:yellowRarity,
+        borderRadius:8,
+        alignItems:'center',
+        justifyContent:'center',
+    },
+    wrapper_containers:{
+        marginTop:30,
+        flexDirection:'row',
+        justifyContent:'space-between',
+    },
+    text_description:{
+        fontFamily:'Montserrat700',
+        fontSize:14,
+        marginLeft:8,
+    }
+
 })

@@ -23,7 +23,7 @@ export default function CheckoutScreen() {
           <View style={stylesCheckoutScreen.checkout_page}>
             <ScrollView>
               <StatusBar backgroundColor = {deepBlue}/>
-              {/* icon back and header text */}
+              {/* Icon back and header text */}
               <View style={stylesCheckoutScreen.container_header}>
                 <TouchableOpacity 
                                   onPress={()=> goBack()}
@@ -46,7 +46,7 @@ export default function CheckoutScreen() {
                   </View>
                 </View>
               </View>
-              {/* section of book */}
+              {/* Section of book */}
               <View style={{marginTop:20, marginBottom:40}}>
                 <Text style={stylesCheckoutScreen.text_header_light}>Книга</Text>
                 <View style={{flexDirection:'row', marginTop:20}}>
