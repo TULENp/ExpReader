@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getTokenAS, setTokenAS } from "./asyncStorage";
-import { TBook, TUserData } from "../types";
+import { TBook, TLibBook, TUserData } from "../types";
 import { baseURL } from "../constants";
 axios.defaults.baseURL = baseURL + '/api';
 
@@ -134,7 +134,7 @@ export async function BuyBook(id: string) {
         .catch(error => error.response.status);
 }
 
-export async function GetLibBooks() {
+export async function GetAllLibBooks(): Promise<TLibBook[] | string> {
     const token = await getTokenAS();
     if (!token) return '401';
     return await axios.get('/books/getLibBooks',

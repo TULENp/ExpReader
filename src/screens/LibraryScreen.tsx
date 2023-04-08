@@ -4,7 +4,7 @@ import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import { LibStackParams, TLibBook, TShopBook } from '../types';
-import { clearAS, getAllFileBooksAS, getTokenAS, saveBookStatsAS } from '../service/asyncStorage';
+import { clearAS, getAllBooksAS, getBookNamesAS, getTokenAS, setBookStatsAS } from '../service/asyncStorage';
 import { BookLibCard } from '../components/BookLibCard';
 import { stylesLibraryScreen } from './stylesScreen';
 import { srcImgLibraryHeader } from '../constants/images';
@@ -17,7 +17,7 @@ import AppLoading from 'expo-app-loading';
 import { black, deepBlue, gray, pink, white } from '../constants/colors';
 import { BookLastReadCard } from '../components/BookLastReadCard';
 import { books } from '../TestData/books';
-import { GetLibBooks, Register, SignIn } from '../service/api';
+import { GetAllLibBooks, Register, SignIn } from '../service/api';
 import { booksDir, fileBooksDir } from '../constants';
 
 
@@ -43,7 +43,7 @@ export default function LibraryScreen() {
     useFocusEffect(
         React.useCallback(() => {
             getAllFileBooks();
-            getAllLibBooks();
+            getAllShopBooks();
         }, [])
     );
 
@@ -78,22 +78,21 @@ export default function LibraryScreen() {
             fileName: result.name
         };
         //TODO don't set initBook if file already exist
-        saveBookStatsAS(bookInit);
+        setBookStatsAS(bookInit);
         getAllFileBooks();
     }
 
     //TODO mb save all books array using 1 as key.
     async function getAllFileBooks() {
         const bookFileNames: string[] = await FileSystem.readDirectoryAsync(fileBooksDir);
-        const booksArray: TLibBook[] = await getAllFileBooksAS(bookFileNames);
+        const booksArray: TLibBook[] = await getAllBooksAS(bookFileNames);
         setFileBooks(booksArray);
     }
 
-    async function getAllLibBooks() {
-        const result = await GetLibBooks();
-        if (typeof result !== "string") {
-            setShopBooks(result);
-        }
+    async function getAllShopBooks() {
+        const bookNames = await getBookNamesAS();
+        const booksArray: TLibBook[] = await getAllBooksAS(bookNames);
+        setShopBooks(booksArray);
     }
 
     if (!fontsLoaded) {
@@ -164,18 +163,8 @@ export default function LibraryScreen() {
                             {/* //! Test func */}
                             <Button title='Login' onPress={signIn} />
                             <Button title='Register' onPress={register} />
-                            <Button
-                                title='get books'
-                                onPress={getAllFileBooks}
-                            />
-                            {/* <Button
-                                title='Add book'
-                                onPress={addBookFromFile}
-                            /> */}
-                            <Button
-                                title='Clear'
-                                onPress={clearAS}
-                            />
+                            <Button title='get books' onPress={getAllFileBooks} />
+                            {/* <Button title='Clear' onPress={clearAS} /> */}
                             {/* //! Test func */}
                         </View>
                     </>} />

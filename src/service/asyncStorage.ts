@@ -5,8 +5,17 @@ const userDataKey = 'userData'; // key for userData in async storage
 
 //* Book stats functions
 // save books to async storage
-export function saveBookStatsAS(book: TLibBook) {
-    AsyncStorage.setItem(book.id, JSON.stringify(book));
+export function setBookStatsAS(book: TLibBook) {
+    AsyncStorage.setItem((book.id).toString(), JSON.stringify(book));
+}
+
+// save book names to async storage
+export function setBookNamesAS(bookNames: string[]) {
+    AsyncStorage.setItem('shopBookNames', JSON.stringify(bookNames));
+}
+
+export async function getBookNamesAS(): Promise<string[]> {
+    return JSON.parse(await AsyncStorage.getItem('shopBookNames') || '[]');
 }
 
 // update book statistics: currentPage and readPages in async storage 
@@ -36,9 +45,8 @@ export function setFileBookPagesAS(id: string, pages: number) {
     AsyncStorage.mergeItem(id, `{bookPages:${pages}}`);
 }
 
-//! //TODO mb save and get all books array in via 1 AS key and use mergeItem('books',`[{id:${book.id}, currentPage:${book.currentPage}}]`)
 // get all books added from file from async storage
-export async function getAllFileBooksAS(bookNames: string[]): Promise<TLibBook[]> {
+export async function getAllBooksAS(bookNames: string[]): Promise<TLibBook[]> {
     let books: TLibBook[] = [];
     for (let name of bookNames) {
         const book = await AsyncStorage.getItem(name);
