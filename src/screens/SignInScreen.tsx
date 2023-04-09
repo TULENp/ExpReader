@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { StyleSheet, View, TextInput, TouchableOpacity, Text } from 'react-native';
 import { SignIn } from '../service/api';
 import { AuthStackParams } from '../types';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
+import { AppContext } from '../context/AppContext';
 
 export function SignInScreen() {
     const { navigate } = useNavigation<NavigationProp<AuthStackParams>>();
+    const { setIsAuthorized } = useContext(AppContext);
 
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
@@ -30,7 +32,9 @@ export function SignInScreen() {
         const res = await SignIn(login, password);
         if (res) {
             alert(res);
+            return;
         }
+        setIsAuthorized(true);
     }
 
     return (

@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { StyleSheet, View, TextInput, TouchableOpacity, Text } from 'react-native';
-import { Register } from '../service/api';
+import { Register, SignIn } from '../service/api';
+import { AppContext } from '../context/AppContext';
 
 export function RegisterScreen() {
+    const { setIsAuthorized } = useContext(AppContext);
+
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [repeatPassword, setRepeatPassword] = useState('');
     const [errors, setErrors] = useState<string[]>([]);
-
 
     async function handleRegister() {
         const validationErrors: string[] = [];
@@ -32,7 +34,10 @@ export function RegisterScreen() {
         const res = await Register(login, password, repeatPassword);
         if (res) {
             alert(res);
+            return;
         }
+        await SignIn(login, password);
+        setIsAuthorized(true);
     };
 
     return (

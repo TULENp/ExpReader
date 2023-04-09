@@ -1,5 +1,5 @@
-import { View, Text, ImageBackground, Image, ScrollView, Pressable, FlatList } from 'react-native'
-import React, { useState } from 'react'
+import { View, Text, ImageBackground, Image, ScrollView, Pressable, FlatList, Button } from 'react-native'
+import React, { useContext, useState } from 'react'
 import { srcIcnPoints, srcIcnSetting, srcImgProfileHeader } from '../constants/images'
 import { stylesProfileScreen } from './stylesScreen'
 import { Avatar } from 'react-native-elements'
@@ -10,15 +10,17 @@ import { pins } from '../TestData/pins'
 import { BookProfileCard } from '../components/BookProfileCard'
 import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native'
 import { getDailyTaskLevel } from '../service/motivation'
-import { getDailyTaskAS, getTodayPagesAS, getUserDataAS } from '../service/asyncStorage'
+import { clearTokenAS, getDailyTaskAS, getTodayPagesAS, getUserDataAS } from '../service/asyncStorage'
+import { AppContext } from '../context/AppContext'
 
 export function ProfileScreen() {
+	const { setIsAuthorized } = useContext(AppContext);
+	const { navigate } = useNavigation<NavigationProp<ProfileStackParams>>();
 
 	const [userData, setUserData] = useState<TUserData | null>(null);
 	const [todayPages, setTodayPages] = useState<number>(0);
 	const [dailyTaskPages, setDailyTaskPages] = useState<TDailyTask>(60);
 	const [dailyTaskLevel, setDailyTaskLevel] = useState<string>('');
-	const { navigate } = useNavigation<NavigationProp<ProfileStackParams>>();
 
 	useFocusEffect(
 		React.useCallback(() => {
@@ -49,12 +51,18 @@ export function ProfileScreen() {
 	// 	return <Image style={stylesProfileScreen.img_pin} source={item.img} />;
 	// });
 
+	function LogOut() {
+		clearTokenAS();
+		setIsAuthorized(false);
+	}
+
 	return (
 		<>
 			{!userData
 				? <Text>Пользователь не найден</Text>
 				:
 				<ScrollView >
+					<Button title='Выйти' onPress={LogOut} />
 					<View style={stylesProfileScreen.profile_page}>
 
 						{/* Header */}

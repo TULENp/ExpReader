@@ -175,6 +175,10 @@ export async function getTokenAS() {
     return await AsyncStorage.getItem('token');
 }
 
+export function clearTokenAS() {
+    AsyncStorage.removeItem('token');
+}
+
 export function clearAS() {
     AsyncStorage.clear();
 }

@@ -1,38 +1,41 @@
 
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, Text } from 'react-native'
+import { Text } from 'react-native'
 import { TabNavigation } from './src/navigation/TabNavigation';
-import { setBookStatsAS, setBookNamesAS, setTodayAS, setUserDataAS, getTokenAS } from './src/service/asyncStorage';
-import { GetAllLibBooks, GetUserData } from './src/service/api';
+import { getTokenAS } from './src/service/asyncStorage';
 import { AuthNavigation } from './src/navigation/AuthNavigation';
+import { AppContext } from './src/context/AppContext';
 
 export default function App() {
-
-	const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
+	//FIXME //! fix app loading time and render
+	const [isAuth, setIsAuth] = useState<boolean>(false);
+	const [isLoading, setIsLoading] = useState<boolean>(true);
 
 	useEffect(() => {
 		checkLogin();
-	}, [])
+	}, [isAuth])
 
 	async function checkLogin() {
 		const token = await getTokenAS();
-		if (token) {
-			setIsAuthorized(true);
-		}
+		setIsAuth(token ? true : false);
+		setIsLoading(false);
 	}
 
 	return (
-		<>
-			{isAuthorized == null
-				? <Text>Загрузка...</Text>
-				:
-				<>
-					{isAuthorized
-						? <TabNavigation />
-						: <AuthNavigation />
-					}
-				</>
-			}
-		</>
+		<AppContext.Provider value={{ setIsAuthorized: setIsAuth }}>
+			<>
+				{isLoading
+					?
+					<Text style={{ alignSelf: 'center',  fontSize: 50 }}>Загрузка...</Text>
+					:
+					<>
+						{isAuth
+							? <TabNavigation />
+							: <AuthNavigation />
+						}
+					</>
+				}
+			</>
+		</AppContext.Provider>
 	);
 }
