@@ -69,22 +69,18 @@ export function Filters() {
         </View>
 
         {/* Select */}
-        <View>
+        <View style={{marginTop:10}}>
           <Text style={stylesFilters.h2}>Сортировка</Text>
           <Dropdown data={listSort}
             mode='modal'
             maxHeight={300}
             style={stylesFilters.select}
             fontFamily='MontserratAlt700'
-            // itemTextStyle={{color:'black'}}
             placeholderStyle={{color:'white'}}
             selectedTextStyle={{color:'white'}}
             activeColor={greenRarity}
             itemContainerStyle={{borderRadius:8}}
             containerStyle={{borderRadius:8}}
-            // itemTextStyle
-            
-            
             iconColor='white'
             placeholder='Выбрать' 
             labelField={'label'} 
