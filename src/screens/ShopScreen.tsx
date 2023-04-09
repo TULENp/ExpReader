@@ -11,10 +11,15 @@ import { srcIcnFilter, srcIcnRedHeart, srcImgShopHeader } from '../constants/ima
 import {  ShopStackParams } from '../types';
 import { NavigationProp, useNavigation, useScrollToTop } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { Filters } from '../components/Filters';
+import Drawer from 'react-native-drawer'
+
 
 const width = Dimensions.get('window').width;
 
 export default function ShopScreen() {
+    
+    const [isOpenDrawer, setIsOpenDrawer] = useState<boolean>(false);
     const [searchText, setSearchText] = useState<string>('');
     const { navigate } = useNavigation<NavigationProp<ShopStackParams>>();
     const testList:JSX.Element[] = allBooks.map((book)=> {
@@ -29,10 +34,31 @@ export default function ShopScreen() {
     const scrollToTop = useRef(null);
 
     useScrollToTop(scrollToTop);
+    const drawerStyles = {
+      drawer: { backgroundColor:'white', shadowColor: '#000000', shadowOpacity: 0.5, shadowRadius: 3, },
+      // main: {backgroundColor:'#000000'},
+      // drawerOverlay:{ shadowColor: '#000000', shadowOpacity: 0.3, shadowRadius: 8,},
+    }
     
 
     return (
         <>
+          <Drawer type='overlay'
+          content={<Filters/>}
+          open={isOpenDrawer} 
+          onClose={()=> setIsOpenDrawer(!isOpenDrawer)}
+          tapToClose={true}
+          openDrawerOffset={0.2} // 20% gap on the right side of drawer
+          panCloseMask={0.2}
+          // closedDrawerOffset={-1}
+          styles={drawerStyles}
+          side='right'
+          tweenHandler={(ratio) => ({
+            main: { opacity:(2-ratio)/2 }
+          })}
+          
+          
+          >
           <KeyboardAvoidingView behavior='height' style={stylesShopScreen.shop_page}>
             <ScrollView ref={scrollToTop}>
                   <StatusBar backgroundColor = {deepBlue}/>
@@ -47,7 +73,9 @@ export default function ShopScreen() {
                     <TouchableOpacity onPress={() => navigate('Favorites')}>
                       <Image style={{width:36, height:36, }} source={srcIcnRedHeart}/>
                     </TouchableOpacity>
-                    <Image style={{width:36, height:36, }} source={srcIcnFilter}/>
+                    <TouchableOpacity onPress={() => setIsOpenDrawer(!isOpenDrawer)}>
+                      <Image  style={{width:36, height:36, }} source={srcIcnFilter}/>
+                    </TouchableOpacity>
                   </ImageBackground>
                   <View style={{flex:1, marginTop:10}}>
                     <GestureHandlerRootView>
@@ -70,6 +98,8 @@ export default function ShopScreen() {
                   </View>
             </ScrollView>
           </KeyboardAvoidingView>
+          </Drawer>
+          
         </>
     )
 }
