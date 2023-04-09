@@ -12,7 +12,8 @@ export {
     TUserData,
     TAchieves,
     TDailyTask,
-    TPin
+    TPin,
+    AuthStackParams
 };
 
 type TShopBook = {
@@ -48,6 +49,11 @@ type TBook = {
     fragment: string,
     isFavorite: boolean,
 }
+
+type AuthStackParams = {
+    SignIn: undefined;
+    Register: undefined;
+};
 
 type LibStackParams = {
     Library: undefined;

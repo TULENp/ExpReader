@@ -6,7 +6,7 @@ import { BuyBook } from '../service/api';
 interface CheckoutParams {
     book: TBook
 }
-export default function CheckoutScreen() {
+export function CheckoutScreen() {
     const { book } = useRoute<RouteProp<Record<string, CheckoutParams>, string>>().params; // get book id from params
 
     async function buyBook() {

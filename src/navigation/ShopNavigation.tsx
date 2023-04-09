@@ -1,10 +1,10 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ShopStackParams } from "../types";
-import ShopScreen from "../screens/ShopScreen";
-import BookScreen from "../screens/BookScreen";
-import FavoritesScreen from "../screens/FavoritesScreen";
-import CheckoutScreen from "../screens/CheckoutScreen";
+import { ShopScreen } from "../screens/ShopScreen";
+import { BookScreen } from "../screens/BookScreen";
+import { FavoritesScreen } from "../screens/FavoritesScreen";
+import { CheckoutScreen } from "../screens/CheckoutScreen";
 
 const Stack = createNativeStackNavigator<ShopStackParams>();
 
@@ -18,7 +18,7 @@ const Stack = createNativeStackNavigator<ShopStackParams>();
 
 export function ShopNavigation() {
     return (
-        <Stack.Navigator screenOptions={{headerShown:false}}>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Shop" component={ShopScreen} />
             <Stack.Screen name="ShopBook" component={BookScreen} />
             <Stack.Screen name="Favorites" component={FavoritesScreen} />

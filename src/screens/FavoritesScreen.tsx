@@ -8,7 +8,7 @@ import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation
 import { ShopStackParams, TShopBook } from '../types'
 import { GetFavorites } from '../service/api'
 
-export default function FavoritesScreen() {
+export function FavoritesScreen() {
 	const { navigate } = useNavigation<NavigationProp<ShopStackParams>>();
 
 	const [favorites, setFavorites] = useState<TShopBook[]>([]);

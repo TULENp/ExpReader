@@ -13,7 +13,7 @@ import { ShopStackParams } from '../types';
 
 const width = Dimensions.get('window').width;
 
-export default function ShopScreen() {
+export function ShopScreen() {
 	const [searchText, setSearchText] = useState<string>('');
 	const { navigate } = useNavigation<NavigationProp<ShopStackParams>>();
 

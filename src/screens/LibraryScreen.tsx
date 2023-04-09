@@ -17,11 +17,10 @@ import AppLoading from 'expo-app-loading';
 import { black, deepBlue, gray, pink, white } from '../constants/colors';
 import { BookLastReadCard } from '../components/BookLastReadCard';
 import { books } from '../TestData/books';
-import { GetAllLibBooks, Register, SignIn } from '../service/api';
 import { booksDir, fileBooksDir } from '../constants';
 
 
-export default function LibraryScreen() {
+export function LibraryScreen() {
     let [fontsLoaded] = useFonts({
         'Montserrat300': Montserrat_300Light,
         'Montserrat400': Montserrat_400Regular,
@@ -99,15 +98,6 @@ export default function LibraryScreen() {
         return <AppLoading />;
     }
 
-    //! //TODO  test func. need to be removed
-    async function signIn() {
-        const res = await SignIn('log', 'pass');
-    }
-
-    async function register() {
-        const res = await Register('log', 'pass', 'nick');
-    }
-
     return (
         <>
             <FlatList
@@ -161,8 +151,6 @@ export default function LibraryScreen() {
                     <>
                         <View style={{ flex: 1 }}>
                             {/* //! Test func */}
-                            <Button title='Login' onPress={signIn} />
-                            <Button title='Register' onPress={register} />
                             <Button title='get books' onPress={getAllFileBooks} />
                             {/* <Button title='Clear' onPress={clearAS} /> */}
                             {/* //! Test func */}

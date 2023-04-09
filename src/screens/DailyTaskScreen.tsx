@@ -8,7 +8,7 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 type DailyTaskParams = {
     todayPages: number;
 }
-export default function DailyTaskScreen() {
+export function DailyTaskScreen() {
     const { todayPages } = useRoute<RouteProp<Record<string, DailyTaskParams>, string>>().params; // get today pages from params
     const [dailyTaskLevel, setDailyTaskLevel] = useState<string>();
 

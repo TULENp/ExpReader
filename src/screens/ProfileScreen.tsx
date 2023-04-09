@@ -12,7 +12,7 @@ import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation
 import { getDailyTaskLevel } from '../service/motivation'
 import { getDailyTaskAS, getTodayPagesAS, getUserDataAS } from '../service/asyncStorage'
 
-export default function ProfileScreen() {
+export function ProfileScreen() {
 
 	const [userData, setUserData] = useState<TUserData | null>(null);
 	const [todayPages, setTodayPages] = useState<number>(0);

@@ -13,7 +13,7 @@ export async function Register(userLogin: string, userPassword: string, userNick
             password: userPassword,
             nickname: userNickname
         })
-        .catch(error => error.response.status);
+        .catch(error => error.response.data);
 }
 
 export async function SignIn(userLogin: string, userPassword: string) {
@@ -25,7 +25,7 @@ export async function SignIn(userLogin: string, userPassword: string) {
         .then(response => {
             setTokenAS(response.data.token);
         })
-        .catch(error => error.response.status);
+        .catch(error => error.response.data);
 }
 
 

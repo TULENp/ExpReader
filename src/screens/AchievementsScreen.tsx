@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-export default function AchievementsScreen() {
+export function AchievementsScreen() {
     return (
         <View>
             <Text>AchievementsScreen</Text>

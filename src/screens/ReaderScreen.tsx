@@ -10,7 +10,7 @@ type ReaderParams = {
     book: TLibBook;
 }
 
-export default function ReaderScreen() {
+export function ReaderScreen() {
     const { book } = useRoute<RouteProp<Record<string, ReaderParams>, string>>().params; // get book text from params
 
     const [bookText, setBookText] = useState<string>('');

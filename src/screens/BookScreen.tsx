@@ -8,7 +8,7 @@ import { imageURL } from '../constants';
 interface BookParams {
     id: string
 }
-export default function BookScreen() {
+export function BookScreen() {
     const { navigate } = useNavigation<NavigationProp<ShopStackParams>>();
     const { id } = useRoute<RouteProp<Record<string, BookParams>, string>>().params; // get book id from params
     const [book, setBook] = useState<TBook>();
