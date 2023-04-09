@@ -20,6 +20,10 @@ const srcIcnGold = require('../../assets/gold.png');
 const srcIcnBack = require('../../assets/back.png');
 const srcIcnBackWhite = require('../../assets/backWhite.png');
 const srcIcnSberbank = require('../../assets/sberbank.png');
+const srcIcnStarGreenRarirty = require('../../assets/starGreen.png');
+const srcIcnStarBlueRarirty = require('../../assets/starBlue.png');
+const srcIcnStarRedRarirty = require('../../assets/starRed.png');
+const srcIcnStarYellowRarirty = require('../../assets/starYellow.png');
 
 export {srcImgLibraryHeader, srcImgHarryPotter3, 
     srcImgHarryPotter4, srcImg451, srcImgNoir,
@@ -27,4 +31,5 @@ export {srcImgLibraryHeader, srcImgHarryPotter3,
     srcIcnRedHeart, srcIcnFilter, srcImgProfileHeader,
     srcIcnPoints, srcIcnSetting, srcIcnBronze, srcIcnSilver,
     srcIcnGold, srcIcnBack, srcIcnBackWhite, srcImgBookHeader,
-    srcIcnHeart, srcIcnSberbank};
+    srcIcnHeart, srcIcnSberbank, srcIcnStarGreenRarirty,
+    srcIcnStarBlueRarirty,srcIcnStarRedRarirty, srcIcnStarYellowRarirty};

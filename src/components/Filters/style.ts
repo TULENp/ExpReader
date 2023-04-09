@@ -1,5 +1,5 @@
 import { StyleSheet} from 'react-native';
-import { black } from '../../constants/colors';
+import { black, greenRarity, white } from '../../constants/colors';
 
 export const stylesFilters= StyleSheet.create({
     container_style:{
@@ -8,7 +8,7 @@ export const stylesFilters= StyleSheet.create({
         borderWidth:0,
         maxWidth:304, 
         width:'100%', 
-        height:500, 
+        height:225, 
         justifyContent:'space-between', 
         flexWrap:'wrap',
         rowGap:8,
@@ -17,8 +17,7 @@ export const stylesFilters= StyleSheet.create({
         flex:0, 
         maxWidth:210,
         borderRightWidth:0,
-        borderRadius:8, 
-        
+        borderRadius:8,
         backgroundColor:'#EEEEEE', 
         height:35,
     },
@@ -27,5 +26,38 @@ export const stylesFilters= StyleSheet.create({
         fontSize:14,
         color:'#000000',
     },
+    h1:{
+        fontFamily:'MontserratAlt700',
+        fontSize:24,
+    },
+    h2:{
+        fontFamily:'MontserratAlt500',
+        fontSize:18,
+        marginBottom:8,
+    },
+    wrapper_genres:{
+        maxWidth:400, 
+        width:'100%', 
+        marginTop:10, 
+        borderBottomWidth:3,
+        borderBottomColor:'#CACACA'
+    },
+    button_container_rarity:{
+        flex:0, 
+        maxWidth:50,
+        borderRightWidth:0,
+        borderRadius:8,
+        backgroundColor:'#EEEEEE', 
+        width:50,
+        height:50,
+        padding:0,
+    },
+    select:{
+        backgroundColor:greenRarity,
+        height:45,
+        borderRadius:8,
+        paddingLeft:13,
+        paddingRight:13,
+    }
     
 })
