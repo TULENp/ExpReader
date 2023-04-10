@@ -59,7 +59,7 @@ export function ProfileScreen() {
 	return (
 		<>
 			{!userData
-				? <Text>Пользователь не найден</Text>
+				? <Pressable onPress={() => navigate('Achievements')}><Text>Пользователь не найден</Text></Pressable>
 				:
 				<ScrollView >
 					<Button title='Выйти' onPress={LogOut} />

@@ -10,7 +10,7 @@ import { GetFavorites } from '../service/api'
 
 export function FavoritesScreen() {
 	const { navigate } = useNavigation<NavigationProp<ShopStackParams>>();
-
+	// const listBooks: JSX.Element[] = books.map((book) => <BookShopCard book={book} />) // Map for Rasim
 	const [favorites, setFavorites] = useState<TShopBook[]>([]);
 
 	useFocusEffect(

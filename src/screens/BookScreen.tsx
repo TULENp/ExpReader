@@ -1,54 +1,175 @@
-import { View, Text, Button, SafeAreaView, Image } from 'react-native'
+import { View, Text, Image, TouchableOpacity, StatusBar, ImageBackground, Dimensions, FlatList } from 'react-native'
 import React, { useEffect, useState } from 'react'
+import { ShopStackParams, TBook, TRarity } from '../types';
 import { NavigationProp, RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import { ShopStackParams, TBook } from '../types';
-import { GetBook, SwitchFavorite } from '../service/api';
-import { imageURL } from '../constants';
+import { ScrollView } from 'react-native-gesture-handler';
+import { stylesBookScreen } from './stylesScreen';
+import { srcIcnBronze, srcIcnHeart, srcIcnRedHeart, srcImgBookHeader, srcImgHarryPotter3 } from '../constants/images';
+import { MaterialIcons } from '@expo/vector-icons'
+import { Button } from '@rneui/themed';
+import { blueRarity, deepBlue, greenRarity, redRarity, yellowRarity } from '../constants/colors';
+import { Shadow } from 'react-native-shadow-2';
+import { Feather } from '@expo/vector-icons'; 
 
-interface BookParams {
-    id: string
+type BookParams = {
+    book: TBook;
 }
-export function BookScreen() {
-    const { navigate } = useNavigation<NavigationProp<ShopStackParams>>();
-    const { id } = useRoute<RouteProp<Record<string, BookParams>, string>>().params; // get book id from params
-    const [book, setBook] = useState<TBook>();
 
-    useEffect(() => {
-        getBook();
-    }, [id])
+export default function BookScreen() {
 
-    async function getBook() {
-        const result = await GetBook(id);
-        if (typeof result !== "string") {
-            setBook(result);
-        }
+  const width = Dimensions.get('window').width;
+  const { book } = useRoute<RouteProp<Record<string, BookParams>, string>>().params;
+  const { id, title, cover, author, price, description, bookPages, fragment, genre, isFavorite } = book;
+
+  const [colorRarity, setColorRarity] = useState<string>('');
+  const [rarityOfBook, setRarityofBook] = useState<string>('');
+
+  const { navigate, goBack } = useNavigation<NavigationProp<ShopStackParams>>();
+  const { id } = useRoute<RouteProp<Record<string, BookParams>, string>>().params; // get book id from params
+  const [book, setBook] = useState<TBook>();
+
+  useEffect(() => {
+    getBook();
+  }, [id])
+
+  async function getBook() {
+    const result = await GetBook(id);
+    if (typeof result !== "string") {
+      setBook(result);
     }
+  }
 
-    async function switchFavorite() {
-        const result = await SwitchFavorite(id);
-        
-        //TODO update screen if successful
-        // if (typeof result !== "string") {
-        // }
-    }
+  async function switchFavorite() {
+    const result = await SwitchFavorite(id);
+
+    //TODO update screen if successful
+    // if (typeof result !== "string") {
+    // }
+  }
 
     //TODO add Loading
-    return (
-        <SafeAreaView style={{ padding: 10 }}>
-            {!book
-                ?
-                <Text>Книга не найдена</Text>
-                :
-                <>
-                    <Image style={{ width: 150, height: 200 }} source={{ uri: imageURL + book.cover }} />
-                    <Text>{book.title}</Text>
-                    <Text>{book.authors}</Text>
-                    <Text>{book.price}</Text>
-                    <Text>{book.genres.join(', ')}</Text>
-                    <Button title='Купить' onPress={() => navigate('Checkout', { book })} />
-                    <Button title={book.isFavorite ? 'Убрать из избранного' : 'Добавить в избранное'} onPress={switchFavorite} />
-                </>
-            }
-        </SafeAreaView>
+//    const {id, title} = route.params;
+
+   const listGenres:JSX.Element[] = genre.map((item)=> {
+    return(
+      <View style={stylesBookScreen.container_genres}>
+        <Text style={stylesBookScreen.text_genres}>{item}</Text>
+      </View>
+    )
+  })
+
+   const GetRarityOfBook = (bookPages:number):string =>{
+    if (bookPages<=250){
+      setColorRarity(greenRarity)
+      return 'обычная'
+    };
+    if ((bookPages>250) && (bookPages<=650)){
+      setColorRarity(blueRarity)
+      return 'редкая'
+    }
+    if ((bookPages>650) && (bookPages<=950)){
+      setColorRarity(redRarity)
+      return 'эпическая'
+    }
+    if (bookPages>950){
+      setColorRarity(yellowRarity)
+      return 'легендарная'
+    }
+    return ''
+  }
+  
+  useEffect(() => {
+     setRarityofBook(GetRarityOfBook(bookPages))
+  },[]);
+
+   return (
+        <>
+          <View style={stylesBookScreen.book_screen}>
+            <ScrollView>
+                {/* bookScreen header */}
+                <StatusBar backgroundColor = {deepBlue}/>
+                <View style={stylesBookScreen.book_header}>
+                    <Image style={stylesBookScreen.img_header} source={srcImgBookHeader}/>
+                    <TouchableOpacity style={stylesBookScreen.icn_back}
+                                      onPress={()=> goBack()}
+                                      >
+                      <MaterialIcons name="keyboard-backspace" 
+                                     size={36} 
+                                     color="white" 
+                                     />
+                    </TouchableOpacity>
+                    <View style={stylesBookScreen.container__cover_book_info}>
+                        <View style={stylesBookScreen.wrapper_img_cover}>
+                          <Shadow distance={1}  startColor={colorRarity} offset={[9, 9]}>
+                            <ImageBackground style={stylesBookScreen.img_cover} source={srcImgHarryPotter3}>
+                              <Image style={stylesBookScreen.icn_rarity} source={srcIcnBronze}/>
+                            </ImageBackground>
+                        </Shadow>
+                        </View>
+                      <View style={stylesBookScreen.book_info}>
+                        <Text style={stylesBookScreen.title}>{title}</Text>
+                        <Text style={stylesBookScreen.author}>{author}</Text>
+                        <View style={stylesBookScreen.container_all_buttons}>
+                          <Button title={<Text style={stylesBookScreen.button_buy_label_bold}
+                                  onPress={() => navigate('Checkout', { book })}
+                          >Купить за 
+                          <Text style={stylesBookScreen.button_buy_label_light}> {price}₽</Text></Text>}
+                                buttonStyle={stylesBookScreen.button_buy}
+                                containerStyle={{borderRadius:8}}/>
+                            <View style={stylesBookScreen.container_fav_fragment_buttons}>
+                              <Button icon={ 
+                                isFavorite ?
+                                <Image style={stylesBookScreen.img_heart} source={srcIcnRedHeart}/>
+                                :
+                                <Image style={stylesBookScreen.img_heart} source={srcIcnHeart}/>
+                                }
+                                      buttonStyle={stylesBookScreen.button_fav}
+                                      containerStyle={stylesBookScreen.button_fav_grow}
+                                      />
+                              <Button title={'Фрагмент'}
+                                      titleStyle={stylesBookScreen.button_title}
+                                      buttonStyle={stylesBookScreen.button_fragment}
+                                      containerStyle={stylesBookScreen.button_fragment_grow}
+                                      />
+                            </View>
+                        </View>
+                      </View>
+                    </View>
+                </View>
+                {/* section genres of book */}
+                <View style={{paddingLeft:13, marginTop:20}}>
+                  <Text style={stylesBookScreen.text_header}>Жанры</Text>
+                  <FlatList horizontal
+                            showsHorizontalScrollIndicator={false}
+                            data={genre}
+                            renderItem={({item})=> 
+                              <View style={stylesBookScreen.container_genres}>
+                                <Text style={stylesBookScreen.text_genres}>{item}</Text>
+                              </View>}
+                            />
+                </View> 
+                <Text style={stylesBookScreen.text_amount_pages}>Кол-во страниц:
+                  <Text style={{fontFamily:'MontserratAlt500'}}> {bookPages}</Text>
+                </Text>
+                {/* rarity of book */}
+                <View style={{flexDirection:'row', marginLeft:13, marginTop:20}}>
+                  <Feather name="info" size={24} color="#737373" />
+                  <Text style={stylesBookScreen.text_rarity_light}>Редкость:</Text>
+                  <Text style={[{color:colorRarity}, stylesBookScreen.text_rarity_bold]}> {rarityOfBook}</Text>
+                </View>
+                {/* description of book */}
+                <View style={{marginLeft:13, marginTop:20, marginRight:13}}>
+                  <Text style={stylesBookScreen.text_header}>Синопсис</Text>
+                  <Text style={stylesBookScreen.text_description}>
+                    {description}
+                  </Text>
+                </View>
+
+                
+            {/* <Button title='to reader screen' onPress={() => navigate("Reader", )} /> */}
+            </ScrollView>
+          </View>
+        </>
+        
     )
 }
