@@ -81,7 +81,6 @@ export function LibraryScreen() {
         getAllFileBooks();
     }
 
-    //TODO mb save all books array using 1 as key.
     async function getAllFileBooks() {
         const bookFileNames: string[] = await FileSystem.readDirectoryAsync(fileBooksDir);
         const booksArray: TLibBook[] = await getAllBooksAS(bookFileNames);

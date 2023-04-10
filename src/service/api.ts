@@ -4,7 +4,7 @@ import { TBook, TLibBook, TUserData } from "../types";
 import { baseURL } from "../constants";
 axios.defaults.baseURL = baseURL + '/api';
 
-//* Auth api
+//* Auth 
 
 export async function Register(userLogin: string, userPassword: string, userNickname: string): Promise<number> {
     return await axios.post('/auth/register',
@@ -29,7 +29,7 @@ export async function SignIn(userLogin: string, userPassword: string) {
 }
 
 
-//* User api
+//* User 
 
 export async function GetUserData(): Promise<TUserData | string> {
     const token = await getTokenAS();
@@ -45,7 +45,7 @@ export async function GetUserData(): Promise<TUserData | string> {
 }
 
 
-//* Favorites api
+//* Favorites 
 
 export async function GetFavorites() {
     const token = await getTokenAS();
@@ -75,7 +75,7 @@ export async function SwitchFavorite(id: string) {
         .catch(error => error.response.status);
 }
 
-//* Book api
+//* Book 
 
 export async function GetBook(id: string): Promise<TBook | string> {
     const token = await getTokenAS();
