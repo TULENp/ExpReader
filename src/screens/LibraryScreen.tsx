@@ -8,7 +8,6 @@ import { clearAS, getAllBooksAS, getBookNamesAS, getTokenAS, setBookStatsAS } fr
 import { BookLibCard } from '../components/BookLibCard';
 import { stylesLibraryScreen } from './stylesScreen';
 import { srcImgLibraryHeader } from '../constants/images';
-import { } from 'react-native-elements';
 import { ButtonGroup, FAB, Input, ListItem } from '@rneui/themed';
 import { useFonts } from 'expo-font';
 import { Montserrat_300Light, Montserrat_400Regular, Montserrat_500Medium, Montserrat_700Bold, } from '@expo-google-fonts/montserrat'

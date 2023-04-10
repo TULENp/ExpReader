@@ -21,6 +21,7 @@ interface ReaderProps {
 }
 
 export function Reader({ bookText, book }: ReaderProps) {
+    const id = book.id.toString();
     const scrollViewRef = useRef<ScrollView>(null); // ref to ScrollView with pageText
     const navigation = useNavigation();
     const bookPages = book.bookPages || Math.ceil(bookText.length / pageChars); // number of pages in book
@@ -34,15 +35,15 @@ export function Reader({ bookText, book }: ReaderProps) {
 
     useEffect(() => {
         if (bookPages !== book.bookPages) {
-            setFileBookPagesAS(book.id, bookPages);
+            setFileBookPagesAS(id, bookPages);
         }
-        updateBookReadDateAS(book.id);
+        updateBookReadDateAS(id);
     }, []);
 
     useEffect(() => {
         scrollToTop();
         readCurrentPage();
-        updateBookCurrentPageAS(book.id, currentPage);
+        updateBookCurrentPageAS(id, currentPage);
     }, [currentPage]);
 
     useEffect(() => {
@@ -68,7 +69,7 @@ export function Reader({ bookText, book }: ReaderProps) {
 
     // Update data in async storage
     function updateASData() {
-        updateBookReadPagesAS(book.id, readPages);
+        updateBookReadPagesAS(id, readPages);
         if (sessionPages !== 0) {
             incUserReadPagesAS(sessionPages);
             incTodayPagesAS(sessionPages);
@@ -125,7 +126,7 @@ export function Reader({ bookText, book }: ReaderProps) {
 
                 // Read last page
                 if (currentPage + 1 === bookPages && readPages >= silver && readPages < bookPages) {
-                    setBookIsReadAS(book.id, bookPages);
+                    setBookIsReadAS(id, bookPages);
                     //! DO NOT swap lines
                     setReadPages(bookPages);
                     setSessionPages(prev => prev + 1);

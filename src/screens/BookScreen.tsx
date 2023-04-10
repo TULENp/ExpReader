@@ -11,21 +11,23 @@ import { blueRarity, deepBlue, greenRarity, redRarity, yellowRarity } from '../c
 import { Shadow } from 'react-native-shadow-2';
 import { Feather } from '@expo/vector-icons';
 import { GetBook, SwitchFavorite } from '../service/api';
+import { imageURL } from '../constants';
 
 type BookParams = {
 	id: string;
 }
 
-export default function BookScreen() {
+export function BookScreen() {
 
 	const width = Dimensions.get('window').width;
 
 	const [colorRarity, setColorRarity] = useState<string>('');
 	const [bookRarity, setBookRarity] = useState<string>('');
-
+	
 	const { navigate, goBack } = useNavigation<NavigationProp<ShopStackParams>>();
 	const { id } = useRoute<RouteProp<Record<string, BookParams>, string>>().params; // get book id from params
 	const [book, setBook] = useState<TBook>();
+	// const [isFav, setIsFav] = useState(book?.isFavorite);
 
 	useEffect(() => {
 		getBook();
@@ -99,7 +101,7 @@ export default function BookScreen() {
 							<View style={stylesBookScreen.container__cover_book_info}>
 								<View style={stylesBookScreen.wrapper_img_cover}>
 									<Shadow distance={1} startColor={colorRarity} offset={[9, 9]}>
-										<ImageBackground style={stylesBookScreen.img_cover} source={srcImgHarryPotter3}>
+										<ImageBackground style={stylesBookScreen.img_cover} source={{ uri: imageURL + book.cover }}>
 											<Image style={stylesBookScreen.icn_rarity} source={srcIcnBronze} />
 										</ImageBackground>
 									</Shadow>

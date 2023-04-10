@@ -7,7 +7,7 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { ProfileStackParams } from '../types';
 import { deepBlue } from '../constants/colors';
 
-export default function AchievementsScreen() {
+export function AchievementsScreen() {
 
 	const { goBack } = useNavigation<NavigationProp<ProfileStackParams>>();
 

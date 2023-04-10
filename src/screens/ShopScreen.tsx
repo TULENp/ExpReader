@@ -16,7 +16,7 @@ import Drawer from 'react-native-drawer';
 
 const width = Dimensions.get('window').width;
 
-export default function ShopScreen() {
+export function ShopScreen() {
 	const scrollToTop = useRef(null);
 	const [isOpenDrawer, setIsOpenDrawer] = useState<boolean>(false);
 	const [searchText, setSearchText] = useState<string>('');
@@ -25,7 +25,7 @@ export default function ShopScreen() {
 
 	const testList: JSX.Element[] = allBooks.map((book) => {
 		return (
-			<TouchableOpacity style={{ maxWidth: 116, width: '100%' }} onPress={() => navigate('ShopBook', { book })}>
+			<TouchableOpacity style={{ maxWidth: 116, width: '100%' }} onPress={() => navigate('ShopBook', { id: book.id })}>
 				<BookShopCard book={book} />
 			</TouchableOpacity>
 		)
@@ -40,10 +40,11 @@ export default function ShopScreen() {
 
 	return (
 		<>
+			<StatusBar backgroundColor={deepBlue} />
 			<Drawer type='overlay'
 				content={<Filters />}
 				open={isOpenDrawer}
-				onClose={() => setIsOpenDrawer(!isOpenDrawer)}
+				onClose={() => setIsOpenDrawer(prev => !prev)}
 				tapToClose={true}
 				openDrawerOffset={0.2} // 20% gap on the right side of drawer
 				panCloseMask={0.2}
@@ -53,12 +54,9 @@ export default function ShopScreen() {
 				tweenHandler={(ratio) => ({
 					main: { opacity: (2 - ratio) / 2 }
 				})}
-
-
 			>
 				<KeyboardAvoidingView behavior='height' style={stylesShopScreen.shop_page}>
 					<ScrollView ref={scrollToTop}>
-						<StatusBar backgroundColor={deepBlue} />
 						<ImageBackground style={stylesShopScreen.img_header} source={srcImgShopHeader}>
 							<View style={stylesShopScreen.container_search_input}>
 								<Input onChangeText={text => setSearchText(text)}
@@ -70,7 +68,7 @@ export default function ShopScreen() {
 							<TouchableOpacity onPress={() => navigate('Favorites')}>
 								<Image style={{ width: 36, height: 36, }} source={srcIcnRedHeart} />
 							</TouchableOpacity>
-							<TouchableOpacity onPress={() => setIsOpenDrawer(!isOpenDrawer)}>
+							<TouchableOpacity onPress={() => setIsOpenDrawer(prev => !prev)}>
 								<Image style={{ width: 36, height: 36, }} source={srcIcnFilter} />
 							</TouchableOpacity>
 						</ImageBackground>

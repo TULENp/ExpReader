@@ -15,7 +15,7 @@ type BookParams = {
     book: TBook;
 }
 
-export default function CheckoutScreen() {
+export function CheckoutScreen() {
     const { goBack } = useNavigation<NavigationProp<ShopStackParams>>();
     const { book } = useRoute<RouteProp<Record<string, BookParams>, string>>().params;
     const { id, title, cover, authors, price } = book;
