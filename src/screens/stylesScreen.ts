@@ -1,10 +1,7 @@
 import {Dimensions, StyleSheet} from 'react-native';
 import { black, deepBlue, gray, greenRarity, lightBlue, pink, purple, redRarity, white, yellowRarity } from '../constants/colors';
 
-
-
 let {width} = Dimensions.get('window');
-
 
 export const stylesLibraryScreen = StyleSheet.create({
     lib_page:{
