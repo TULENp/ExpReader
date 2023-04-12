@@ -14,7 +14,7 @@ export {
     TDailyTask,
     TPin,
     AuthStackParams,
-    TAchieveStatus
+    TAchieveStatus,
 };
 
 type TShopBook = {

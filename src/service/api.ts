@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getTokenAS, setTokenAS } from "./asyncStorage";
-import { TBook, TLibBook, TUserData } from "../types";
+import { TBook, TLibBook, TRarity, TUserData } from "../types";
 import { baseURL } from "../constants";
 axios.defaults.baseURL = baseURL + '/api';
 
@@ -44,37 +44,6 @@ export async function GetUserData(): Promise<TUserData | string> {
         .catch(error => error.response.status);
 }
 
-
-//* Favorites 
-
-export async function GetFavorites() {
-    const token = await getTokenAS();
-    if (!token) return '401';
-    return await axios.get('/fav/showFav',
-        {
-            headers: {
-                Authorization: token
-            }
-        })
-        .then(response => response.data)
-        .catch(error => error.response.status);
-}
-
-export async function SwitchFavorite(id: string) {
-    const token = await getTokenAS();
-    if (!token) return '401';
-    return await axios.post('/fav/switchFav',
-        {
-            bookId: id
-        },
-        {
-            headers: {
-                Authorization: token
-            }
-        })
-        .catch(error => error.response.status);
-}
-
 //* Book 
 
 export async function GetBook(id: string): Promise<TBook | string> {
@@ -106,19 +75,6 @@ export async function DownloadBook(id: string) {
         .catch(error => error.response.status);
 }
 
-// export async function DownloadBookCover(coverName: string) {
-//     const token = await getTokenAS();
-//     if (!token) return '401';
-//     return await axios.get('/public/covers/' + coverName,
-//         {
-//             headers: {
-//                 Authorization: token
-//             }
-//         })
-//         .then(response => response.data)
-//         .catch(error => error.response.status);
-// }
-
 export async function BuyBook(id: string) {
     const token = await getTokenAS();
     if (!token) return '401';
@@ -146,5 +102,57 @@ export async function GetAllLibBooks(): Promise<TLibBook[] | string> {
         .then(response => response.data)
         .catch(error => error.response.status)
 }
+
+export async function GetAllShopBooks(sortId: 0 | 1 | 2 | 3, rarity: TRarity | null, searchValue: string, genres: string[] | null) {
+    const token = await getTokenAS();
+    if (!token) return '401';
+    return await axios.post('/books/getFilteredBooks',
+        {
+            sortId: sortId,
+            rarity: rarity,
+            searchValue: searchValue,
+            genres: genres
+        },
+        {
+            headers: {
+                Authorization: token
+            }
+        })
+        .then(response => response.data)
+        .catch(error => error.response.status)
+}
+
+
+//* Favorites 
+
+export async function GetFavorites() {
+    const token = await getTokenAS();
+    if (!token) return '401';
+    return await axios.get('/fav/showFav',
+        {
+            headers: {
+                Authorization: token
+            }
+        })
+        .then(response => response.data)
+        .catch(error => error.response.status);
+}
+
+export async function SwitchFavorite(id: string) {
+    const token = await getTokenAS();
+    if (!token) return '401';
+    return await axios.post('/fav/switchFav',
+        {
+            bookId: id
+        },
+        {
+            headers: {
+                Authorization: token
+            }
+        })
+        .catch(error => error.response.status);
+}
+
+
 
 

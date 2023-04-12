@@ -2,6 +2,7 @@ import { View, Text, Image } from 'react-native'
 import React from 'react'
 import { stylesBookShopCard } from './style'
 import { TShopBook } from '../../types'
+import { imageURL } from '../../constants';
 
 export function BookShopCard({ book }: { book: TShopBook }) {
 	const { id, authors, cover, title, price } = book;
@@ -15,8 +16,7 @@ export function BookShopCard({ book }: { book: TShopBook }) {
 
 	return (
 		<View style={stylesBookShopCard.wrapper_book_shop_card}>
-			{/* source={{ uri: imageURL + cover }} */}
-			<Image style={stylesBookShopCard.img_cover} source={require(`../../../assets/harryPotter3.jpg`)} />
+			<Image style={stylesBookShopCard.img_cover} source={{ uri: imageURL + cover }} />
 			<Text style={stylesBookShopCard.text_title}>{truncateTitle(title)}</Text>
 			<Text style={stylesBookShopCard.text_author}>{authors}</Text>
 			<Text style={stylesBookShopCard.text_price}>{price}₽</Text>

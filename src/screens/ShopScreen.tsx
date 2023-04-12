@@ -1,5 +1,5 @@
 import { View, Text, KeyboardAvoidingView, FlatList, ImageBackground, StatusBar, Image, TouchableOpacity, ImageSourcePropType, Dimensions, ScrollView } from 'react-native'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { stylesShopScreen } from './stylesScreen'
 import { allBooks } from '../TestData/books';
 import { BookShopCard } from '../components/BookShopCard';
@@ -8,22 +8,36 @@ import { Input } from '@rneui/themed';
 import Carousel from 'react-native-reanimated-carousel';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { srcIcnFilter, srcIcnRedHeart, srcImgShopHeader } from '../constants/images';
-import { ShopStackParams } from '../types';
+import { ShopStackParams, TShopBook } from '../types';
 import { NavigationProp, useNavigation, useScrollToTop } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Filters } from '../components/Filters';
 import Drawer from 'react-native-drawer';
+import { GetAllShopBooks } from '../service/api';
 
 const width = Dimensions.get('window').width;
 
 export function ShopScreen() {
 	const scrollToTop = useRef(null);
-	const [isOpenDrawer, setIsOpenDrawer] = useState<boolean>(false);
-	const [searchText, setSearchText] = useState<string>('');
+	useScrollToTop(scrollToTop);
 	const { navigate } = useNavigation<NavigationProp<ShopStackParams>>();
 	const ads = [require('../../assets/Ad1.png'), require('../../assets/Ad2.png'), require('../../assets/Ad3.png')];
 
-	const testList: JSX.Element[] = allBooks.map((book) => {
+	const [books, setBooks] = useState<TShopBook[]>([]);
+	const [searchText, setSearchText] = useState<string>('');
+	const [isOpenDrawer, setIsOpenDrawer] = useState<boolean>(false);
+
+	useEffect(() => {
+		getBooks();
+	}, [])
+
+	//TODO pass filters
+	async function getBooks() {
+		const books = await GetAllShopBooks(0, null, searchText, null);
+		setBooks(books);
+	}
+
+	const booksList: JSX.Element[] = books.map((book) => {
 		return (
 			<TouchableOpacity style={{ maxWidth: 116, width: '100%' }} onPress={() => navigate('ShopBook', { id: book.id })}>
 				<BookShopCard book={book} />
@@ -31,7 +45,6 @@ export function ShopScreen() {
 		)
 	})
 
-	useScrollToTop(scrollToTop);
 	const drawerStyles = {
 		drawer: { backgroundColor: 'white', shadowColor: '#000000', shadowOpacity: 0.5, shadowRadius: 3, },
 		// main: {backgroundColor:'#000000'},
@@ -60,6 +73,7 @@ export function ShopScreen() {
 						<ImageBackground style={stylesShopScreen.img_header} source={srcImgShopHeader}>
 							<View style={stylesShopScreen.container_search_input}>
 								<Input onChangeText={text => setSearchText(text)}
+									onSubmitEditing={getBooks}
 									placeholder={'Найти книги'}
 									inputContainerStyle={{ borderBottomWidth: 0 }}
 									leftIcon={{ type: 'octicons', name: 'search' }}
@@ -88,8 +102,7 @@ export function ShopScreen() {
 						</View>
 						<Text style={stylesShopScreen.text_shop}>Магазин</Text>
 						<View style={stylesShopScreen.container_books_shop_card}>
-							{testList}
-							{testList}
+							{booksList}
 						</View>
 					</ScrollView>
 				</KeyboardAvoidingView>
