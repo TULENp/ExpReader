@@ -140,9 +140,7 @@ export function LibraryScreen() {
                 renderItem={({ item: book }) => {
                     return (
                         <View style={{ backgroundColor: white }}>
-                            <Pressable onPress={() => navigate('Reader', { book })}>
                                 <BookLibCard book={book} />
-                            </Pressable>
                         </View>)
                 }}
                 ListFooterComponent={
