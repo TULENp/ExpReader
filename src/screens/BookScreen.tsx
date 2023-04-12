@@ -23,14 +23,13 @@ export function BookScreen() {
 	const { navigate, goBack } = useNavigation<NavigationProp<ShopStackParams>>();
 	const { id } = useRoute<RouteProp<Record<string, BookParams>, string>>().params; // get book id from params
 	const [book, setBook] = useState<TBook>();
-	// const [isFav, setIsFav] = useState(book?.isFavorite);
 
 	const [colorRarity, setColorRarity] = useState<string>('');
 	const [bookRarity, setBookRarity] = useState<string>('');
 
 	useEffect(() => {
 		getBook();
-		
+
 	}, [id])
 
 	async function getBook() {
@@ -43,9 +42,9 @@ export function BookScreen() {
 	async function switchFavorite() {
 		const result = await SwitchFavorite(id);
 
-		//TODO update screen if successful
-		// if (typeof result !== "string") {
-		// }
+		if (typeof result !== "string") {
+			getBook();
+		}
 	}
 
 	//TODO add Loading
@@ -88,9 +87,7 @@ export function BookScreen() {
 						{/* bookScreen header */}
 						<View style={stylesBookScreen.book_header}>
 							<Image style={stylesBookScreen.img_header} source={srcImgBookHeader} />
-							<TouchableOpacity style={stylesBookScreen.icn_back}
-								onPress={() => goBack()}
-							>
+							<TouchableOpacity style={stylesBookScreen.icn_back} onPress={() => goBack()}>
 								<MaterialIcons name="keyboard-backspace"
 									size={36}
 									color="white"

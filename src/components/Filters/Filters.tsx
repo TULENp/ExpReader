@@ -18,10 +18,12 @@ export function Filters() {
 	const [selectedSort, setSelectedSort] = useState<string>('0');
 
 
-	const listButtonsRarity = [<CustomIcon source={srcIcnStarGreenRarity} />,
-	<CustomIcon source={srcIcnStarBlueRarity} />,
-	<CustomIcon source={srcIcnStarRedRarity} />,
-	<CustomIcon source={srcIcnStarYellowRarity} />,];
+	const listButtonsRarity = [
+		<CustomIcon source={srcIcnStarGreenRarity} />,
+		<CustomIcon source={srcIcnStarBlueRarity} />,
+		<CustomIcon source={srcIcnStarRedRarity} />,
+		<CustomIcon source={srcIcnStarYellowRarity} />,
+	];
 
 	const listSort = [
 		{ label: 'Популярное', value: '0' },

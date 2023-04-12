@@ -32,7 +32,7 @@ export function LibraryScreen() {
 
     const { navigate } = useNavigation<NavigationProp<LibStackParams>>();
     const [fileBooks, setFileBooks] = useState<TLibBook[]>([]);
-    const [shopBooks, setShopBooks] = useState<TLibBook[]>([]);
+    const [shopBooks, setShopBooks] = useState<TLibBook[]>();
 
     const [searchText, setSearchText] = useState<string>('');
     const [libCategory, setLibCategory] = useState<number>(0);
@@ -85,7 +85,6 @@ export function LibraryScreen() {
         setFileBooks(booksArray);
     }
 
-    //TODO check book isDownloaded (readDirectoryAsync)
     async function getAllShopBooks() {
         const bookNames = await getBookNamesAS();
         const booksArray: TLibBook[] = await getAllBooksAS(bookNames);
@@ -114,9 +113,11 @@ export function LibraryScreen() {
                                 </View>
                             </ImageBackground>
 
-                            <Pressable onPress={() => navigate('Reader', { book: shopBooks[0] })}>
-                                <BookLastReadCard book={shopBooks[0]} />
-                            </Pressable>
+
+                            {shopBooks &&
+                                <Pressable onPress={() => navigate('Reader', { book: shopBooks[0] })}>
+                                    <BookLastReadCard book={shopBooks[0]} />
+                                </Pressable>}
 
                             <View style={{ paddingTop: 25, paddingBottom: 20 }}>
                                 <Text style={stylesLibraryScreen.h1_library}>Библиотека</Text>
@@ -140,7 +141,7 @@ export function LibraryScreen() {
                 renderItem={({ item: book }) => {
                     return (
                         <View style={{ backgroundColor: white }}>
-                                <BookLibCard book={book} />
+                            <BookLibCard book={book} />
                         </View>)
                 }}
                 ListFooterComponent={

@@ -13,7 +13,8 @@ export {
     TAchieves,
     TDailyTask,
     TPin,
-    AuthStackParams
+    AuthStackParams,
+    TAchieveStatus
 };
 
 type TShopBook = {
@@ -93,6 +94,7 @@ type TAchieves = {
     isCompleted: boolean
 }
 
+type TAchieveStatus = { id: string, isCompleted: boolean };
 // type TDailyTask = {
 //     level: TDailyTaskLevel,
 //     value: TDailyTaskValue,
@@ -109,5 +111,4 @@ type TPin = {
     title: string,
     description: string,
     img: ImageSourcePropType,
-    isGet: boolean,
 }

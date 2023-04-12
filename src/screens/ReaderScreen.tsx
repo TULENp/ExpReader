@@ -19,7 +19,6 @@ export function ReaderScreen() {
         getBookText();
     }, [])
 
-    //TODO fix path problem
     async function getBookText() {
         let filePath = '';
         if ((await FileSystem.getInfoAsync(fileBooksDir + book.fileName)).exists) {

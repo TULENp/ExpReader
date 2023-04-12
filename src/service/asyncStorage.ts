@@ -1,9 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { TDailyTask, TLibBook, TUserData } from '../types';
+import { TAchieveStatus, TDailyTask, TLibBook, TUserData } from '../types';
 
 const userDataKey = 'userData'; // key for userData in async storage
 
-//* Book stats functions
+//* Book stats 
 // save books to async storage
 export function setBookStatsAS(book: TLibBook) {
     AsyncStorage.setItem((book.id).toString(), JSON.stringify(book));
@@ -76,7 +76,7 @@ export async function getAllBooksAS(bookNames: string[]): Promise<TLibBook[]> {
 //     return books;
 // }
 
-//* User data functions 
+//* User data  
 
 export async function getUserDataAS(): Promise<TUserData | null> {
 
@@ -115,7 +115,7 @@ export async function incUserReadBooksAS() {
 }
 
 
-//* Daily task functions
+//* Daily task 
 // Get number of pages to complete daily task
 export async function getDailyTaskAS(): Promise<TDailyTask> {
     return JSON.parse(await AsyncStorage.getItem('dailyTask') || '60');
@@ -164,8 +164,22 @@ export async function setTodayAS() {
     }
 }
 
+//* Achievements
 
-//* Api functions
+export function setAchievesStatusAS(achieves: boolean[]) {
+    AsyncStorage.setItem('achieves', JSON.stringify(achieves));
+}
+
+export async function getAchievesStatusAS() {
+    let achieves: boolean[] = [false, true, true, false, false];
+    const res = await AsyncStorage.getItem('achieves');
+    if (res) {
+        achieves = JSON.parse(res);
+    }
+    return achieves;
+}
+
+//* Api 
 // save user auth token to AS
 export function setTokenAS(token: string) {
     AsyncStorage.setItem('token', token);

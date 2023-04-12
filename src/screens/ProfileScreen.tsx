@@ -103,21 +103,23 @@ export function ProfileScreen() {
 						</Pressable>
 
 						{/* Achievements */}
-						<View style={stylesProfileScreen.container_achievements}>
-							<Text style={stylesProfileScreen.h1_profile_bold}>Достижения:
-								<Text style={stylesProfileScreen.h1_profile_medium}> {userData.achievesImg.length}</Text>
-							</Text>
-							<View style={stylesProfileScreen.wrapper_pins}>
-								<FlatList
-									horizontal
-									data={userData.achievesImg}
-									keyExtractor={(item) => item}
-									renderItem={(item) =>
-										<Image style={stylesProfileScreen.img_pin} source={require('../../assets/owlPin.png')} />
-									}
-								/>
+						<Pressable onPress={() => navigate('Achievements')}>
+							<View style={stylesProfileScreen.container_achievements}>
+								<Text style={stylesProfileScreen.h1_profile_bold}>Достижения:
+									<Text style={stylesProfileScreen.h1_profile_medium}> {userData.achievesImg.length}</Text>
+								</Text>
+								<View style={stylesProfileScreen.wrapper_pins}>
+									<FlatList
+										horizontal
+										data={userData.achievesImg}
+										keyExtractor={(item) => item}
+										renderItem={(item) =>
+											<Image style={stylesProfileScreen.img_pin} source={require('../../assets/owlPin.png')} />
+										}
+									/>
+								</View>
 							</View>
-						</View>
+						</Pressable>
 
 						{/* Book shelf */}
 						<View style={stylesProfileScreen.container_bookshelf}>
