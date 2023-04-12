@@ -2,7 +2,7 @@ import { View, Text, ScrollView, TouchableOpacity, FlatList } from 'react-native
 import React, { useEffect, useState } from 'react'
 import { BookShopCard } from '../components/BookShopCard'
 import { srcIcnBack } from '../constants/images'
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import { stylesFavoritesScreen } from './stylesScreen'
 import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native'
 import { ShopStackParams, TShopBook } from '../types'
