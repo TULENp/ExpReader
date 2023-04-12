@@ -15,6 +15,7 @@ export function BookShopCard({ book }: { book: TShopBook }) {
 
 	return (
 		<View style={stylesBookShopCard.wrapper_book_shop_card}>
+			{/* source={{ uri: imageURL + cover }} */}
 			<Image style={stylesBookShopCard.img_cover} source={require(`../../../assets/harryPotter3.jpg`)} />
 			<Text style={stylesBookShopCard.text_title}>{truncateTitle(title)}</Text>
 			<Text style={stylesBookShopCard.text_author}>{authors}</Text>

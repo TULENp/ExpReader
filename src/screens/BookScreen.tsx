@@ -20,17 +20,17 @@ type BookParams = {
 export function BookScreen() {
 
 	const width = Dimensions.get('window').width;
-
-	const [colorRarity, setColorRarity] = useState<string>('');
-	const [bookRarity, setBookRarity] = useState<string>('');
-	
 	const { navigate, goBack } = useNavigation<NavigationProp<ShopStackParams>>();
 	const { id } = useRoute<RouteProp<Record<string, BookParams>, string>>().params; // get book id from params
 	const [book, setBook] = useState<TBook>();
 	// const [isFav, setIsFav] = useState(book?.isFavorite);
 
+	const [colorRarity, setColorRarity] = useState<string>('');
+	const [bookRarity, setBookRarity] = useState<string>('');
+
 	useEffect(() => {
 		getBook();
+		
 	}, [id])
 
 	async function getBook() {
@@ -131,6 +131,7 @@ export function BookScreen() {
 												containerStyle={stylesBookScreen.button_fav_grow}
 											/>
 											<Button title={'Фрагмент'}
+												onPress={() => navigate('FragmentReader', { fragment: book.fragment })}
 												titleStyle={stylesBookScreen.button_title}
 												buttonStyle={stylesBookScreen.button_fragment}
 												containerStyle={stylesBookScreen.button_fragment_grow}

@@ -1,7 +1,7 @@
 import { View, Text, KeyboardAvoidingView, FlatList, ImageBackground, StatusBar, Image, TouchableOpacity, ImageSourcePropType, Dimensions, ScrollView } from 'react-native'
 import React, { useRef, useState } from 'react'
 import { stylesShopScreen } from './stylesScreen'
-import { allBooks, books } from '../TestData/books';
+import { allBooks } from '../TestData/books';
 import { BookShopCard } from '../components/BookShopCard';
 import { deepBlue } from '../constants/colors';
 import { Input } from '@rneui/themed';

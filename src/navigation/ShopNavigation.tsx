@@ -5,6 +5,7 @@ import { ShopScreen } from "../screens/ShopScreen";
 import { BookScreen } from "../screens/BookScreen";
 import { FavoritesScreen } from "../screens/FavoritesScreen";
 import { CheckoutScreen } from "../screens/CheckoutScreen";
+import { FragmentReaderScreen } from "../screens/FragmetReaderScreen";
 
 const Stack = createNativeStackNavigator<ShopStackParams>();
 
@@ -23,6 +24,7 @@ export function ShopNavigation() {
             <Stack.Screen name="ShopBook" component={BookScreen} />
             <Stack.Screen name="Favorites" component={FavoritesScreen} />
             <Stack.Screen name="Checkout" component={CheckoutScreen} />
+            <Stack.Screen name="FragmentReader" component={FragmentReaderScreen} />
         </Stack.Navigator>
     );
 }

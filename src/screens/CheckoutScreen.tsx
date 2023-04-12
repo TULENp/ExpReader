@@ -7,7 +7,6 @@ import { deepBlue } from '../constants/colors';
 import { NavigationProp, RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { ShopStackParams, TBook } from '../types';
 import { srcIcnSberbank, srcImgHarryPotter3 } from '../constants/images';
-import { allBooks } from '../TestData/books';
 import { Button } from 'react-native-elements';
 import { BuyBook } from '../service/api';
 

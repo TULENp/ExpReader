@@ -26,7 +26,7 @@ export default function App() {
 			<>
 				{isLoading
 					?
-					<Text style={{ alignSelf: 'center',  fontSize: 50 }}>Загрузка...</Text>
+					<Text style={{ alignSelf: 'center', fontSize: 50 }}>Загрузка...</Text>
 					:
 					<>
 						{isAuth

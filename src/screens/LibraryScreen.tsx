@@ -15,7 +15,6 @@ import { MontserratAlternates_300Light, MontserratAlternates_400Regular, Montser
 import AppLoading from 'expo-app-loading';
 import { black, deepBlue, gray, pink, white } from '../constants/colors';
 import { BookLastReadCard } from '../components/BookLastReadCard';
-import { books } from '../TestData/books';
 import { booksDir, fileBooksDir } from '../constants';
 
 
@@ -86,6 +85,7 @@ export function LibraryScreen() {
         setFileBooks(booksArray);
     }
 
+    //TODO check book isDownloaded (readDirectoryAsync)
     async function getAllShopBooks() {
         const bookNames = await getBookNamesAS();
         const booksArray: TLibBook[] = await getAllBooksAS(bookNames);
@@ -114,8 +114,8 @@ export function LibraryScreen() {
                                 </View>
                             </ImageBackground>
 
-                            <Pressable onPress={() => navigate('Reader', { book: books[0] })}>
-                                <BookLastReadCard book={books[0]} />
+                            <Pressable onPress={() => navigate('Reader', { book: shopBooks[0] })}>
+                                <BookLastReadCard book={shopBooks[0]} />
                             </Pressable>
 
                             <View style={{ paddingTop: 25, paddingBottom: 20 }}>

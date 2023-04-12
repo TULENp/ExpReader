@@ -67,10 +67,11 @@ type ProfileStackParams = {
 };
 
 type ShopStackParams = {
-    Shop: undefined;
-    ShopBook: { id: string };
-    Favorites: undefined;
-    Checkout: { book: TBook };
+    Shop: undefined,
+    ShopBook: { id: string },
+    Favorites: undefined,
+    Checkout: { book: TBook },
+    FragmentReader: { fragment: string },
 };
 
 type TRarity = 'common' | 'rare' | 'epic' | 'legendary';
