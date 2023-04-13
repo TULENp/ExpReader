@@ -48,7 +48,7 @@ export function DailyTaskScreen() {
 								color="black"
 							/>
 						</TouchableOpacity>
-						<Text style={stylesCheckoutScreen.text_header}>Ежедневные задания</Text>
+						<Text style={stylesCheckoutScreen.text_header}>Ежедневная цель</Text>
 					</View>
 
 					{/* Daily Tasks */}
@@ -87,7 +87,9 @@ export function DailyTaskScreen() {
 					{/* Description */}
 					<View style={{ flexDirection: 'row', marginTop: 40 }}>
 						<Feather name="info" size={24} color="black" />
-						<Text style={stylesDailyTaskScreen.text_description}>Изменения вступят в силу только на следующий день или если вы сегодня еще ничего не прочитали</Text>
+						<Text style={stylesDailyTaskScreen.text_description}>
+							Ваша ежедневная цель будет обновлена с завтрашнего дня или если вы сегодня еще ничего не прочитали
+						</Text>
 					</View>
 				</ScrollView>
 			</View>
