@@ -110,8 +110,7 @@ export function BookScreen() {
 									{/* Actions */}
 									<View style={stylesBookScreen.container_all_buttons}>
 										<Button title={<Text style={stylesBookScreen.button_buy_label_bold}
-											onPress={() => navigate('Checkout', { book })}
-										>Купить за
+											onPress={() => navigate('Checkout', { book })}>Купить за
 											<Text style={stylesBookScreen.button_buy_label_light}> {book.price}₽</Text></Text>}
 											buttonStyle={stylesBookScreen.button_buy}
 											containerStyle={{ borderRadius: 8 }} />

@@ -8,7 +8,7 @@ import { LinearProgress } from '@rneui/themed';
 import { srcIcnBook } from '../../constants/images';
 import { calculateBookmark, calculateRarity } from '../../service/motivation';
 import { DownloadBook } from '../../service/api';
-import { bookCoversDir, booksDir, fileBooksDir, imageURL } from '../../constants';
+import { coversDir, booksDir, fileBooksDir, imageURL } from '../../constants';
 import * as FileSystem from 'expo-file-system';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 
@@ -47,7 +47,7 @@ export function BookLibCard({ book }: { book: TLibBook }) {
     async function downloadBook() {
         const res = await DownloadBook(id);
         await FileSystem.writeAsStringAsync(booksDir + fileName, res);
-        await FileSystem.downloadAsync(imageURL + cover, bookCoversDir + cover);
+        await FileSystem.downloadAsync(imageURL + cover, coversDir + cover);
         setIsDownloaded(true);
     }
 
@@ -70,7 +70,7 @@ export function BookLibCard({ book }: { book: TLibBook }) {
             <View style={stylesBookLibCard.container_lib_book}>
                 {/* <Image source={require(`../../../assets/${cover}`)}/> */}
                 <Shadow distance={1} startColor={greenRarity} offset={[7, 6]}>
-                    <ImageBackground style={stylesBookLibCard.cover_book} source={{ uri: bookCoversDir + cover }} />
+                    <ImageBackground style={stylesBookLibCard.cover_book} source={{ uri: coversDir + cover }} />
                 </Shadow>
                 <View style={stylesBookLibCard.container_info_book}>
                     <Text style={stylesBookLibCard.title}>{title}</Text>

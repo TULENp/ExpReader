@@ -513,7 +513,9 @@ export const stylesCheckoutScreen = StyleSheet.create({
         fontFamily:'Montserrat300',
         fontSize:16, 
     },
-    cover:{
+    cover: {
+        width: '100%',
+        height: 174,
         maxWidth:110,
         maxHeight:166,
         borderRadius:8,

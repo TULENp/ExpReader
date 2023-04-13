@@ -9,6 +9,7 @@ import { ShopStackParams, TBook } from '../types';
 import { srcIcnSberbank, srcImgHarryPotter3 } from '../constants/images';
 import { Button } from 'react-native-elements';
 import { BuyBook } from '../service/api';
+import { imageURL } from '../constants';
 
 type BookParams = {
     book: TBook;
@@ -30,9 +31,7 @@ export function CheckoutScreen() {
                     <StatusBar backgroundColor={deepBlue} />
                     {/* Icon back and header text */}
                     <View style={stylesCheckoutScreen.container_header}>
-                        <TouchableOpacity
-                            onPress={() => goBack()}
-                        >
+                        <TouchableOpacity onPress={() => goBack()}>
                             <MaterialIcons name="keyboard-backspace"
                                 size={36}
                                 color="black"
@@ -55,7 +54,7 @@ export function CheckoutScreen() {
                     <View style={{ marginTop: 20, marginBottom: 40 }}>
                         <Text style={stylesCheckoutScreen.text_header_light}>Книга</Text>
                         <View style={{ flexDirection: 'row', marginTop: 20 }}>
-                            <Image style={stylesCheckoutScreen.cover} source={srcImgHarryPotter3} />
+                            <Image style={stylesCheckoutScreen.cover} source={{ uri: imageURL + cover }} />
                             <View style={{ flexShrink: 1, paddingLeft: 10 }}>
                                 <Text style={stylesCheckoutScreen.title}>{title}</Text>
                                 <Text style={stylesCheckoutScreen.author}>{authors}</Text>

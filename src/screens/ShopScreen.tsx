@@ -40,7 +40,7 @@ export function ShopScreen() {
 	const booksList: JSX.Element[] = books.map((book) => {
 		return (
 			<TouchableOpacity style={{ maxWidth: 116, width: '100%' }} onPress={() => navigate('ShopBook', { id: book.id })}>
-				<BookShopCard book={book} />
+				<BookShopCard book={book} key={book.id} />
 			</TouchableOpacity>
 		)
 	})

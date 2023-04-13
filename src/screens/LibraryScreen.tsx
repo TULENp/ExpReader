@@ -35,7 +35,7 @@ export function LibraryScreen() {
     const { netInfo } = useContext(AppContext);
     const { navigate } = useNavigation<NavigationProp<LibStackParams>>();
     const [fileBooks, setFileBooks] = useState<TLibBook[]>([]);
-    const [shopBooks, setShopBooks] = useState<TLibBook[]>();
+    const [shopBooks, setShopBooks] = useState<TLibBook[]>([]);
 
     const [searchText, setSearchText] = useState<string>('');
     const [libCategory, setLibCategory] = useState<number>(0);
@@ -134,8 +134,7 @@ export function LibraryScreen() {
                                 </View>
                             </ImageBackground>
 
-
-                            {shopBooks &&
+                            {shopBooks[0] &&
                                 <Pressable onPress={() => navigate('Reader', { book: shopBooks[0] })}>
                                     <BookLastReadCard book={shopBooks[0]} />
                                 </Pressable>}
@@ -157,23 +156,14 @@ export function LibraryScreen() {
                         </KeyboardAvoidingView>
                     </>
                 }
-                data={libCategory === 0 ? shopBooks : fileBooks}
+                data={libCategory === 0 ? shopBooks.slice(1) : fileBooks}
                 keyExtractor={(item) => item.title}
                 renderItem={({ item: book }) => {
                     return (
                         <View style={{ backgroundColor: white }}>
                             <BookLibCard book={book} />
                         </View>)
-                }}
-                ListFooterComponent={
-                    <>
-                        <View style={{ flex: 1 }}>
-                            {/* //! Test func */}
-                            <Button title='get books' onPress={getAllFileBooks} />
-                            {/* <Button title='Clear' onPress={clearAS} /> */}
-                            {/* //! Test func */}
-                        </View>
-                    </>} />
+                }} />
             <FAB onPress={addBookFromFile}
                 icon={{ name: 'add', color: 'white' }}
                 color={deepBlue} size='large'

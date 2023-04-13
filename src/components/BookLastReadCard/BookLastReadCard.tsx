@@ -4,19 +4,21 @@ import { gray, pink } from "../../constants/colors";
 import { srcImgHarryPotter3 } from "../../constants/images";
 import { TLibBook } from "../../types";
 import { stylesReadLater } from "./style";
+import { coversDir } from "../../constants";
 
 export function BookLastReadCard({ book }: { book: TLibBook }) {
     const { authors, bookPages, cover, id, readPages, title } = book;
     const percent = Math.floor((readPages / bookPages) * 100) || 0;
     return (
         <View style={stylesReadLater.container_read_later}>
-            <Image source={srcImgHarryPotter3} style={stylesReadLater.img_cover_read_later} />
+            <Image source={{ uri: coversDir + cover }} style={stylesReadLater.img_cover_read_later} />
             <View style={{ paddingLeft: 16, flex: 1, }}>
                 <Text style={stylesReadLater.text_h1_read_later}>Продолжить чтение</Text>
                 <Text style={stylesReadLater.text_h2_read_later}>{title}</Text>
                 <Text style={stylesReadLater.text_h3_read_later}>{authors}</Text>
                 <Text style={stylesReadLater.text_progress_bar}>{percent}% прочитано</Text>
-                <LinearProgress value={percent / 100} color={pink} style={stylesReadLater.progress_bar} trackColor={gray} variant='determinate' />
+                <LinearProgress value={percent / 100} color={pink} style={stylesReadLater.progress_bar}
+                    trackColor={gray} variant='determinate' />
             </View>
         </View>
     )

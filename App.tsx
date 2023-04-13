@@ -6,7 +6,7 @@ import { getTokenAS } from './src/service/asyncStorage';
 import { AuthNavigation } from './src/navigation/AuthNavigation';
 import { AppContext } from './src/context/AppContext';
 import * as FileSystem from 'expo-file-system';
-import { bookCoversDir, booksDir } from './src/constants';
+import { coversDir, booksDir } from './src/constants';
 import { Montserrat_300Light, Montserrat_400Regular, Montserrat_500Medium, Montserrat_700Bold, } from '@expo-google-fonts/montserrat'
 import { MontserratAlternates_300Light, MontserratAlternates_400Regular, MontserratAlternates_500Medium, MontserratAlternates_700Bold, } from '@expo-google-fonts/montserrat-alternates'
 import { useFonts } from 'expo-font';
@@ -46,8 +46,8 @@ export default function App() {
 		if (!(await FileSystem.getInfoAsync(booksDir)).exists) {
 			await FileSystem.makeDirectoryAsync(booksDir);
 		}
-		if (!(await FileSystem.getInfoAsync(bookCoversDir)).exists) {
-			await FileSystem.makeDirectoryAsync(bookCoversDir);
+		if (!(await FileSystem.getInfoAsync(coversDir)).exists) {
+			await FileSystem.makeDirectoryAsync(coversDir);
 		}
 	}
 	if (!fontsLoaded) {
