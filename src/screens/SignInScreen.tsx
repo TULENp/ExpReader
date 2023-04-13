@@ -1,9 +1,12 @@
 import React, { useContext, useState } from 'react';
-import { StyleSheet, View, TextInput, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, View, TextInput, TouchableOpacity, Text, Image } from 'react-native';
 import { SignIn } from '../service/api';
 import { AuthStackParams } from '../types';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { AppContext } from '../context/AppContext';
+import { stylesSignInScreen } from './stylesScreen';
+import { deepBlue, redRarity } from '../constants/colors';
+import { srcIcnError, srcIcnLogo } from '../constants/images';
 
 export function SignInScreen() {
     const { navigate } = useNavigation<NavigationProp<AuthStackParams>>();
@@ -11,22 +14,20 @@ export function SignInScreen() {
 
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
-    const [errors, setErrors] = useState<string[]>([]);
+
+	const [loginError, setLoginError] = useState<string>('');
+	const [passwordError, setPasswordError] = useState<string>('');
 
     async function handleSignIn() {
-        const validationErrors: string[] = [];
+        // const validationErrors: string[] = [];
 
-        if (!login) {
-            validationErrors.push('Введите логин');
-        }
-
-        if (!password) {
-            validationErrors.push('Введите пароль');
-        }
-
-        if (validationErrors.length > 0) {
-            setErrors(validationErrors);
-            return;
+        if (!login || !password) {
+            // validationErrors.push('Введите логин');
+			if(!login) 
+				setLoginError('Введите логин');
+			if(!password)  
+				setPasswordError('Введите пароль')
+			return;
         }
 
         const res = await SignIn(login, password);
@@ -38,60 +39,55 @@ export function SignInScreen() {
     }
 
     return (
-        <View style={styles.container}>
-            <Text>Логин</Text>
-            <TextInput
-                style={styles.input}
-                placeholder="Логин"
-                autoCapitalize="none"
-                value={login}
-                onChangeText={setLogin}
-            />
-            <Text>Пароль</Text>
-            <TextInput
-                style={styles.input}
-                placeholder="Пароль"
-                secureTextEntry
-                autoCapitalize="none"
-                value={password}
-                onChangeText={setPassword}
-            />
-            <Text style={{ color: 'red' }}>{errors.join('; ')}</Text>
+        <View style={stylesSignInScreen.page}>
+			<Image style={stylesSignInScreen.logo} source={srcIcnLogo}/>
 
-            <TouchableOpacity style={styles.button} onPress={handleSignIn}>
-                <Text style={styles.buttonText}>Войти</Text>
+			{/* Login input */}
+			<View style={{width:'100%',  alignItems:'center'}}>
+				<View style={{width:'100%', justifyContent:'flex-start',}}>
+					<Text style={stylesSignInScreen.h1}>Логин</Text>
+				</View>
+				<TextInput
+					style={stylesSignInScreen.input}
+					placeholder="Логин"
+					autoCapitalize="none"
+					value={login}
+					onChangeText={setLogin}
+					selectionColor={redRarity}
+				/>
+				<View style={{width:'100%', justifyContent:'flex-start',}}>
+					<Text style={{color:redRarity}}>{loginError}</Text>
+				</View>
+			</View>
+
+			{/* Password input */}
+			<View style={{width:'100%',  alignItems:'center', marginTop:20, marginBottom:50}}>
+				<View style={{width:'100%', justifyContent:'flex-start',}}>
+					<Text style={stylesSignInScreen.h1}>Пароль</Text>
+				</View>
+				<TextInput
+					style={stylesSignInScreen.input}
+					placeholder="Пароль"
+					secureTextEntry
+					autoCapitalize="none"
+					value={password}
+					onChangeText={setPassword}
+					selectionColor={redRarity}
+				/>
+				<View style={{width:'100%', justifyContent:'flex-start',}}>
+					<Text style={{color:redRarity}}>{passwordError}</Text>
+				</View>
+			</View>
+
+			{/* Action buttons */}
+            <TouchableOpacity style={stylesSignInScreen.button} onPress={handleSignIn}>
+                <Text style={stylesSignInScreen.buttonText}>Войти</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={() => navigate('Register')}>
-                <Text style={styles.buttonText}>Регистрация</Text>
+            <TouchableOpacity style={[stylesSignInScreen.button, {backgroundColor:'white'}]} onPress={() => navigate('Register')}>
+                <Text style={[stylesSignInScreen.buttonText, {color:deepBlue,}]}>Регистрация</Text>
             </TouchableOpacity>
         </View >
     );
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    input: {
-        width: '80%',
-        height: 40,
-        borderWidth: 1,
-        borderColor: 'gray',
-        borderRadius: 5,
-        marginBottom: 20,
-        paddingHorizontal: 10,
-    },
-    button: {
-        backgroundColor: 'blue',
-        padding: 10,
-        borderRadius: 5,
-    },
-    buttonText: {
-        color: 'white',
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
-});
 

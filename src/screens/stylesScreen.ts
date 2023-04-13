@@ -646,3 +646,53 @@ export const stylesAchievementsScreen = StyleSheet.create({
         flex:1,
     }
 })
+
+export const stylesSignInScreen = StyleSheet.create({
+    page:{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingLeft:70,
+        paddingRight:70,
+        backgroundColor:'white',
+    },
+    h1:{
+        fontFamily:'MontserratAlt500',
+        fontSize:16,
+
+    },
+    input: {
+        fontFamily:'MontserratAlt700',
+        width: '100%',
+        height: 45,
+        borderWidth: 1,
+        borderColor: 'black',
+        borderRadius: 8,
+        // marginBottom: 20,
+        paddingHorizontal: 10,
+    },
+    button: {
+        backgroundColor: lightBlue,
+        paddingTop: 10,
+        paddingBottom:10,
+        width:'100%',
+        borderRadius: 8,
+    },
+    buttonText: {
+        fontSize:18,
+        fontFamily:'MontserratAlt500',
+        color: 'white',
+        textAlign: 'center',
+    },
+    logo:{
+        width:221,
+        height:163,
+        marginBottom:50,
+    },
+    header:{
+        position:'absolute',
+        top:40,
+        left:20
+    },
+    
+})

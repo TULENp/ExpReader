@@ -24,6 +24,8 @@ const srcIcnStarGreenRarity = require('../../assets/starGreen.png');
 const srcIcnStarBlueRarity = require('../../assets/starBlue.png');
 const srcIcnStarRedRarity = require('../../assets/starRed.png');
 const srcIcnStarYellowRarity = require('../../assets/starYellow.png');
+const srcIcnLogo = require('../../assets/logo.png');
+const srcIcnError = require('../../assets/error.png');
 
 export {
     srcImgLibraryHeader, srcImgHarryPotter3,
@@ -33,5 +35,6 @@ export {
     srcIcnPoints, srcIcnSetting, srcIcnBronze, srcIcnSilver,
     srcIcnGold, srcIcnBack, srcIcnBackWhite, srcImgBookHeader,
     srcIcnHeart, srcIcnSberbank, srcIcnStarGreenRarity,
-    srcIcnStarBlueRarity, srcIcnStarRedRarity, srcIcnStarYellowRarity
+    srcIcnStarBlueRarity, srcIcnStarRedRarity, srcIcnStarYellowRarity,
+    srcIcnLogo, srcIcnError
 };

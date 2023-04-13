@@ -154,5 +154,25 @@ export async function SwitchFavorite(id: string) {
 }
 
 
+export async function PostUpdateBooks(){
+    const token = await getTokenAS();
+    if(!token) return '401';
+    
+    return axios.post('user/updateUserBookStat',{
+        UBStat:[{
+            "bookID": 1,
+            "readPages": 69,
+            "currentPage": 23,
+            "isRead": false,
+            "readDate": ""
+        }]
+        },
+        {
+            headers:{
+                Authorization: token
+            }
+        }).catch(error=> error.response.status)
+    
+}
 
 
