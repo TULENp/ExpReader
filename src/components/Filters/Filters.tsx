@@ -13,7 +13,7 @@ export function Filters() {
 	const listButtonsGenres = ['Фантастика', 'Приключения', 'Фэнтези', 'Киберпанк',
 		'Романы', 'Поэзия', 'Хоррор', 'Нон-Фикшн', 'Комедия', 'Исторические романы',
 		'Детективы']
-	const [selectedGenre, setSelectedGenre] = useState<number>();
+	const [selectedGenre, setSelectedGenre] = useState<number[]>([]);
 	const [selectedRarity, setSelectedRarity] = useState<number>();
 	const [selectedSort, setSelectedSort] = useState<string>('0');
 
@@ -39,10 +39,11 @@ export function Filters() {
 				<View style={stylesFilters.wrapper_genres}>
 					<Text style={stylesFilters.h2}>Жанры</Text>
 					<ButtonGroup buttons={listButtonsGenres}
-						selectedIndex={selectedGenre}
+						selectedIndexes={selectedGenre}
 						onPress={(value) => {
 							setSelectedGenre(value);
 						}}
+						selectMultiple={true}
 						containerStyle={stylesFilters.container_style}
 						textStyle={stylesFilters.text_style}
 						buttonContainerStyle={stylesFilters.button_container_style}

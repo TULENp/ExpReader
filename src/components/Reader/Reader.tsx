@@ -14,6 +14,7 @@ import {
 import { TLibBook } from '../../types';
 import { useNavigation } from '@react-navigation/native';
 import { checkBookmarkReward } from '../../service/motivation';
+import { PostUpdateBooks } from '../../service/api';
 
 interface ReaderProps {
     bookText: string;
@@ -46,6 +47,11 @@ export function Reader({ bookText, book }: ReaderProps) {
         updateBookCurrentPageAS(id, currentPage);
     }, [currentPage]);
 
+    async function test(){
+        const error = await PostUpdateBooks();
+        console.log(error);
+    }
+
     useEffect(() => {
         // Called just before the component is destroyed
         const unsubscribe = navigation.addListener('beforeRemove', () => updateASData());
@@ -53,8 +59,10 @@ export function Reader({ bookText, book }: ReaderProps) {
         const subscription = AppState.addEventListener('change', appState => {
             if (appState == 'background') {
                 updateASData();
+                test();
             }
         });
+        
         return () => {
             unsubscribe();
             subscription.remove();
