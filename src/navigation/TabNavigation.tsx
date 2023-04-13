@@ -7,8 +7,8 @@ import { Icon } from '@rneui/themed';
 import { Feather } from '@expo/vector-icons';
 import { black, deepBlue, white } from '../constants/colors';
 import { useEffect } from 'react';
-import { GetUserData, GetAllLibBooks } from '../service/api';
-import { setTodayAS, setUserDataAS, setBookStatsAS, setBookNamesAS } from '../service/asyncStorage';
+import { GetUserData } from '../service/api';
+import { setTodayAS, setUserDataAS} from '../service/asyncStorage';
 
 const Tab = createBottomTabNavigator();
 
@@ -17,7 +17,6 @@ export function TabNavigation() {
     useEffect(() => {
         setTodayAS();
         getUserData();
-        getAllLibBooks();
     }, [])
 
     async function getUserData() {
@@ -27,17 +26,6 @@ export function TabNavigation() {
         }
     }
 
-    async function getAllLibBooks() {
-        const booksArray = await GetAllLibBooks();
-        if (typeof booksArray !== "string") {
-            const bookNames: string[] = [];
-            for (let book of booksArray) {
-                setBookStatsAS(book);
-                bookNames.push((book.id).toString());
-            }
-            setBookNamesAS(bookNames);
-        }
-    }
     return (
         <NavigationContainer>
             <Tab.Navigator screenOptions={{ headerShown: false, tabBarShowLabel: false, tabBarStyle: { height: '8%' }, tabBarActiveTintColor: deepBlue, tabBarInactiveTintColor: black, tabBarHideOnKeyboard: true }} initialRouteName='LibraryTab'>

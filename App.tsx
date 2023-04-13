@@ -11,22 +11,25 @@ import { Montserrat_300Light, Montserrat_400Regular, Montserrat_500Medium, Monts
 import { MontserratAlternates_300Light, MontserratAlternates_400Regular, MontserratAlternates_500Medium, MontserratAlternates_700Bold, } from '@expo-google-fonts/montserrat-alternates'
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
+import { useNetInfo } from '@react-native-community/netinfo';
 
 export default function App() {
 
 	let [fontsLoaded] = useFonts({
-        'Montserrat300': Montserrat_300Light,
-        'Montserrat400': Montserrat_400Regular,
-        'Montserrat500': Montserrat_500Medium,
-        'Montserrat700': Montserrat_700Bold,
-        'MontserratAlt300': MontserratAlternates_300Light,
-        'MontserratAlt400': MontserratAlternates_400Regular,
-        'MontserratAlt500': MontserratAlternates_500Medium,
-        'MontserratAlt700': MontserratAlternates_700Bold,
-    })
+		'Montserrat300': Montserrat_300Light,
+		'Montserrat400': Montserrat_400Regular,
+		'Montserrat500': Montserrat_500Medium,
+		'Montserrat700': Montserrat_700Bold,
+		'MontserratAlt300': MontserratAlternates_300Light,
+		'MontserratAlt400': MontserratAlternates_400Regular,
+		'MontserratAlt500': MontserratAlternates_500Medium,
+		'MontserratAlt700': MontserratAlternates_700Bold,
+	})
 	//FIXME //! fix app loading time and render
 	const [isAuth, setIsAuth] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
+	const netInfo = useNetInfo();
+
 
 	useEffect(() => {
 		checkLogin();
@@ -48,11 +51,11 @@ export default function App() {
 		}
 	}
 	if (!fontsLoaded) {
-        return <AppLoading />;
-    }
+		return <AppLoading />;
+	}
 
 	return (
-		<AppContext.Provider value={{ setIsAuthorized: setIsAuth }}>
+		<AppContext.Provider value={{ setIsAuthorized: setIsAuth, netInfo: netInfo }}>
 			<>
 				{isLoading
 					?

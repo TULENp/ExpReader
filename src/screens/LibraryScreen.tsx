@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, Button, FlatList, StatusBar, Image, KeyboardAvoidingView, ImageBackground, Pressable } from 'react-native';
 import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import { LibStackParams, TLibBook, TShopBook } from '../types';
-import { clearAS, getAllBooksAS, getBookNamesAS, getTokenAS, setBookStatsAS } from '../service/asyncStorage';
+import { clearAS, getAllBooksAS, getBookNamesAS, setBookKeysAS, setBookStatsAS } from '../service/asyncStorage';
 import { BookLibCard } from '../components/BookLibCard';
 import { stylesLibraryScreen } from './stylesScreen';
 import { srcImgLibraryHeader } from '../constants/images';
@@ -16,6 +16,8 @@ import { ButtonGroup, FAB, Input, ListItem } from '@rneui/themed';
 import { black, deepBlue, gray, pink, white } from '../constants/colors';
 import { BookLastReadCard } from '../components/BookLastReadCard';
 import { booksDir, fileBooksDir } from '../constants';
+import { GetAllLibBooks } from '../service/api';
+import { AppContext } from '../context/AppContext';
 
 
 export function LibraryScreen() {
@@ -30,6 +32,7 @@ export function LibraryScreen() {
     //     'MontserratAlt700': MontserratAlternates_700Bold,
     // })
 
+    const { netInfo } = useContext(AppContext);
     const { navigate } = useNavigation<NavigationProp<LibStackParams>>();
     const [fileBooks, setFileBooks] = useState<TLibBook[]>([]);
     const [shopBooks, setShopBooks] = useState<TLibBook[]>();
@@ -40,7 +43,7 @@ export function LibraryScreen() {
     useFocusEffect(
         React.useCallback(() => {
             getAllFileBooks();
-            getAllShopBooks();
+            getAllLibBooks();
         }, [])
     );
 
@@ -85,9 +88,27 @@ export function LibraryScreen() {
         setFileBooks(booksArray);
     }
 
-    async function getAllShopBooks() {
-        const bookNames = await getBookNamesAS();
-        const booksArray: TLibBook[] = await getAllBooksAS(bookNames);
+    async function getAllLibBooks() {
+        let booksArray: TLibBook[] = [];
+
+        if (netInfo?.isInternetReachable) {
+            // Get from backend
+            const result = await GetAllLibBooks();
+            if (typeof result == "number") return; //TODO throw error message
+            booksArray = result;
+
+            const bookKeys: string[] = [];
+            for (let book of result) {
+                setBookStatsAS(book);
+                bookKeys.push((book.id).toString());
+            }
+            setBookKeysAS(bookKeys);
+        }
+        else {
+            // Get from async storage
+            const bookNames = await getBookNamesAS();
+            booksArray = await getAllBooksAS(bookNames);
+        }
         setShopBooks(booksArray);
     }
 

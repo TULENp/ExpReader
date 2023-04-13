@@ -15,6 +15,7 @@ export {
     TPin,
     AuthStackParams,
     TAchieveStatus,
+    TBookStats,
 };
 
 type TShopBook = {
@@ -88,7 +89,7 @@ type TUserData = {
 }
 
 type TBookStats = {
-    bookID: number,
+    bookID: string,
     readPages: number,
     currentPage: number,
     isRead: boolean,

@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { TAchieveStatus, TDailyTask, TLibBook, TUserData } from '../types';
+import { TBookStats, TDailyTask, TLibBook, TUserData } from '../types';
 
 const userDataKey = 'userData'; // key for userData in async storage
 
@@ -10,7 +10,7 @@ export function setBookStatsAS(book: TLibBook) {
 }
 
 // save book names to async storage
-export function setBookNamesAS(bookNames: string[]) {
+export function setBookKeysAS(bookNames: string[]) {
     AsyncStorage.setItem('shopBookNames', JSON.stringify(bookNames));
 }
 
@@ -40,12 +40,31 @@ export function setBookIsReadAS(id: string, pages: number) {
     incUserReadBooksAS();
 }
 
-// set bookPages to book added from file in async storage 
+// set bookPages in async storage 
 export function setFileBookPagesAS(id: string, pages: number) {
     AsyncStorage.mergeItem(id, `{bookPages:${pages}}`);
 }
 
-// get all books added from file from async storage
+// get all book stats from async storage
+export async function getUserBookStatsAS(bookNames: string[]): Promise<TBookStats[]> {
+    let booksStats: TBookStats[] = [];
+    for (let name of bookNames) {
+        const bookJSON = await AsyncStorage.getItem(name);
+        if (bookJSON) {
+            const { id, readPages, currentPage, isRead, readDate }: TLibBook = JSON.parse(bookJSON);
+            booksStats.push({
+                bookID: id,
+                readPages: readPages,
+                currentPage: currentPage,
+                isRead: isRead,
+                readDate: readDate
+            });
+        }
+    }
+    return booksStats;
+}
+
+// get all books from async storage
 export async function getAllBooksAS(bookNames: string[]): Promise<TLibBook[]> {
     let books: TLibBook[] = [];
     for (let name of bookNames) {
@@ -57,39 +76,10 @@ export async function getAllBooksAS(bookNames: string[]): Promise<TLibBook[]> {
     return books;
 }
 
-// // save all bought books to async storage
-//export async function setAllShopBooksAS(booksArray: TLibBook[]) {
-//     for (let book of booksArray) {
-//         AsyncStorage.setItem(book.id, JSON.stringify(book));
-//     }
-// }
-
-// // get all bought books from async storage
-// export async function getAllShopBooksAS(bookNames: string[]): Promise<TLibBook[]> {
-//     let books: TLibBook[] = [];
-//     for (let name of bookNames) {
-//         const book = await AsyncStorage.getItem(name);
-//         if (book) {
-//             books.push(JSON.parse(book));
-//         }
-//     }
-//     return books;
-// }
 
 //* User data  
 
 export async function getUserDataAS(): Promise<TUserData | null> {
-
-    //? test set user data
-    // await AsyncStorage.setItem('userData', JSON.stringify({
-    //     nickname: 'TULENb',
-    //     readPagesNum: 0,
-    //     readBooksNum: 0,
-    //     achievesImg: [],
-    //     userBooks: [],
-    // }));
-    // AsyncStorage.setItem('todayPages', '0');
-
     return JSON.parse(await AsyncStorage.getItem(userDataKey) || 'null');
 }
 

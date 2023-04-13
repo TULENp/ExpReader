@@ -3,6 +3,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, ScrollView, Button, AppState } from 'react-native';
 import { pageChars } from '../../constants';
 import {
+    getAllBooksAS,
+    getBookNamesAS,
+    getUserBookStatsAS,
     incTodayPagesAS,
     incUserReadPagesAS,
     setBookIsReadAS,
@@ -14,7 +17,7 @@ import {
 import { TLibBook } from '../../types';
 import { useNavigation } from '@react-navigation/native';
 import { checkBookmarkReward } from '../../service/motivation';
-import { PostUpdateBooks } from '../../service/api';
+import { UpdateUserBookStats } from '../../service/api';
 
 interface ReaderProps {
     bookText: string;
@@ -47,22 +50,16 @@ export function Reader({ bookText, book }: ReaderProps) {
         updateBookCurrentPageAS(id, currentPage);
     }, [currentPage]);
 
-    async function test(){
-        const error = await PostUpdateBooks();
-        console.log(error);
-    }
-
     useEffect(() => {
         // Called just before the component is destroyed
-        const unsubscribe = navigation.addListener('beforeRemove', () => updateASData());
+        const unsubscribe = navigation.addListener('beforeRemove', () => updateData());
         // Called when the application goes into the background
         const subscription = AppState.addEventListener('change', appState => {
             if (appState == 'background') {
-                updateASData();
-                test();
+                updateData();
             }
         });
-        
+
         return () => {
             unsubscribe();
             subscription.remove();
@@ -76,14 +73,22 @@ export function Reader({ bookText, book }: ReaderProps) {
     }, [readPages])
 
     // Update data in async storage
-    function updateASData() {
-        updateBookReadPagesAS(id, readPages);
+    async function updateData() {
+        //TODO update user stats too
         if (sessionPages !== 0) {
             incUserReadPagesAS(sessionPages);
             incTodayPagesAS(sessionPages);
             // drop counter to prevent reading points farm
             setSessionPages(0);
         }
+        await updateBookReadPagesAS(id, readPages);
+        updateUserBookStats();
+    }
+
+    async function updateUserBookStats() {
+        const bookNames = await getBookNamesAS();
+        const booksStats = await getUserBookStatsAS(bookNames);
+        UpdateUserBookStats(booksStats);
     }
 
     function readCurrentPage() {

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getTokenAS, setTokenAS } from "./asyncStorage";
-import { TBook, TLibBook, TRarity, TUserData } from "../types";
+import { TBook, TBookStats, TLibBook, TRarity, TUserData } from "../types";
 import { baseURL } from "../constants";
 axios.defaults.baseURL = baseURL + '/api';
 
@@ -43,6 +43,23 @@ export async function GetUserData(): Promise<TUserData | string> {
         .then(response => response.data)
         .catch(error => error.response.status);
 }
+
+export async function UpdateUserBookStats(bookStats: TBookStats[]) {
+    const token = await getTokenAS();
+    if (!token) return '401';
+
+    return await axios.post('user/updateUserBookStat',
+        {
+            UBStat: bookStats
+        },
+        {
+            headers: {
+                Authorization: token
+            }
+        })
+        .catch(error => error.response.status);
+}
+
 
 //* Book 
 
@@ -90,9 +107,9 @@ export async function BuyBook(id: string) {
         .catch(error => error.response.status);
 }
 
-export async function GetAllLibBooks(): Promise<TLibBook[] | string> {
+export async function GetAllLibBooks(): Promise<TLibBook[] | number> {
     const token = await getTokenAS();
-    if (!token) return '401';
+    if (!token) return 401;
     return await axios.get('/books/getLibBooks',
         {
             headers: {
@@ -151,28 +168,6 @@ export async function SwitchFavorite(id: string) {
             }
         })
         .catch(error => error.response.status);
-}
-
-
-export async function PostUpdateBooks(){
-    const token = await getTokenAS();
-    if(!token) return '401';
-    
-    return axios.post('user/updateUserBookStat',{
-        UBStat:[{
-            "bookID": 1,
-            "readPages": 69,
-            "currentPage": 23,
-            "isRead": false,
-            "readDate": ""
-        }]
-        },
-        {
-            headers:{
-                Authorization: token
-            }
-        }).catch(error=> error.response.status)
-    
 }
 
 

@@ -106,7 +106,9 @@ export function ProfileScreen() {
 						<Pressable onPress={() => navigate('Achievements')}>
 							<View style={stylesProfileScreen.container_achievements}>
 								<Text style={stylesProfileScreen.h1_profile_bold}>Достижения:
-									<Text style={stylesProfileScreen.h1_profile_medium}> {userData.achievesImg.length}</Text>
+								{/* FIXME */}
+									{/* {userData.achievesImg.length} */}
+									<Text style={stylesProfileScreen.h1_profile_medium}> 5</Text>
 								</Text>
 								<View style={stylesProfileScreen.wrapper_pins}>
 									<FlatList
