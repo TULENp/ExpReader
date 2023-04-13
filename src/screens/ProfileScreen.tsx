@@ -106,7 +106,7 @@ export function ProfileScreen() {
 						<Pressable onPress={() => navigate('Achievements')}>
 							<View style={stylesProfileScreen.container_achievements}>
 								<Text style={stylesProfileScreen.h1_profile_bold}>Достижения:
-								{/* FIXME */}
+									{/* FIXME */}
 									{/* {userData.achievesImg.length} */}
 									<Text style={stylesProfileScreen.h1_profile_medium}> 5</Text>
 								</Text>
@@ -129,13 +129,10 @@ export function ProfileScreen() {
 								<Text style={stylesProfileScreen.h1_profile_medium}> 5</Text>
 							</Text>
 							<View style={stylesProfileScreen.container_profile_books}>
-								{/* FIXME //! don't use flatList in scrollView */}
-								<FlatList
-									data={userData.userBooks}
-									keyExtractor={(item) => item.id}
-									renderItem={({ item }) =>
-										<BookProfileCard book={item} />
-									} />
+								{userData.userBooks.map((book) => (
+									<BookProfileCard key={book.id} book={book} />
+								))}
+
 							</View>
 						</View>
 
