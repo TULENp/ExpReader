@@ -67,7 +67,8 @@ export function ProfileScreen() {
 
 						{/* Header */}
 						<ImageBackground style={stylesProfileScreen.img_header} source={srcImgProfileHeader}>
-							<Avatar titleStyle={{ fontSize: 32, fontFamily: 'Montserrat700' }} size={'large'} containerStyle={stylesProfileScreen.avatar} rounded title='И' />
+							<Avatar title={userData.nickname[0]} size={'large'} rounded
+								titleStyle={{ fontSize: 32, fontFamily: 'Montserrat700' }} containerStyle={stylesProfileScreen.avatar} />
 							<View style={stylesProfileScreen.container_avatar_points}>
 								<Text style={stylesProfileScreen.text_name}>{userData.nickname}</Text>
 								<View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -103,12 +104,12 @@ export function ProfileScreen() {
 						</Pressable>
 
 						{/* Achievements */}
+						{/* FIXME add render to 0 achievements */}
 						<Pressable onPress={() => navigate('Achievements')}>
 							<View style={stylesProfileScreen.container_achievements}>
 								<Text style={stylesProfileScreen.h1_profile_bold}>Достижения:
-									{/* FIXME */}
 									{/* {userData.achievesImg.length} */}
-									<Text style={stylesProfileScreen.h1_profile_medium}> 5</Text>
+									<Text style={stylesProfileScreen.h1_profile_medium}> 5 (хард код)</Text>
 								</Text>
 								<View style={stylesProfileScreen.wrapper_pins}>
 									<FlatList

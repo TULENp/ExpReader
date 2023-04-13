@@ -255,7 +255,7 @@ export const stylesProfileScreen = StyleSheet.create({
         borderWidth:1,
         borderRadius:8,
         overflow:'hidden',
-        backgroundColor:lightBlue,
+        // backgroundColor:lightBlue,
         flexDirection:'row',
         justifyContent:'center',
         alignItems:'center',
