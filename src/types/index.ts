@@ -87,6 +87,14 @@ type TUserData = {
     userBooks: TLibBook[],
 }
 
+type TBookStats = {
+    bookID: number,
+    readPages: number,
+    currentPage: number,
+    isRead: boolean,
+    readDate: Date
+}
+
 type TAchieves = {
     image: string,
     title: string,
