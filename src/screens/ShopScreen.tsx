@@ -86,11 +86,12 @@ export function ShopScreen() {
 								<Image style={{ width: 36, height: 36, }} source={srcIcnFilter} />
 							</TouchableOpacity>
 						</ImageBackground>
-						<View style={{ flex: 1, marginTop: 10 }}>
-							<GestureHandlerRootView>
+						{/* <View style={{ flex: 1, marginTop: 10 }}> */}
+							<GestureHandlerRootView style={{ flex: 1, marginTop: 10 }}>
 								<Carousel width={width} autoPlay={true}
 									autoPlayInterval={3000}
 									scrollAnimationDuration={2000}
+									
 									height={151}
 									data={ads}
 									renderItem={({ item }) =>
@@ -99,7 +100,7 @@ export function ShopScreen() {
 										</View>
 									} />
 							</GestureHandlerRootView>
-						</View>
+						{/* </View> */}
 						<Text style={stylesShopScreen.text_shop}>Магазин</Text>
 						<View style={stylesShopScreen.container_books_shop_card}>
 							{booksList}

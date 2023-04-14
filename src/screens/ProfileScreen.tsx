@@ -114,6 +114,7 @@ export function ProfileScreen() {
 								</Text>
 								<View style={stylesProfileScreen.wrapper_pins}>
 									<FlatList
+									showsHorizontalScrollIndicator={false}
 										scrollEnabled={false}
 										horizontal
 										data={userData.achievesImg}

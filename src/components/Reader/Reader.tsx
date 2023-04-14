@@ -1,6 +1,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, ScrollView, Button, AppState } from 'react-native';
+import { View, Text, ScrollView, Button, AppState, Dimensions } from 'react-native';
 import { pageChars } from '../../constants';
 import {
     getAllBooksAS,
@@ -18,6 +18,9 @@ import { TLibBook } from '../../types';
 import { useNavigation } from '@react-navigation/native';
 import { checkBookmarkReward } from '../../service/motivation';
 import { UpdateUserBookStats } from '../../service/api';
+import Carousel from 'react-native-reanimated-carousel';
+import { GestureHandlerRootView, } from 'react-native-gesture-handler';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 interface ReaderProps {
     bookText: string;
@@ -30,12 +33,15 @@ export function Reader({ bookText, book }: ReaderProps) {
     const navigation = useNavigation();
     const bookPages = book.bookPages || Math.ceil(bookText.length / pageChars); // number of pages in book
     const silver = Math.floor(2 * bookPages / 3); // 2/3 of all pages of the book
+    const swipeRef = useRef(null);
 
     const [sessionPages, setSessionPages] = useState<number>(0); // number of pages read today
     const [pageText, setPageText] = useState(''); // text on one page
     const [currentPage, setCurrentPage] = useState(book.currentPage); // starts from 1, not from 0
     const [readPages, setReadPages] = useState(book.readPages); // number of book pages read
     const [readTimer, setReadTimer] = useState<NodeJS.Timeout | null>(null) // timer after which the page is considered read
+
+    const width = Dimensions.get('window').width;
 
     useEffect(() => {
         if (bookPages !== book.bookPages) {
@@ -160,17 +166,45 @@ export function Reader({ bookText, book }: ReaderProps) {
         scrollViewRef.current?.scrollTo({ y: 0 });
     }
 
+    function closeSwipe() {
+        refSwipePage[0]?.close();
+    }
+
+    // Ref to interact with the swipeable screen
+    const [refSwipePage,setRefSwipePage] = useState<any[]>([])
+
     return (
         <>
             {/* TODO remove scroll animation */}
-            <ScrollView ref={scrollViewRef} >
-                <Text style={{ alignSelf: 'center', fontSize: 25, margin: 10 }}>{pageText}</Text>
-            </ScrollView>
+            <ScrollView ref={scrollViewRef}>
+            <GestureHandlerRootView>
+                <Swipeable
+                    ref={ref => refSwipePage[0] = ref}
+                    // render empty view for swipe animation (it`s crutch)
+                    renderRightActions={()=> <View style={{width:10}}></View>}
+                    renderLeftActions={()=> <View style={{width:10}}></View>}
+
+                    onSwipeableLeftOpen={()=> {
+                        toPrevPage();
+                        closeSwipe();
+                    }}
+                    onSwipeableRightOpen={()=> {
+                        toNextPage();
+                        closeSwipe();
+                    }}
+                >
+                    <View>
+                        <Text style={{ alignSelf: 'center', fontSize: 25, margin: 10 }}>{pageText}</Text>
+                    </View>
+                </Swipeable>
+            </GestureHandlerRootView>
             <View >
                 <Button title={'<'} onPress={toPrevPage} />
                 <Text style={{ alignSelf: 'center', fontSize: 15 }}>{currentPage}/{bookPages}. {readPages}</Text>
                 <Button title={'>'} onPress={toNextPage} />
             </View>
+
+            </ScrollView>
         </>
     );
 }
