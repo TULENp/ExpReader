@@ -1,6 +1,6 @@
 import { View, Text, ImageBackground, Image, ScrollView, Pressable, FlatList, Button } from 'react-native'
 import React, { useContext, useState } from 'react'
-import { srcIcnPoints, srcIcnSetting, srcImgProfileHeader } from '../constants/images'
+import { srcIcnPoints, srcIcnReward, srcIcnSetting, srcImgProfileHeader } from '../constants/images'
 import { stylesProfileScreen } from './stylesScreen'
 import { Avatar } from 'react-native-elements'
 import { LinearProgress } from '@rneui/themed'
@@ -12,6 +12,7 @@ import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation
 import { getDailyTaskLevel } from '../service/motivation'
 import { clearTokenAS, getDailyTaskAS, getTodayPagesAS, getUserDataAS } from '../service/asyncStorage'
 import { AppContext } from '../context/AppContext'
+import { Feather } from '@expo/vector-icons'; 
 
 export function ProfileScreen() {
 	const { setIsAuthorized } = useContext(AppContext);
@@ -62,7 +63,6 @@ export function ProfileScreen() {
 				? <Text>Пользователь не найден</Text>
 				:
 				<ScrollView >
-					<Button title='Выйти' onPress={LogOut} />
 					<View style={stylesProfileScreen.profile_page}>
 
 						{/* Header */}
@@ -76,6 +76,7 @@ export function ProfileScreen() {
 									<Text style={stylesProfileScreen.text_points}>{userData.readPagesNum}</Text>
 								</View>
 							</View>
+							<Feather name="log-out" onPress={LogOut} style={{position:'absolute', top:10, right:10}} size={28} color="white" />
 						</ImageBackground>
 
 						{/* Daily task */}
@@ -113,12 +114,18 @@ export function ProfileScreen() {
 								</Text>
 								<View style={stylesProfileScreen.wrapper_pins}>
 									<FlatList
+										scrollEnabled={false}
 										horizontal
 										data={userData.achievesImg}
 										keyExtractor={(item) => item}
 										renderItem={(item) =>
 											<Image style={stylesProfileScreen.img_pin} source={require('../../assets/owlPin.png')} />
 										}
+										ListEmptyComponent={()=>
+											<View style={stylesProfileScreen.empty_component_achiv}>
+												<Image style={{width:44, height:44}} source={srcIcnReward}/>
+												<Text style={stylesProfileScreen.text_empry}>Вы пока не получили ни одного достижения</Text>
+											</View>}	
 									/>
 								</View>
 							</View>

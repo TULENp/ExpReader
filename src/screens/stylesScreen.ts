@@ -172,6 +172,7 @@ export const stylesProfileScreen = StyleSheet.create({
         paddingLeft:13,
         paddingRight:13,
         flexDirection:'row',
+        position:'relative'
     },
     avatar:{
         backgroundColor:lightBlue,
@@ -266,6 +267,21 @@ export const stylesProfileScreen = StyleSheet.create({
     img_pin:{
         width:70,
         height:70,
+    },
+    text_empry:{
+        fontFamily:'MontserratAlt700',
+        fontSize:14,
+        width:190,
+    },
+    empty_component_achiv:{
+        flexDirection: 'row', 
+        justifyContent:'center', 
+		alignItems:'center',
+        paddingLeft:13, 
+        paddingRight:13,
+        width:366,
+        gap:20,
+        maxWidth:width,
     },
     container_profile_books:{
         flex:1,
