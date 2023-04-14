@@ -72,9 +72,8 @@ export function Reader({ bookText, book }: ReaderProps) {
         }
     }, [readPages])
 
-    // Update data in async storage
     async function updateData() {
-        //TODO update user stats too
+        // Update data in async storage
         if (sessionPages !== 0) {
             incUserReadPagesAS(sessionPages);
             incTodayPagesAS(sessionPages);
@@ -82,9 +81,12 @@ export function Reader({ bookText, book }: ReaderProps) {
             setSessionPages(0);
         }
         await updateBookReadPagesAS(id, readPages);
+
+        //TODO update user stats too
         updateUserBookStats();
     }
 
+    // Update data in backend
     async function updateUserBookStats() {
         const bookNames = await getBookNamesAS();
         const booksStats = await getUserBookStatsAS(bookNames);

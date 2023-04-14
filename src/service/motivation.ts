@@ -1,6 +1,8 @@
+import { pins } from "../TestData/pins";
 import { realBookPageChars, pageChars } from "../constants";
 import { TBookmark, TDailyTask, TRarity } from "../types";
-import { incUserReadPagesAS } from "./asyncStorage";
+import { getAchievesStatusAS, setAchievesStatusAS } from "./asyncStorage";
+import { getUserPagesAS, incUserReadPagesAS } from "./asyncStorage";
 
 export function calculateRarity(pages: number): TRarity {
     let rarity: TRarity = 'legendary'
@@ -69,5 +71,37 @@ export function checkBookmarkReward(readPages: number, bookPages: number) {
 
     if (readReward !== 0) {
         incUserReadPagesAS(readReward);
+    }
+}
+
+export async function checkPagesAchieves(readPages: number) {
+    let achieves: boolean[] = await getAchievesStatusAS();
+    let count = 0;
+    //Check pages achieves
+    for (let i: number = 0; i < 3; i++) {
+        if (!achieves[i] && readPages >= pins[i].condition) {
+            achieves[i] = true;
+            count++;
+        }
+    }
+    if (count > 0) {
+        setAchievesStatusAS(achieves);
+        //TODO update backend
+    }
+}
+
+export async function checkBooksAchieves(readBooks: number) {
+    let achieves: boolean[] = await getAchievesStatusAS();
+    let count = 0;
+    //Check books achieves
+    for (let i: number = 3; i < 6; i++) {
+        if (!achieves[i] && readBooks >= pins[i].condition) {
+            achieves[i] = true;
+            count++;
+        }
+    }
+    if (count > 0) {
+        setAchievesStatusAS(achieves);
+        //TODO update backend
     }
 }

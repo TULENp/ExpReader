@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TBookStats, TDailyTask, TLibBook, TUserData } from '../types';
+import { checkBooksAchieves, checkPagesAchieves } from './motivation';
 
 const userDataKey = 'userData'; // key for userData in async storage
 
@@ -19,8 +20,8 @@ export async function getBookNamesAS(): Promise<string[]> {
 }
 
 // update book statistics: currentPage and readPages in async storage 
-export function updateBookReadPagesAS(id: string, readPages: number) {
-    AsyncStorage.mergeItem(id, `{readPages:${readPages}}`);
+export async function updateBookReadPagesAS(id: string, readPages: number) {
+    await AsyncStorage.mergeItem(id, `{readPages:${readPages}}`);
 }
 
 // update book statistics: currentPage and readPages in async storage 
@@ -95,12 +96,17 @@ export async function getUserPagesAS(): Promise<number> {
 export async function incUserReadPagesAS(inc: number) {
     const pages = await getUserPagesAS() + inc;
     AsyncStorage.mergeItem(userDataKey, `{readPagesNum:${pages}}`);
+
+    checkPagesAchieves(pages);
 }
 
 export async function incUserReadBooksAS() {
     const userData = await getUserDataAS();
     if (userData) {
-        AsyncStorage.mergeItem(userDataKey, `{readBooksNum:${userData.readBooksNum + 1}}`);
+        const books = userData.readBooksNum + 1;        
+        AsyncStorage.mergeItem(userDataKey, `{readBooksNum:${books}}`);
+
+        checkBooksAchieves(books);
     }
 }
 
@@ -161,13 +167,15 @@ export function setAchievesStatusAS(achieves: boolean[]) {
 }
 
 export async function getAchievesStatusAS() {
-    let achieves: boolean[] = [false, true, true, false, false];
+    // AsyncStorage.removeItem('achieves');
+    let achieves: boolean[] = [false, false, false, false, false];
     const res = await AsyncStorage.getItem('achieves');
     if (res) {
         achieves = JSON.parse(res);
     }
     return achieves;
 }
+
 
 //* Api 
 // save user auth token to AS

@@ -133,10 +133,8 @@ export function ProfileScreen() {
 								{userData.userBooks.map((book) => (
 									<BookProfileCard key={book.id} book={book} />
 								))}
-
 							</View>
 						</View>
-
 					</View>
 				</ScrollView>
 			}

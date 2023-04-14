@@ -117,6 +117,7 @@ type TDailyTask = 60 | 120 | 240;
 
 type TPin = {
     id: number,
+    condition: number,
     title: string,
     description: string,
     img: ImageSourcePropType,
