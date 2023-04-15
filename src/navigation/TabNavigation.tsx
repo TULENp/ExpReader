@@ -5,16 +5,40 @@ import { ShopNavigation } from './ShopNavigation';
 import { ProfileNavigation } from './ProfileNavigation';
 import { Feather } from '@expo/vector-icons';
 import { black, deepBlue } from '../constants/colors';
-import { useEffect } from 'react';
-import { setTodayAS} from '../service/asyncStorage';
+import { useEffect, useContext } from 'react';
+import { setBookKeysAS, setBookStatsAS, setTodayAS } from '../service/asyncStorage';
+import { GetAllLibBooks } from '../service/api';
+import { AppContext } from '../context/AppContext';
+
 
 const Tab = createBottomTabNavigator();
 
 export function TabNavigation() {
+    const { netInfo, setIsGotBackend } = useContext(AppContext)
 
     useEffect(() => {
         setTodayAS();
+        getAllLibBooksFromBackend();
     }, [])
+
+    async function getAllLibBooksFromBackend() {
+        if (netInfo?.isInternetReachable) {
+            // Get from backend
+            const result = await GetAllLibBooks();
+            if (typeof result == "number") return; //TODO throw error message
+            //save data to AS
+            const bookKeys: string[] = [];
+            for (let book of result) {
+                setBookStatsAS(book);
+                bookKeys.push((book.id).toString());
+            }
+            setBookKeysAS(bookKeys);
+            //wait for other code completion
+            setTimeout(() => {
+                setIsGotBackend(true);
+            });
+        }
+    }
 
     return (
         <NavigationContainer>

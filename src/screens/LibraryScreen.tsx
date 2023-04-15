@@ -32,7 +32,7 @@ export function LibraryScreen() {
     //     'MontserratAlt700': MontserratAlternates_700Bold,
     // })
 
-    const { netInfo } = useContext(AppContext);
+    const { netInfo, isGotBackend } = useContext(AppContext);
     const { navigate } = useNavigation<NavigationProp<LibStackParams>>();
     const [fileBooks, setFileBooks] = useState<TLibBook[]>([]);
     const [shopBooks, setShopBooks] = useState<TLibBook[]>([]);
@@ -43,8 +43,11 @@ export function LibraryScreen() {
     useFocusEffect(
         React.useCallback(() => {
             getAllFileBooks();
-            getAllLibBooks();
-        }, [])
+            //get data from AS only after getting data from backend
+            if (isGotBackend) {
+                getAllLibBooks();
+            }
+        }, [isGotBackend])
     );
 
     //TODO optimize this method
@@ -90,25 +93,12 @@ export function LibraryScreen() {
     }
 
     async function getAllLibBooks() {
-        if (netInfo?.isInternetReachable) {
-            // Get from backend
-            const result = await GetAllLibBooks();
-            if (typeof result == "number") return; //TODO throw error message
-            setShopBooks(result);
-            //save data to AS
-            const bookKeys: string[] = [];
-            for (let book of result) {
-                setBookStatsAS(book);
-                bookKeys.push((book.id).toString());
-            }
-            setBookKeysAS(bookKeys);
-        }
-        else {
-            // Get from async storage
-            const bookNames = await getBookNamesAS();
-            const booksArray = await getAllBooksAS(bookNames);
-            setShopBooks(booksArray);
-        }
+        const bookNames = await getBookNamesAS();
+        const booksArray = await getAllBooksAS(bookNames);
+        // for (let item of booksArray) {
+        //     console.log(item.title, item.readDate);
+        // }
+        setShopBooks(booksArray);
     }
 
     // if (!fontsLoaded) {
