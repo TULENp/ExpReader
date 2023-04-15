@@ -12,7 +12,6 @@ import { coversDir, booksDir, fileBooksDir, imageURL } from '../../constants';
 import * as FileSystem from 'expo-file-system';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 
-
 export function BookLibCard({ book }: { book: TLibBook }) {
     const { navigate } = useNavigation<NavigationProp<LibStackParams>>();
     const { authors, bookPages, cover, currentPage, id, isRead, readDate, readPages, title, fileName } = book;
@@ -24,7 +23,7 @@ export function BookLibCard({ book }: { book: TLibBook }) {
 
     useEffect(() => {
         checkDownload();
-    }, [])
+    }, [isDownloaded])
 
     async function checkDownload() {
         const shopBooks: string[] = await FileSystem.readDirectoryAsync(booksDir);
@@ -52,7 +51,8 @@ export function BookLibCard({ book }: { book: TLibBook }) {
     }
 
     async function deleteBook() {
-        await FileSystem.deleteAsync(booksDir + fileName, { idempotent: true })
+        await FileSystem.deleteAsync(booksDir + fileName, { idempotent: true });
+        setIsDownloaded(false);
         console.log('deleted');
     }
 

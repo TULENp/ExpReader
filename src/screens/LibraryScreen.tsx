@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, Button, FlatList, StatusBar, Image, KeyboardAvoidingView, ImageBackground, Pressable } from 'react-native';
+import { View, Text, Button, FlatList, StatusBar, Image, KeyboardAvoidingView, ImageBackground, Pressable, SafeAreaView } from 'react-native';
 import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
@@ -18,7 +18,6 @@ import { BookLastReadCard } from '../components/BookLastReadCard';
 import { booksDir, fileBooksDir } from '../constants';
 import { GetAllLibBooks } from '../service/api';
 import { AppContext } from '../context/AppContext';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 export function LibraryScreen() {
@@ -63,6 +62,7 @@ export function LibraryScreen() {
         await FileSystem.StorageAccessFramework.copyAsync(
             {
                 from: result.uri,
+                //TODO mb change to `${booksDir}/${result.name}`
                 to: fileBooksDir
             });
 
@@ -90,13 +90,11 @@ export function LibraryScreen() {
     }
 
     async function getAllLibBooks() {
-        let booksArray: TLibBook[] = [];
-
         if (netInfo?.isInternetReachable) {
             // Get from backend
             const result = await GetAllLibBooks();
             if (typeof result == "number") return; //TODO throw error message
-            booksArray = result;
+            setShopBooks(result);
             //save data to AS
             const bookKeys: string[] = [];
             for (let book of result) {
@@ -108,9 +106,9 @@ export function LibraryScreen() {
         else {
             // Get from async storage
             const bookNames = await getBookNamesAS();
-            booksArray = await getAllBooksAS(bookNames);
+            const booksArray = await getAllBooksAS(bookNames);
+            setShopBooks(booksArray);
         }
-        setShopBooks(booksArray);
     }
 
     // if (!fontsLoaded) {
