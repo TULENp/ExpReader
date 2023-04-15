@@ -31,9 +31,9 @@ export async function SignIn(userLogin: string, userPassword: string) {
 
 //* User 
 
-export async function GetUserData(): Promise<TUserData | string> {
+export async function GetUserData(): Promise<TUserData | number> {
     const token = await getTokenAS();
-    if (!token) return '401';
+    if (!token) return 401;
     return await axios.get('/user/getUserData',
         {
             headers: {
@@ -46,7 +46,7 @@ export async function GetUserData(): Promise<TUserData | string> {
 
 export async function UpdateUserBookStats(bookStats: TBookStats[]) {
     const token = await getTokenAS();
-    if (!token) return '401';
+    if (!token) return 401;
 
     return await axios.post('user/updateUserBookStat',
         {
@@ -63,9 +63,10 @@ export async function UpdateUserBookStats(bookStats: TBookStats[]) {
 
 //* Book 
 
-export async function GetBook(id: string): Promise<TBook | string> {
+export async function GetBook(id: string): Promise<TBook | number> {
     const token = await getTokenAS();
-    if (!token) return '401';
+        if (!token) return 401;
+
     return await axios.get('/books/getBook?id=' + id,
         {
             headers: {
@@ -78,7 +79,8 @@ export async function GetBook(id: string): Promise<TBook | string> {
 
 export async function DownloadBook(id: string) {
     const token = await getTokenAS();
-    if (!token) return '401';
+        if (!token) return 401;
+
     return await axios.post('/books/downloadBook',
         {
             bookId: id
@@ -94,7 +96,8 @@ export async function DownloadBook(id: string) {
 
 export async function BuyBook(id: string) {
     const token = await getTokenAS();
-    if (!token) return '401';
+        if (!token) return 401;
+
     return await axios.post('/books/buyABook',
         {
             bookId: id
@@ -122,7 +125,8 @@ export async function GetAllLibBooks(): Promise<TLibBook[] | number> {
 
 export async function GetAllShopBooks(sortId: 0 | 1 | 2 | 3, rarity: TRarity | null, searchValue: string, genres: string[] | null) {
     const token = await getTokenAS();
-    if (!token) return '401';
+        if (!token) return 401;
+
     return await axios.post('/books/getFilteredBooks',
         {
             sortId: sortId,
@@ -144,7 +148,8 @@ export async function GetAllShopBooks(sortId: 0 | 1 | 2 | 3, rarity: TRarity | n
 
 export async function GetFavorites() {
     const token = await getTokenAS();
-    if (!token) return '401';
+        if (!token) return 401;
+
     return await axios.get('/fav/showFav',
         {
             headers: {
@@ -157,7 +162,8 @@ export async function GetFavorites() {
 
 export async function SwitchFavorite(id: string) {
     const token = await getTokenAS();
-    if (!token) return '401';
+        if (!token) return 401;
+
     return await axios.post('/fav/switchFav',
         {
             bookId: id

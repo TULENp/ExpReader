@@ -3,12 +3,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { LibraryNavigation } from './LibraryNavigation';
 import { ShopNavigation } from './ShopNavigation';
 import { ProfileNavigation } from './ProfileNavigation';
-import { Icon } from '@rneui/themed';
 import { Feather } from '@expo/vector-icons';
-import { black, deepBlue, white } from '../constants/colors';
+import { black, deepBlue } from '../constants/colors';
 import { useEffect } from 'react';
-import { GetUserData } from '../service/api';
-import { setTodayAS, setUserDataAS} from '../service/asyncStorage';
+import { setTodayAS} from '../service/asyncStorage';
 
 const Tab = createBottomTabNavigator();
 
@@ -16,15 +14,7 @@ export function TabNavigation() {
 
     useEffect(() => {
         setTodayAS();
-        getUserData();
     }, [])
-
-    async function getUserData() {
-        const result = await GetUserData();
-        if (typeof result !== "string") {
-            setUserDataAS(result);
-        }
-    }
 
     return (
         <NavigationContainer>

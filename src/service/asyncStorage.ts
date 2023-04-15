@@ -81,6 +81,7 @@ export async function getAllBooksAS(bookNames: string[]): Promise<TLibBook[]> {
 //* User data  
 
 export async function getUserDataAS(): Promise<TUserData | null> {
+    // AsyncStorage.removeItem(userDataKey);
     return JSON.parse(await AsyncStorage.getItem(userDataKey) || 'null');
 }
 
@@ -103,7 +104,7 @@ export async function incUserReadPagesAS(inc: number) {
 export async function incUserReadBooksAS() {
     const userData = await getUserDataAS();
     if (userData) {
-        const books = userData.readBooksNum + 1;        
+        const books = userData.readBooksNum + 1;
         AsyncStorage.mergeItem(userDataKey, `{readBooksNum:${books}}`);
 
         checkBooksAchieves(books);
@@ -186,7 +187,6 @@ export function setTokenAS(token: string) {
 export async function getTokenAS() {
     return await AsyncStorage.getItem('token');
 }
-
 export function clearTokenAS() {
     AsyncStorage.removeItem('token');
 }

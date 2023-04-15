@@ -18,6 +18,7 @@ import { BookLastReadCard } from '../components/BookLastReadCard';
 import { booksDir, fileBooksDir } from '../constants';
 import { GetAllLibBooks } from '../service/api';
 import { AppContext } from '../context/AppContext';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 export function LibraryScreen() {
@@ -96,7 +97,7 @@ export function LibraryScreen() {
             const result = await GetAllLibBooks();
             if (typeof result == "number") return; //TODO throw error message
             booksArray = result;
-
+            //save data to AS
             const bookKeys: string[] = [];
             for (let book of result) {
                 setBookStatsAS(book);
@@ -117,7 +118,7 @@ export function LibraryScreen() {
     // }
 
     return (
-        <>
+        <SafeAreaView>
             <FlatList
                 ListHeaderComponent=
                 {
@@ -168,6 +169,6 @@ export function LibraryScreen() {
                 icon={{ name: 'add', color: 'white' }}
                 color={deepBlue} size='large'
                 style={stylesLibraryScreen.fab_button} />
-        </>
+        </SafeAreaView>
     );
 }

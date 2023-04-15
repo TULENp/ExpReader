@@ -86,7 +86,7 @@ export function Reader({ bookText, book }: ReaderProps) {
         updateUserBookStats();
     }
 
-    // Update data in backend
+    // Update data in the backend
     async function updateUserBookStats() {
         const bookNames = await getBookNamesAS();
         const booksStats = await getUserBookStatsAS(bookNames);

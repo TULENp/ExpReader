@@ -10,11 +10,12 @@ import { pins } from '../TestData/pins'
 import { BookProfileCard } from '../components/BookProfileCard'
 import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native'
 import { getDailyTaskLevel } from '../service/motivation'
-import { clearTokenAS, getDailyTaskAS, getTodayPagesAS, getUserDataAS } from '../service/asyncStorage'
+import { clearTokenAS, getDailyTaskAS, getTodayPagesAS, getUserDataAS, setUserDataAS } from '../service/asyncStorage'
 import { AppContext } from '../context/AppContext'
+import { GetUserData } from '../service/api'
 
 export function ProfileScreen() {
-	const { setIsAuthorized } = useContext(AppContext);
+	const { setIsAuthorized, netInfo } = useContext(AppContext);
 	const { navigate } = useNavigation<NavigationProp<ProfileStackParams>>();
 
 	const [userData, setUserData] = useState<TUserData | null>(null);
@@ -32,7 +33,20 @@ export function ProfileScreen() {
 	);
 
 	async function getUserData() {
-		const data = await getUserDataAS();
+		let data = null;
+		//FIXME //! remove '!' to invert boolean expression after updateDB func is ready
+		if (!netInfo?.isInternetReachable) {
+			//get data from backend
+			const result = await GetUserData();
+			if (typeof result == "number") return; //TODO throw error message
+			// if data is ok save it to AS and set state
+			data = result
+			setUserDataAS(result);
+		}
+		else {
+			//get data from AS and set state
+			data = await getUserDataAS();
+		}
 		setUserData(data);
 	}
 

@@ -37,7 +37,10 @@ export default function App() {
 	}, [isAuth])
 
 	async function checkLogin() {
+		
 		const token = await getTokenAS();
+		//Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImxvZyIsInVzZXJJZCI6NCwiaWF0IjoxNjgxNDE3MTg4LCJleHAiOjE2ODE1MDM1ODh9.jQnYCA3esxpqnZ7joYWM4Nfk6jXwAAk8UPjFwYLtUdM
+		//Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImxvZyIsInVzZXJJZCI6NCwiaWF0IjoxNjgxNTg1Mzg3LCJleHAiOjE2ODE2NzE3ODd9.kOErZFS3oaSccRQeiNa5UX9_0u-p-dHEP47PtjIXqlA
 		setIsAuth(token ? true : false);
 		setIsLoading(false);
 	}
@@ -50,6 +53,7 @@ export default function App() {
 			await FileSystem.makeDirectoryAsync(coversDir);
 		}
 	}
+
 	if (!fontsLoaded) {
 		return <AppLoading />;
 	}
