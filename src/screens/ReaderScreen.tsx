@@ -1,9 +1,9 @@
 import { Text } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { TLibBook } from '../types'
+import { LibStackParams, TLibBook } from '../types'
 import * as FileSystem from 'expo-file-system';
 import { booksDir, fileBooksDir } from '../constants';
-import { useRoute, RouteProp } from '@react-navigation/native';
+import { useRoute, RouteProp, useNavigation, NavigationProp } from '@react-navigation/native';
 import { Reader } from '../components/Reader';
 
 type ReaderParams = {
@@ -13,10 +13,14 @@ type ReaderParams = {
 export function ReaderScreen() {
     const { book } = useRoute<RouteProp<Record<string, ReaderParams>, string>>().params; // get book text from params
 
+    const { navigate, getParent } = useNavigation<NavigationProp<LibStackParams>>();
+
     const [bookText, setBookText] = useState<string>('');
 
     useEffect(() => {
         getBookText();
+        getParent()?.setOptions({tabBarStyle: {display: 'none'}}); //hide tab bar
+        
     }, [])
 
     async function getBookText() {

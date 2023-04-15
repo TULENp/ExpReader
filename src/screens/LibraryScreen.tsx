@@ -33,7 +33,7 @@ export function LibraryScreen() {
     // })
 
     const { netInfo } = useContext(AppContext);
-    const { navigate } = useNavigation<NavigationProp<LibStackParams>>();
+    const { navigate, getParent } = useNavigation<NavigationProp<LibStackParams>>();
     const [fileBooks, setFileBooks] = useState<TLibBook[]>([]);
     const [shopBooks, setShopBooks] = useState<TLibBook[]>([]);
 
@@ -44,6 +44,7 @@ export function LibraryScreen() {
         React.useCallback(() => {
             getAllFileBooks();
             getAllLibBooks();
+            getParent()?.setOptions({tabBarStyle: {display: 'flex'}}); //show tab bar
         }, [])
     );
 

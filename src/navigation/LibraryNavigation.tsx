@@ -11,7 +11,7 @@ export function LibraryNavigation() {
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Library" component={LibraryScreen} />
-            <Stack.Screen name="Reader" component={ReaderScreen} />
+            <Stack.Screen name="Reader"  component={ReaderScreen}/>
         </Stack.Navigator>
     );
 }
