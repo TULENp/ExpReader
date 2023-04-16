@@ -40,7 +40,7 @@ export function RegisterScreen() {
         }
 
         const res = await Register(login, password, repeatPassword);
-        if (res) {
+        if (res !== '200') {
             alert(res);
             return;
         }
@@ -51,11 +51,11 @@ export function RegisterScreen() {
     return (
         <View style={stylesSignInScreen.page}>
             <TouchableOpacity style={stylesSignInScreen.header} onPress={() => goBack()} >
-					<MaterialIcons name="keyboard-backspace" size={36} color="black" />
-				</TouchableOpacity>
-            <Image style={stylesSignInScreen.logo} source={srcIcnLogo}/>
-            <View style={{width:'100%',  alignItems:'center'}}>
-                <View style={{width:'100%', justifyContent:'flex-start',}}>
+                <MaterialIcons name="keyboard-backspace" size={36} color="black" />
+            </TouchableOpacity>
+            <Image style={stylesSignInScreen.logo} source={srcIcnLogo} />
+            <View style={{ width: '100%', alignItems: 'center' }}>
+                <View style={{ width: '100%', justifyContent: 'flex-start', }}>
                     <Text style={stylesSignInScreen.h1}>Логин</Text>
                 </View>
                 <TextInput
@@ -67,8 +67,8 @@ export function RegisterScreen() {
                 />
             </View>
 
-            <View style={{width:'100%',  alignItems:'center', marginTop:20,}}>
-                <View style={{width:'100%', justifyContent:'flex-start',}}>
+            <View style={{ width: '100%', alignItems: 'center', marginTop: 20, }}>
+                <View style={{ width: '100%', justifyContent: 'flex-start', }}>
                     <Text style={stylesSignInScreen.h1}>Пароль</Text>
                 </View>
                 <TextInput
@@ -81,8 +81,8 @@ export function RegisterScreen() {
                 />
             </View>
 
-            <View style={{width:'100%',  alignItems:'center', marginTop:20, marginBottom:30}}>
-                <View style={{width:'100%', justifyContent:'flex-start',}}>
+            <View style={{ width: '100%', alignItems: 'center', marginTop: 20, marginBottom: 30 }}>
+                <View style={{ width: '100%', justifyContent: 'flex-start', }}>
                     <Text style={stylesSignInScreen.h1}>Повторите пароль</Text>
                 </View>
                 <TextInput

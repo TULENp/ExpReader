@@ -42,20 +42,6 @@ export function calculateBookmark(readPages: number, bookPages: number): ImageSo
     return bookmark;
 }
 
-export function getDailyTaskLevel(dailyTaskPages: TDailyTask): TDailyTaskLevel {
-    let level: TDailyTaskLevel = { level: 'Легкий', color: greenRarity };
-    if (dailyTaskPages === 60) {
-        level = { level: 'Легкий', color: greenRarity };
-    }
-    else if (dailyTaskPages === 120) {
-        level = { level: 'Средний', color: blueRarity };
-    }
-    else if (dailyTaskPages === 240) {
-        level = { level: 'Серьезный', color: redRarity };
-    }
-    return level;
-}
-
 export function checkBookmarkReward(readPages: number, bookPages: number) {
     let readReward: number = 0;
     const bronze = Math.floor(bookPages / 3); //read 1/3 of the book
@@ -77,6 +63,20 @@ export function checkBookmarkReward(readPages: number, bookPages: number) {
     if (readReward !== 0) {
         incUserReadPagesAS(readReward);
     }
+}
+
+export function getDailyTaskLevel(dailyTaskPages: TDailyTask): TDailyTaskLevel {
+    let level: TDailyTaskLevel = { level: 'Легкий', color: greenRarity };
+    if (dailyTaskPages === 60) {
+        level = { level: 'Легкий', color: greenRarity };
+    }
+    else if (dailyTaskPages === 120) {
+        level = { level: 'Средний', color: blueRarity };
+    }
+    else if (dailyTaskPages === 240) {
+        level = { level: 'Серьезный', color: redRarity };
+    }
+    return level;
 }
 
 export async function checkPagesAchieves(readPages: number) {

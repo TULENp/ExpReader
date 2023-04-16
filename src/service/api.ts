@@ -1,19 +1,21 @@
 import axios from "axios";
-import { getTokenAS, setTokenAS } from "./asyncStorage";
+import { getTokenAS, setBookKeysAS, setBookStatsAS, setTokenAS } from "./asyncStorage";
 import { TBook, TBookStats, TLibBook, TRarity, TUserData } from "../types";
 import { baseURL } from "../constants";
 axios.defaults.baseURL = baseURL + '/api';
 
 //* Auth 
 
-export async function Register(userLogin: string, userPassword: string, userNickname: string): Promise<number> {
-    return await axios.post('/auth/register',
+export async function Register(userLogin: string, userPassword: string, userNickname: string): Promise<string> {
+    let status = '200';
+    await axios.post('/auth/register',
         {
             login: userLogin,
             password: userPassword,
             nickname: userNickname
         })
-        .catch(error => error.response.data);
+        .catch(error => status = error.response.data);
+    return status;
 }
 
 export async function SignIn(userLogin: string, userPassword: string) {
@@ -95,10 +97,11 @@ export async function DownloadBook(id: string) {
 }
 
 export async function BuyBook(id: string) {
+    let status = '200';
     const token = await getTokenAS();
-    if (!token) return 401;
+    if (!token) return '401';
 
-    return await axios.post('/books/buyABook',
+    await axios.post('/books/buyABook',
         {
             bookId: id
         },
@@ -107,7 +110,8 @@ export async function BuyBook(id: string) {
                 Authorization: token
             }
         })
-        .catch(error => error.response.status);
+        .catch(error => status = error.response.data);
+    return status;
 }
 
 export async function GetAllLibBooks(): Promise<TLibBook[] | number> {
@@ -119,7 +123,15 @@ export async function GetAllLibBooks(): Promise<TLibBook[] | number> {
                 Authorization: token
             }
         })
-        .then(response => response.data)
+        .then(response => {
+            // save books to AS
+            const bookKeys: string[] = [];
+            for (let book of response.data) {
+                setBookStatsAS(book);
+                bookKeys.push((book.id).toString());
+            }
+            setBookKeysAS(bookKeys);
+        })
         .catch(error => error.response.status)
 }
 

@@ -12,7 +12,6 @@ import { ButtonGroup, FAB, Input, ListItem } from '@rneui/themed';
 import { black, deepBlue, gray, pink, white } from '../constants/colors';
 import { BookLastReadCard } from '../components/BookLastReadCard';
 import { booksDir, fileBooksDir } from '../constants';
-import { GetAllLibBooks } from '../service/api';
 import { AppContext } from '../context/AppContext';
 
 export function LibraryScreen() {

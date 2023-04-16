@@ -24,15 +24,7 @@ export function TabNavigation() {
     async function getAllLibBooksFromBackend() {
         if (netInfo?.isInternetReachable) {
             // Get from backend
-            const result = await GetAllLibBooks();
-            if (typeof result == "number") return; //TODO throw error message
-            //save data to AS
-            const bookKeys: string[] = [];
-            for (let book of result) {
-                setBookStatsAS(book);
-                bookKeys.push((book.id).toString());
-            }
-            setBookKeysAS(bookKeys);
+            await GetAllLibBooks();
             //wait for other code completion
             setTimeout(() => {
                 setIsGotBackend(true);
