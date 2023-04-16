@@ -8,7 +8,6 @@ export {
     ProfileStackParams,
     ShopStackParams,
     TRarity,
-    TBookmark,
     TUserData,
     TAchieves,
     TDailyTask,
@@ -76,9 +75,9 @@ type ShopStackParams = {
     FragmentReader: { fragment: string },
 };
 
-type TRarity = 'common' | 'rare' | 'epic' | 'legendary';
+type TRarity = { rarity: 'обычная' | 'редкая' | 'эпическая' | 'легендарная', color: string } ;
 
-type TBookmark = 'bookmark_empty' | 'bronze' | 'silver' | 'gold';
+
 
 type TUserData = {
     nickname: string,

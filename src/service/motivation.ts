@@ -1,39 +1,42 @@
+import { ImageSourcePropType } from "react-native";
 import { pins } from "../TestData/pins";
 import { realBookPageChars, pageChars } from "../constants";
-import { TBookmark, TDailyTask, TRarity } from "../types";
+import { srcIcnBronze, srcIcnGold, srcIcnSilver } from "../constants/images";
+import { TDailyTask, TRarity } from "../types";
 import { getAchievesStatusAS, setAchievesStatusAS } from "./asyncStorage";
 import { getUserPagesAS, incUserReadPagesAS } from "./asyncStorage";
+import { greenRarity, blueRarity, redRarity, yellowRarity } from "../constants/colors";
 
 export function calculateRarity(pages: number): TRarity {
-    let rarity: TRarity = 'legendary'
+    let rarity: TRarity = { rarity: 'легендарная', color: yellowRarity };
     // conversion from app pages to "real" pages, which depends on pageChars
     const realPages = Math.ceil(pages / (realBookPageChars / pageChars));
 
     if (realPages <= 300) {
-        rarity = 'common'
+        rarity = { rarity: 'обычная', color: greenRarity }
     }
     else if (realPages > 300 && realPages <= 600) {
-        rarity = 'rare'
+        rarity = { rarity: 'редкая', color: blueRarity }
     }
     else if (realPages > 600 && realPages <= 900) {
-        rarity = 'epic'
+        rarity = { rarity: 'эпическая', color: redRarity }
     }
     return rarity;
 }
 
-export function calculateBookmark(readPages: number, bookPages: number): TBookmark {
-    let bookmark: TBookmark = 'bookmark_empty';
+export function calculateBookmark(readPages: number, bookPages: number): ImageSourcePropType | null {
+    let bookmark: ImageSourcePropType | null = null;
     if (bookPages !== 0) {
         const readPercent = Math.floor((readPages / bookPages) * 100);
 
         if (readPercent >= 30 && readPercent < 60) {
-            bookmark = 'bronze';
+            bookmark = srcIcnBronze;
         }
         else if (readPercent >= 60 && readPercent < 100) {
-            bookmark = 'silver';
+            bookmark = srcIcnSilver;
         }
         else if (readPercent == 100) {
-            bookmark = 'gold';
+            bookmark = srcIcnGold;
         }
     }
     return bookmark;
