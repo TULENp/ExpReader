@@ -247,6 +247,7 @@ export function Reader({ bookText, book }: ReaderProps) {
                 {/* Left btn prev page */}
                 <Pressable pointerEvents={'box-only'} onPress={()=> toPrevPage()} style={[stylesReader.btn_prev_next]}/>
                 
+                {/* Middle btn open modal */}
                 <Pressable pointerEvents={'box-only'} onPress={()=>ShowHideModal()} style={stylesReader.container_middle}/>
 
                 {/* Right btn prev page */}

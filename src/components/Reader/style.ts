@@ -1,7 +1,7 @@
 import { Dimensions, StyleSheet } from "react-native";
 import { purple, themeYellow } from "../../constants/colors";
 
-const {height} =  Dimensions.get('window')
+const {height, width} =  Dimensions.get('window')
 
 export const stylesReader = StyleSheet.create({
     container_upper_modal:{
@@ -93,7 +93,7 @@ export const stylesReader = StyleSheet.create({
     btn_prev_next:{
         flex:1,
         height:'100%',
-        width:100,
+        width:width/4,
         // backgroundColor:'blue',
         position:'absolute',
         
@@ -101,11 +101,11 @@ export const stylesReader = StyleSheet.create({
     container_middle:{
         flex:1,
         height:'100%',
-        width:193,
+        width:width/2,
         // backgroundColor:'black',
         position:'absolute',
-        left: 100,
-        right: 100,
+        left: width/4,
+        right: width/4,
         textAlign: 'center',
     }
 })
