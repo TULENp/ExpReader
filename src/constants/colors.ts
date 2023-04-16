@@ -10,6 +10,9 @@ const yellowRarity='#F2D607';
 const gray = '#D9D9D9';
 const white = '#FFFFFF'
 const black = '#000000';
+const themeYellow = '#F8F3DF'
 
 export {deepBlue, lightBlue, darkBlue, purple,
-        pink, greenRarity, blueRarity, redRarity, gray, white, black,yellowRarity};
+        pink, greenRarity, blueRarity, redRarity, 
+        gray, white, black,yellowRarity, themeYellow,
+        };

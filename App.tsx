@@ -12,6 +12,7 @@ import { MontserratAlternates_300Light, MontserratAlternates_400Regular, Montser
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import { useNetInfo } from '@react-native-community/netinfo';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
 
@@ -31,6 +32,9 @@ export default function App() {
 	const [isGotBackend, setIsGotBackend] = useState(false);
 	const netInfo = useNetInfo();
 
+	// useEffect(()=>{
+	// 	AsyncStorage.clear();
+	// })
 
 	useEffect(() => {
 		checkLogin();

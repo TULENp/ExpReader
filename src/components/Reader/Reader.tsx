@@ -1,6 +1,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, ScrollView, Button, AppState } from 'react-native';
+import { View, Text, Image, ScrollView, Button, AppState, Dimensions, Modal, Animated, Pressable, TouchableOpacity } from 'react-native';
 import { pageChars } from '../../constants';
 import {
     getAllBooksAS,
@@ -14,10 +14,17 @@ import {
     updateBookReadDateAS,
     updateBookReadPagesAS,
 } from '../../service/asyncStorage';
-import { TLibBook } from '../../types';
-import { useNavigation } from '@react-navigation/native';
+import { LibStackParams, TLibBook } from '../../types';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { checkBookmarkReward } from '../../service/motivation';
 import { UpdateUserBookStats } from '../../service/api';
+import { GestureDetector, GestureHandlerRootView, } from 'react-native-gesture-handler';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
+import { stylesReader } from './style';
+import { MaterialIcons, Ionicons, AntDesign } from '@expo/vector-icons';
+import { redRarity, themeYellow } from '../../constants/colors';
+import { srcIcnFieldDec, srcIcnFieldInc } from '../../constants/images';
+// import Animated from 'react-native-reanimated';
 
 interface ReaderProps {
     bookText: string;
@@ -30,6 +37,8 @@ export function Reader({ bookText, book }: ReaderProps) {
     const navigation = useNavigation();
     const bookPages = book.bookPages || Math.ceil(bookText.length / pageChars); // number of pages in book
     const silver = Math.floor(2 * bookPages / 3); // 2/3 of all pages of the book
+    const [refSwipePage,setRefSwipePage] = useState<any[]>([]) // Ref to interact with the swipeable screen
+    const {  goBack } = useNavigation<NavigationProp<LibStackParams>>();
 
     const [sessionPages, setSessionPages] = useState<number>(0); // number of pages read today
     const [pageText, setPageText] = useState(''); // text on one page
@@ -37,11 +46,14 @@ export function Reader({ bookText, book }: ReaderProps) {
     const [readPages, setReadPages] = useState(book.readPages); // number of book pages read
     const [readTimer, setReadTimer] = useState<NodeJS.Timeout | null>(null) // timer after which the page is considered read
 
+    const width = Dimensions.get('window').width;
+
     useEffect(() => {
         if (bookPages !== book.bookPages) {
             setFileBookPagesAS(id, bookPages);
         }
         updateBookReadDateAS(id);
+        
     }, []);
 
     useEffect(() => {
@@ -162,17 +174,183 @@ export function Reader({ bookText, book }: ReaderProps) {
         scrollViewRef.current?.scrollTo({ y: 0 });
     }
 
+    function closeSwipe() {
+        refSwipePage[0]?.close();
+    }
+    
+    const {height} =  Dimensions.get('window')
+
+    // Animtaion value
+    const [visibleModal,setVisibleModal] = useState<boolean>(false);
+    const [visibleSettings,setVisibleSettings] = useState<boolean>(false);
+    const AnimUpperModalValue = useRef(new Animated.Value(-65)).current
+    const AnimLowerModalValue = useRef(new Animated.Value(height+270)).current
+    
+    // Show or Hide general modal wihout settings
+    const ShowHideModal =  () => {
+        if(visibleModal){
+            Animated.timing(AnimUpperModalValue, { toValue: -65, useNativeDriver: true, duration: 200 }).start()
+            Animated.timing(AnimLowerModalValue, { toValue: height+270, useNativeDriver: true, duration: 200 }).start()
+            setTimeout(()=> {
+                setVisibleModal(false); 
+                setVisibleSettings(false);
+            },100)
+        }else{
+            setVisibleModal(true);
+            Animated.timing(AnimUpperModalValue, { toValue: 0, useNativeDriver: true, duration: 200 }).start()
+            Animated.timing(AnimLowerModalValue, { toValue: height+230, useNativeDriver: true, duration: 200 }).start()
+        }
+    }
+
+    // Show or Hide modal with settings
+    const ShowHideSettings = () => {
+        if(visibleModal){
+            if(visibleSettings){
+                setVisibleSettings(false);
+                Animated.timing(AnimLowerModalValue, { toValue: height+230, useNativeDriver: true, duration: 200 }).start()
+            }else{
+                setVisibleSettings(true);
+                Animated.timing(AnimLowerModalValue, { toValue: height, useNativeDriver: true, duration: 200 }).start()
+            }
+        }
+    }
+
+    const truncateTitle = (str: string) => {
+		if (str.length >= 25) {
+			return str.substring(0, 25) + '...';
+		}
+		return str;
+	}
+
     return (
         <>
             {/* TODO remove scroll animation */}
-            <ScrollView ref={scrollViewRef} >
-                <Text style={{ alignSelf: 'center', fontSize: 25, margin: 10 }}>{pageText}</Text>
+            <ScrollView scrollEnabled={true} ref={scrollViewRef}>
+            <GestureHandlerRootView style={{flex:1, position:'relative'}}>
+                <Swipeable
+                    ref={ref => refSwipePage[0] = ref}
+                    // render empty view for swipe animation (it`s crutch)
+                    renderRightActions={()=> <View style={{width:10}}></View>}
+                    renderLeftActions={()=> <View style={{width:10}}></View>}
+                    
+                    onSwipeableLeftOpen={()=> {
+                        toPrevPage();
+                        closeSwipe();
+                    }}
+                    onSwipeableRightOpen={()=> {
+                        toNextPage();
+                        closeSwipe();
+                    }}>
+                    <Pressable style={{backgroundColor:'white'}}>
+                        <Text style={{ alignSelf: 'center', fontSize: 25, margin: 10 }}>{pageText}</Text>
+                    </Pressable>
+                </Swipeable>
+
+                {/* Left btn prev page */}
+                <Pressable pointerEvents={'box-only'} onPress={()=> toPrevPage()} style={[stylesReader.btn_prev_next]}/>
+                
+                {/* Middle btn open modal */}
+                <Pressable pointerEvents={'box-only'} onPress={()=>ShowHideModal()} style={stylesReader.container_middle}/>
+
+                {/* Right btn prev page */}
+                <Pressable pointerEvents={'box-only'} onPress={()=> toNextPage()} style={[stylesReader.btn_prev_next, {right:0}]}/>
+
+                    {/* Modal setting */}
+                    <Modal    
+                        visible={visibleModal}
+                        style={{}}
+                        onRequestClose={()=> setVisibleModal(false)}
+                        transparent>
+                        
+                        {/* Upper modal */}
+                        <Animated.View style={[stylesReader.container_upper_modal, {position:'absolute',elevation:2,zIndex:2, transform:[{ translateY: AnimUpperModalValue }] } ]}>
+                            
+                            {/* Icon back */}
+                            <TouchableOpacity onPress={() => goBack()} >
+                                <MaterialIcons name="keyboard-backspace" size={36} color="white" />
+                            </TouchableOpacity>
+                            {/* Book title */}
+                            <Text style={stylesReader.title}>{truncateTitle(book.title)}</Text>
+                            <TouchableOpacity onPress={() => ShowHideSettings()} >
+                                <Ionicons  name="settings-outline" size={32} color={visibleSettings ? redRarity : 'white'} />
+                            </TouchableOpacity>
+                        </Animated.View>
+
+                            {/* Gray View */}
+                            <Pressable onPress={ShowHideModal} style={{flex:1,elevation:1,zIndex:1, backgroundColor:'#000', opacity: .7}}/>
+                            
+                            {/* Lower modal */}
+                            <Animated.View style={[stylesReader.container_lower_modal, {position:'absolute',elevation:2,zIndex:2, transform:[{ translateY: AnimLowerModalValue.interpolate({ inputRange: [0, 100], outputRange: [0, 70] }) }] } ]}>
+                                {!visibleSettings ?
+                                    <>
+                                        <Text style={stylesReader.text_pages_medium}>{currentPage} из 
+                                        <Text style={stylesReader.text_pages_bold}> {bookPages}</Text> стр.</Text>
+                                    </>
+                                    :
+                                    <View style={{width:'100%', paddingTop:10}}>
+
+                                        {/* Theme settings */}
+                                        <View style={{paddingLeft:13, paddingRight:13, borderBottomWidth:1, borderBottomColor:'white', paddingBottom:15}}>
+                                            <Text style={stylesReader.h1_settings}>Тема</Text>
+                                            <View style={{flexDirection:'row', justifyContent:'space-between', marginTop:10}}>
+
+                                                {/* White theme */}
+                                                <Pressable style={[stylesReader.theme_item, {backgroundColor: 'white'}]}>
+                                                    <Text style={stylesReader.theme_item_white_text}>Аа</Text>
+                                                </Pressable>
+
+                                                {/* Yellow theme */}
+                                                <Pressable style={[stylesReader.theme_item, {backgroundColor: themeYellow}]}>
+                                                    <Text style={stylesReader.theme_item_yellow_text}>Аа</Text>
+                                                </Pressable>
+
+                                                {/* Black theme */}
+                                                <Pressable style={[stylesReader.theme_item, {backgroundColor: 'black'}]}>
+                                                    <Text style={stylesReader.theme_item_black_text}>Аа</Text>
+                                                </Pressable>
+                                            </View>
+                                        </View>
+
+                                        {/* Font size settings */}
+                                        <View style={{width:'100%',marginTop:10, paddingLeft:13, paddingRight:13, flexDirection:'row', justifyContent:'space-between', alignItems:'center', borderBottomWidth:1,borderBottomColor:'white',paddingBottom:15}}>
+                                            <Text style={stylesReader.h1_settings}>Размер шрифта</Text>
+                                            <View style={{flexDirection:'row', gap:8}}>
+                                                {/* Btn decrease font size */}
+                                                <Pressable style={stylesReader.btn_settings}>
+                                                    <AntDesign name="minus" size={24} color="black" />
+                                                </Pressable>
+
+                                                {/* Btn increase font size */}
+                                                <Pressable style={stylesReader.btn_settings}>
+                                                    <AntDesign name="plus" size={24} color="black" />
+                                                </Pressable>
+                                            </View>
+                                        </View>
+
+                                        {/* Fields text settings */}
+                                        <View style={{width:'100%',marginTop:10, paddingLeft:13, paddingRight:13, flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>
+                                            <Text style={stylesReader.h1_settings}>Поля</Text>
+                                            <View style={{flexDirection:'row', gap:8}}>
+                                                {/* Btn decrease field text */}
+                                                <Pressable style={stylesReader.btn_settings}>
+                                                    <Image style={stylesReader.icn_field} source={srcIcnFieldDec} />
+                                                </Pressable>
+
+                                                {/* Btn increase field text */}
+                                                <Pressable style={stylesReader.btn_settings}>
+                                                    <Image style={stylesReader.icn_field} source={srcIcnFieldInc} />
+                                                </Pressable>
+                                            </View>
+                                        </View>
+
+                                    </View>
+                                }
+                                
+                            </Animated.View>
+                    </Modal>
+            </GestureHandlerRootView>
+        
             </ScrollView>
-            <View >
-                <Button title={'<'} onPress={toPrevPage} />
-                <Text style={{ alignSelf: 'center', fontSize: 15 }}>{currentPage}/{bookPages}. {readPages}</Text>
-                <Button title={'>'} onPress={toNextPage} />
-            </View>
         </>
     );
 }
