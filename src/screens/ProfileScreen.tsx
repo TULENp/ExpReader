@@ -5,7 +5,7 @@ import { stylesProfileScreen } from './stylesScreen';
 import { Avatar } from 'react-native-elements';
 import { LinearProgress } from '@rneui/themed';
 import { greenRarity, white } from '../constants/colors';
-import { ProfileStackParams, TDailyTask, TPin, TUserData } from '../types';
+import { ProfileStackParams, TDailyTask, TDailyTaskLevel, TPin, TUserData } from '../types';
 import { pins } from '../TestData/pins';
 import { BookProfileCard } from '../components/BookProfileCard';
 import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native';
@@ -13,7 +13,7 @@ import { getDailyTaskLevel } from '../service/motivation';
 import { clearTokenAS, getDailyTaskAS, getTodayPagesAS, getUserDataAS, setUserDataAS } from '../service/asyncStorage';
 import { AppContext } from '../context/AppContext';
 import { GetUserData } from '../service/api';
-import { Feather } from '@expo/vector-icons'; 
+import { Feather } from '@expo/vector-icons';
 
 export function ProfileScreen() {
 	const { setIsAuthorized, netInfo } = useContext(AppContext);
@@ -22,21 +22,20 @@ export function ProfileScreen() {
 	const [userData, setUserData] = useState<TUserData | null>(null);
 	const [todayPages, setTodayPages] = useState<number>(0);
 	const [dailyTaskPages, setDailyTaskPages] = useState<TDailyTask>(60);
-	const [dailyTaskLevel, setDailyTaskLevel] = useState<string>('');
+	const [dailyTaskLevel, setDailyTaskLevel] = useState<TDailyTaskLevel>();
 
 	useFocusEffect(
 		React.useCallback(() => {
 			getUserData();
 			getTodayPages();
 			getDailyTask();
-			setDailyTaskLevel(getDailyTaskLevel(dailyTaskPages));
 		}, [])
 	);
 
 	async function getUserData() {
 		let data = null;
 		//FIXME //! remove '!' to invert boolean expression after updateDB func is ready
-		if (!netInfo?.isInternetReachable) {
+		if (netInfo?.isInternetReachable) {
 			//get data from backend
 			const result = await GetUserData();
 			if (typeof result == "number") return; //TODO throw error message
@@ -58,6 +57,7 @@ export function ProfileScreen() {
 
 	async function getDailyTask() {
 		const dailyTask = await getDailyTaskAS();
+		setDailyTaskLevel(getDailyTaskLevel(dailyTask));
 		setDailyTaskPages(dailyTask);
 	}
 
@@ -90,7 +90,7 @@ export function ProfileScreen() {
 									<Text style={stylesProfileScreen.text_points}>{userData.readPagesNum}</Text>
 								</View>
 							</View>
-							<Feather name="log-out" onPress={LogOut} style={{position:'absolute', top:10, right:10}} size={28} color="white" />
+							<Feather name="log-out" onPress={LogOut} style={{ position: 'absolute', top: 10, right: 10 }} size={28} color="white" />
 						</ImageBackground>
 
 						{/* Daily task */}
@@ -99,7 +99,7 @@ export function ProfileScreen() {
 								<View style={stylesProfileScreen.wrapper_text_level_settings}>
 									{/* FIXME //! level is not updating */}
 									<Text style={stylesProfileScreen.text_level_bold}>Уровень:
-										<Text style={[stylesProfileScreen.text_level_medium, { color: greenRarity }]}> {dailyTaskLevel}</Text>
+										<Text style={[stylesProfileScreen.text_level_medium, { color: dailyTaskLevel?.color }]}> {dailyTaskLevel?.level}</Text>
 									</Text>
 									<Image style={stylesProfileScreen.icn_settings} source={srcIcnSetting} />
 								</View>
@@ -128,7 +128,7 @@ export function ProfileScreen() {
 								</Text>
 								<View style={stylesProfileScreen.wrapper_pins}>
 									<FlatList
-									showsHorizontalScrollIndicator={false}
+										showsHorizontalScrollIndicator={false}
 										scrollEnabled={false}
 										horizontal
 										data={userData.achievesImg}
@@ -136,11 +136,11 @@ export function ProfileScreen() {
 										renderItem={(item) =>
 											<Image style={stylesProfileScreen.img_pin} source={require('../../assets/owlPin.png')} />
 										}
-										ListEmptyComponent={()=>
+										ListEmptyComponent={() =>
 											<View style={stylesProfileScreen.empty_component_achiv}>
-												<Image style={{width:44, height:44}} source={srcIcnReward}/>
+												<Image style={{ width: 44, height: 44 }} source={srcIcnReward} />
 												<Text style={stylesProfileScreen.text_empry}>Вы пока не получили ни одного достижения</Text>
-											</View>}	
+											</View>}
 									/>
 								</View>
 							</View>

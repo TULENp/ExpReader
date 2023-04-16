@@ -2,7 +2,7 @@ import { ImageSourcePropType } from "react-native";
 import { pins } from "../TestData/pins";
 import { realBookPageChars, pageChars } from "../constants";
 import { srcIcnBronze, srcIcnGold, srcIcnSilver } from "../constants/images";
-import { TDailyTask, TRarity } from "../types";
+import { TDailyTask, TDailyTaskLevel, TRarity } from "../types";
 import { getAchievesStatusAS, setAchievesStatusAS } from "./asyncStorage";
 import { getUserPagesAS, incUserReadPagesAS } from "./asyncStorage";
 import { greenRarity, blueRarity, redRarity, yellowRarity } from "../constants/colors";
@@ -26,30 +26,32 @@ export function calculateRarity(pages: number, isPagesReal: boolean = false): TR
 
 export function calculateBookmark(readPages: number, bookPages: number): ImageSourcePropType | null {
     let bookmark: ImageSourcePropType | null = null;
+    const bronze = Math.floor(bookPages / 3); //read 1/3 of the book
+    const silver = Math.floor(2 * bookPages / 3); //read 2/3 of the book
     if (bookPages !== 0) {
-        const readPercent = Math.floor((readPages / bookPages) * 100);
-
-        if (readPercent >= 30 && readPercent < 60) {
+        if (readPages >= bronze && readPages < silver) {
             bookmark = srcIcnBronze;
         }
-        else if (readPercent >= 60 && readPercent < 100) {
+        else if (readPages >= silver && readPages < bookPages) {
             bookmark = srcIcnSilver;
         }
-        else if (readPercent == 100) {
+        else if (readPages === bookPages) { //read the whole book
             bookmark = srcIcnGold;
         }
     }
     return bookmark;
 }
 
-export function getDailyTaskLevel(dailyTaskPages: TDailyTask) {
-    let level = '';
+export function getDailyTaskLevel(dailyTaskPages: TDailyTask): TDailyTaskLevel {
+    let level: TDailyTaskLevel = { level: 'Легкий', color: greenRarity };
     if (dailyTaskPages === 60) {
-        level = 'Легкий';
-    } else if (dailyTaskPages === 120) {
-        level = 'Нормальный';
-    } else if (dailyTaskPages === 240) {
-        level = 'Серьезный';
+        level = { level: 'Легкий', color: greenRarity };
+    }
+    else if (dailyTaskPages === 120) {
+        level = { level: 'Средний', color: blueRarity };
+    }
+    else if (dailyTaskPages === 240) {
+        level = { level: 'Серьезный', color: redRarity };
     }
     return level;
 }

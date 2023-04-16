@@ -15,6 +15,7 @@ export {
     AuthStackParams,
     TAchieveStatus,
     TBookStats,
+    TDailyTaskLevel,
 };
 
 type TShopBook = {
@@ -75,10 +76,6 @@ type ShopStackParams = {
     FragmentReader: { fragment: string },
 };
 
-type TRarity = { rarity: 'обычная' | 'редкая' | 'эпическая' | 'легендарная', color: string } ;
-
-
-
 type TUserData = {
     nickname: string,
     readPagesNum: number,
@@ -102,17 +99,22 @@ type TAchieves = {
     isCompleted: boolean
 }
 
-type TAchieveStatus = { id: string, isCompleted: boolean };
-// type TDailyTask = {
-//     level: TDailyTaskLevel,
-//     value: TDailyTaskValue,
-//     isCompleted: boolean,
-//     todayPages: number,
-// }
+type TAchieveStatus = {
+    id: string,
+    isCompleted: boolean
+};
 
-// type TDailyTaskLevel = 'Легкий' | 'Нормальный' | 'Серьезный';
+type TRarity = {
+    rarity: 'обычная' | 'редкая' | 'эпическая' | 'легендарная',
+    color: string
+};
 
 type TDailyTask = 60 | 120 | 240;
+
+type TDailyTaskLevel = {
+    level: 'Легкий' | 'Средний' | 'Серьезный',
+    color: string
+};
 
 type TPin = {
     id: number,

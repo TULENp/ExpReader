@@ -23,6 +23,7 @@ export function CheckoutScreen() {
     async function buyBook() {
         const res = await BuyBook(book.id);
         //TODO give feedback
+        //TODO get lib books from backend
     }
     return (
         <>

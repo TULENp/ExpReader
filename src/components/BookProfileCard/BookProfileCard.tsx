@@ -1,8 +1,7 @@
-import { View, Text, Image, ImageBackground, ImageSourcePropType } from 'react-native'
+import { View, Image, ImageBackground, ImageSourcePropType } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { stylesProfileCard } from './style'
 import { Shadow } from 'react-native-shadow-2'
-import { greenRarity } from '../../constants/colors'
 import { TLibBook, TRarity } from '../../types'
 import { imageURL } from '../../constants'
 import { calculateBookmark, calculateRarity } from '../../service/motivation'
@@ -12,9 +11,12 @@ export function BookProfileCard({ book }: { book: TLibBook }) {
     const [bookRarity, setBookRarity] = useState<TRarity>();
 
     useEffect(() => {
-        setBookMark(calculateBookmark(book.readPages, book.bookPages));
         setBookRarity(calculateRarity(book.bookPages));
     }, [])
+
+    useEffect(() => {
+        setBookMark(calculateBookmark(book.readPages, book.bookPages));
+    }, [book.readPages])
 
     return (
         <View style={stylesProfileCard.wrapper_book_profile_card}>

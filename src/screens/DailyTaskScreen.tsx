@@ -1,7 +1,6 @@
 import { View, Text, Button, ScrollView, StatusBar, TouchableOpacity, Pressable } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { getNewDailyTaskAS, setDailyTaskAS } from '../service/asyncStorage'
-import { getDailyTaskLevel } from '../service/motivation';
 import { ProfileStackParams, TDailyTask } from '../types';
 import { NavigationProp, RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { blueRarity, deepBlue, greenRarity, redRarity } from '../constants/colors';
@@ -13,7 +12,7 @@ type DailyTaskParams = {
 }
 export function DailyTaskScreen() {
 	const { todayPages } = useRoute<RouteProp<Record<string, DailyTaskParams>, string>>().params; // get today pages from params
-	const [dailyTaskLevel, setDailyTaskLevel] = useState<string>();
+	const [dailyTask, setDailyTask] = useState<TDailyTask>();
 	const { goBack } = useNavigation<NavigationProp<ProfileStackParams>>();
 
 	// const [activeContaner,setActiveContainer] = useState<number>();
@@ -24,11 +23,10 @@ export function DailyTaskScreen() {
 
 	async function getDailyTask() {
 		const dailyTask: TDailyTask = await getNewDailyTaskAS();
-		const level: string = getDailyTaskLevel(dailyTask);
-		setDailyTaskLevel(level);
+		setDailyTask(dailyTask);
 	}
 
-	function setDailyTask(dailyTask: TDailyTask) {
+	function changeDailyTask(dailyTask: TDailyTask) {
 		setDailyTaskAS(dailyTask, todayPages);
 		getDailyTask();
 	}
@@ -53,9 +51,10 @@ export function DailyTaskScreen() {
 
 					{/* Daily Tasks */}
 					<View style={stylesDailyTaskScreen.wrapper_containers}>
-						<Pressable onPress={() => setDailyTask(60)}>
+						<Pressable onPress={() => changeDailyTask(60)}>
 							<View style={{ alignItems: 'center' }}>
-								<View style={[dailyTaskLevel === 'Легкий' ? stylesDailyTaskScreen.container_daily_task_active : stylesDailyTaskScreen.container_daily_task, { backgroundColor: greenRarity }]}>
+								<View style={[{ backgroundColor: greenRarity },
+								dailyTask === 60 ? stylesDailyTaskScreen.container_daily_task_active : stylesDailyTaskScreen.container_daily_task]}>
 									<Text style={stylesDailyTaskScreen.text_bold_large}>60</Text>
 									<Text style={stylesDailyTaskScreen.text_medium}>страниц в день</Text>
 								</View>
@@ -63,9 +62,10 @@ export function DailyTaskScreen() {
 							</View>
 						</Pressable>
 
-						<Pressable onPress={() => setDailyTask(120)}>
+						<Pressable onPress={() => changeDailyTask(120)}>
 							<View style={{ alignItems: 'center' }}>
-								<View style={[dailyTaskLevel === 'Нормальный' ? stylesDailyTaskScreen.container_daily_task_active : stylesDailyTaskScreen.container_daily_task, { backgroundColor: blueRarity }]}>
+								<View style={[{ backgroundColor: blueRarity },
+								dailyTask === 120 ? stylesDailyTaskScreen.container_daily_task_active : stylesDailyTaskScreen.container_daily_task]}>
 									<Text style={stylesDailyTaskScreen.text_bold_large}>120</Text>
 									<Text style={stylesDailyTaskScreen.text_medium}>страниц в день</Text>
 								</View>
@@ -73,9 +73,10 @@ export function DailyTaskScreen() {
 							</View>
 						</Pressable>
 
-						<Pressable onPress={() => setDailyTask(240)}>
+						<Pressable onPress={() => changeDailyTask(240)}>
 							<View style={{ alignItems: 'center' }}>
-								<View style={[dailyTaskLevel === 'Серьезный' ? stylesDailyTaskScreen.container_daily_task_active : stylesDailyTaskScreen.container_daily_task, { backgroundColor: redRarity }]}>
+								<View style={[{ backgroundColor: redRarity },
+								dailyTask === 240 ? stylesDailyTaskScreen.container_daily_task_active : stylesDailyTaskScreen.container_daily_task]}>
 									<Text style={stylesDailyTaskScreen.text_bold_large}>240</Text>
 									<Text style={stylesDailyTaskScreen.text_medium}>страниц в день</Text>
 								</View>

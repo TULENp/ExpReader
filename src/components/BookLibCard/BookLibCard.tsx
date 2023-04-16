@@ -6,7 +6,7 @@ import { Shadow } from 'react-native-shadow-2';
 import { gray, greenRarity, pink, white } from '../../constants/colors';
 import { LinearProgress } from '@rneui/themed';
 import { srcIcnBook } from '../../constants/images';
-import { calculateBookmark, calculateRarity } from '../../service/motivation';
+import { calculateRarity } from '../../service/motivation';
 import { DownloadBook } from '../../service/api';
 import { coversDir, booksDir, fileBooksDir, imageURL } from '../../constants';
 import * as FileSystem from 'expo-file-system';
