@@ -74,7 +74,11 @@ export async function getAllBooksAS(bookNames: string[]): Promise<TLibBook[]> {
             books.push(JSON.parse(book));
         }
     }
-    return books;
+    return books.sort((a: TLibBook, b: TLibBook) => {
+        if (a.readDate > b.readDate) { return -1; }
+        if (a.readDate < b.readDate) { return 1; }
+        return 0;
+    });
 }
 
 

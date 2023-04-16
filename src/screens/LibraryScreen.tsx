@@ -1,17 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, Button, FlatList, StatusBar, Image, KeyboardAvoidingView, ImageBackground, Pressable, SafeAreaView } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { View, Text, FlatList, StatusBar, KeyboardAvoidingView, ImageBackground, Pressable, SafeAreaView } from 'react-native';
 import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
-import { LibStackParams, TLibBook, TShopBook } from '../types';
-import { clearAS, getAllBooksAS, getBookNamesAS, setBookKeysAS, setBookStatsAS } from '../service/asyncStorage';
+import { LibStackParams, TLibBook } from '../types';
+import { getAllBooksAS, getBookNamesAS, setBookStatsAS } from '../service/asyncStorage';
 import { BookLibCard } from '../components/BookLibCard';
 import { stylesLibraryScreen } from './stylesScreen';
 import { srcImgLibraryHeader } from '../constants/images';
-import { ButtonGroup, FAB, Input, ListItem } from '@rneui/themed';
-import { black, deepBlue, gray, pink, white } from '../constants/colors';
+import { ButtonGroup, FAB, Input } from '@rneui/themed';
+import { deepBlue, white } from '../constants/colors';
 import { BookLastReadCard } from '../components/BookLastReadCard';
-import { booksDir, fileBooksDir } from '../constants';
+import { fileBooksDir } from '../constants';
 import { AppContext } from '../context/AppContext';
 
 export function LibraryScreen() {
