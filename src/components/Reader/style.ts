@@ -89,5 +89,23 @@ export const stylesReader = StyleSheet.create({
     icn_field:{
         width:48,
         height:34
+    },
+    btn_prev_next:{
+        flex:1,
+        height:'100%',
+        width:100,
+        // backgroundColor:'blue',
+        position:'absolute',
+        
+    },
+    container_middle:{
+        flex:1,
+        height:'100%',
+        width:193,
+        // backgroundColor:'black',
+        position:'absolute',
+        left: 100,
+        right: 100,
+        textAlign: 'center',
     }
 })

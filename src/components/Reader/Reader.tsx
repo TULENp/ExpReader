@@ -239,11 +239,19 @@ export function Reader({ bookText, book }: ReaderProps) {
                         toNextPage();
                         closeSwipe();
                     }}>
-                    <Pressable onPress={ShowHideModal} style={{backgroundColor:'white'}}>
+                    <Pressable style={{backgroundColor:'white'}}>
                         <Text style={{ alignSelf: 'center', fontSize: 25, margin: 10 }}>{pageText}</Text>
                     </Pressable>
                 </Swipeable>
-                    
+
+                {/* Left btn prev page */}
+                <Pressable pointerEvents={'box-only'} onPress={()=> toPrevPage()} style={[stylesReader.btn_prev_next]}/>
+                
+                <Pressable pointerEvents={'box-only'} onPress={()=>ShowHideModal()} style={stylesReader.container_middle}/>
+
+                {/* Right btn prev page */}
+                <Pressable pointerEvents={'box-only'} onPress={()=> toNextPage()} style={[stylesReader.btn_prev_next, {right:0}]}/>
+
                     {/* Modal setting */}
                     <Modal    
                         visible={visibleModal}
@@ -257,13 +265,12 @@ export function Reader({ bookText, book }: ReaderProps) {
                             {/* Icon back */}
                             <TouchableOpacity onPress={() => goBack()} >
                                 <MaterialIcons name="keyboard-backspace" size={36} color="white" />
-			                </TouchableOpacity>
-
+                            </TouchableOpacity>
                             {/* Book title */}
                             <Text style={stylesReader.title}>{truncateTitle(book.title)}</Text>
                             <TouchableOpacity onPress={() => ShowHideSettings()} >
                                 <Ionicons  name="settings-outline" size={32} color={visibleSettings ? redRarity : 'white'} />
-			                </TouchableOpacity>
+                            </TouchableOpacity>
                         </Animated.View>
 
                             {/* Gray View */}
@@ -326,7 +333,7 @@ export function Reader({ bookText, book }: ReaderProps) {
                                                     <Image style={stylesReader.icn_field} source={srcIcnFieldDec} />
                                                 </Pressable>
 
-                                                {/* Btn increase font size */}
+                                                {/* Btn increase field text */}
                                                 <Pressable style={stylesReader.btn_settings}>
                                                     <Image style={stylesReader.icn_field} source={srcIcnFieldInc} />
                                                 </Pressable>
@@ -339,11 +346,7 @@ export function Reader({ bookText, book }: ReaderProps) {
                             </Animated.View>
                     </Modal>
             </GestureHandlerRootView>
-            {/* <View >
-                <Button title={'<'} onPress={toPrevPage} />
-                <Text style={{ alignSelf: 'center', fontSize: 15 }}>{currentPage}/{bookPages}. {readPages}</Text>
-                <Button title={'>'} onPress={toNextPage} />
-            </View> */}
+        
             </ScrollView>
         </>
     );
