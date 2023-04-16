@@ -7,10 +7,10 @@ import { getAchievesStatusAS, setAchievesStatusAS } from "./asyncStorage";
 import { getUserPagesAS, incUserReadPagesAS } from "./asyncStorage";
 import { greenRarity, blueRarity, redRarity, yellowRarity } from "../constants/colors";
 
-export function calculateRarity(pages: number): TRarity {
+export function calculateRarity(pages: number, isPagesReal: boolean = false): TRarity {
     let rarity: TRarity = { rarity: 'легендарная', color: yellowRarity };
-    // conversion from app pages to "real" pages, which depends on pageChars
-    const realPages = Math.ceil(pages / (realBookPageChars / pageChars));
+    // if pages not 'real' convert from app pages to "real" pages, which depends on pageChars
+    let realPages = isPagesReal ? pages : Math.ceil(pages / (realBookPageChars / pageChars));
 
     if (realPages <= 300) {
         rarity = { rarity: 'обычная', color: greenRarity }

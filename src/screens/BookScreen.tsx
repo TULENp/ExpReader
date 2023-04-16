@@ -45,8 +45,7 @@ export function BookScreen() {
 	}
 
 	function GetAndSetBookRarity(bookPages: number) {
-		//FIXME wrong calculation because in the backend bookPages saved as 'averageReal page' 
-		const rarity = calculateRarity(bookPages);
+		const rarity = calculateRarity(bookPages, true);
 		setBookRarity(rarity);
 	}
 
