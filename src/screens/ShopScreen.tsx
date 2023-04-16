@@ -16,6 +16,12 @@ import { GetAllShopBooks } from '../service/api';
 
 const width = Dimensions.get('window').width;
 
+export type TFilters = {
+	genre: number[],
+	rarity: number | undefined,
+	sort: string,
+}
+
 export function ShopScreen() {
 	const scrollToTop = useRef(null);
 	useScrollToTop(scrollToTop);
@@ -25,6 +31,12 @@ export function ShopScreen() {
 	const [books, setBooks] = useState<TShopBook[]>([]);
 	const [searchText, setSearchText] = useState<string>('');
 	const [isOpenDrawer, setIsOpenDrawer] = useState<boolean>(false);
+	const [filters, setFilters] = useState<TFilters>({
+		genre: [],
+		rarity: undefined,
+		sort: '0'
+	});
+
 
 	useEffect(() => {
 		getBooks();
@@ -32,14 +44,15 @@ export function ShopScreen() {
 
 	//TODO pass filters
 	async function getBooks() {
-		const books = await GetAllShopBooks(0, null, searchText, null);
+		//FIXME fix rarity
+		const books = await GetAllShopBooks(filters.sort, null, searchText, filters.genre);
 		setBooks(books);
 	}
 
 	const booksList: JSX.Element[] = books.map((book) => {
 		return (
-			<TouchableOpacity style={{ maxWidth: 116, width: '100%' }} onPress={() => navigate('ShopBook', { id: book.id })}>
-				<BookShopCard book={book} key={book.id} />
+			<TouchableOpacity key={book.id} style={{ maxWidth: 116, width: '100%' }} onPress={() => navigate('ShopBook', { id: book.id })}>
+				<BookShopCard book={book} />
 			</TouchableOpacity>
 		)
 	})
@@ -54,7 +67,7 @@ export function ShopScreen() {
 		<>
 			<StatusBar backgroundColor={deepBlue} />
 			<Drawer type='overlay'
-				content={<Filters />}
+				content={<Filters filters={filters} setFilters={setFilters} filterBooks={getBooks} />}
 				open={isOpenDrawer}
 				onClose={() => setIsOpenDrawer(false)}
 				tapToClose={true}
@@ -86,19 +99,18 @@ export function ShopScreen() {
 							</TouchableOpacity>
 						</ImageBackground>
 						{/* <View style={{ flex: 1, marginTop: 10 }}> */}
-							<GestureHandlerRootView style={{ flex: 1, marginTop: 10 }}>
-								<Carousel width={width} autoPlay={true}
-									autoPlayInterval={3000}
-									scrollAnimationDuration={2000}
-									
-									height={151}
-									data={ads}
-									renderItem={({ item }) =>
-										<View style={stylesShopScreen.container_adds_carousel}>
-											<Image style={stylesShopScreen.img_add} source={item} />
-										</View>
-									} />
-							</GestureHandlerRootView>
+						<GestureHandlerRootView style={{ flex: 1, marginTop: 10 }}>
+							<Carousel width={width} autoPlay={true}
+								autoPlayInterval={3000}
+								scrollAnimationDuration={2000}
+								height={151}
+								data={ads}
+								renderItem={({ item }) =>
+									<View style={stylesShopScreen.container_adds_carousel}>
+										<Image style={stylesShopScreen.img_add} source={item} />
+									</View>
+								} />
+						</GestureHandlerRootView>
 						{/* </View> */}
 						<Text style={stylesShopScreen.text_shop}>Магазин</Text>
 						<View style={stylesShopScreen.container_books_shop_card}>

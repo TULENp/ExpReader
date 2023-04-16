@@ -65,7 +65,7 @@ export async function UpdateUserBookStats(bookStats: TBookStats[]) {
 
 export async function GetBook(id: string): Promise<TBook | number> {
     const token = await getTokenAS();
-        if (!token) return 401;
+    if (!token) return 401;
 
     return await axios.get('/books/getBook?id=' + id,
         {
@@ -79,7 +79,7 @@ export async function GetBook(id: string): Promise<TBook | number> {
 
 export async function DownloadBook(id: string) {
     const token = await getTokenAS();
-        if (!token) return 401;
+    if (!token) return 401;
 
     return await axios.post('/books/downloadBook',
         {
@@ -96,7 +96,7 @@ export async function DownloadBook(id: string) {
 
 export async function BuyBook(id: string) {
     const token = await getTokenAS();
-        if (!token) return 401;
+    if (!token) return 401;
 
     return await axios.post('/books/buyABook',
         {
@@ -123,9 +123,9 @@ export async function GetAllLibBooks(): Promise<TLibBook[] | number> {
         .catch(error => error.response.status)
 }
 
-export async function GetAllShopBooks(sortId: 0 | 1 | 2 | 3, rarity: TRarity | null, searchValue: string, genres: string[] | null) {
+export async function GetAllShopBooks(sortId: string, rarity: TRarity | null, searchValue: string, genres: number[]) {
     const token = await getTokenAS();
-        if (!token) return 401;
+    if (!token) return 401;
 
     return await axios.post('/books/getFilteredBooks',
         {
@@ -148,7 +148,7 @@ export async function GetAllShopBooks(sortId: 0 | 1 | 2 | 3, rarity: TRarity | n
 
 export async function GetFavorites() {
     const token = await getTokenAS();
-        if (!token) return 401;
+    if (!token) return 401;
 
     return await axios.get('/fav/showFav',
         {
@@ -162,7 +162,7 @@ export async function GetFavorites() {
 
 export async function SwitchFavorite(id: string) {
     const token = await getTokenAS();
-        if (!token) return 401;
+    if (!token) return 401;
 
     return await axios.post('/fav/switchFav',
         {
