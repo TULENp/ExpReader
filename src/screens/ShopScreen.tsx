@@ -57,7 +57,7 @@ export function ShopScreen() {
 			<Drawer type='overlay'
 				content={<Filters />}
 				open={isOpenDrawer}
-				onClose={() => setIsOpenDrawer(prev => !prev)}
+				onClose={() => setIsOpenDrawer(false)}
 				tapToClose={true}
 				openDrawerOffset={0.2} // 20% gap on the right side of drawer
 				panCloseMask={0.2}
