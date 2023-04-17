@@ -190,7 +190,7 @@ export function Reader({ bookText, book }: ReaderProps) {
     const ShowHideModal =  () => {
         if(visibleModal){
             Animated.timing(AnimUpperModalValue, { toValue: -65, useNativeDriver: true, duration: 200 }).start()
-            Animated.timing(AnimLowerModalValue, { toValue: height+270, useNativeDriver: true, duration: 200 }).start()
+            Animated.timing(AnimLowerModalValue, { toValue: height+330, useNativeDriver: true, duration: 200 }).start()
             setTimeout(()=> {
                 setVisibleModal(false); 
                 setVisibleSettings(false);
@@ -225,7 +225,7 @@ export function Reader({ bookText, book }: ReaderProps) {
     return (
         <>
             {/* TODO remove scroll animation */}
-            <ScrollView scrollEnabled={true} ref={scrollViewRef}>
+            <ScrollView scrollEnabled={true} style={{backgroundColor:'white'}} ref={scrollViewRef}>
             <GestureHandlerRootView style={{flex:1, position:'relative'}}>
                 <Swipeable
                     ref={ref => refSwipePage[0] = ref}
