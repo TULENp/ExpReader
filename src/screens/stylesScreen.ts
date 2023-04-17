@@ -673,6 +673,7 @@ export const stylesAchievementsScreen = StyleSheet.create({
     achievements_page:{
         paddingTop:20,
         flex:1,
+        backgroundColor:'white',
     }
 })
 

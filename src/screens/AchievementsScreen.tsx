@@ -24,7 +24,7 @@ export function AchievementsScreen() {
 		<>
 			<View style={stylesAchievementsScreen.achievements_page}>
 				{/* Header */}
-				<View style={[stylesCheckoutScreen.container_header, { paddingLeft: 13 }]}>
+				<View style={[stylesCheckoutScreen.container_header, { paddingLeft: 13, marginBottom:20 }]}>
 					<TouchableOpacity onPress={() => goBack()}
 					>
 						<MaterialIcons name="keyboard-backspace"
@@ -43,13 +43,12 @@ export function AchievementsScreen() {
 						renderItem={({ item }) => {
 							return (
 								<View style={stylesAchievementsScreen.container_achiv} key={item.id}>
-									<View style={stylesAchievementsScreen.wrapper_pin}>
+									<View style={[stylesAchievementsScreen.wrapper_pin, !achievesStatus[item.id] && {backgroundColor:'#7A95A0'}]}>
 										<Image style={{ width: 80, height: 80 }} source={item.img} />
 									</View>
-									<View style={stylesAchievementsScreen.wrapper_pin_info}>
+									<View style={[stylesAchievementsScreen.wrapper_pin_info, !achievesStatus[item.id] && {backgroundColor:'#7A95A0'}]}>
 										<Text style={stylesAchievementsScreen.title}>{item.title}</Text>
 										<Text style={stylesAchievementsScreen.author}>{item.description}</Text>
-										<Text style={stylesAchievementsScreen.title}>{achievesStatus[item.id] ? 'Выполнено' : 'Не выполнено'}</Text>
 									</View>
 								</View>
 							);
