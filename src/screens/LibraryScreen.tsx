@@ -31,7 +31,7 @@ export function LibraryScreen() {
             if (isGotBackend) {
                 getAllLibBooks();
             }
-            getParent()?.setOptions({ tabBarStyle: { display: 'flex' } }); //show tab bar
+            getParent()?.setOptions({ tabBarStyle: { display: 'flex', height:'8%' } }); //show tab bar
         }, [isGotBackend])
     );
 
@@ -88,8 +88,8 @@ export function LibraryScreen() {
 
     return (
         <>
-            <View style={{backgroundColor:'white', flex:1}}>
                 <FlatList
+                style={{backgroundColor:'white'}}
                     ListHeaderComponent=
                     {
                         <>
@@ -136,11 +136,10 @@ export function LibraryScreen() {
                             </View>)
                     }}
                     ListEmptyComponent={()=> 
-                    <View style={{flex:1,alignItems:'center',padding:13, justifyContent:'center'}}>
+                    <View style={{alignItems:'center',padding:13, justifyContent:'center'}}>
                         <Image style={{width:55, height:55}} source={srcIcnCloudCry}/>
                         <Text style={stylesLibraryScreen.text_empty_list}>{libCategory === 0 ? 'Вы ещё не приобрели ни одной книги' : 'Вы ещё не добавили ни одной книги'}</Text>
                     </View>}/>
-                </View>
             <FAB onPress={addBookFromFile}
                 icon={{ name: 'add', color: 'white' }}
                 color={deepBlue} size='large'

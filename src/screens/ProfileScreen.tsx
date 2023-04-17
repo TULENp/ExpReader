@@ -36,7 +36,7 @@ export function ProfileScreen() {
 	async function getUserData() {
 		let data = null;
 		//FIXME //! remove '!' to invert boolean expression after updateDB func is ready
-		if (!netInfo?.isInternetReachable) {
+		if (netInfo?.isInternetReachable) {
 			//get data from backend
 			const result = await GetUserData();
 			if (typeof result == "number") return; //TODO throw error message
