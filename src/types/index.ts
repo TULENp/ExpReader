@@ -11,7 +11,6 @@ export {
     TUserData,
     TAchieves,
     TDailyTask,
-    TPin,
     AuthStackParams,
     TAchieveStatus,
     TBookStats,
@@ -92,13 +91,6 @@ type TBookStats = {
     readDate: Date
 }
 
-type TAchieves = {
-    image: string,
-    title: string,
-    description: string,
-    isCompleted: boolean
-}
-
 type TAchieveStatus = {
     id: string,
     isCompleted: boolean
@@ -116,7 +108,7 @@ type TDailyTaskLevel = {
     color: string
 };
 
-type TPin = {
+type TAchieves = {
     id: number,
     condition: number,
     title: string,

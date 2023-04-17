@@ -1,6 +1,7 @@
-import { TPin } from '../types';
+import { TAchieves } from '../types';
 
-export const pins: TPin[] = [
+//FIXME change condition to normal
+export const achievements: TAchieves[] = [
     {
         id: 0,
         condition: 10,
@@ -24,14 +25,14 @@ export const pins: TPin[] = [
     },
     {
         id: 3,
-        condition: 10,
+        condition: 1,
         title: 'Библиотекарь',
         description: 'Прочитать 10 книг',
         img: require('../../assets/librarianPin.png'),
     },
     {
         id: 4,
-        condition: 7,
+        condition: 2,
         title: 'Та самая сова из Хогвартса',
         description: 'Прочитать 7 книг о Гарри Поттере',
         img: require('../../assets/owlPin.png'),

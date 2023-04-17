@@ -66,7 +66,7 @@ export function LibraryScreen() {
             fileName: result.name
         };
         //TODO don't set initBook if file already exist
-        setBookStatsAS(bookInit);
+        await setBookStatsAS(bookInit);
         getAllFileBooks();
     }
 

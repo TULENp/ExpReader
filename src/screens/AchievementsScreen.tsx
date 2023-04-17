@@ -1,6 +1,6 @@
 import { View, Text, Image, TouchableOpacity, FlatList } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { pins } from '../TestData/pins'
+import { achievements } from '../TestData/achievements'
 import { stylesAchievementsScreen, stylesCheckoutScreen } from './stylesScreen'
 import { MaterialIcons } from '@expo/vector-icons';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
@@ -38,7 +38,7 @@ export function AchievementsScreen() {
 				{/* Achievements list */}
 				{achievesStatus &&
 					// TODO change style depends on isCompleted
-					<FlatList data={pins}
+					<FlatList data={achievements}
 						keyExtractor={item => item.id.toString()}
 						renderItem={({ item }) => {
 							return (

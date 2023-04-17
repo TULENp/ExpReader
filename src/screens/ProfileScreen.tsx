@@ -9,9 +9,10 @@ import { ProfileStackParams, TDailyTask, TDailyTaskLevel, TUserData } from '../t
 import { BookProfileCard } from '../components/BookProfileCard';
 import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native';
 import { getDailyTaskLevel } from '../service/motivation';
-import { clearTokenAS, getDailyTaskAS, getTodayPagesAS, getUserDataAS } from '../service/asyncStorage';
+import { clearTokenAS, getAchievesStatusAS, getDailyTaskAS, getTodayPagesAS, getUserDataAS } from '../service/asyncStorage';
 import { AppContext } from '../context/AppContext';
 import { Feather } from '@expo/vector-icons';
+import { achievements } from '../TestData/achievements';
 
 export function ProfileScreen() {
 	const { setIsAuthorized, isGotBackend } = useContext(AppContext);
@@ -21,11 +22,13 @@ export function ProfileScreen() {
 	const [todayPages, setTodayPages] = useState<number>(0);
 	const [dailyTaskPages, setDailyTaskPages] = useState<TDailyTask>(60);
 	const [dailyTaskLevel, setDailyTaskLevel] = useState<TDailyTaskLevel>();
+	const [pins, setPins] = useState<JSX.Element[]>([]);
 
 	useFocusEffect(
 		React.useCallback(() => {
 			if (isGotBackend) {
 				getUserData();
+				getAchieves();
 			}
 			getTodayPages();
 			getDailyTask();
@@ -49,10 +52,15 @@ export function ProfileScreen() {
 		setDailyTaskPages(dailyTask);
 	}
 
-	//return first five pins
-	// const firstFivePins: JSX.Element[] = pins.slice(0, 5).map(item => {
-	// 	return <Image style={stylesProfileScreen.img_pin} source={item.img} />;
-	// });
+	async function getAchieves() {
+		//TODO change the logic for saving achievements in AS. Now they are stored in userData
+		const achievesStatus = await getAchievesStatusAS();
+		const pinsArray = achievements
+			.filter(item => achievesStatus[item.id])
+			.slice(0, 5)
+			.map(item => (<Image key={item.id} style={stylesProfileScreen.img_pin} source={item.img} />));
+		setPins(pinsArray);
+	}
 
 	function LogOut() {
 		clearTokenAS();
@@ -107,37 +115,34 @@ export function ProfileScreen() {
 						</Pressable>
 
 						{/* Achievements */}
-						{/* FIXME add render to 0 achievements */}
 						<Pressable onPress={() => navigate('Achievements')}>
 							<View style={stylesProfileScreen.container_achievements}>
-								<Text style={stylesProfileScreen.h1_profile_bold}>Достижения:
-									{/* {userData.achievesImg.length} */}
-									<Text style={stylesProfileScreen.h1_profile_medium}> 5 (хард код)</Text>
-								</Text>
-								<View style={stylesProfileScreen.wrapper_pins}>
-									<FlatList
-										showsHorizontalScrollIndicator={false}
-										scrollEnabled={false}
-										horizontal
-										data={userData.achievesImg}
-										keyExtractor={(item) => item}
-										renderItem={(item) =>
-											<Image style={stylesProfileScreen.img_pin} source={require('../../assets/owlPin.png')} />
-										}
-										ListEmptyComponent={() =>
-											<View style={stylesProfileScreen.empty_component_achiv}>
-												<Image style={{ width: 44, height: 44 }} source={srcIcnReward} />
-												<Text style={stylesProfileScreen.text_empry}>Вы пока не получили ни одного достижения</Text>
-											</View>}
-									/>
-								</View>
+								{pins.length === 0
+									?
+									<View style={stylesProfileScreen.wrapper_pins}>
+										<View style={stylesProfileScreen.empty_component_achiv}>
+											<Image style={{ width: 44, height: 44 }} source={srcIcnReward} />
+											<Text style={stylesProfileScreen.text_empry}>Вы пока не получили ни одного достижения</Text>
+										</View>
+									</View>
+									:
+									<>
+										<Text style={stylesProfileScreen.h1_profile_bold}>Достижения:
+											<Text style={stylesProfileScreen.h1_profile_medium}> {pins.length}</Text>
+										</Text>
+										<View style={stylesProfileScreen.wrapper_pins}>
+											{pins}
+										</View>
+									</>
+								}
 							</View>
 						</Pressable>
 
+						{/* TODO add empty check */}
 						{/* Book shelf */}
 						<View style={stylesProfileScreen.container_bookshelf}>
-							<Text style={stylesProfileScreen.h1_profile_bold}>Полка:
-								<Text style={stylesProfileScreen.h1_profile_medium}> 5</Text>
+							<Text style={stylesProfileScreen.h1_profile_bold}>Книжная полка:
+								<Text style={stylesProfileScreen.h1_profile_medium}> {userData.userBooks.length}</Text>
 							</Text>
 							<View style={stylesProfileScreen.container_profile_books}>
 								{userData.userBooks.map((book) => (

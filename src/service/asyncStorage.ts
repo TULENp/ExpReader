@@ -6,8 +6,8 @@ const userDataKey = 'userData'; // key for userData in async storage
 
 //* Book stats 
 // save books to async storage
-export function setBookStatsAS(book: TLibBook) {
-    AsyncStorage.setItem((book.id).toString(), JSON.stringify(book));
+export async function setBookStatsAS(book: TLibBook) {
+    await AsyncStorage.setItem((book.id).toString(), JSON.stringify(book));
 }
 
 // save book names to async storage
@@ -173,7 +173,7 @@ export function setAchievesStatusAS(achieves: boolean[]) {
 
 export async function getAchievesStatusAS() {
     // AsyncStorage.removeItem('achieves');
-    let achieves: boolean[] = [false, false, false, false, false];
+    let achieves: boolean[] = [false, false, false, false, false, false];
     const res = await AsyncStorage.getItem('achieves');
     if (res) {
         achieves = JSON.parse(res);

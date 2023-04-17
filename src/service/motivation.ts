@@ -1,5 +1,5 @@
 import { ImageSourcePropType } from "react-native";
-import { pins } from "../TestData/pins";
+import { achievements } from "../TestData/achievements";
 import { realBookPageChars, pageChars } from "../constants";
 import { srcIcnBronze, srcIcnGold, srcIcnSilver } from "../constants/images";
 import { TDailyTask, TDailyTaskLevel, TRarity } from "../types";
@@ -84,7 +84,7 @@ export async function checkPagesAchieves(readPages: number) {
     let count = 0;
     //Check pages achieves
     for (let i: number = 0; i < 3; i++) {
-        if (!achieves[i] && readPages >= pins[i].condition) {
+        if (!achieves[i] && readPages >= achievements[i].condition) {
             achieves[i] = true;
             count++;
         }
@@ -100,7 +100,7 @@ export async function checkBooksAchieves(readBooks: number) {
     let count = 0;
     //Check books achieves
     for (let i: number = 3; i < 6; i++) {
-        if (!achieves[i] && readBooks >= pins[i].condition) {
+        if (!achieves[i] && readBooks >= achievements[i].condition) {
             achieves[i] = true;
             count++;
         }
