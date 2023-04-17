@@ -164,7 +164,8 @@ export function LibraryScreen() {
                         <View style={{ backgroundColor: white }}>
                             <BookLibCard book={book} />
                         </View>)
-                }} />
+                }}
+                ListFooterComponent={()=> <View style={{flex:1}}/>}/>
             <FAB onPress={addBookFromFile}
                 icon={{ name: 'add', color: 'white' }}
                 color={deepBlue} size='large'
