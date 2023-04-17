@@ -3,26 +3,40 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { LibraryNavigation } from './LibraryNavigation';
 import { ShopNavigation } from './ShopNavigation';
 import { ProfileNavigation } from './ProfileNavigation';
-import { Icon } from '@rneui/themed';
 import { Feather } from '@expo/vector-icons';
-import { black, deepBlue, white } from '../constants/colors';
-import { useEffect } from 'react';
-import { GetUserData } from '../service/api';
-import { setTodayAS, setUserDataAS} from '../service/asyncStorage';
+import { black, deepBlue } from '../constants/colors';
+import { useEffect, useContext } from 'react';
+import { setBookKeysAS, setBookStatsAS, setTodayAS } from '../service/asyncStorage';
+import { GetAllLibBooks } from '../service/api';
+import { AppContext } from '../context/AppContext';
+
 
 const Tab = createBottomTabNavigator();
 
 export function TabNavigation() {
+    const { netInfo, setIsGotBackend } = useContext(AppContext)
 
     useEffect(() => {
         setTodayAS();
-        getUserData();
+        getAllLibBooksFromBackend();
     }, [])
 
-    async function getUserData() {
-        const result = await GetUserData();
-        if (typeof result !== "string") {
-            setUserDataAS(result);
+    async function getAllLibBooksFromBackend() {
+        if (netInfo?.isInternetReachable) {
+            // Get from backend
+            const result = await GetAllLibBooks();
+            if (typeof result == "number") return; //TODO throw error message
+            //save data to AS
+            const bookKeys: string[] = [];
+            for (let book of result) {
+                setBookStatsAS(book);
+                bookKeys.push((book.id).toString());
+            }
+            setBookKeysAS(bookKeys);
+            //wait for other code completion
+            setTimeout(() => {
+                setIsGotBackend(true);
+            });
         }
     }
 

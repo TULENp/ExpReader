@@ -4,77 +4,51 @@ import { ShopStackParams, TBook, TRarity } from '../types';
 import { NavigationProp, RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { stylesBookScreen } from './stylesScreen';
-import { srcIcnBronze, srcIcnHeart, srcIcnRedHeart, srcImgBookHeader, srcImgHarryPotter3 } from '../constants/images';
+import { srcIcnHeart, srcIcnRedHeart, srcImgBookHeader } from '../constants/images';
 import { MaterialIcons } from '@expo/vector-icons'
 import { Button } from '@rneui/themed';
-import { blueRarity, deepBlue, greenRarity, redRarity, yellowRarity } from '../constants/colors';
+import { deepBlue } from '../constants/colors';
 import { Shadow } from 'react-native-shadow-2';
 import { Feather } from '@expo/vector-icons';
 import { GetBook, SwitchFavorite } from '../service/api';
 import { imageURL } from '../constants';
+import { calculateRarity } from '../service/motivation';
 
 type BookParams = {
 	id: string;
 }
 
 export function BookScreen() {
-
-	const width = Dimensions.get('window').width;
 	const { navigate, goBack } = useNavigation<NavigationProp<ShopStackParams>>();
 	const { id } = useRoute<RouteProp<Record<string, BookParams>, string>>().params; // get book id from params
 	const [book, setBook] = useState<TBook>();
-
-	const [colorRarity, setColorRarity] = useState<string>('');
-	const [bookRarity, setBookRarity] = useState<string>('');
+	const [bookRarity, setBookRarity] = useState<TRarity>();
 
 	useEffect(() => {
 		getBook();
-
 	}, [id])
 
 	async function getBook() {
 		const result = await GetBook(id);
-		if (typeof result !== "string") {
+		if (typeof result !== "number") {
 			setBook(result);
+			GetAndSetBookRarity(result.bookPages);
 		}
 	}
 
 	async function switchFavorite() {
 		const result = await SwitchFavorite(id);
-
-		if (typeof result !== "string") {
+		if (typeof result !== "number") {
 			getBook();
 		}
 	}
 
-	//TODO add Loading
-
-	const GetRarityOfBook = (bookPages: number): string => {
-		if (bookPages <= 250) {
-			setColorRarity(greenRarity)
-			return 'обычная'
-		};
-		if ((bookPages > 250) && (bookPages <= 650)) {
-			setColorRarity(blueRarity)
-			return 'редкая'
-		}
-		if ((bookPages > 650) && (bookPages <= 950)) {
-			setColorRarity(redRarity)
-			return 'эпическая'
-		}
-		if (bookPages > 950) {
-			setColorRarity(yellowRarity)
-			return 'легендарная'
-		}
-		return ''
+	function GetAndSetBookRarity(bookPages: number) {
+		const rarity = calculateRarity(bookPages, true);
+		setBookRarity(rarity);
 	}
 
-	useEffect(() => {
-		if (book) {
-			setBookRarity(GetRarityOfBook(book.bookPages))
-		}
-	}, []);
-
+	//TODO add Loading
 	return (
 		<>
 			<View style={stylesBookScreen.book_screen}>
@@ -97,9 +71,9 @@ export function BookScreen() {
 							{/* Book card */}
 							<View style={stylesBookScreen.container__cover_book_info}>
 								<View style={stylesBookScreen.wrapper_img_cover}>
-									<Shadow distance={1} startColor={colorRarity} offset={[9, 9]}>
+									<Shadow distance={1} startColor={bookRarity?.color} offset={[9, 9]}>
 										<ImageBackground style={stylesBookScreen.img_cover} source={{ uri: imageURL + book.cover }}>
-											<Image style={stylesBookScreen.icn_rarity} source={srcIcnBronze} />
+											{/* <Image style={stylesBookScreen.icn_rarity} source={srcIcnBronze} /> */}
 										</ImageBackground>
 									</Shadow>
 								</View>
@@ -157,7 +131,7 @@ export function BookScreen() {
 						<View style={{ flexDirection: 'row', marginLeft: 13, marginTop: 20 }}>
 							<Feather name="info" size={24} color="#737373" />
 							<Text style={stylesBookScreen.text_rarity_light}>Редкость:</Text>
-							<Text style={[{ color: colorRarity }, stylesBookScreen.text_rarity_bold]}> {bookRarity}</Text>
+							<Text style={[{ color: bookRarity?.color }, stylesBookScreen.text_rarity_bold]}> {bookRarity?.rarity}</Text>
 						</View>
 						{/* description of book */}
 						<View style={{ marginLeft: 13, marginTop: 20, marginRight: 13 }}>

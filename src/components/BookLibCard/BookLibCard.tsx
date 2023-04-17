@@ -1,6 +1,6 @@
 import { View, Text, Image, ImageBackground, Button, Pressable } from 'react-native'
 import React, { useState, useEffect } from 'react'
-import { LibStackParams, TBookmark, TLibBook, TRarity } from '../../types'
+import { LibStackParams, TLibBook, TRarity } from '../../types'
 import { stylesBookLibCard } from './style';
 import { Shadow } from 'react-native-shadow-2';
 import { gray, greenRarity, pink, white } from '../../constants/colors';
@@ -12,19 +12,20 @@ import { coversDir, booksDir, fileBooksDir, imageURL } from '../../constants';
 import * as FileSystem from 'expo-file-system';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 
-
 export function BookLibCard({ book }: { book: TLibBook }) {
     const { navigate } = useNavigation<NavigationProp<LibStackParams>>();
     const { authors, bookPages, cover, currentPage, id, isRead, readDate, readPages, title, fileName } = book;
     const percent = Math.floor((readPages / bookPages) * 100) || 0;
-
-    const [rarity, setRarity] = useState<TRarity>();
-    const [bookmark, setBookmark] = useState<TBookmark>();
+    const [bookRarity, setBookRarity] = useState<TRarity>();
     const [isDownloaded, setIsDownloaded] = useState(false);
 
     useEffect(() => {
-        checkDownload();
+        setBookRarity(calculateRarity(book.bookPages));
     }, [])
+
+    useEffect(() => {
+        checkDownload();
+    }, [isDownloaded])
 
     async function checkDownload() {
         const shopBooks: string[] = await FileSystem.readDirectoryAsync(booksDir);
@@ -35,14 +36,6 @@ export function BookLibCard({ book }: { book: TLibBook }) {
         }
     }
 
-    useEffect(() => {
-        setRarity(calculateRarity(bookPages));
-    }, [bookPages])
-
-    useEffect(() => {
-        setBookmark(calculateBookmark(readPages, bookPages));
-    }, [readPages])
-
     //TODO add download loading
     async function downloadBook() {
         const res = await DownloadBook(id);
@@ -52,7 +45,8 @@ export function BookLibCard({ book }: { book: TLibBook }) {
     }
 
     async function deleteBook() {
-        await FileSystem.deleteAsync(booksDir + fileName, { idempotent: true })
+        await FileSystem.deleteAsync(booksDir + fileName, { idempotent: true });
+        setIsDownloaded(false);
         console.log('deleted');
     }
 
@@ -68,8 +62,7 @@ export function BookLibCard({ book }: { book: TLibBook }) {
     return (
         <Pressable onPress={readOrDownloadBook}>
             <View style={stylesBookLibCard.container_lib_book}>
-                {/* <Image source={require(`../../../assets/${cover}`)}/> */}
-                <Shadow distance={1} startColor={greenRarity} offset={[7, 6]}>
+                <Shadow distance={1} startColor={bookRarity?.color} offset={[7, 6]}>
                     <ImageBackground style={stylesBookLibCard.cover_book} source={{ uri: coversDir + cover }} />
                 </Shadow>
                 <View style={stylesBookLibCard.container_info_book}>

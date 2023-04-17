@@ -1,22 +1,23 @@
-import { Button, ButtonGroup } from '@rneui/themed';
-import { useState } from 'react';
-import { View, Text, KeyboardAvoidingView, FlatList, ImageBackground, StatusBar, Image, TouchableOpacity, ImageSourcePropType, Dimensions, ScrollView } from 'react-native'
-import { greenRarity, white, } from '../../constants/colors';
+import { ButtonGroup } from '@rneui/themed';
+import { View, Text, Button } from 'react-native'
+import { greenRarity, } from '../../constants/colors';
 import { stylesFilters } from './style';
 import { srcIcnStarBlueRarity, srcIcnStarGreenRarity, srcIcnStarRedRarity, srcIcnStarYellowRarity } from '../../constants/images';
 import { CustomIcon } from '../CustomIcon';
 import { Dropdown } from 'react-native-element-dropdown';
+import { TFilters } from '../../screens/ShopScreen';
 
+type FiltersProps = {
+	filters: TFilters,
+	setFilters: (filters: TFilters) => void,
+	filterBooks: () => Promise<void>
+}
 
-export function Filters() {
+export function Filters({ filters, setFilters, filterBooks }: FiltersProps) {
 
 	const listButtonsGenres = ['Фантастика', 'Приключения', 'Фэнтези', 'Киберпанк',
 		'Романы', 'Поэзия', 'Хоррор', 'Нон-Фикшн', 'Комедия', 'Исторические романы',
 		'Детективы']
-	const [selectedGenre, setSelectedGenre] = useState<number[]>([]);
-	const [selectedRarity, setSelectedRarity] = useState<number>();
-	const [selectedSort, setSelectedSort] = useState<string>('0');
-
 
 	const listButtonsRarity = [
 		<CustomIcon source={srcIcnStarGreenRarity} />,
@@ -41,9 +42,16 @@ export function Filters() {
 				<View style={stylesFilters.wrapper_genres}>
 					<Text style={stylesFilters.h2}>Жанры</Text>
 					<ButtonGroup buttons={listButtonsGenres}
-						selectedIndexes={selectedGenre}
+						selectedIndexes={filters.genre}
 						onPress={(value) => {
-							setSelectedGenre(value);
+							//FIXME fix ts errors in every setFilters
+							//@ts-ignore
+							setFilters((prev) => {
+								return {
+									...prev,
+									genre: value
+								}
+							});
 						}}
 						selectMultiple={true}
 						containerStyle={stylesFilters.container_style}
@@ -59,9 +67,15 @@ export function Filters() {
 				<View style={{ borderBottomWidth: 3, borderBottomColor: '#CACACA' }}>
 					<Text style={[stylesFilters.h2, { marginTop: 10 }]}>Редкость</Text>
 					<ButtonGroup buttons={listButtonsRarity}
-						selectedIndex={selectedRarity}
+						selectedIndex={filters.rarity}
 						onPress={(value) => {
-							setSelectedRarity(value);
+							//@ts-ignore
+							setFilters((prev) => {
+								return {
+									...prev,
+									rarity: value
+								}
+							});
 						}}
 						containerStyle={[stylesFilters.container_style, { height: 70 }]}
 						buttonContainerStyle={stylesFilters.button_container_rarity}
@@ -88,10 +102,17 @@ export function Filters() {
 						placeholder='Выбрать'
 						labelField={'label'}
 						valueField={'value'}
-						value={selectedSort}
-						onChange={(item) => setSelectedSort(item.value)} />
+						value={filters.sort}
+						//@ts-ignore
+						onChange={(item) => setFilters((prev) => {
+							return {
+								...prev,
+								sort: item.value
+							}
+						})} />
 				</View>
 			</View>
+			<Button title='Применить' onPress={filterBooks} />
 		</>
 	)
 }

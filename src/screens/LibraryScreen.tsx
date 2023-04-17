@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, Button, FlatList, StatusBar, Image, KeyboardAvoidingView, ImageBackground, Pressable } from 'react-native';
+import { View, Text, Button, FlatList, StatusBar, Image, KeyboardAvoidingView, ImageBackground, Pressable, SafeAreaView } from 'react-native';
 import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
@@ -9,30 +9,14 @@ import { BookLibCard } from '../components/BookLibCard';
 import { stylesLibraryScreen } from './stylesScreen';
 import { srcImgLibraryHeader } from '../constants/images';
 import { ButtonGroup, FAB, Input, ListItem } from '@rneui/themed';
-// import { useFonts } from 'expo-font';
-// import { Montserrat_300Light, Montserrat_400Regular, Montserrat_500Medium, Montserrat_700Bold, } from '@expo-google-fonts/montserrat'
-// import { MontserratAlternates_300Light, MontserratAlternates_400Regular, MontserratAlternates_500Medium, MontserratAlternates_700Bold, } from '@expo-google-fonts/montserrat-alternates'
-// import AppLoading from 'expo-app-loading';
 import { black, deepBlue, gray, pink, white } from '../constants/colors';
 import { BookLastReadCard } from '../components/BookLastReadCard';
 import { booksDir, fileBooksDir } from '../constants';
 import { GetAllLibBooks } from '../service/api';
 import { AppContext } from '../context/AppContext';
 
-
 export function LibraryScreen() {
-    // let [fontsLoaded] = useFonts({
-    //     'Montserrat300': Montserrat_300Light,
-    //     'Montserrat400': Montserrat_400Regular,
-    //     'Montserrat500': Montserrat_500Medium,
-    //     'Montserrat700': Montserrat_700Bold,
-    //     'MontserratAlt300': MontserratAlternates_300Light,
-    //     'MontserratAlt400': MontserratAlternates_400Regular,
-    //     'MontserratAlt500': MontserratAlternates_500Medium,
-    //     'MontserratAlt700': MontserratAlternates_700Bold,
-    // })
-
-    const { netInfo } = useContext(AppContext);
+    const { isGotBackend } = useContext(AppContext);
     const { navigate, getParent } = useNavigation<NavigationProp<LibStackParams>>();
     const [fileBooks, setFileBooks] = useState<TLibBook[]>([]);
     const [shopBooks, setShopBooks] = useState<TLibBook[]>([]);
@@ -43,9 +27,12 @@ export function LibraryScreen() {
     useFocusEffect(
         React.useCallback(() => {
             getAllFileBooks();
-            getAllLibBooks();
-            getParent()?.setOptions({tabBarStyle: {display: 'flex'}}); //show tab bar
-        }, [])
+            //get data from AS only after getting data from backend
+            if (isGotBackend) {
+                getAllLibBooks();
+            }
+            getParent()?.setOptions({ tabBarStyle: { display: 'flex' } }); //show tab bar
+        }, [isGotBackend])
     );
 
     //TODO optimize this method
@@ -63,6 +50,7 @@ export function LibraryScreen() {
         await FileSystem.StorageAccessFramework.copyAsync(
             {
                 from: result.uri,
+                //TODO mb change to `${booksDir}/${result.name}`
                 to: fileBooksDir
             });
 
@@ -90,32 +78,13 @@ export function LibraryScreen() {
     }
 
     async function getAllLibBooks() {
-        let booksArray: TLibBook[] = [];
-
-        if (netInfo?.isInternetReachable) {
-            // Get from backend
-            const result = await GetAllLibBooks();
-            if (typeof result == "number") return; //TODO throw error message
-            booksArray = result;
-
-            const bookKeys: string[] = [];
-            for (let book of result) {
-                setBookStatsAS(book);
-                bookKeys.push((book.id).toString());
-            }
-            setBookKeysAS(bookKeys);
-        }
-        else {
-            // Get from async storage
-            const bookNames = await getBookNamesAS();
-            booksArray = await getAllBooksAS(bookNames);
-        }
+        const bookNames = await getBookNamesAS();
+        const booksArray = await getAllBooksAS(bookNames);
+        // for (let item of booksArray) {
+        //     console.log(item.title, item.readDate);
+        // }
         setShopBooks(booksArray);
     }
-
-    // if (!fontsLoaded) {
-    //     return <AppLoading />;
-    // }
 
     return (
         <>

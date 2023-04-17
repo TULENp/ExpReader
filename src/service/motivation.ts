@@ -1,37 +1,42 @@
+import { ImageSourcePropType } from "react-native";
+import { pins } from "../TestData/pins";
 import { realBookPageChars, pageChars } from "../constants";
-import { TBookmark, TDailyTask, TRarity } from "../types";
-import { incUserReadPagesAS } from "./asyncStorage";
+import { srcIcnBronze, srcIcnGold, srcIcnSilver } from "../constants/images";
+import { TDailyTask, TRarity } from "../types";
+import { getAchievesStatusAS, setAchievesStatusAS } from "./asyncStorage";
+import { getUserPagesAS, incUserReadPagesAS } from "./asyncStorage";
+import { greenRarity, blueRarity, redRarity, yellowRarity } from "../constants/colors";
 
-export function calculateRarity(pages: number): TRarity {
-    let rarity: TRarity = 'legendary'
-    // conversion from app pages to "real" pages, which depends on pageChars
-    const realPages = Math.ceil(pages / (realBookPageChars / pageChars));
+export function calculateRarity(pages: number, isPagesReal: boolean = false): TRarity {
+    let rarity: TRarity = { rarity: 'легендарная', color: yellowRarity };
+    // if pages not 'real' convert from app pages to "real" pages, which depends on pageChars
+    let realPages = isPagesReal ? pages : Math.ceil(pages / (realBookPageChars / pageChars));
 
     if (realPages <= 300) {
-        rarity = 'common'
+        rarity = { rarity: 'обычная', color: greenRarity }
     }
     else if (realPages > 300 && realPages <= 600) {
-        rarity = 'rare'
+        rarity = { rarity: 'редкая', color: blueRarity }
     }
     else if (realPages > 600 && realPages <= 900) {
-        rarity = 'epic'
+        rarity = { rarity: 'эпическая', color: redRarity }
     }
     return rarity;
 }
 
-export function calculateBookmark(readPages: number, bookPages: number): TBookmark {
-    let bookmark: TBookmark = 'bookmark_empty';
+export function calculateBookmark(readPages: number, bookPages: number): ImageSourcePropType | null {
+    let bookmark: ImageSourcePropType | null = null;
     if (bookPages !== 0) {
         const readPercent = Math.floor((readPages / bookPages) * 100);
 
         if (readPercent >= 30 && readPercent < 60) {
-            bookmark = 'bronze';
+            bookmark = srcIcnBronze;
         }
         else if (readPercent >= 60 && readPercent < 100) {
-            bookmark = 'silver';
+            bookmark = srcIcnSilver;
         }
         else if (readPercent == 100) {
-            bookmark = 'gold';
+            bookmark = srcIcnGold;
         }
     }
     return bookmark;
@@ -69,5 +74,37 @@ export function checkBookmarkReward(readPages: number, bookPages: number) {
 
     if (readReward !== 0) {
         incUserReadPagesAS(readReward);
+    }
+}
+
+export async function checkPagesAchieves(readPages: number) {
+    let achieves: boolean[] = await getAchievesStatusAS();
+    let count = 0;
+    //Check pages achieves
+    for (let i: number = 0; i < 3; i++) {
+        if (!achieves[i] && readPages >= pins[i].condition) {
+            achieves[i] = true;
+            count++;
+        }
+    }
+    if (count > 0) {
+        setAchievesStatusAS(achieves);
+        //TODO update backend
+    }
+}
+
+export async function checkBooksAchieves(readBooks: number) {
+    let achieves: boolean[] = await getAchievesStatusAS();
+    let count = 0;
+    //Check books achieves
+    for (let i: number = 3; i < 6; i++) {
+        if (!achieves[i] && readBooks >= pins[i].condition) {
+            achieves[i] = true;
+            count++;
+        }
+    }
+    if (count > 0) {
+        setAchievesStatusAS(achieves);
+        //TODO update backend
     }
 }

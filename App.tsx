@@ -29,6 +29,7 @@ export default function App() {
 	//FIXME //! fix app loading time and render
 	const [isAuth, setIsAuth] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
+	const [isGotBackend, setIsGotBackend] = useState(false);
 	const netInfo = useNetInfo();
 
 	// useEffect(()=>{
@@ -54,12 +55,13 @@ export default function App() {
 			await FileSystem.makeDirectoryAsync(coversDir);
 		}
 	}
+
 	if (!fontsLoaded) {
 		return <AppLoading />;
 	}
 
 	return (
-		<AppContext.Provider value={{ setIsAuthorized: setIsAuth, netInfo: netInfo }}>
+		<AppContext.Provider value={{ isGotBackend: isGotBackend, setIsGotBackend: setIsGotBackend, netInfo: netInfo, setIsAuthorized: setIsAuth, }}>
 			<>
 				{isLoading
 					?
