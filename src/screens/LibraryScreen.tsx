@@ -119,6 +119,7 @@ export function LibraryScreen() {
 
     return (
         <>
+            <View style={{backgroundColor:'white', flex:1}}>
             <FlatList
                 ListHeaderComponent=
                 {
@@ -164,8 +165,8 @@ export function LibraryScreen() {
                         <View style={{ backgroundColor: white }}>
                             <BookLibCard book={book} />
                         </View>)
-                }}
-                ListFooterComponent={()=> <View style={{flex:1}}/>}/>
+                }}/>
+                </View>
             <FAB onPress={addBookFromFile}
                 icon={{ name: 'add', color: 'white' }}
                 color={deepBlue} size='large'
