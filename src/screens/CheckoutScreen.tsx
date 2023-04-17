@@ -22,10 +22,10 @@ export function CheckoutScreen() {
 
     async function buyBook() {
         const res = await BuyBook(book.id);
-        // if (res !== '200') {
-        //     alert(res);
-        //     return;
-        // }
+        if (res !== '200') {
+            alert(res);
+            return;
+        }
         GetAllLibBooks();
         goBack();
     }
