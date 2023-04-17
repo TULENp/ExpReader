@@ -29,6 +29,7 @@ const srcIcnError = require('../../assets/error.png');
 const srcIcnReward = require('../../assets/rewards1.png');
 const srcIcnFieldInc = require('../../assets/fieldInc.png');
 const srcIcnFieldDec = require('../../assets/fieldDec.png');
+const srcIcnCloudCry = require('../../assets/cry.png');
 
 export {
     srcImgLibraryHeader, srcImgHarryPotter3,
@@ -40,4 +41,5 @@ export {
     srcIcnHeart, srcIcnSberbank, srcIcnStarGreenRarity,
     srcIcnStarBlueRarity, srcIcnStarRedRarity, srcIcnStarYellowRarity,
     srcIcnLogo, srcIcnError,srcIcnReward, srcIcnFieldInc,srcIcnFieldDec,
+    srcIcnCloudCry
 };

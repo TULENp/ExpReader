@@ -7,7 +7,7 @@ import { LibStackParams, TLibBook, TShopBook } from '../types';
 import { clearAS, getAllBooksAS, getBookNamesAS, setBookKeysAS, setBookStatsAS } from '../service/asyncStorage';
 import { BookLibCard } from '../components/BookLibCard';
 import { stylesLibraryScreen } from './stylesScreen';
-import { srcImgLibraryHeader } from '../constants/images';
+import { srcIcnCloudCry, srcImgLibraryHeader } from '../constants/images';
 import { ButtonGroup, FAB, Input, ListItem } from '@rneui/themed';
 import { black, deepBlue, gray, pink, white } from '../constants/colors';
 import { BookLastReadCard } from '../components/BookLastReadCard';
@@ -89,52 +89,57 @@ export function LibraryScreen() {
     return (
         <>
             <View style={{backgroundColor:'white', flex:1}}>
-            <FlatList
-                ListHeaderComponent=
-                {
-                    <>
-                        <KeyboardAvoidingView behavior='height' style={stylesLibraryScreen.lib_page}>
-                            <StatusBar backgroundColor={deepBlue} />
-                            <ImageBackground source={srcImgLibraryHeader} style={stylesLibraryScreen.container_header}>
-                                <View style={stylesLibraryScreen.container_search_input}>
-                                    <Input onChangeText={text => setSearchText(text)}
-                                        placeholder={'Найти книги'}
-                                        inputContainerStyle={{ borderBottomWidth: 0 }}
-                                        leftIcon={{ type: 'octicons', name: 'search' }}
-                                        style={[stylesLibraryScreen.search_input, { fontFamily: 'MontserratAlt400' }]} />
+                <FlatList
+                    ListHeaderComponent=
+                    {
+                        <>
+                            <KeyboardAvoidingView behavior='height' style={stylesLibraryScreen.lib_page}>
+                                <StatusBar backgroundColor={deepBlue} />
+                                <ImageBackground source={srcImgLibraryHeader} style={stylesLibraryScreen.container_header}>
+                                    <View style={stylesLibraryScreen.container_search_input}>
+                                        <Input onChangeText={text => setSearchText(text)}
+                                            placeholder={'Найти книги'}
+                                            inputContainerStyle={{ borderBottomWidth: 0 }}
+                                            leftIcon={{ type: 'octicons', name: 'search' }}
+                                            style={[stylesLibraryScreen.search_input, { fontFamily: 'MontserratAlt400' }]} />
+                                    </View>
+                                </ImageBackground>
+
+                                {shopBooks[0] &&
+                                    <Pressable onPress={() => navigate('Reader', { book: shopBooks[0] })}>
+                                        <BookLastReadCard book={shopBooks[0]} />
+                                    </Pressable>}
+
+                                <View style={{ paddingTop: 25, paddingBottom: 20 }}>
+                                    <Text style={stylesLibraryScreen.h1_library}>Библиотека</Text>
+                                    <ButtonGroup buttons={['Купленные книги', 'Добавленные книги']}
+                                        selectedIndex={libCategory}
+                                        onPress={(value) => {
+                                            setLibCategory(value);
+                                        }}
+                                        containerStyle={stylesLibraryScreen.button_group_containerStyle}
+                                        textStyle={stylesLibraryScreen.button_group_textStyle}
+                                        buttonContainerStyle={{}}
+                                        selectedButtonStyle={{ backgroundColor: deepBlue }}
+                                        buttonStyle={{}}
+                                    />
                                 </View>
-                            </ImageBackground>
-
-                            {shopBooks[0] &&
-                                <Pressable onPress={() => navigate('Reader', { book: shopBooks[0] })}>
-                                    <BookLastReadCard book={shopBooks[0]} />
-                                </Pressable>}
-
-                            <View style={{ paddingTop: 25, paddingBottom: 20 }}>
-                                <Text style={stylesLibraryScreen.h1_library}>Библиотека</Text>
-                                <ButtonGroup buttons={['Купленные книги', 'Добавленные книги']}
-                                    selectedIndex={libCategory}
-                                    onPress={(value) => {
-                                        setLibCategory(value);
-                                    }}
-                                    containerStyle={stylesLibraryScreen.button_group_containerStyle}
-                                    textStyle={stylesLibraryScreen.button_group_textStyle}
-                                    buttonContainerStyle={{}}
-                                    selectedButtonStyle={{ backgroundColor: deepBlue }}
-                                    buttonStyle={{}}
-                                />
-                            </View>
-                        </KeyboardAvoidingView>
-                    </>
-                }
-                data={libCategory === 0 ? shopBooks.slice(1) : fileBooks}
-                keyExtractor={(item) => item.title}
-                renderItem={({ item: book }) => {
-                    return (
-                        <View style={{ backgroundColor: white }}>
-                            <BookLibCard book={book} />
-                        </View>)
-                }}/>
+                            </KeyboardAvoidingView>
+                        </>
+                    }
+                    data={libCategory === 0 ? shopBooks.slice(1) : fileBooks}
+                    keyExtractor={(item) => item.title}
+                    renderItem={({ item: book }) => {
+                        return (
+                            <View style={{ backgroundColor: white }}>
+                                <BookLibCard book={book} />
+                            </View>)
+                    }}
+                    ListEmptyComponent={()=> 
+                    <View style={{flex:1,alignItems:'center',padding:13, justifyContent:'center'}}>
+                        <Image style={{width:55, height:55}} source={srcIcnCloudCry}/>
+                        <Text style={stylesLibraryScreen.text_empty_list}>{libCategory === 0 ? 'Вы ещё не приобрели ни одной книги' : 'Вы ещё не добавили ни одной книги'}</Text>
+                    </View>}/>
                 </View>
             <FAB onPress={addBookFromFile}
                 icon={{ name: 'add', color: 'white' }}

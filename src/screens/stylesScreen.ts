@@ -102,6 +102,11 @@ export const stylesLibraryScreen = StyleSheet.create({
         zIndex:5, 
         right:'8%', 
         bottom:'5%',
+    },
+    text_empty_list:{
+        fontFamily:'MontserratAlt400',
+        fontSize:18,
+        textAlign:'center',
     }
 })
 
