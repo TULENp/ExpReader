@@ -1,22 +1,20 @@
-import { View, Text, ImageBackground, Image, ScrollView, Pressable, FlatList, Button } from 'react-native';
+import { View, Text, ImageBackground, Image, ScrollView, Pressable, FlatList } from 'react-native';
 import React, { useContext, useState } from 'react';
 import { srcIcnPoints, srcIcnReward, srcIcnSetting, srcImgProfileHeader } from '../constants/images';
 import { stylesProfileScreen } from './stylesScreen';
 import { Avatar } from 'react-native-elements';
 import { LinearProgress } from '@rneui/themed';
 import { greenRarity, white } from '../constants/colors';
-import { ProfileStackParams, TDailyTask, TDailyTaskLevel, TPin, TUserData } from '../types';
-import { pins } from '../TestData/pins';
+import { ProfileStackParams, TDailyTask, TDailyTaskLevel, TUserData } from '../types';
 import { BookProfileCard } from '../components/BookProfileCard';
 import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native';
 import { getDailyTaskLevel } from '../service/motivation';
-import { clearTokenAS, getDailyTaskAS, getTodayPagesAS, getUserDataAS, setUserDataAS } from '../service/asyncStorage';
+import { clearTokenAS, getDailyTaskAS, getTodayPagesAS, getUserDataAS } from '../service/asyncStorage';
 import { AppContext } from '../context/AppContext';
-import { GetUserData } from '../service/api';
 import { Feather } from '@expo/vector-icons';
 
 export function ProfileScreen() {
-	const { setIsAuthorized, netInfo } = useContext(AppContext);
+	const { setIsAuthorized, isGotBackend } = useContext(AppContext);
 	const { navigate } = useNavigation<NavigationProp<ProfileStackParams>>();
 
 	const [userData, setUserData] = useState<TUserData | null>(null);
@@ -26,27 +24,17 @@ export function ProfileScreen() {
 
 	useFocusEffect(
 		React.useCallback(() => {
-			getUserData();
+			if (isGotBackend) {
+				getUserData();
+			}
 			getTodayPages();
 			getDailyTask();
-		}, [])
+		}, [isGotBackend])
 	);
 
+	//FIXME data can be received from AS before than from DB
 	async function getUserData() {
-		let data = null;
-		//FIXME //! remove '!' to invert boolean expression after updateDB func is ready
-		if (netInfo?.isInternetReachable) {
-			//get data from backend
-			const result = await GetUserData();
-			if (typeof result == "number") return; //TODO throw error message
-			// if data is ok save it to AS and set state
-			data = result
-			setUserDataAS(result);
-		}
-		else {
-			//get data from AS and set state
-			data = await getUserDataAS();
-		}
+		const data = await getUserDataAS();
 		setUserData(data);
 	}
 

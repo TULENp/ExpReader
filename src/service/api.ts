@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getTokenAS, setBookKeysAS, setBookStatsAS, setTokenAS } from "./asyncStorage";
+import { getTokenAS, setBookKeysAS, setBookStatsAS, setTokenAS, setUserDataAS } from "./asyncStorage";
 import { TBook, TBookStats, TLibBook, TRarity, TUserData } from "../types";
 import { baseURL } from "../constants";
 axios.defaults.baseURL = baseURL + '/api';
@@ -33,17 +33,19 @@ export async function SignIn(userLogin: string, userPassword: string) {
 
 //* User 
 
-export async function GetUserData(): Promise<TUserData | number> {
+export async function GetUserData(): Promise<TUserData | string> {
+    let status = '200';
     const token = await getTokenAS();
-    if (!token) return 401;
-    return await axios.get('/user/getUserData',
+    if (!token) return '401';
+    await axios.get('/user/getUserData',
         {
             headers: {
                 Authorization: token
             }
         })
-        .then(response => response.data)
-        .catch(error => error.response.status);
+        .then(response => setUserDataAS(response.data))
+        .catch(error => status = error.response.status);
+    return status;
 }
 
 export async function UpdateUserBookStats(bookStats: TBookStats[]) {
@@ -114,10 +116,11 @@ export async function BuyBook(id: string) {
     return status;
 }
 
-export async function GetAllLibBooks(): Promise<TLibBook[] | number> {
+export async function GetAllLibBooks(): Promise<TLibBook[] | string> {
+    let status = '200';
     const token = await getTokenAS();
-    if (!token) return 401;
-    return await axios.get('/books/getLibBooks',
+    if (!token) return '401';
+    await axios.get('/books/getLibBooks',
         {
             headers: {
                 Authorization: token
@@ -132,7 +135,8 @@ export async function GetAllLibBooks(): Promise<TLibBook[] | number> {
             }
             setBookKeysAS(bookKeys);
         })
-        .catch(error => error.response.status)
+        .catch(error => status = error.response.status)
+    return status;
 }
 
 export async function GetAllShopBooks(sortId: string, rarity: TRarity | null, searchValue: string, genres: number[]) {

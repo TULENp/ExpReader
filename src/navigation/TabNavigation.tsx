@@ -6,10 +6,9 @@ import { ProfileNavigation } from './ProfileNavigation';
 import { Feather } from '@expo/vector-icons';
 import { black, deepBlue } from '../constants/colors';
 import { useEffect, useContext } from 'react';
-import { setBookKeysAS, setBookStatsAS, setTodayAS } from '../service/asyncStorage';
-import { GetAllLibBooks } from '../service/api';
+import { setTodayAS } from '../service/asyncStorage';
+import { GetAllLibBooks, GetUserData } from '../service/api';
 import { AppContext } from '../context/AppContext';
-
 
 const Tab = createBottomTabNavigator();
 
@@ -18,18 +17,22 @@ export function TabNavigation() {
 
     useEffect(() => {
         setTodayAS();
-        getAllLibBooksFromBackend();
+        if (netInfo?.isInternetReachable) {
+            getAllLibBooksFromBackend();
+            getUserDataFromBackend();
+        }
     }, [])
 
     async function getAllLibBooksFromBackend() {
-        if (netInfo?.isInternetReachable) {
-            // Get from backend
-            await GetAllLibBooks();
-            //wait for other code completion
-            setTimeout(() => {
-                setIsGotBackend(true);
-            });
-        }
+        await GetAllLibBooks();
+        //wait for other code completion
+        setTimeout(() => {
+            setIsGotBackend(true);
+        });
+    }
+
+    async function getUserDataFromBackend() {
+        await GetUserData();
     }
 
     return (
