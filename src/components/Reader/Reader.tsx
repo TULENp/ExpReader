@@ -1,11 +1,11 @@
 
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, Image, ScrollView, Button, AppState, Dimensions, Modal, Animated, Pressable, TouchableOpacity } from 'react-native';
+import { View, Text, Image, ScrollView, AppState, Dimensions, Modal, Animated, Pressable, TouchableOpacity } from 'react-native';
 import { pageChars } from '../../constants';
 import {
-    getAllBooksAS,
     getBookNamesAS,
     getUserBookStatsAS,
+    getUserDataAS,
     incTodayPagesAS,
     incUserReadPagesAS,
     setBookIsReadAS,
@@ -17,8 +17,8 @@ import {
 import { LibStackParams, TLibBook } from '../../types';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { checkBookmarkReward } from '../../service/motivation';
-import { UpdateUserBookStats } from '../../service/api';
-import { GestureDetector, GestureHandlerRootView, } from 'react-native-gesture-handler';
+import { UpdateUserBookStats, UpdateUserStats } from '../../service/api';
+import { GestureHandlerRootView, } from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { stylesReader } from './style';
 import { MaterialIcons, Ionicons, AntDesign } from '@expo/vector-icons';
@@ -94,15 +94,20 @@ export function Reader({ bookText, book }: ReaderProps) {
         }
         await updateBookReadPagesAS(id, readPages);
 
-        //TODO update user stats too
-        updateUserBookStats();
+        updateStatsBackend();
     }
 
-    // Update data in the backend
-    async function updateUserBookStats() {
+    async function updateStatsBackend() {
+        // Update book stats
         const bookNames = await getBookNamesAS();
         const booksStats = await getUserBookStatsAS(bookNames);
         UpdateUserBookStats(booksStats);
+
+        // Update user stats
+        const userData = await getUserDataAS();
+        if (userData) {
+            UpdateUserStats(userData);
+        }
     }
 
     function readCurrentPage() {

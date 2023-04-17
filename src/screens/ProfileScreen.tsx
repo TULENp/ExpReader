@@ -4,7 +4,7 @@ import { srcIcnPoints, srcIcnReward, srcIcnSetting, srcImgProfileHeader } from '
 import { stylesProfileScreen } from './stylesScreen';
 import { Avatar } from 'react-native-elements';
 import { LinearProgress } from '@rneui/themed';
-import { greenRarity, white } from '../constants/colors';
+import { white } from '../constants/colors';
 import { ProfileStackParams, TDailyTask, TDailyTaskLevel, TUserData } from '../types';
 import { BookProfileCard } from '../components/BookProfileCard';
 import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native';
@@ -39,6 +39,7 @@ export function ProfileScreen() {
 		const data = await getUserDataAS();
 		setUserData(data);
 
+		// set achievements images
 		const pinsArray = achievements
 			.filter(item => data?.achievements[item.id])
 			.slice(0, 5)

@@ -48,6 +48,24 @@ export async function GetUserData(): Promise<TUserData | string> {
     return status;
 }
 
+export async function UpdateUserStats(userData: TUserData) {
+    const token = await getTokenAS();
+    if (!token) return 401;
+
+    return await axios.post('user/updateUserData',
+        {
+            userReadPages: userData.readPagesNum,
+            userReadBooks: userData.readBooksNum,
+            achieves: userData.achievements
+        },
+        {
+            headers: {
+                Authorization: token
+            }
+        })
+        .catch(error => error.response.status);
+}
+
 export async function UpdateUserBookStats(bookStats: TBookStats[]) {
     const token = await getTokenAS();
     if (!token) return 401;
