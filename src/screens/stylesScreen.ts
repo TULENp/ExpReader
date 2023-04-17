@@ -300,13 +300,19 @@ export const stylesProfileScreen = StyleSheet.create({
     profile_page:{
         flex:1,
         width:width,
+        backgroundColor:'white',
     },
     container_bookshelf:{
         width:width,
         paddingLeft:13,
         paddingRight:13,
         marginTop:20,
-    }
+    },
+    empty_text:{
+        fontFamily:'MontserratAlt400',
+        fontSize:18,
+        textAlign:'center',
+    },
 
 })
 

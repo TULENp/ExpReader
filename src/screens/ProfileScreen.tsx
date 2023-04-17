@@ -1,6 +1,6 @@
 import { View, Text, ImageBackground, Image, ScrollView, Pressable, FlatList, Button } from 'react-native';
 import React, { useContext, useState } from 'react';
-import { srcIcnPoints, srcIcnReward, srcIcnSetting, srcImgProfileHeader } from '../constants/images';
+import { srcIcnOpenBook, srcIcnPoints, srcIcnReward, srcIcnSetting, srcImgProfileHeader } from '../constants/images';
 import { stylesProfileScreen } from './stylesScreen';
 import { Avatar } from 'react-native-elements';
 import { LinearProgress } from '@rneui/themed';
@@ -30,6 +30,7 @@ export function ProfileScreen() {
 			getTodayPages();
 			getDailyTask();
 			setDailyTaskLevel(getDailyTaskLevel(dailyTaskPages));
+			console.log(userData);
 		}, [])
 	);
 
@@ -71,12 +72,13 @@ export function ProfileScreen() {
 		setIsAuthorized(false);
 	}
 
+
 	return (
 		<>
 			{!userData
 				? <Text>Пользователь не найден</Text>
 				:
-				<ScrollView >
+				<ScrollView style={{backgroundColor:'white'}}>
 					<View style={stylesProfileScreen.profile_page}>
 
 						{/* Header */}
@@ -149,12 +151,21 @@ export function ProfileScreen() {
 						{/* Book shelf */}
 						<View style={stylesProfileScreen.container_bookshelf}>
 							<Text style={stylesProfileScreen.h1_profile_bold}>Полка:
-								<Text style={stylesProfileScreen.h1_profile_medium}> 5</Text>
+								<Text style={stylesProfileScreen.h1_profile_medium}> {userData.userBooks.length}</Text>
 							</Text>
 							<View style={stylesProfileScreen.container_profile_books}>
-								{userData.userBooks.map((book) => (
-									<BookProfileCard key={book.id} book={book} />
-								))}
+								{userData.userBooks.length !== 0
+									?
+									userData.userBooks.map((book) => (
+										<BookProfileCard key={book.id} book={book} />
+									))
+									:
+									<View style={{justifyContent:'center', alignItems:'center', padding:13}}>
+										<Image style={{width:55, height:55}} source={srcIcnOpenBook}/>
+										<Text style={stylesProfileScreen.empty_text}>Вы ещё не прочитали ни одной книги</Text>
+									</View>
+
+								}
 							</View>
 						</View>
 					</View>
