@@ -1,8 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TBookStats, TDailyTask, TLibBook, TUserData } from '../types';
-import { checkBooksAchieves, checkPagesAchieves } from './motivation';
+import { checkAchievesCompletion } from './motivation';
 
 const userDataKey = 'userData'; // key for userData in async storage
+const achievesInit = [false, false, false, false, false, false];
 
 //* Book stats 
 // save books to async storage
@@ -85,12 +86,15 @@ export async function getAllBooksAS(bookNames: string[]): Promise<TLibBook[]> {
 //* User data  
 
 export async function getUserDataAS(): Promise<TUserData | null> {
-    // AsyncStorage.removeItem(userDataKey);
     return JSON.parse(await AsyncStorage.getItem(userDataKey) || 'null');
 }
 
 export function setUserDataAS(user: TUserData) {
-    AsyncStorage.setItem(userDataKey, JSON.stringify(user));
+    const userData = user;
+    if (user.achievements === null) {
+        userData.achievements = achievesInit;
+    }
+    AsyncStorage.setItem(userDataKey, JSON.stringify(userData));
 }
 
 export async function getUserPagesAS(): Promise<number> {
@@ -98,11 +102,18 @@ export async function getUserPagesAS(): Promise<number> {
     return userData?.readPagesNum || 0;
 }
 
-export async function incUserReadPagesAS(inc: number) {
-    const pages = await getUserPagesAS() + inc;
-    AsyncStorage.mergeItem(userDataKey, `{readPagesNum:${pages}}`);
+export async function getUserAchievesAS(): Promise<boolean[]> {
+    const userData = await getUserDataAS();
+    return userData?.achievements || achievesInit;
+}
 
-    checkPagesAchieves(pages);
+export async function incUserReadPagesAS(inc: number) {
+    const userData = await getUserDataAS();
+    if (userData) {
+        const pages = userData.readPagesNum + inc;
+        const achieves = checkAchievesCompletion(pages, userData);
+        AsyncStorage.mergeItem(userDataKey, `{readPagesNum:${pages}, achievements:${achieves}}`);
+    }
 }
 
 export async function incUserReadBooksAS() {
@@ -110,8 +121,6 @@ export async function incUserReadBooksAS() {
     if (userData) {
         const books = userData.readBooksNum + 1;
         AsyncStorage.mergeItem(userDataKey, `{readBooksNum:${books}}`);
-
-        checkBooksAchieves(books);
     }
 }
 
@@ -163,22 +172,6 @@ export async function setTodayAS() {
         const newTask = await getNewDailyTaskAS();
         AsyncStorage.setItem('dailyTask', newTask.toString());
     }
-}
-
-//* Achievements
-
-export function setAchievesStatusAS(achieves: boolean[]) {
-    AsyncStorage.setItem('achieves', JSON.stringify(achieves));
-}
-
-export async function getAchievesStatusAS() {
-    // AsyncStorage.removeItem('achieves');
-    let achieves: boolean[] = [false, false, false, false, false, false];
-    const res = await AsyncStorage.getItem('achieves');
-    if (res) {
-        achieves = JSON.parse(res);
-    }
-    return achieves;
 }
 
 

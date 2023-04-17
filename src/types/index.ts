@@ -49,6 +49,7 @@ type TBook = {
     description: string,
     fragment: string,
     isFavorite: boolean,
+    isBought: boolean
 }
 
 type AuthStackParams = {
@@ -79,7 +80,7 @@ type TUserData = {
     nickname: string,
     readPagesNum: number,
     readBooksNum: number,
-    achievesImg: string[],
+    achievements: boolean[],
     userBooks: TLibBook[],
 }
 

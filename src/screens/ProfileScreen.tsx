@@ -9,7 +9,7 @@ import { ProfileStackParams, TDailyTask, TDailyTaskLevel, TUserData } from '../t
 import { BookProfileCard } from '../components/BookProfileCard';
 import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native';
 import { getDailyTaskLevel } from '../service/motivation';
-import { clearTokenAS, getAchievesStatusAS, getDailyTaskAS, getTodayPagesAS, getUserDataAS } from '../service/asyncStorage';
+import { clearTokenAS, getDailyTaskAS, getTodayPagesAS, getUserDataAS } from '../service/asyncStorage';
 import { AppContext } from '../context/AppContext';
 import { Feather } from '@expo/vector-icons';
 import { achievements } from '../TestData/achievements';
@@ -28,7 +28,6 @@ export function ProfileScreen() {
 		React.useCallback(() => {
 			if (isGotBackend) {
 				getUserData();
-				getAchieves();
 			}
 			getTodayPages();
 			getDailyTask();
@@ -39,6 +38,12 @@ export function ProfileScreen() {
 	async function getUserData() {
 		const data = await getUserDataAS();
 		setUserData(data);
+
+		const pinsArray = achievements
+			.filter(item => data?.achievements[item.id])
+			.slice(0, 5)
+			.map(item => (<Image key={item.id} style={stylesProfileScreen.img_pin} source={item.img} />));
+		setPins(pinsArray);
 	}
 
 	async function getTodayPages() {
@@ -50,16 +55,6 @@ export function ProfileScreen() {
 		const dailyTask = await getDailyTaskAS();
 		setDailyTaskLevel(getDailyTaskLevel(dailyTask));
 		setDailyTaskPages(dailyTask);
-	}
-
-	async function getAchieves() {
-		//TODO change the logic for saving achievements in AS. Now they are stored in userData
-		const achievesStatus = await getAchievesStatusAS();
-		const pinsArray = achievements
-			.filter(item => achievesStatus[item.id])
-			.slice(0, 5)
-			.map(item => (<Image key={item.id} style={stylesProfileScreen.img_pin} source={item.img} />));
-		setPins(pinsArray);
 	}
 
 	function LogOut() {
@@ -93,13 +88,12 @@ export function ProfileScreen() {
 						<Pressable onPress={() => navigate('DailyTask', { todayPages })}>
 							<View style={stylesProfileScreen.container_level}>
 								<View style={stylesProfileScreen.wrapper_text_level_settings}>
-									{/* FIXME //! level is not updating */}
 									<Text style={stylesProfileScreen.text_level_bold}>Уровень:
 										<Text style={[stylesProfileScreen.text_level_medium, { color: dailyTaskLevel?.color }]}> {dailyTaskLevel?.level}</Text>
 									</Text>
 									<Image style={stylesProfileScreen.icn_settings} source={srcIcnSetting} />
 								</View>
-								<LinearProgress value={todayPages / dailyTaskPages} color={greenRarity} style={stylesProfileScreen.progress_bar} trackColor={white} variant='determinate' />
+								<LinearProgress value={todayPages / dailyTaskPages} color={dailyTaskLevel?.color} style={stylesProfileScreen.progress_bar} trackColor={white} variant='determinate' />
 								{todayPages >= dailyTaskPages
 									?
 									<>

@@ -5,19 +5,19 @@ import { stylesAchievementsScreen, stylesCheckoutScreen } from './stylesScreen'
 import { MaterialIcons } from '@expo/vector-icons';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { ProfileStackParams } from '../types';
-import { getAchievesStatusAS } from '../service/asyncStorage';
+import { getUserAchievesAS } from '../service/asyncStorage';
 
 export function AchievementsScreen() {
 	const { goBack } = useNavigation<NavigationProp<ProfileStackParams>>();
-	const [achievesStatus, setAchievesStatus] = useState<boolean[]>();
+	const [achieves, setAchieves] = useState<boolean[]>();
 
 	useEffect(() => {
 		getAchievesStatus()
 	}, [])
 
 	async function getAchievesStatus() {
-		const status = await getAchievesStatusAS();
-		setAchievesStatus(status);
+		const status = await getUserAchievesAS();
+		setAchieves(status);
 	}
 
 	return (
@@ -36,7 +36,7 @@ export function AchievementsScreen() {
 				</View>
 
 				{/* Achievements list */}
-				{achievesStatus &&
+				{achieves &&
 					// TODO change style depends on isCompleted
 					<FlatList data={achievements}
 						keyExtractor={item => item.id.toString()}
@@ -49,7 +49,7 @@ export function AchievementsScreen() {
 									<View style={stylesAchievementsScreen.wrapper_pin_info}>
 										<Text style={stylesAchievementsScreen.title}>{item.title}</Text>
 										<Text style={stylesAchievementsScreen.author}>{item.description}</Text>
-										<Text style={stylesAchievementsScreen.title}>{achievesStatus[item.id] ? 'Выполнено' : 'Не выполнено'}</Text>
+										<Text style={stylesAchievementsScreen.title}>{achieves[item.id] ? 'Выполнено' : 'Не выполнено'}</Text>
 									</View>
 								</View>
 							);

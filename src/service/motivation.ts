@@ -2,9 +2,8 @@ import { ImageSourcePropType } from "react-native";
 import { achievements } from "../TestData/achievements";
 import { realBookPageChars, pageChars } from "../constants";
 import { srcIcnBronze, srcIcnGold, srcIcnSilver } from "../constants/images";
-import { TDailyTask, TDailyTaskLevel, TRarity } from "../types";
-import { getAchievesStatusAS, setAchievesStatusAS } from "./asyncStorage";
-import { getUserPagesAS, incUserReadPagesAS } from "./asyncStorage";
+import { TDailyTask, TDailyTaskLevel, TRarity, TUserData } from "../types";
+import { incUserReadPagesAS } from "./asyncStorage";
 import { greenRarity, blueRarity, redRarity, yellowRarity } from "../constants/colors";
 
 export function calculateRarity(pages: number, isPagesReal: boolean = false): TRarity {
@@ -49,15 +48,15 @@ export function checkBookmarkReward(readPages: number, bookPages: number) {
 
     if (readPages === bronze) {
         readReward = Math.ceil(bookPages * 0.1);
-        alert(`Поздравляю, вы прочли 1/3 книги. + ${readReward} очка чтения`);
+        // alert(`Поздравляю, вы прочли 1/3 книги. + ${readReward} очка чтения`);
     }
     else if (readPages === silver) {
         readReward = Math.ceil(bookPages * 0.2);
-        alert(`Поздравляю, вы прочли 2/3 книги. + ${readReward} очка чтения`);
+        // alert(`Поздравляю, вы прочли 2/3 книги. + ${readReward} очка чтения`);
     }
     else if (readPages === bookPages) { //read the whole book
         readReward = Math.ceil(bookPages * 0.3);
-        alert(`Поздравляю, вы прочли книгу. + ${readReward} очка чтения`);
+        // alert(`Поздравляю, вы прочли книгу. + ${readReward} очка чтения`);
     }
 
     if (readReward !== 0) {
@@ -79,34 +78,19 @@ export function getDailyTaskLevel(dailyTaskPages: TDailyTask): TDailyTaskLevel {
     return level;
 }
 
-export async function checkPagesAchieves(readPages: number) {
-    let achieves: boolean[] = await getAchievesStatusAS();
-    let count = 0;
-    //Check pages achieves
+export function checkAchievesCompletion(readPages: number, userData: TUserData) {
+    let achieves: boolean[] = userData.achievements;
+    //Check read pages achieves
     for (let i: number = 0; i < 3; i++) {
         if (!achieves[i] && readPages >= achievements[i].condition) {
             achieves[i] = true;
-            count++;
         }
     }
-    if (count > 0) {
-        setAchievesStatusAS(achieves);
-        //TODO update backend
-    }
-}
-
-export async function checkBooksAchieves(readBooks: number) {
-    let achieves: boolean[] = await getAchievesStatusAS();
-    let count = 0;
-    //Check books achieves
+    //Check read book achieves
     for (let i: number = 3; i < 6; i++) {
-        if (!achieves[i] && readBooks >= achievements[i].condition) {
+        if (!achieves[i] && userData.readBooksNum >= achievements[i].condition) {
             achieves[i] = true;
-            count++;
         }
     }
-    if (count > 0) {
-        setAchievesStatusAS(achieves);
-        //TODO update backend
-    }
+    return JSON.stringify(achieves);
 }
