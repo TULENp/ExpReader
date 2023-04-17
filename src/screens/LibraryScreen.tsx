@@ -69,6 +69,7 @@ export function LibraryScreen() {
         //TODO don't set initBook if file already exist
         setBookStatsAS(bookInit);
         getAllFileBooks();
+        setLibCategory(1);
     }
 
     async function getAllFileBooks() {
@@ -89,7 +90,7 @@ export function LibraryScreen() {
     return (
         <>
                 <FlatList
-                style={{backgroundColor:'white'}}
+                style={{backgroundColor:'white', flex:1}}
                     ListHeaderComponent=
                     {
                         <>
@@ -127,6 +128,7 @@ export function LibraryScreen() {
                             </KeyboardAvoidingView>
                         </>
                     }
+                    
                     data={libCategory === 0 ? shopBooks.slice(1) : fileBooks}
                     keyExtractor={(item) => item.title}
                     renderItem={({ item: book }) => {
@@ -136,7 +138,7 @@ export function LibraryScreen() {
                             </View>)
                     }}
                     ListEmptyComponent={()=> 
-                    <View style={{alignItems:'center',padding:13, justifyContent:'center'}}>
+                    <View style={{alignItems:'center',padding:13,flex:1, justifyContent:'center'}}>
                         <Image style={{width:55, height:55}} source={srcIcnCloudCry}/>
                         <Text style={stylesLibraryScreen.text_empty_list}>{libCategory === 0 ? 'Вы ещё не приобрели ни одной книги' : 'Вы ещё не добавили ни одной книги'}</Text>
                     </View>}/>
