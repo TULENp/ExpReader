@@ -33,7 +33,7 @@ export const stylesBookLibCard = StyleSheet.create({
         paddingRight:5
     },
     text_empty_cover_book:{
-        fontFamily:'Montserrat500',
+        fontFamily:'MontserratAlt500',
         fontSize:14,
         color:'white',
         textAlign:'center',
