@@ -216,14 +216,14 @@ export function Reader({ bookText, book }: ReaderProps) {
 
     //Increase paddingSize text
     function increasePaddingSize(){
-        if(paddingSize<=30)
-        setPaddingSize(prev=> prev+3);
+        if(paddingSize>=0)
+        setPaddingSize(prev=> prev-3);
     }
     
     //Decrease paddingSize text
     function decreasePaddingSize(){
-        if(paddingSize>=0)
-        setPaddingSize(prev=> prev-3);
+        if(paddingSize<=60)
+        setPaddingSize(prev=> prev+3);
     }
 
     const {height} =  Dimensions.get('window')
@@ -291,7 +291,7 @@ export function Reader({ bookText, book }: ReaderProps) {
                         closeSwipe();
                     }}>
                     <Pressable style={{}}>
-                        <Text style={{ alignSelf: 'center', fontSize: fontSize,paddingTop:10, paddingLeft:paddingSize,paddingRight:paddingSize, color:readerTheme==='black' ? 'white' : 'black' }}>{pageText}</Text>
+                        <Text style={{ alignSelf: 'center', textAlign:'justify', fontSize: fontSize,paddingTop:10, paddingLeft:paddingSize,paddingRight:paddingSize, color:readerTheme==='black' ? 'white' : 'black' }}>{pageText}</Text>
                     </Pressable>
                 </Swipeable>
 
