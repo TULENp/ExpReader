@@ -10,7 +10,7 @@ import { TFilters } from '../../screens/ShopScreen';
 type FiltersProps = {
 	filters: TFilters,
 	setFilters: (filters: TFilters) => void,
-	filterBooks: () => Promise<void>
+	filterBooks: (isReset: boolean) => Promise<void>
 }
 
 export function Filters({ filters, setFilters, filterBooks }: FiltersProps) {
@@ -41,14 +41,14 @@ export function Filters({ filters, setFilters, filterBooks }: FiltersProps) {
 				<View style={stylesFilters.wrapper_genres}>
 					<Text style={stylesFilters.h2}>Жанры</Text>
 					<ButtonGroup buttons={listButtonsGenres}
-						selectedIndexes={filters.genre}
+						selectedIndexes={filters.genres}
 						onPress={(value) => {
 							//FIXME fix ts errors in every setFilters
 							//@ts-ignore
 							setFilters((prev) => {
 								return {
 									...prev,
-									genre: value
+									genres: value
 								}
 							});
 						}}
@@ -101,17 +101,18 @@ export function Filters({ filters, setFilters, filterBooks }: FiltersProps) {
 						placeholder='Выбрать'
 						labelField={'label'}
 						valueField={'value'}
-						value={filters.sort}
+						value={filters.sortID}
 						//@ts-ignore
 						onChange={(item) => setFilters((prev) => {
 							return {
 								...prev,
-								sort: item.value
+								sortID: item.value
 							}
 						})} />
 				</View>
 			</View>
-			<Button title='Применить' onPress={filterBooks} />
+			<Button title='Применить' onPress={() => filterBooks(false)} />
+			<Button title='Сбросить' onPress={() => filterBooks(true)} />
 		</>
 	)
 }

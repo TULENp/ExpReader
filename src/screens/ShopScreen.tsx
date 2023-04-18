@@ -17,9 +17,17 @@ import { GetAllShopBooks } from '../service/api';
 const width = Dimensions.get('window').width;
 
 export type TFilters = {
-	genre: number[],
-	rarity: number,
-	sort: string,
+	sortID: string,
+	rarity: number | null,
+	searchValue: string,
+	genres: number[],
+}
+
+const filtersInit: TFilters = {
+	sortID: '0',
+	rarity: null,
+	searchValue: '',
+	genres: [],
 }
 
 export function ShopScreen() {
@@ -29,22 +37,19 @@ export function ShopScreen() {
 	const ads = [require('../../assets/Ad1.png'), require('../../assets/Ad2.png'), require('../../assets/Ad3.png')];
 
 	const [books, setBooks] = useState<TShopBook[]>([]);
-	const [searchText, setSearchText] = useState<string>('');
 	const [isOpenDrawer, setIsOpenDrawer] = useState<boolean>(false);
-	const [filters, setFilters] = useState<TFilters>({
-		genre: [],
-		rarity: 0,
-		sort: '0'
-	});
-
+	const [filters, setFilters] = useState<TFilters>(filtersInit);
 
 	useEffect(() => {
 		getBooks();
 	}, [])
 
 	//TODO pass filters
-	async function getBooks() {
-		const books = await GetAllShopBooks(filters.sort, filters.rarity, searchText, filters.genre);
+	async function getBooks(isReset: boolean = false) {
+		const books = await GetAllShopBooks(isReset ? filtersInit : filters);
+		if (isReset) {
+			setFilters(filtersInit);
+		}
 		setBooks(books);
 	}
 
@@ -83,8 +88,16 @@ export function ShopScreen() {
 					<ScrollView ref={scrollToTop}>
 						<ImageBackground style={stylesShopScreen.img_header} source={srcImgShopHeader}>
 							<View style={stylesShopScreen.container_search_input}>
-								<Input onChangeText={text => setSearchText(text)}
-									onSubmitEditing={getBooks}
+								<Input value={filters.searchValue}
+									onChangeText={(text) => {
+										setFilters((prev) => {
+											return {
+												...prev,
+												searchValue: text
+											}
+										});
+									}}
+									onSubmitEditing={() => getBooks()}
 									placeholder={'Найти книги'}
 									inputContainerStyle={{ borderBottomWidth: 0 }}
 									leftIcon={{ type: 'octicons', name: 'search' }}

@@ -2,6 +2,7 @@ import axios from "axios";
 import { getTokenAS, setBookKeysAS, setBookStatsAS, setTokenAS, setUserDataAS } from "./asyncStorage";
 import { TBook, TBookStats, TLibBook, TRarity, TUserData } from "../types";
 import { baseURL } from "../constants";
+import { TFilters } from "../screens/ShopScreen";
 axios.defaults.baseURL = baseURL + '/api';
 
 //* Auth 
@@ -157,16 +158,16 @@ export async function GetAllLibBooks(): Promise<TLibBook[] | string> {
     return status;
 }
 
-export async function GetAllShopBooks(sortId: string, rarity: number, searchValue: string, genres: number[]) {
+export async function GetAllShopBooks(filter: TFilters) {
     const token = await getTokenAS();
     if (!token) return 401;
 
     return await axios.post('/books/getFilteredBooks',
         {
-            sortID: Number(sortId),
-            rarity: rarity,
-            searchValue: searchValue,
-            genres: genres
+            sortID: Number(filter.sortID),
+            rarity: filter.rarity,
+            searchValue: filter.searchValue,
+            genres: filter.genres
         },
         {
             headers: {
