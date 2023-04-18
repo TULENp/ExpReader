@@ -1,5 +1,5 @@
 import { Dimensions, StyleSheet } from 'react-native';
-import { greenRarity, purple, white } from '../../constants/colors';
+import { greenRarity, pink, purple, white } from '../../constants/colors';
 
 let {width} = Dimensions.get('window');
 
@@ -21,6 +21,23 @@ export const stylesBookLibCard = StyleSheet.create({
         height:135,
         overflow: 'hidden',
         borderRadius:8,
+    },
+    empty_cover_book:{
+        width:85,
+        height:135,
+        overflow: 'hidden',
+        borderRadius:8,
+        backgroundColor:pink,
+        paddingTop:10,
+        paddingLeft:5,
+        paddingRight:5
+    },
+    text_empty_cover_book:{
+        fontFamily:'Montserrat500',
+        fontSize:14,
+        color:'white',
+        textAlign:'center',
+        
     },
     container_info_book:{
         flex:1,
