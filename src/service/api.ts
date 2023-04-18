@@ -157,13 +157,13 @@ export async function GetAllLibBooks(): Promise<TLibBook[] | string> {
     return status;
 }
 
-export async function GetAllShopBooks(sortId: string, rarity: TRarity | null, searchValue: string, genres: number[]) {
+export async function GetAllShopBooks(sortId: string, rarity: number, searchValue: string, genres: number[]) {
     const token = await getTokenAS();
     if (!token) return 401;
 
     return await axios.post('/books/getFilteredBooks',
         {
-            sortId: sortId,
+            sortID: Number(sortId),
             rarity: rarity,
             searchValue: searchValue,
             genres: genres

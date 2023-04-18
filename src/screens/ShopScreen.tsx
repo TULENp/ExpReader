@@ -18,7 +18,7 @@ const width = Dimensions.get('window').width;
 
 export type TFilters = {
 	genre: number[],
-	rarity: number | undefined,
+	rarity: number,
 	sort: string,
 }
 
@@ -33,7 +33,7 @@ export function ShopScreen() {
 	const [isOpenDrawer, setIsOpenDrawer] = useState<boolean>(false);
 	const [filters, setFilters] = useState<TFilters>({
 		genre: [],
-		rarity: undefined,
+		rarity: 0,
 		sort: '0'
 	});
 
@@ -44,8 +44,7 @@ export function ShopScreen() {
 
 	//TODO pass filters
 	async function getBooks() {
-		//FIXME fix rarity
-		const books = await GetAllShopBooks(filters.sort, null, searchText, filters.genre);
+		const books = await GetAllShopBooks(filters.sort, filters.rarity, searchText, filters.genre);
 		setBooks(books);
 	}
 

@@ -1,23 +1,20 @@
 import { ImageSourcePropType } from "react-native";
 import { achievements } from "../TestData/achievements";
-import { realBookPageChars, pageChars } from "../constants";
 import { srcIcnBronze, srcIcnGold, srcIcnSilver } from "../constants/images";
 import { TDailyTask, TDailyTaskLevel, TRarity, TUserData } from "../types";
 import { incUserReadPagesAS } from "./asyncStorage";
 import { greenRarity, blueRarity, redRarity, yellowRarity } from "../constants/colors";
 
-export function calculateRarity(pages: number, isPagesReal: boolean = false): TRarity {
+export function calculateRarity(pages: number): TRarity {
     let rarity: TRarity = { rarity: 'легендарная', color: yellowRarity };
-    // if pages not 'real' convert from app pages to "real" pages, which depends on pageChars
-    let realPages = isPagesReal ? pages : Math.ceil(pages / (realBookPageChars / pageChars));
 
-    if (realPages <= 300) {
+    if (pages <= 900) {
         rarity = { rarity: 'обычная', color: greenRarity }
     }
-    else if (realPages > 300 && realPages <= 600) {
+    else if (pages > 900 && pages <= 1800) {
         rarity = { rarity: 'редкая', color: blueRarity }
     }
-    else if (realPages > 600 && realPages <= 900) {
+    else if (pages > 1800 && pages <= 2700) {
         rarity = { rarity: 'эпическая', color: redRarity }
     }
     return rarity;

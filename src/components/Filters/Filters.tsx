@@ -15,9 +15,9 @@ type FiltersProps = {
 
 export function Filters({ filters, setFilters, filterBooks }: FiltersProps) {
 
-	const listButtonsGenres = ['Фантастика', 'Приключения', 'Фэнтези', 'Киберпанк',
-		'Романы', 'Поэзия', 'Хоррор', 'Нон-Фикшн', 'Комедия', 'Исторические романы',
-		'Детективы']
+	const listButtonsGenres = ['Фантастика', 'Приключения', 'Фэнтези', 'Классика',
+		'Роман', 'Поэзия', 'Хоррор', 'Нон-Фикшн', 'Комедия', 'Исторический роман',
+		'Детектив', 'Детские книги']
 
 	const listButtonsRarity = [
 		<CustomIcon source={srcIcnStarGreenRarity} />,
@@ -28,9 +28,8 @@ export function Filters({ filters, setFilters, filterBooks }: FiltersProps) {
 
 	const listSort = [
 		{ label: 'Популярное', value: '0' },
-		{ label: 'Новинки', value: '1' },
-		{ label: 'Сначала дешёвые', value: '2' },
-		{ label: 'Сначала дорогие', value: '3' },
+		{ label: 'Сначала дешёвые', value: '1' },
+		{ label: 'Сначала дорогие', value: '2' },
 	]
 
 	return (

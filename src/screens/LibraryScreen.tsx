@@ -79,9 +79,6 @@ export function LibraryScreen() {
     async function getAllLibBooks() {
         const bookNames = await getBookNamesAS();
         const booksArray = await getAllBooksAS(bookNames);
-        // for (let item of booksArray) {
-        //     console.log(item.title, item.readDate);
-        // }
         setShopBooks(booksArray);
     }
 
