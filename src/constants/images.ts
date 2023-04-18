@@ -1,7 +1,7 @@
 
 const srcImgLibraryHeader = require('../../assets/libraryHeader.png');
 const srcImgShopHeader = require('../../assets/shopHeader.png');
-const srcImgProfileHeader = require('../../assets/profileHeader.png');
+const srcImgProfileHeader = require('../../assets/profileHeader1.png');
 const srcImgBookHeader = require('../../assets/bookHeader.png');
 const srcIcnHeart = require('../../assets/heart.png');
 const srcIcnRedHeart = require('../../assets/heartRed.png');

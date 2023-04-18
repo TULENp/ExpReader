@@ -172,7 +172,7 @@ export const stylesShopScreen = StyleSheet.create({
 export const stylesProfileScreen = StyleSheet.create({
     img_header:{
         width:width,
-        height:159,
+        height:214,
         paddingTop:40,
         paddingLeft:13,
         paddingRight:13,
@@ -202,11 +202,23 @@ export const stylesProfileScreen = StyleSheet.create({
         marginBottom:10,
     },
     container_level:{
-        width:width,
+        // flexGrow:1,
+        width:'100%',
         padding:13,
         justifyContent:'center',
         alignItems:'center',
-        backgroundColor:purple,
+        backgroundColor:'white',
+        elevation:15,
+        borderRadius:8,
+    },
+    test:{
+        // width:width,
+        width:'100%',
+        // flexGrow:1,
+        paddingLeft:13,
+        paddingRight:13,
+        flexWrap:'nowrap',
+        marginTop:-55,
     },
     icn_settings:{
         width:18,
@@ -215,15 +227,16 @@ export const stylesProfileScreen = StyleSheet.create({
         
     },
     progress_bar:{
-        width:'75%',
+        width:'90%',
         borderRadius:12,
         marginTop:12,
     },
     text_level_bold:{
         fontFamily:'MontserratAlt700',
         fontSize:16,
-        color:white,
-        
+        color:'black',
+        width:'100%',
+        textAlign:'center',
     },
     text_level_medium:{
         fontFamily:'MontserratAlt500',
@@ -232,13 +245,13 @@ export const stylesProfileScreen = StyleSheet.create({
     text_level_light:{
         fontFamily:'MontserratAlt300',
         fontSize:16,
-        color:white,
+        color:'black',
         marginTop:12,
     },
     wrapper_text_level_settings:{
         width:'75%',
         flexDirection:'row',
-        justifyContent:'flex-end',
+        justifyContent:'space-between',
         alignItems:'center',
     },
     h1_profile_bold:{
@@ -258,9 +271,10 @@ export const stylesProfileScreen = StyleSheet.create({
     wrapper_pins:{
         width:'100%',
         // height:'50%',
-        borderWidth:1,
+        // borderWidth:1,
         borderRadius:8,
         overflow:'hidden',
+        elevation:15,
         // backgroundColor:lightBlue,
         flexDirection:'row',
         justifyContent:'center',
@@ -284,9 +298,12 @@ export const stylesProfileScreen = StyleSheet.create({
 		alignItems:'center',
         paddingLeft:13, 
         paddingRight:13,
-        width:366,
+        // width:366,
+        flexGrow:1,
         gap:20,
-        maxWidth:width,
+        width:'100%'
+        
+        // maxWidth:width,
     },
     container_profile_books:{
         flex:1,
