@@ -100,8 +100,8 @@ export const stylesLibraryScreen = StyleSheet.create({
         position:'absolute', 
         elevation:1,
         zIndex:5, 
-        right:'8%', 
-        bottom:'5%',
+        right:'5%', 
+        bottom:'2%',
     },
     text_empty_list:{
         fontFamily:'MontserratAlt400',

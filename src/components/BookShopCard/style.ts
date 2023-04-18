@@ -28,6 +28,5 @@ export const stylesBookShopCard = StyleSheet.create({
         width:'100%',
         maxWidth:116,
         marginBottom:15,
-        
     }
 });
