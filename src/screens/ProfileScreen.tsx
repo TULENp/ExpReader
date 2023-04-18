@@ -133,7 +133,7 @@ export function ProfileScreen() {
 								<View style={stylesProfileScreen.wrapper_pins}>
 									<FlatList
 									style={{width:'100%', backgroundColor:'white', padding:13,borderRadius:8,}}
-									contentContainerStyle={{justifyContent:'center', alignItems:'center', width:'100%'}}
+									contentContainerStyle={{justifyContent:'center', alignItems:'center', width:'100%', }}
 									showsHorizontalScrollIndicator={false}
 										scrollEnabled={false}
 										horizontal
