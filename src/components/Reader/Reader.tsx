@@ -1,6 +1,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, Image, ScrollView, Button, AppState, Dimensions, Modal, Animated, Pressable, TouchableOpacity } from 'react-native';
+import { View, Text, Image, ScrollView, Button, AppState, Dimensions, Modal, Animated, Pressable, TouchableOpacity, StatusBar } from 'react-native';
 import { pageChars } from '../../constants';
 import {
     getAllBooksAS,
@@ -22,7 +22,7 @@ import { GestureDetector, GestureHandlerRootView, } from 'react-native-gesture-h
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { stylesReader } from './style';
 import { MaterialIcons, Ionicons, AntDesign } from '@expo/vector-icons';
-import { redRarity, themeYellow } from '../../constants/colors';
+import { purple, redRarity, themeYellow, yellowRarity } from '../../constants/colors';
 import { srcIcnFieldDec, srcIcnFieldInc } from '../../constants/images';
 // import Animated from 'react-native-reanimated';
 
@@ -47,6 +47,11 @@ export function Reader({ bookText, book }: ReaderProps) {
     const [readTimer, setReadTimer] = useState<NodeJS.Timeout | null>(null) // timer after which the page is considered read
 
     const width = Dimensions.get('window').width;
+
+    //States for reader settings
+    const [readerTheme,setReaderTheme] = useState<string>('white');
+    const [fontSize,setFontSize] = useState<number>(25);
+    const [paddingSize,setPaddingSize] = useState<number>(10);
 
     useEffect(() => {
         if (bookPages !== book.bookPages) {
@@ -104,6 +109,9 @@ export function Reader({ bookText, book }: ReaderProps) {
         const booksStats = await getUserBookStatsAS(bookNames);
         UpdateUserBookStats(booksStats);
     }
+
+
+
 
     function readCurrentPage() {
         if (bookText) {
@@ -177,7 +185,47 @@ export function Reader({ bookText, book }: ReaderProps) {
     function closeSwipe() {
         refSwipePage[0]?.close();
     }
+
+    // Reader settings
+    //switch theme:0=white,1=yellow,2=black
+    function switchTheme(theme:number){
+        switch(theme){
+            case 0:
+                setReaderTheme('white')
+                break;
+            case 1:
+                setReaderTheme(themeYellow)
+                break;
+            case 2:
+                setReaderTheme('black')
+                break;
+        }
+    }
+
+    //Increase fontSize text
+    function increaseFontSize(){
+        if(fontSize<=48)
+        setFontSize(prev=> prev+1);
+    }
+
+    //Decrease fontSize text
+    function decreaseFontSize(){
+        if(fontSize>=20)
+        setFontSize(prev=> prev-1);
+    }
+
+    //Increase paddingSize text
+    function increasePaddingSize(){
+        if(paddingSize<=30)
+        setPaddingSize(prev=> prev+3);
+    }
     
+    //Decrease paddingSize text
+    function decreasePaddingSize(){
+        if(paddingSize>=0)
+        setPaddingSize(prev=> prev-3);
+    }
+
     const {height} =  Dimensions.get('window')
 
     // Animtaion value
@@ -225,8 +273,9 @@ export function Reader({ bookText, book }: ReaderProps) {
     return (
         <>
             {/* TODO remove scroll animation */}
-            <ScrollView scrollEnabled={true} style={{backgroundColor:'white'}} ref={scrollViewRef}>
+            <ScrollView scrollEnabled={true} style={{backgroundColor:readerTheme}} ref={scrollViewRef}>
             <GestureHandlerRootView style={{flex:1, position:'relative'}}>
+                <StatusBar backgroundColor={visibleModal ? purple : readerTheme} barStyle={readerTheme==='black' ? 'light-content': 'dark-content' }/>
                 <Swipeable
                     ref={ref => refSwipePage[0] = ref}
                     // render empty view for swipe animation (it`s crutch)
@@ -241,8 +290,8 @@ export function Reader({ bookText, book }: ReaderProps) {
                         toNextPage();
                         closeSwipe();
                     }}>
-                    <Pressable style={{backgroundColor:'white'}}>
-                        <Text style={{ alignSelf: 'center', fontSize: 25, margin: 10 }}>{pageText}</Text>
+                    <Pressable style={{}}>
+                        <Text style={{ alignSelf: 'center', fontSize: fontSize,paddingTop:10, paddingLeft:paddingSize,paddingRight:paddingSize, color:readerTheme==='black' ? 'white' : 'black' }}>{pageText}</Text>
                     </Pressable>
                 </Swipeable>
 
@@ -295,17 +344,17 @@ export function Reader({ bookText, book }: ReaderProps) {
                                             <View style={{flexDirection:'row', justifyContent:'space-between', marginTop:10}}>
 
                                                 {/* White theme */}
-                                                <Pressable style={[stylesReader.theme_item, {backgroundColor: 'white'}]}>
+                                                <Pressable onPress={()=> switchTheme(0)} style={[stylesReader.theme_item, {backgroundColor: 'white',borderColor: readerTheme==='white' ? redRarity : 'black'}]}>
                                                     <Text style={stylesReader.theme_item_white_text}>Аа</Text>
                                                 </Pressable>
 
                                                 {/* Yellow theme */}
-                                                <Pressable style={[stylesReader.theme_item, {backgroundColor: themeYellow}]}>
+                                                <Pressable onPress={()=> switchTheme(1)} style={[stylesReader.theme_item, {backgroundColor: themeYellow,borderColor: readerTheme===themeYellow ? redRarity : 'black'}]}>
                                                     <Text style={stylesReader.theme_item_yellow_text}>Аа</Text>
                                                 </Pressable>
 
                                                 {/* Black theme */}
-                                                <Pressable style={[stylesReader.theme_item, {backgroundColor: 'black'}]}>
+                                                <Pressable onPress={()=> switchTheme(2)} style={[stylesReader.theme_item, {backgroundColor: 'black',borderColor: readerTheme==='black' ? redRarity : 'black'}]}>
                                                     <Text style={stylesReader.theme_item_black_text}>Аа</Text>
                                                 </Pressable>
                                             </View>
@@ -316,14 +365,14 @@ export function Reader({ bookText, book }: ReaderProps) {
                                             <Text style={stylesReader.h1_settings}>Размер шрифта</Text>
                                             <View style={{flexDirection:'row', gap:8}}>
                                                 {/* Btn decrease font size */}
-                                                <Pressable style={stylesReader.btn_settings}>
+                                                <TouchableOpacity onPress={()=> decreaseFontSize()} style={stylesReader.btn_settings}>
                                                     <AntDesign name="minus" size={24} color="black" />
-                                                </Pressable>
+                                                </TouchableOpacity>
 
                                                 {/* Btn increase font size */}
-                                                <Pressable style={stylesReader.btn_settings}>
+                                                <TouchableOpacity onPress={()=> increaseFontSize()} style={stylesReader.btn_settings}>
                                                     <AntDesign name="plus" size={24} color="black" />
-                                                </Pressable>
+                                                </TouchableOpacity>
                                             </View>
                                         </View>
 
@@ -332,14 +381,14 @@ export function Reader({ bookText, book }: ReaderProps) {
                                             <Text style={stylesReader.h1_settings}>Поля</Text>
                                             <View style={{flexDirection:'row', gap:8}}>
                                                 {/* Btn decrease field text */}
-                                                <Pressable style={stylesReader.btn_settings}>
+                                                <TouchableOpacity onPress={()=> decreasePaddingSize()} style={stylesReader.btn_settings}>
                                                     <Image style={stylesReader.icn_field} source={srcIcnFieldDec} />
-                                                </Pressable>
+                                                </TouchableOpacity>
 
                                                 {/* Btn increase field text */}
-                                                <Pressable style={stylesReader.btn_settings}>
+                                                <TouchableOpacity onPress={()=> increasePaddingSize()} style={stylesReader.btn_settings}>
                                                     <Image style={stylesReader.icn_field} source={srcIcnFieldInc} />
-                                                </Pressable>
+                                                </TouchableOpacity>
                                             </View>
                                         </View>
 
