@@ -1,4 +1,4 @@
-import { View, Text, KeyboardAvoidingView, FlatList, ImageBackground, StatusBar, Image, TouchableOpacity, ImageSourcePropType, Dimensions, ScrollView } from 'react-native'
+import { View, Text, KeyboardAvoidingView, ImageBackground, StatusBar, Image, TouchableOpacity, Dimensions, ScrollView } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import { stylesShopScreen } from './stylesScreen'
 import { BookShopCard } from '../components/BookShopCard';
@@ -9,7 +9,6 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { srcIcnFilter, srcIcnRedHeart, srcImgShopHeader } from '../constants/images';
 import { ShopStackParams, TShopBook } from '../types';
 import { NavigationProp, useNavigation, useScrollToTop } from '@react-navigation/native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Filters } from '../components/Filters';
 import Drawer from 'react-native-drawer';
 import { GetAllShopBooks } from '../service/api';
@@ -44,7 +43,6 @@ export function ShopScreen() {
 		getBooks();
 	}, [])
 
-	//TODO pass filters
 	async function getBooks(isReset: boolean = false) {
 		const books = await GetAllShopBooks(isReset ? filtersInit : filters);
 		if (isReset) {

@@ -13,13 +13,13 @@ import { deepBlue, white } from '../constants/colors';
 import { BookLastReadCard } from '../components/BookLastReadCard';
 import { fileBooksDir } from '../constants';
 import { AppContext } from '../context/AppContext';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export function LibraryScreen() {
     const { isGotBackend } = useContext(AppContext);
     const { navigate, getParent } = useNavigation<NavigationProp<LibStackParams>>();
     const [fileBooks, setFileBooks] = useState<TLibBook[]>([]);
     const [shopBooks, setShopBooks] = useState<TLibBook[]>([]);
-
     const [searchText, setSearchText] = useState<string>('');
     const [libCategory, setLibCategory] = useState<number>(0);
 
@@ -82,29 +82,53 @@ export function LibraryScreen() {
         setShopBooks(booksArray);
     }
 
+    function BooksList() {
+        let data = [];
+        if (searchText) {
+            const allBooks = shopBooks.concat(fileBooks);
+            data = allBooks.filter(book => book.title.toLowerCase().indexOf(searchText.toLowerCase()) > -1);
+        }
+        else {
+            data = libCategory === 0 ? shopBooks.slice(1) : fileBooks;
+        }
+        const list = data.map((book) => {
+            return (
+                <View key={book.id} style={{ backgroundColor: white }}>
+                    <BookLibCard book={book} />
+                </View>)
+        })
+        //TODO change styles add margin or smth
+        return (
+            <>
+                {data.length === 0
+                    ?
+                    <Text>Книги не найдены</Text>
+                    :
+                    list
+                }
+            </>
+        )
+    }
+
     return (
         <SafeAreaView>
-            <FlatList
-                ListHeaderComponent=
-                {
-                    <>
-                        <KeyboardAvoidingView behavior='height' style={stylesLibraryScreen.lib_page}>
-                            <StatusBar backgroundColor={deepBlue} />
-                            <ImageBackground source={srcImgLibraryHeader} style={stylesLibraryScreen.container_header}>
-                                <View style={stylesLibraryScreen.container_search_input}>
-                                    <Input onChangeText={text => setSearchText(text)}
-                                        placeholder={'Найти книги'}
-                                        inputContainerStyle={{ borderBottomWidth: 0 }}
-                                        leftIcon={{ type: 'octicons', name: 'search' }}
-                                        style={[stylesLibraryScreen.search_input, { fontFamily: 'MontserratAlt400' }]} />
-                                </View>
-                            </ImageBackground>
+            <ScrollView>
 
-                            {shopBooks[0] &&
-                                <Pressable onPress={() => navigate('Reader', { book: shopBooks[0] })}>
-                                    <BookLastReadCard book={shopBooks[0]} />
-                                </Pressable>}
-
+                <KeyboardAvoidingView behavior='height' style={stylesLibraryScreen.lib_page}>
+                    <StatusBar backgroundColor={deepBlue} />
+                    {/* SearchBar */}
+                    <ImageBackground source={srcImgLibraryHeader} style={stylesLibraryScreen.container_header}>
+                        <View style={stylesLibraryScreen.container_search_input}>
+                            <Input onChangeText={text => setSearchText(text)}
+                                placeholder={'Найти книги'}
+                                inputContainerStyle={{ borderBottomWidth: 0 }}
+                                leftIcon={{ type: 'octicons', name: 'search' }}
+                                style={[stylesLibraryScreen.search_input, { fontFamily: 'MontserratAlt400' }]} />
+                        </View>
+                    </ImageBackground>
+                    {!searchText &&
+                        <>
+                            {/* Tabs */}
                             <View style={{ paddingTop: 25, paddingBottom: 20 }}>
                                 <Text style={stylesLibraryScreen.h1_library}>Библиотека</Text>
                                 <ButtonGroup buttons={['Купленные книги', 'Добавленные книги']}
@@ -119,21 +143,22 @@ export function LibraryScreen() {
                                     buttonStyle={{}}
                                 />
                             </View>
-                        </KeyboardAvoidingView>
-                    </>
-                }
-                data={libCategory === 0 ? shopBooks.slice(1) : fileBooks}
-                keyExtractor={(item) => item.title}
-                renderItem={({ item: book }) => {
-                    return (
-                        <View style={{ backgroundColor: white }}>
-                            <BookLibCard book={book} />
-                        </View>)
-                }} />
+                            {/* LastReadBook card */}
+                            {shopBooks[0] && libCategory === 0 &&
+                                <Pressable onPress={() => navigate('Reader', { book: shopBooks[0] })}>
+                                    <BookLastReadCard book={shopBooks[0]} />
+                                </Pressable>}
+                        </>
+                    }
+                </KeyboardAvoidingView>
+                {/* List of books */}
+                <BooksList />
+            </ScrollView>
+            {/* add book button */}
             <FAB onPress={addBookFromFile}
                 icon={{ name: 'add', color: 'white' }}
                 color={deepBlue} size='large'
                 style={stylesLibraryScreen.fab_button} />
-        </SafeAreaView>
+        </SafeAreaView >
     );
 }
