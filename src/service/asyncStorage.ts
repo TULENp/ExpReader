@@ -177,6 +177,17 @@ export async function getAchievesStatusAS() {
     return achieves;
 }
 
+//Reader settings
+export function getThemeSettings(){
+    let res:string | null = '';
+    AsyncStorage.getItem('readerTheme').then(async (value)=> res= value)
+    return res;
+}
+
+export function setThemeSettings(theme:string){
+    AsyncStorage.setItem('readerTheme',theme);
+}
+
 
 //* Api 
 // save user auth token to AS

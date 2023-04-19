@@ -5,11 +5,13 @@ import { pageChars } from '../../constants';
 import {
     getAllBooksAS,
     getBookNamesAS,
+    getThemeSettings,
     getUserBookStatsAS,
     incTodayPagesAS,
     incUserReadPagesAS,
     setBookIsReadAS,
     setFileBookPagesAS,
+    setThemeSettings,
     updateBookCurrentPageAS,
     updateBookReadDateAS,
     updateBookReadPagesAS,
@@ -58,7 +60,11 @@ export function Reader({ bookText, book }: ReaderProps) {
             setFileBookPagesAS(id, bookPages);
         }
         updateBookReadDateAS(id);
+        if(getThemeSettings!==null){
+            setReaderTheme(getThemeSettings())
+        }
         
+
     }, []);
 
     useEffect(() => {
@@ -191,13 +197,16 @@ export function Reader({ bookText, book }: ReaderProps) {
     function switchTheme(theme:number){
         switch(theme){
             case 0:
-                setReaderTheme('white')
+                setReaderTheme('white');
+                setThemeSettings('white');
                 break;
             case 1:
-                setReaderTheme(themeYellow)
+                setReaderTheme(themeYellow);
+                setThemeSettings(themeYellow);
                 break;
             case 2:
-                setReaderTheme('black')
+                setReaderTheme('black');
+                setThemeSettings('black');
                 break;
         }
     }
