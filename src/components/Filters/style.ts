@@ -1,5 +1,5 @@
 import { StyleSheet} from 'react-native';
-import { black, greenRarity, white } from '../../constants/colors';
+import { black, greenRarity, lightBlue, white } from '../../constants/colors';
 
 export const stylesFilters= StyleSheet.create({
     container_style:{
@@ -58,6 +58,20 @@ export const stylesFilters= StyleSheet.create({
         borderRadius:8,
         paddingLeft:13,
         paddingRight:13,
+    },
+    text_btn:{
+        fontFamily:'MontserratAlt700',
+        fontSize:18,
+        color:'white'
+    },
+    container_btn:{
+        width:'100%',
+        justifyContent:'center',
+        alignItems:'center',
+        backgroundColor:lightBlue,
+        padding:8,
+        borderRadius:8,
+        
     }
     
 })

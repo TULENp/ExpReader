@@ -1,11 +1,12 @@
 import { ButtonGroup } from '@rneui/themed';
 import { View, Text, Button } from 'react-native'
-import { greenRarity, } from '../../constants/colors';
+import { blueRarity, deepBlue, greenRarity, redRarity, yellowRarity, } from '../../constants/colors';
 import { stylesFilters } from './style';
 import { srcIcnStarBlueRarity, srcIcnStarGreenRarity, srcIcnStarRedRarity, srcIcnStarYellowRarity } from '../../constants/images';
 import { CustomIcon } from '../CustomIcon';
 import { Dropdown } from 'react-native-element-dropdown';
 import { TFilters } from '../../screens/ShopScreen';
+import { TouchableOpacity } from 'react-native';
 
 type FiltersProps = {
 	filters: TFilters,
@@ -110,9 +111,18 @@ export function Filters({ filters, setFilters, filterBooks }: FiltersProps) {
 							}
 						})} />
 				</View>
+
+				{/* Actions */}
+				{/* Btn Apply filters */}
+				<TouchableOpacity style={[stylesFilters.container_btn, {marginTop:25, marginBottom:15}]} onPress={() => filterBooks(false)}>
+					<Text style={stylesFilters.text_btn}>Применить</Text>
+				</TouchableOpacity>
+
+				{/* Btn Apply filters */}
+				<TouchableOpacity style={[stylesFilters.container_btn, {backgroundColor:deepBlue}]}onPress={() => filterBooks(true)}>
+					<Text style={stylesFilters.text_btn}>Сбросить</Text>
+				</TouchableOpacity>
 			</View>
-			<Button title='Применить' onPress={() => filterBooks(false)} />
-			<Button title='Сбросить' onPress={() => filterBooks(true)} />
 		</>
 	)
 }
