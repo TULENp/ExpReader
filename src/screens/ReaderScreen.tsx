@@ -25,11 +25,11 @@ export function ReaderScreen() {
 
     async function getBookText() {
         let filePath = '';
-        if ((await FileSystem.getInfoAsync(fileBooksDir + book.fileName)).exists) {
-            filePath = fileBooksDir + book.fileName;
+        if ((await FileSystem.getInfoAsync(booksDir + book.fileName)).exists) {
+            filePath = booksDir + book.fileName;
         }
         else {
-            filePath = booksDir + book.fileName;
+            filePath = fileBooksDir + book.fileName;
         }
 
         await FileSystem.StorageAccessFramework.readAsStringAsync(filePath)
