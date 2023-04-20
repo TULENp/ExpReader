@@ -131,28 +131,6 @@ export function ProfileScreen() {
 							}
 							
 						</Pressable>
-							{/* <Text style={stylesProfileScreen.h1_profile_bold}>Достижения:
-							<Text style={stylesProfileScreen.h1_profile_medium}> 5 (хард код)</Text>
-						</Text>
-						<View style={stylesProfileScreen.wrapper_pins}>
-							<FlatList
-								style={{ width: '100%', backgroundColor: 'white', padding: 13, borderRadius: 8, }}
-								contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', width: '100%', }}
-								showsHorizontalScrollIndicator={false}
-								scrollEnabled={false}
-								horizontal
-								data={userData.achievesImg}
-								keyExtractor={(item) => item}
-								renderItem={(item) =>
-									<Image style={stylesProfileScreen.img_pin} source={require('../../assets/owlPin.png')} />
-								}
-								ListEmptyComponent={() =>
-									<View style={stylesProfileScreen.empty_component_achiv}>
-										<Image style={{ width: 44, height: 44 }} source={srcIcnReward} />
-										<Text style={stylesProfileScreen.text_empry}>Вы пока не получили ни одного достижения</Text>
-									</View>}
-							/>
-						</View> */}
 
 						{/* TODO add empty check */}
 						{/* Book shelf */}

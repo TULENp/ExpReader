@@ -125,7 +125,7 @@ export function LibraryScreen() {
 
     return (
         <>
-            <ScrollView>
+            <ScrollView style={{backgroundColor:'white', flex:1}}>
                 <KeyboardAvoidingView behavior='height' style={stylesLibraryScreen.lib_page}>
                     <StatusBar backgroundColor={deepBlue} />
                     {/* SearchBar */}
@@ -146,7 +146,7 @@ export function LibraryScreen() {
                                     <BookLastReadCard book={shopBooks[0]} />
                                 </Pressable>}
                             {/* Tabs */}
-                            <View style={{ paddingTop: 25, paddingBottom: 20 }}>
+                            <View style={{ paddingTop: 25, }}>
                                 <Text style={stylesLibraryScreen.h1_library}>Библиотека</Text>
                                 <ButtonGroup buttons={['Купленные книги', 'Добавленные книги']}
                                     selectedIndex={libCategory}
@@ -164,7 +164,9 @@ export function LibraryScreen() {
                     }
                 </KeyboardAvoidingView>
                 {/* List of books */}
-                <BooksList />
+                <View style={{marginTop:20}}>
+                    <BooksList />
+                </View>
             </ScrollView>
             {/* add book button */}
             <FAB onPress={addBookFromFile}
