@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native"
-import { deepBlue, white } from "../../constants/colors"
+import { deepBlue, purple, white } from "../../constants/colors"
 
 export const stylesReadLater = StyleSheet.create({
     img_cover_read_later:{
@@ -42,5 +42,21 @@ export const stylesReadLater = StyleSheet.create({
         transform: [{scaleY: 1.5}], 
         borderRadius:8, 
         marginTop:10,
-    }
+    },
+    empty_cover_book: {
+        resizeMode: 'contain',
+        width: 139,
+        height: 199,
+        borderRadius: 8,
+        backgroundColor: purple,
+        paddingTop: 30,
+        paddingLeft: 5,
+        paddingRight: 5,
+    },
+    text_empty_cover_book: {
+        fontFamily: 'MontserratAlt500',
+        fontSize: 24,
+        color: 'white',
+        textAlign: 'center',
+    },
 })

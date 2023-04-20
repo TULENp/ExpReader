@@ -76,8 +76,8 @@ export function LibraryScreen() {
         const booksArray: TLibBook[] = await getAllBooksAS(bookFileNames);
         setFileBooks(booksArray);
     }
-    
-//TODO add loading
+
+    //TODO add loading
     async function getAllLibBooks() {
         //loading true
         const bookNames = await getBookNamesAS();
@@ -141,10 +141,7 @@ export function LibraryScreen() {
                     {!searchText &&
                         <>
                             {/* LastReadBook card */}
-                            {shopBooks[0] && libCategory === 0 &&
-                                <Pressable onPress={() => navigate('Reader', { book: shopBooks[0] })}>
-                                    <BookLastReadCard book={shopBooks[0]} />
-                                </Pressable>}
+                            {shopBooks[0] && libCategory === 0 && <BookLastReadCard book={shopBooks[0]} />}
                             {/* Tabs */}
                             <View style={{ paddingTop: 25, paddingBottom: 20 }}>
                                 <Text style={stylesLibraryScreen.h1_library}>Библиотека</Text>
