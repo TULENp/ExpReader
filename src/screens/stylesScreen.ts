@@ -180,7 +180,7 @@ export const stylesProfileScreen = StyleSheet.create({
         position:'relative'
     },
     avatar:{
-        backgroundColor:lightBlue,
+        backgroundColor: lightBlue
     },
     icn_points:{
         width:25,

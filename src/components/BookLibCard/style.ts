@@ -27,7 +27,7 @@ export const stylesBookLibCard = StyleSheet.create({
         height:135,
         overflow: 'hidden',
         borderRadius:8,
-        backgroundColor:pink,
+        backgroundColor:purple,
         paddingTop:10,
         paddingLeft:5,
         paddingRight:5

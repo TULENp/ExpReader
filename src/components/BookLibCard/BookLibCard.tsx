@@ -18,11 +18,10 @@ export function BookLibCard({ book }: { book: TLibBook }) {
     const percent = Math.floor((readPages / bookPages) * 100) || 0;
     const [bookRarity, setBookRarity] = useState<TRarity>();
     const [isDownloaded, setIsDownloaded] = useState(false);
-    
+
 
     useEffect(() => {
         setBookRarity(calculateRarity(book.bookPages));
-        
     }, [])
 
     useEffect(() => {
@@ -46,6 +45,7 @@ export function BookLibCard({ book }: { book: TLibBook }) {
         setIsDownloaded(true);
     }
 
+    //TODO remove deleteBook func on build ver
     async function deleteBook() {
         await FileSystem.deleteAsync(booksDir + fileName, { idempotent: true });
         setIsDownloaded(false);
@@ -65,7 +65,7 @@ export function BookLibCard({ book }: { book: TLibBook }) {
         <Pressable onPress={readOrDownloadBook}>
             <View style={stylesBookLibCard.container_lib_book}>
                 <Shadow distance={1} startColor={bookRarity?.color} offset={[7, 6]}>
-                    {cover===""
+                    {cover === ""
                         ?
                         <View style={stylesBookLibCard.empty_cover_book}>
                             <Text style={stylesBookLibCard.text_empty_cover_book}>{title}</Text>
@@ -79,6 +79,7 @@ export function BookLibCard({ book }: { book: TLibBook }) {
                     <Text style={stylesBookLibCard.author}>{authors}</Text>
                     <View style={stylesBookLibCard.btn_read}>
                         <Image source={srcIcnBook} style={{ width: 14, height: 14 }} />
+                        {/* TODO add loading  */}
                         <Text style={{ fontFamily: 'MontserratAlt500', fontSize: 12, color: white, marginLeft: 10 }}>{isDownloaded ? 'Читать' : 'Скачать'}</Text>
                     </View>
                     <Text style={stylesBookLibCard.text_progress}>{`${percent}% прочитано`}</Text>

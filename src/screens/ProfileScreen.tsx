@@ -1,17 +1,16 @@
-import { View, Text, ImageBackground, Image, ScrollView, Pressable, FlatList, Button, StatusBar } from 'react-native';
+import { View, Text, ImageBackground, Image, ScrollView, Pressable } from 'react-native';
 import React, { useContext, useState } from 'react';
-import { srcIcnOpenBook, srcIcnPoints, srcIcnReward, srcIcnSetting, srcImgProfileHeader } from '../constants/images';
+import { srcIcnOpenBook, srcIcnPoints, srcIcnReward, srcImgProfileHeader } from '../constants/images';
 import { stylesProfileScreen } from './stylesScreen';
 import { Avatar } from 'react-native-elements';
 import { LinearProgress } from '@rneui/themed';
-import { deepBlue, greenRarity, white } from '../constants/colors';
+import { greenRarity } from '../constants/colors';
 import { ProfileStackParams, TDailyTask, TDailyTaskLevel, TUserData } from '../types';
 import { BookProfileCard } from '../components/BookProfileCard';
 import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native';
 import { getDailyTaskLevel } from '../service/motivation';
 import { clearTokenAS, getDailyTaskAS, getTodayPagesAS, getUserDataAS } from '../service/asyncStorage';
 import { AppContext } from '../context/AppContext';
-import { GetUserData } from '../service/api';
 import { Feather } from '@expo/vector-icons'; 
 import { Ionicons } from '@expo/vector-icons';
 import { achievements } from '../TestData/achievements';
@@ -76,9 +75,9 @@ export function ProfileScreen() {
 					{/* <StatusBar  backgroundColor={deepBlue}/> */}
 						{/* Header */}
 						<ImageBackground style={stylesProfileScreen.img_header} source={srcImgProfileHeader}>
-							<Avatar title={userData.nickname[0]} size={'large'} 
+							<Avatar title={userData.nickname[0].toUpperCase()} size={'large'} 
 								rounded
-								titleStyle={{ fontSize: 32, fontFamily: 'Montserrat700' }} containerStyle={stylesProfileScreen.avatar} />
+								titleStyle={{ fontSize: 32, fontFamily: 'Montserrat700'}} containerStyle={stylesProfileScreen.avatar} />
 							<View style={stylesProfileScreen.container_avatar_points}>
 								<Text style={stylesProfileScreen.text_name}>{userData.nickname}</Text>
 								<View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -114,6 +113,7 @@ export function ProfileScreen() {
 						</Pressable>
 
 						{/* Achievements */}
+						{/* FIXME fix achieves display styles */}
 						<Pressable onPress={() => navigate('Achievements')}>
 							<View style={stylesProfileScreen.container_achievements}>
 								{pins.length === 0
