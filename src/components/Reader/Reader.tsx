@@ -328,6 +328,7 @@ export function Reader({ bookText, book }: ReaderProps) {
                 <GestureHandlerRootView style={{ flex: 1, position: 'relative' }}>
                     <StatusBar backgroundColor={visibleModal ? purple : readerTheme} barStyle={readerTheme === 'black' ? 'light-content' : 'dark-content'} />
                     <Swipeable
+                    containerStyle={{flex:1,minHeight:height}}
                         ref={ref => refSwipePage[0] = ref}
                         // render empty view for swipe animation (it`s crutch)
                         renderRightActions={() => <View style={{ width: 10 }}></View>}
@@ -341,8 +342,8 @@ export function Reader({ bookText, book }: ReaderProps) {
                             toNextPage();
                             closeSwipe();
                         }}>
-                        <Pressable style={{}}>
-                            <Text style={{ alignSelf: 'center', textAlign: 'justify', fontSize: fontSize, paddingTop: 10, paddingLeft: paddingSize, paddingRight: paddingSize, color: readerTheme === 'black' ? 'white' : 'black' }}>{pageText}</Text>
+                        <Pressable style={{flex:1,height:'100%'}}>
+                            <Text style={{ alignSelf: 'center',flex:1, height:'100%', textAlign: 'justify', fontSize: fontSize, paddingTop: 10, paddingLeft: paddingSize, paddingRight: paddingSize, color: readerTheme === 'black' ? 'white' : 'black' }}>{pageText}</Text>
                         </Pressable>
                     </Swipeable>
 
