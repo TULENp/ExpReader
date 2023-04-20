@@ -357,10 +357,10 @@ export const stylesFavoritesScreen = StyleSheet.create({
         
     },
     container_books:{
-        flexDirection:'row',
+        // flexDirection:'row',
         width:'100%',
-        gap:8,
-        flexWrap:'wrap',
+        // gap:8,
+        // flexWrap:'wrap',
         marginTop:20,
     },
     fav_title:{

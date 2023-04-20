@@ -25,7 +25,9 @@ export const stylesBookShopCard = StyleSheet.create({
         marginTop:5,
     },
     wrapper_book_shop_card:{
-        width:'100%',
+        // width:'100%',
+        width:116,
+        // flexBasis:1,
         maxWidth:116,
         marginBottom:15,
     }
