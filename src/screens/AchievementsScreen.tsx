@@ -17,7 +17,7 @@ export function AchievementsScreen() {
 
 	async function getAchievesStatus() {
 		const status = await getUserAchievesAS();
-		setAchieves(status.sort((a: boolean, b: boolean) => Number(a) - Number(b)));
+		setAchieves(status);
 	}
 
 	return (
