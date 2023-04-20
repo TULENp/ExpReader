@@ -114,27 +114,23 @@ export function ProfileScreen() {
 
 						{/* Achievements */}
 						{/* FIXME fix achieves display styles */}
-						<Pressable onPress={() => navigate('Achievements')}>
-							<View style={stylesProfileScreen.container_achievements}>
-								{pins.length === 0
-									?
-									<View style={stylesProfileScreen.wrapper_pins}>
-										<View style={stylesProfileScreen.empty_component_achiv}>
-											<Image style={{ width: 44, height: 44 }} source={srcIcnReward} />
-											<Text style={stylesProfileScreen.text_empry}>Вы пока не получили ни одного достижения</Text>
-										</View>
+						<Pressable onPress={() => navigate('Achievements')} style={stylesProfileScreen.container_achievements}>
+							<Text style={stylesProfileScreen.h1_profile_bold}>Достижения:
+								<Text style={stylesProfileScreen.h1_profile_medium}> {pins.length}</Text>
+							</Text>
+							{pins.length === 0
+								?
+									<View style={stylesProfileScreen.empty_component_achiv}>
+										<Image style={{ width: 44, height: 44 }} source={srcIcnReward} />
+										<Text style={stylesProfileScreen.text_empry}>Вы пока не получили ни одного достижения</Text>
 									</View>
-									:
-									<>
-										<Text style={stylesProfileScreen.h1_profile_bold}>Достижения:
-											<Text style={stylesProfileScreen.h1_profile_medium}> {pins.length}</Text>
-										</Text>
-										<View style={stylesProfileScreen.wrapper_pins}>
-											{pins}
-										</View>
-									</>
-								}
-							</View>
+								:
+									<View style={stylesProfileScreen.wrapper_pins}>
+										{pins}
+									</View>
+							}
+							
+						</Pressable>
 							{/* <Text style={stylesProfileScreen.h1_profile_bold}>Достижения:
 							<Text style={stylesProfileScreen.h1_profile_medium}> 5 (хард код)</Text>
 						</Text>
@@ -157,7 +153,6 @@ export function ProfileScreen() {
 									</View>}
 							/>
 						</View> */}
-						</Pressable>
 
 						{/* TODO add empty check */}
 						{/* Book shelf */}
