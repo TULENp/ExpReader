@@ -47,7 +47,10 @@ export function FavoritesScreen() {
 						horizontal
 						data={favorites}
 						keyExtractor={(item) => item.id}
-						renderItem={({ item: book }) => <BookShopCard book={book} />} />
+						renderItem={({ item: book }) => 
+						<TouchableOpacity key={book.id} onPress={() => navigate('ShopBook', { id: book.id })}>
+							<BookShopCard book={book} />
+						</TouchableOpacity>	} />
 				</View>
 			}
 		</View>
