@@ -1,15 +1,21 @@
 
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, Image, ScrollView, AppState, Dimensions, Modal, Animated, Pressable, TouchableOpacity } from 'react-native';
+import { View, Text, Image, ScrollView, Button, AppState, Dimensions, Modal, Animated, Pressable, TouchableOpacity, StatusBar } from 'react-native';
 import { pageChars } from '../../constants';
 import {
     getBookNamesAS,
+    getFontSizeSettingsAS,
+    getPaddingSizeSettingsAS,
+    getThemeSettingsAS,
     getUserBookStatsAS,
     getUserDataAS,
     incTodayPagesAS,
     incUserReadPagesAS,
     setBookIsReadAS,
     setFileBookPagesAS,
+    setFontSizeSettingsAS,
+    setPaddingSizeSettingsAS,
+    setThemeSettingsAS,
     updateBookCurrentPageAS,
     updateBookReadDateAS,
     updateBookReadPagesAS,
@@ -22,7 +28,7 @@ import { GestureHandlerRootView, } from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { stylesReader } from './style';
 import { MaterialIcons, Ionicons, AntDesign } from '@expo/vector-icons';
-import { redRarity, themeYellow } from '../../constants/colors';
+import { purple, redRarity, themeYellow, yellowRarity } from '../../constants/colors';
 import { srcIcnFieldDec, srcIcnFieldInc } from '../../constants/images';
 // import Animated from 'react-native-reanimated';
 
@@ -48,12 +54,19 @@ export function Reader({ bookText, book }: ReaderProps) {
 
     const width = Dimensions.get('window').width;
 
+    //States for reader settings
+    const [readerTheme, setReaderTheme] = useState<string>('white');
+    const [fontSize, setFontSize] = useState<number>(25);
+    const [paddingSize, setPaddingSize] = useState<number>(10);
+
     useEffect(() => {
         if (bookPages !== book.bookPages) {
             setFileBookPagesAS(id, bookPages);
         }
         updateBookReadDateAS(id);
-
+        getThemeSettings();
+        getFontSizeSettings();
+        getPaddingSizeSettings();
     }, []);
 
     useEffect(() => {
@@ -109,6 +122,9 @@ export function Reader({ bookText, book }: ReaderProps) {
             UpdateUserStats(userData);
         }
     }
+
+
+
 
     function readCurrentPage() {
         if (bookText) {
@@ -183,19 +199,96 @@ export function Reader({ bookText, book }: ReaderProps) {
         refSwipePage[0]?.close();
     }
 
+
+    // Reader settings
+    //switch theme:0=white,1=yellow,2=black
+    function switchTheme(theme: number) {
+        switch (theme) {
+            case 0:
+                setReaderTheme('white');
+                setThemeSettingsAS('white');
+                break;
+            case 1:
+                setReaderTheme(themeYellow);
+                setThemeSettingsAS(themeYellow);
+                break;
+            case 2:
+                setReaderTheme('black');
+                setThemeSettingsAS('black');
+                break;
+        }
+    }
+
+    async function getThemeSettings() {
+        let res = await getThemeSettingsAS()
+        if (res !== null) {
+            setReaderTheme(res);
+        } else {
+            setReaderTheme('white');
+        }
+    }
+
+    //Increase fontSize text
+    function increaseFontSize() {
+        if (fontSize <= 48) {
+            setFontSize(prev => prev + 1);
+            setFontSizeSettingsAS(fontSize);
+        }
+
+    }
+
+    //Decrease fontSize text
+    function decreaseFontSize() {
+        if (fontSize >= 20) {
+            setFontSize(prev => prev - 1);
+            setFontSizeSettingsAS(fontSize);
+        }
+    }
+
+    async function getFontSizeSettings() {
+        let res = await getFontSizeSettingsAS()
+        if (res !== null) {
+            setFontSize(res);
+        }
+    }
+
+    //Increase paddingSize text
+    function increasePaddingSize() {
+        if (paddingSize >= 0) {
+            setPaddingSize(prev => prev - 3);
+            setPaddingSizeSettingsAS(paddingSize);
+        }
+    }
+
+    //Decrease paddingSize text
+    function decreasePaddingSize() {
+        if (paddingSize <= 60) {
+            setPaddingSize(prev => prev + 3);
+            setPaddingSizeSettingsAS(paddingSize);
+        }
+    }
+
+    async function getPaddingSizeSettings() {
+        let res = await getPaddingSizeSettingsAS()
+        if (res !== null) {
+            setPaddingSize(res);
+        }
+    }
+
+
     const { height } = Dimensions.get('window')
 
-    // Animtaion value
+    // Animation value
     const [visibleModal, setVisibleModal] = useState<boolean>(false);
     const [visibleSettings, setVisibleSettings] = useState<boolean>(false);
     const AnimUpperModalValue = useRef(new Animated.Value(-65)).current
     const AnimLowerModalValue = useRef(new Animated.Value(height + 270)).current
 
-    // Show or Hide general modal wihout settings
+    // Show or Hide general modal without settings
     const ShowHideModal = () => {
         if (visibleModal) {
             Animated.timing(AnimUpperModalValue, { toValue: -65, useNativeDriver: true, duration: 200 }).start()
-            Animated.timing(AnimLowerModalValue, { toValue: height + 270, useNativeDriver: true, duration: 200 }).start()
+            Animated.timing(AnimLowerModalValue, { toValue: height + 330, useNativeDriver: true, duration: 200 }).start()
             setTimeout(() => {
                 setVisibleModal(false);
                 setVisibleSettings(false);
@@ -229,128 +322,135 @@ export function Reader({ bookText, book }: ReaderProps) {
 
     // TODO remove scroll animation 
     return (
-        <ScrollView scrollEnabled={true} ref={scrollViewRef}>
-            <GestureHandlerRootView style={{ flex: 1, position: 'relative' }}>
-                <Swipeable
-                    ref={ref => refSwipePage[0] = ref}
-                    // render empty view for swipe animation (it`s crutch)
-                    renderRightActions={() => <View style={{ width: 10 }}></View>}
-                    renderLeftActions={() => <View style={{ width: 10 }}></View>}
+        <>
+            {/* TODO remove scroll animation */}
+            <ScrollView scrollEnabled={true} style={{ backgroundColor: readerTheme }} ref={scrollViewRef}>
+                <GestureHandlerRootView style={{ flex: 1, position: 'relative' }}>
+                    <StatusBar backgroundColor={visibleModal ? purple : readerTheme} barStyle={readerTheme === 'black' ? 'light-content' : 'dark-content'} />
+                    <Swipeable
+                        ref={ref => refSwipePage[0] = ref}
+                        // render empty view for swipe animation (it`s crutch)
+                        renderRightActions={() => <View style={{ width: 10 }}></View>}
+                        renderLeftActions={() => <View style={{ width: 10 }}></View>}
 
-                    onSwipeableLeftOpen={() => {
-                        toPrevPage();
-                        closeSwipe();
-                    }}
-                    onSwipeableRightOpen={() => {
-                        toNextPage();
-                        closeSwipe();
-                    }}>
-                    <Pressable style={{ backgroundColor: 'white' }}>
-                        <Text style={{ alignSelf: 'center', fontSize: 25, margin: 10 }}>{pageText}</Text>
-                    </Pressable>
-                </Swipeable>
+                        onSwipeableLeftOpen={() => {
+                            toPrevPage();
+                            closeSwipe();
+                        }}
+                        onSwipeableRightOpen={() => {
+                            toNextPage();
+                            closeSwipe();
+                        }}>
+                        <Pressable style={{}}>
+                            <Text style={{ alignSelf: 'center', textAlign: 'justify', fontSize: fontSize, paddingTop: 10, paddingLeft: paddingSize, paddingRight: paddingSize, color: readerTheme === 'black' ? 'white' : 'black' }}>{pageText}</Text>
+                        </Pressable>
+                    </Swipeable>
 
-                {/* Left btn prev page */}
-                <Pressable pointerEvents={'box-only'} onPress={() => toPrevPage()} style={[stylesReader.btn_prev_next]} />
+                    {/* Left btn prev page */}
+                    <Pressable pointerEvents={'box-only'} onPress={() => toPrevPage()} style={[stylesReader.btn_prev_next]} />
 
-                {/* Middle btn open modal */}
-                <Pressable pointerEvents={'box-only'} onPress={() => ShowHideModal()} style={stylesReader.container_middle} />
+                    {/* Middle btn open modal */}
+                    <Pressable pointerEvents={'box-only'} onPress={() => ShowHideModal()} style={stylesReader.container_middle} />
 
-                {/* Right btn prev page */}
-                <Pressable pointerEvents={'box-only'} onPress={() => toNextPage()} style={[stylesReader.btn_prev_next, { right: 0 }]} />
+                    {/* Right btn prev page */}
+                    <Pressable pointerEvents={'box-only'} onPress={() => toNextPage()} style={[stylesReader.btn_prev_next, { right: 0 }]} />
 
-                {/* Modal setting */}
-                <Modal
-                    visible={visibleModal}
-                    style={{}}
-                    onRequestClose={() => setVisibleModal(false)}
-                    transparent>
+                    {/* Modal setting */}
+                    <Modal
+                        visible={visibleModal}
+                        style={{}}
+                        onRequestClose={() => setVisibleModal(false)}
+                        transparent>
 
-                    {/* Upper modal */}
-                    <Animated.View style={[stylesReader.container_upper_modal, { position: 'absolute', elevation: 2, zIndex: 2, transform: [{ translateY: AnimUpperModalValue }] }]}>
+                        {/* Upper modal */}
+                        <Animated.View style={[stylesReader.container_upper_modal, { position: 'absolute', elevation: 2, zIndex: 2, transform: [{ translateY: AnimUpperModalValue }] }]}>
 
-                        {/* Icon back */}
-                        <TouchableOpacity onPress={() => goBack()} >
-                            <MaterialIcons name="keyboard-backspace" size={36} color="white" />
-                        </TouchableOpacity>
-                        {/* Book title */}
-                        <Text style={stylesReader.title}>{truncateTitle(book.title)}</Text>
-                        <TouchableOpacity onPress={() => ShowHideSettings()} >
-                            <Ionicons name="settings-outline" size={32} color={visibleSettings ? redRarity : 'white'} />
-                        </TouchableOpacity>
-                    </Animated.View>
+                            {/* Icon back */}
+                            <TouchableOpacity onPress={() => goBack()} >
+                                <MaterialIcons name="keyboard-backspace" size={36} color="white" />
+                            </TouchableOpacity>
+                            {/* Book title */}
+                            <Text style={stylesReader.title}>{truncateTitle(book.title)}</Text>
+                            <TouchableOpacity onPress={() => ShowHideSettings()} >
+                                <Ionicons name="settings-outline" size={32} color={visibleSettings ? redRarity : 'white'} />
+                            </TouchableOpacity>
+                        </Animated.View>
 
-                    {/* Gray View */}
-                    <Pressable onPress={ShowHideModal} style={{ flex: 1, elevation: 1, zIndex: 1, backgroundColor: '#000', opacity: .7 }} />
+                        {/* Gray View */}
+                        <Pressable onPress={ShowHideModal} style={{ flex: 1, elevation: 1, zIndex: 1, backgroundColor: '#000', opacity: .7 }} />
 
-                    {/* Lower modal */}
-                    <Animated.View style={[stylesReader.container_lower_modal, { position: 'absolute', elevation: 2, zIndex: 2, transform: [{ translateY: AnimLowerModalValue.interpolate({ inputRange: [0, 100], outputRange: [0, 70] }) }] }]}>
-                        {!visibleSettings ?
-                            <>
-                                <Text style={stylesReader.text_pages_medium}>{currentPage} из
-                                    <Text style={stylesReader.text_pages_bold}> {bookPages}</Text> стр.</Text>
-                            </>
-                            :
-                            <View style={{ width: '100%', paddingTop: 10 }}>
+                        {/* Lower modal */}
+                        <Animated.View style={[stylesReader.container_lower_modal, { position: 'absolute', elevation: 2, zIndex: 2, transform: [{ translateY: AnimLowerModalValue.interpolate({ inputRange: [0, 100], outputRange: [0, 70] }) }] }]}>
+                            {!visibleSettings ?
+                                <>
+                                    <Text style={stylesReader.text_pages_medium}>{currentPage} из
+                                        <Text style={stylesReader.text_pages_bold}> {bookPages}</Text> стр.</Text>
+                                </>
+                                :
+                                <View style={{ width: '100%', paddingTop: 10 }}>
 
-                                {/* Theme settings */}
-                                <View style={{ paddingLeft: 13, paddingRight: 13, borderBottomWidth: 1, borderBottomColor: 'white', paddingBottom: 15 }}>
-                                    <Text style={stylesReader.h1_settings}>Тема</Text>
-                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
+                                    {/* Theme settings */}
+                                    <View style={{ paddingLeft: 13, paddingRight: 13, borderBottomWidth: 1, borderBottomColor: 'white', paddingBottom: 15 }}>
+                                        <Text style={stylesReader.h1_settings}>Тема</Text>
+                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
 
-                                        {/* White theme */}
-                                        <Pressable style={[stylesReader.theme_item, { backgroundColor: 'white' }]}>
-                                            <Text style={stylesReader.theme_item_white_text}>Аа</Text>
-                                        </Pressable>
+                                            {/* White theme */}
+                                            <Pressable onPress={() => switchTheme(0)} style={[stylesReader.theme_item, { backgroundColor: 'white', borderColor: readerTheme === 'white' ? redRarity : 'black' }]}>
+                                                <Text style={stylesReader.theme_item_white_text}>Аа</Text>
+                                            </Pressable>
 
-                                        {/* Yellow theme */}
-                                        <Pressable style={[stylesReader.theme_item, { backgroundColor: themeYellow }]}>
-                                            <Text style={stylesReader.theme_item_yellow_text}>Аа</Text>
-                                        </Pressable>
+                                            {/* Yellow theme */}
+                                            <Pressable onPress={() => switchTheme(1)} style={[stylesReader.theme_item, { backgroundColor: themeYellow, borderColor: readerTheme === themeYellow ? redRarity : 'black' }]}>
+                                                <Text style={stylesReader.theme_item_yellow_text}>Аа</Text>
+                                            </Pressable>
 
-                                        {/* Black theme */}
-                                        <Pressable style={[stylesReader.theme_item, { backgroundColor: 'black' }]}>
-                                            <Text style={stylesReader.theme_item_black_text}>Аа</Text>
-                                        </Pressable>
+                                            {/* Black theme */}
+                                            <Pressable onPress={() => switchTheme(2)} style={[stylesReader.theme_item, { backgroundColor: 'black', borderColor: readerTheme === 'black' ? redRarity : 'black' }]}>
+                                                <Text style={stylesReader.theme_item_black_text}>Аа</Text>
+                                            </Pressable>
+                                        </View>
                                     </View>
-                                </View>
 
-                                {/* Font size settings */}
-                                <View style={{ width: '100%', marginTop: 10, paddingLeft: 13, paddingRight: 13, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: 'white', paddingBottom: 15 }}>
-                                    <Text style={stylesReader.h1_settings}>Размер шрифта</Text>
-                                    <View style={{ flexDirection: 'row', gap: 8 }}>
-                                        {/* Btn decrease font size */}
-                                        <Pressable style={stylesReader.btn_settings}>
-                                            <AntDesign name="minus" size={24} color="black" />
-                                        </Pressable>
+                                    {/* Font size settings */}
+                                    <View style={{ width: '100%', marginTop: 10, paddingLeft: 13, paddingRight: 13, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: 'white', paddingBottom: 15 }}>
+                                        <Text style={stylesReader.h1_settings}>Размер шрифта</Text>
+                                        <View style={{ flexDirection: 'row', gap: 8 }}>
+                                            {/* Btn decrease font size */}
+                                            <TouchableOpacity onPress={() => decreaseFontSize()} style={stylesReader.btn_settings}>
+                                                <AntDesign name="minus" size={24} color="black" />
+                                            </TouchableOpacity>
 
-                                        {/* Btn increase font size */}
-                                        <Pressable style={stylesReader.btn_settings}>
-                                            <AntDesign name="plus" size={24} color="black" />
-                                        </Pressable>
+                                            {/* Btn increase font size */}
+                                            <TouchableOpacity onPress={() => increaseFontSize()} style={stylesReader.btn_settings}>
+                                                <AntDesign name="plus" size={24} color="black" />
+                                            </TouchableOpacity>
+                                        </View>
                                     </View>
-                                </View>
 
-                                {/* Fields text settings */}
-                                <View style={{ width: '100%', marginTop: 10, paddingLeft: 13, paddingRight: 13, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Text style={stylesReader.h1_settings}>Поля</Text>
-                                    <View style={{ flexDirection: 'row', gap: 8 }}>
-                                        {/* Btn decrease field text */}
-                                        <Pressable style={stylesReader.btn_settings}>
-                                            <Image style={stylesReader.icn_field} source={srcIcnFieldDec} />
-                                        </Pressable>
+                                    {/* Fields text settings */}
+                                    <View style={{ width: '100%', marginTop: 10, paddingLeft: 13, paddingRight: 13, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                                        <Text style={stylesReader.h1_settings}>Поля</Text>
+                                        <View style={{ flexDirection: 'row', gap: 8 }}>
+                                            {/* Btn decrease field text */}
+                                            <TouchableOpacity onPress={() => decreasePaddingSize()} style={stylesReader.btn_settings}>
+                                                <Image style={stylesReader.icn_field} source={srcIcnFieldDec} />
+                                            </TouchableOpacity>
 
-                                        {/* Btn increase field text */}
-                                        <Pressable style={stylesReader.btn_settings}>
-                                            <Image style={stylesReader.icn_field} source={srcIcnFieldInc} />
-                                        </Pressable>
+                                            {/* Btn increase field text */}
+                                            <TouchableOpacity onPress={() => increasePaddingSize()} style={stylesReader.btn_settings}>
+                                                <Image style={stylesReader.icn_field} source={srcIcnFieldInc} />
+                                            </TouchableOpacity>
+                                        </View>
                                     </View>
+
                                 </View>
-                            </View>
-                        }
-                    </Animated.View>
-                </Modal>
-            </GestureHandlerRootView>
-        </ScrollView>
+                            }
+
+                        </Animated.View>
+                    </Modal>
+                </GestureHandlerRootView>
+
+            </ScrollView>
+        </>
     );
 }

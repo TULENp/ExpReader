@@ -1,7 +1,7 @@
 
 const srcImgLibraryHeader = require('../../assets/libraryHeader.png');
 const srcImgShopHeader = require('../../assets/shopHeader.png');
-const srcImgProfileHeader = require('../../assets/profileHeader.png');
+const srcImgProfileHeader = require('../../assets/profileHeader1.png');
 const srcImgBookHeader = require('../../assets/bookHeader.png');
 const srcIcnHeart = require('../../assets/heart.png');
 const srcIcnRedHeart = require('../../assets/heartRed.png');
@@ -29,6 +29,8 @@ const srcIcnError = require('../../assets/error.png');
 const srcIcnReward = require('../../assets/rewards1.png');
 const srcIcnFieldInc = require('../../assets/fieldInc.png');
 const srcIcnFieldDec = require('../../assets/fieldDec.png');
+const srcIcnCloudCry = require('../../assets/cry.png');
+const srcIcnOpenBook = require('../../assets/openBook.png');
 
 export {
     srcImgLibraryHeader, srcImgHarryPotter3,
@@ -40,4 +42,5 @@ export {
     srcIcnHeart, srcIcnSberbank, srcIcnStarGreenRarity,
     srcIcnStarBlueRarity, srcIcnStarRedRarity, srcIcnStarYellowRarity,
     srcIcnLogo, srcIcnError,srcIcnReward, srcIcnFieldInc,srcIcnFieldDec,
+    srcIcnCloudCry,srcIcnOpenBook
 };

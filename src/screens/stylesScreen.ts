@@ -100,8 +100,13 @@ export const stylesLibraryScreen = StyleSheet.create({
         position:'absolute', 
         elevation:1,
         zIndex:5, 
-        right:'8%', 
-        bottom:'5%',
+        right:'5%', 
+        bottom:'2%',
+    },
+    text_empty_list:{
+        fontFamily:'MontserratAlt400',
+        fontSize:18,
+        textAlign:'center',
     }
 })
 
@@ -167,7 +172,7 @@ export const stylesShopScreen = StyleSheet.create({
 export const stylesProfileScreen = StyleSheet.create({
     img_header:{
         width:width,
-        height:159,
+        height:214,
         paddingTop:40,
         paddingLeft:13,
         paddingRight:13,
@@ -197,11 +202,23 @@ export const stylesProfileScreen = StyleSheet.create({
         marginBottom:10,
     },
     container_level:{
-        width:width,
+        // flexGrow:1,
+        width:'100%',
         padding:13,
         justifyContent:'center',
         alignItems:'center',
-        backgroundColor:purple,
+        backgroundColor:'white',
+        elevation:15,
+        borderRadius:8,
+    },
+    test:{
+        // width:width,
+        width:'100%',
+        // flexGrow:1,
+        paddingLeft:13,
+        paddingRight:13,
+        flexWrap:'nowrap',
+        marginTop:-55,
     },
     icn_settings:{
         width:18,
@@ -210,15 +227,16 @@ export const stylesProfileScreen = StyleSheet.create({
         
     },
     progress_bar:{
-        width:'75%',
+        width:'90%',
         borderRadius:12,
         marginTop:12,
     },
     text_level_bold:{
         fontFamily:'MontserratAlt700',
         fontSize:16,
-        color:white,
-        
+        color:'black',
+        width:'100%',
+        textAlign:'center',
     },
     text_level_medium:{
         fontFamily:'MontserratAlt500',
@@ -227,13 +245,13 @@ export const stylesProfileScreen = StyleSheet.create({
     text_level_light:{
         fontFamily:'MontserratAlt300',
         fontSize:16,
-        color:white,
+        color:'black',
         marginTop:12,
     },
     wrapper_text_level_settings:{
         width:'75%',
         flexDirection:'row',
-        justifyContent:'flex-end',
+        justifyContent:'space-between',
         alignItems:'center',
     },
     h1_profile_bold:{
@@ -253,16 +271,18 @@ export const stylesProfileScreen = StyleSheet.create({
     wrapper_pins:{
         width:'100%',
         // height:'50%',
-        borderWidth:1,
+        // borderWidth:1,
         borderRadius:8,
         overflow:'hidden',
+        // elevation:10,
         // backgroundColor:lightBlue,
         flexDirection:'row',
-        justifyContent:'center',
-        alignItems:'center',
-        marginTop:10,
-        paddingTop:8,
-        paddingBottom:8,
+        // justifyContent:'center',
+        // alignItems:'center',
+        marginTop:15,
+        // paddingTop:8,
+        // paddingBottom:8,
+        elevation:15,
     },
     img_pin:{
         width:70,
@@ -279,9 +299,12 @@ export const stylesProfileScreen = StyleSheet.create({
 		alignItems:'center',
         paddingLeft:13, 
         paddingRight:13,
-        width:366,
+        // width:366,
+        flexGrow:1,
         gap:20,
-        maxWidth:width,
+        width:'100%'
+        
+        // maxWidth:width,
     },
     container_profile_books:{
         flex:1,
@@ -295,13 +318,19 @@ export const stylesProfileScreen = StyleSheet.create({
     profile_page:{
         flex:1,
         width:width,
+        backgroundColor:'white',
     },
     container_bookshelf:{
         width:width,
         paddingLeft:13,
         paddingRight:13,
         marginTop:20,
-    }
+    },
+    empty_text:{
+        fontFamily:'MontserratAlt400',
+        fontSize:18,
+        textAlign:'center',
+    },
 
 })
 
@@ -662,6 +691,7 @@ export const stylesAchievementsScreen = StyleSheet.create({
     achievements_page:{
         paddingTop:20,
         flex:1,
+        backgroundColor:'white',
     }
 })
 

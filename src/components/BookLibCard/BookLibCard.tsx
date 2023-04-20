@@ -18,9 +18,11 @@ export function BookLibCard({ book }: { book: TLibBook }) {
     const percent = Math.floor((readPages / bookPages) * 100) || 0;
     const [bookRarity, setBookRarity] = useState<TRarity>();
     const [isDownloaded, setIsDownloaded] = useState(false);
+    
 
     useEffect(() => {
         setBookRarity(calculateRarity(book.bookPages));
+        
     }, [])
 
     useEffect(() => {
@@ -63,7 +65,14 @@ export function BookLibCard({ book }: { book: TLibBook }) {
         <Pressable onPress={readOrDownloadBook}>
             <View style={stylesBookLibCard.container_lib_book}>
                 <Shadow distance={1} startColor={bookRarity?.color} offset={[7, 6]}>
-                    <ImageBackground style={stylesBookLibCard.cover_book} source={{ uri: coversDir + cover }} />
+                    {cover===""
+                        ?
+                        <View style={stylesBookLibCard.empty_cover_book}>
+                            <Text style={stylesBookLibCard.text_empty_cover_book}>{title}</Text>
+                        </View>
+                        :
+                        <ImageBackground style={stylesBookLibCard.cover_book} source={{ uri: coversDir + cover }} />
+                    }
                 </Shadow>
                 <View style={stylesBookLibCard.container_info_book}>
                     <Text style={stylesBookLibCard.title}>{title}</Text>

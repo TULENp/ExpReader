@@ -175,6 +175,49 @@ export async function setTodayAS() {
 }
 
 
+//* Reader settings
+// Theme settings
+export async function getThemeSettingsAS(){
+    let res:string | null = '';
+    await AsyncStorage.getItem('readerTheme').then(async (value)=> res = value)
+    return res;
+}
+
+export async function setThemeSettingsAS(theme:string){
+    await AsyncStorage.setItem('readerTheme',theme);
+}
+
+// Font size settings
+export async function getFontSizeSettingsAS(){
+    let res:string | null = '';
+    await AsyncStorage.getItem('readerFontSize').then(async (value)=> res = value)
+    if(res!==null){
+        return Number(res);
+    }else{
+        return res;
+    }
+}
+
+export async function setFontSizeSettingsAS(fontSize:number){
+    await AsyncStorage.setItem('readerFontSize',fontSize.toString());
+}
+
+// Padding settings
+export async function getPaddingSizeSettingsAS(){
+    let res:string | null = '';
+    await AsyncStorage.getItem('readerPaddingSize').then(async (value)=> res = value)
+    if(res!==null){
+        return Number(res);
+    }else{
+        return res;
+    }
+}
+
+export async function setPaddingSizeSettingsAS(padding:number){
+    await AsyncStorage.setItem('readerPaddingSize',padding.toString());
+}
+
+
 //* Api 
 // save user auth token to AS
 export function setTokenAS(token: string) {

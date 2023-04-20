@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, FlatList, StatusBar, KeyboardAvoidingView, ImageBackground, Pressable, SafeAreaView } from 'react-native';
+import { View, Text, FlatList, StatusBar, KeyboardAvoidingView, ImageBackground, Pressable, Image } from 'react-native';
 import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
@@ -7,9 +7,9 @@ import { LibStackParams, TLibBook } from '../types';
 import { getAllBooksAS, getBookNamesAS, setBookStatsAS } from '../service/asyncStorage';
 import { BookLibCard } from '../components/BookLibCard';
 import { stylesLibraryScreen } from './stylesScreen';
-import { srcImgLibraryHeader } from '../constants/images';
-import { ButtonGroup, FAB, Input } from '@rneui/themed';
-import { deepBlue, white } from '../constants/colors';
+import { srcIcnCloudCry, srcImgLibraryHeader } from '../constants/images';
+import { ButtonGroup, FAB, Input, ListItem } from '@rneui/themed';
+import { black, deepBlue, gray, pink, white } from '../constants/colors';
 import { BookLastReadCard } from '../components/BookLastReadCard';
 import { fileBooksDir } from '../constants';
 import { AppContext } from '../context/AppContext';
@@ -30,7 +30,7 @@ export function LibraryScreen() {
             if (isGotBackend) {
                 getAllLibBooks();
             }
-            getParent()?.setOptions({ tabBarStyle: { display: 'flex' } }); //show tab bar
+            getParent()?.setOptions({ tabBarStyle: { display: 'flex', height: '8%' } }); //show tab bar
         }, [isGotBackend])
     );
 
@@ -68,6 +68,7 @@ export function LibraryScreen() {
         //TODO don't set initBook if file already exist
         await setBookStatsAS(bookInit);
         getAllFileBooks();
+        setLibCategory(1);
     }
 
     async function getAllFileBooks() {
@@ -100,20 +101,28 @@ export function LibraryScreen() {
         //TODO change styles add margin or smth
         return (
             <>
-                {data.length === 0
+                {searchText && data.length === 0
                     ?
                     <Text>Книги не найдены</Text>
                     :
-                    list
+                    !searchText && data.length === 0
+                        ?
+                        <View style={{ alignItems: 'center', padding: 13, flex: 1, justifyContent: 'center' }}>
+                            <Image style={{ width: 55, height: 55 }} source={srcIcnCloudCry} />
+                            <Text style={stylesLibraryScreen.text_empty_list}>
+                                {libCategory === 0 ? 'Вы ещё не приобрели ни одной книги' : 'Вы ещё не добавили ни одной книги'}
+                            </Text>
+                        </View>
+                        :
+                        list
                 }
             </>
         )
     }
 
     return (
-        <SafeAreaView>
+        <>
             <ScrollView>
-
                 <KeyboardAvoidingView behavior='height' style={stylesLibraryScreen.lib_page}>
                     <StatusBar backgroundColor={deepBlue} />
                     {/* SearchBar */}
@@ -159,6 +168,6 @@ export function LibraryScreen() {
                 icon={{ name: 'add', color: 'white' }}
                 color={deepBlue} size='large'
                 style={stylesLibraryScreen.fab_button} />
-        </SafeAreaView >
+        </>
     );
 }

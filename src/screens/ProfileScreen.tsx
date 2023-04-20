@@ -1,17 +1,19 @@
-import { View, Text, ImageBackground, Image, ScrollView, Pressable, FlatList } from 'react-native';
+import { View, Text, ImageBackground, Image, ScrollView, Pressable, FlatList, Button, StatusBar } from 'react-native';
 import React, { useContext, useState } from 'react';
-import { srcIcnPoints, srcIcnReward, srcIcnSetting, srcImgProfileHeader } from '../constants/images';
+import { srcIcnOpenBook, srcIcnPoints, srcIcnReward, srcIcnSetting, srcImgProfileHeader } from '../constants/images';
 import { stylesProfileScreen } from './stylesScreen';
 import { Avatar } from 'react-native-elements';
 import { LinearProgress } from '@rneui/themed';
-import { white } from '../constants/colors';
+import { deepBlue, greenRarity, white } from '../constants/colors';
 import { ProfileStackParams, TDailyTask, TDailyTaskLevel, TUserData } from '../types';
 import { BookProfileCard } from '../components/BookProfileCard';
 import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native';
 import { getDailyTaskLevel } from '../service/motivation';
 import { clearTokenAS, getDailyTaskAS, getTodayPagesAS, getUserDataAS } from '../service/asyncStorage';
 import { AppContext } from '../context/AppContext';
-import { Feather } from '@expo/vector-icons';
+import { GetUserData } from '../service/api';
+import { Feather } from '@expo/vector-icons'; 
+import { Ionicons } from '@expo/vector-icons';
 import { achievements } from '../TestData/achievements';
 
 export function ProfileScreen() {
@@ -63,17 +65,19 @@ export function ProfileScreen() {
 		setIsAuthorized(false);
 	}
 
+
 	return (
 		<>
 			{!userData
 				? <Text>Пользователь не найден</Text>
 				:
-				<ScrollView >
+				<ScrollView style={{backgroundColor:'white', flex:1}}>
 					<View style={stylesProfileScreen.profile_page}>
-
+					{/* <StatusBar  backgroundColor={deepBlue}/> */}
 						{/* Header */}
 						<ImageBackground style={stylesProfileScreen.img_header} source={srcImgProfileHeader}>
-							<Avatar title={userData.nickname[0]} size={'large'} rounded
+							<Avatar title={userData.nickname[0]} size={'large'} 
+								rounded
 								titleStyle={{ fontSize: 32, fontFamily: 'Montserrat700' }} containerStyle={stylesProfileScreen.avatar} />
 							<View style={stylesProfileScreen.container_avatar_points}>
 								<Text style={stylesProfileScreen.text_name}>{userData.nickname}</Text>
@@ -86,15 +90,15 @@ export function ProfileScreen() {
 						</ImageBackground>
 
 						{/* Daily task */}
-						<Pressable onPress={() => navigate('DailyTask', { todayPages })}>
-							<View style={stylesProfileScreen.container_level}>
+						<Pressable style={stylesProfileScreen.test}>
+							<Pressable style={stylesProfileScreen.container_level} onPress={() => navigate('DailyTask', { todayPages })}>
 								<View style={stylesProfileScreen.wrapper_text_level_settings}>
 									<Text style={stylesProfileScreen.text_level_bold}>Уровень:
 										<Text style={[stylesProfileScreen.text_level_medium, { color: dailyTaskLevel?.color }]}> {dailyTaskLevel?.level}</Text>
 									</Text>
-									<Image style={stylesProfileScreen.icn_settings} source={srcIcnSetting} />
+									<Ionicons  name="settings-outline" size={24} color={'black'} />
 								</View>
-								<LinearProgress value={todayPages / dailyTaskPages} color={dailyTaskLevel?.color} style={stylesProfileScreen.progress_bar} trackColor={white} variant='determinate' />
+								<LinearProgress value={todayPages / dailyTaskPages} color={greenRarity} style={stylesProfileScreen.progress_bar} trackColor={'#D8D8D8'} variant='determinate' />
 								{todayPages >= dailyTaskPages
 									?
 									<>
@@ -106,7 +110,7 @@ export function ProfileScreen() {
 										<Text style={stylesProfileScreen.text_level_light}>Прочитано сегодня {todayPages} / {dailyTaskPages} страниц</Text>
 									</>
 								}
-							</View>
+							</Pressable>
 						</Pressable>
 
 						{/* Achievements */}
@@ -131,6 +135,28 @@ export function ProfileScreen() {
 									</>
 								}
 							</View>
+							{/* <Text style={stylesProfileScreen.h1_profile_bold}>Достижения:
+							<Text style={stylesProfileScreen.h1_profile_medium}> 5 (хард код)</Text>
+						</Text>
+						<View style={stylesProfileScreen.wrapper_pins}>
+							<FlatList
+								style={{ width: '100%', backgroundColor: 'white', padding: 13, borderRadius: 8, }}
+								contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', width: '100%', }}
+								showsHorizontalScrollIndicator={false}
+								scrollEnabled={false}
+								horizontal
+								data={userData.achievesImg}
+								keyExtractor={(item) => item}
+								renderItem={(item) =>
+									<Image style={stylesProfileScreen.img_pin} source={require('../../assets/owlPin.png')} />
+								}
+								ListEmptyComponent={() =>
+									<View style={stylesProfileScreen.empty_component_achiv}>
+										<Image style={{ width: 44, height: 44 }} source={srcIcnReward} />
+										<Text style={stylesProfileScreen.text_empry}>Вы пока не получили ни одного достижения</Text>
+									</View>}
+							/>
+						</View> */}
 						</Pressable>
 
 						{/* TODO add empty check */}
@@ -140,9 +166,18 @@ export function ProfileScreen() {
 								<Text style={stylesProfileScreen.h1_profile_medium}> {userData.userBooks.length}</Text>
 							</Text>
 							<View style={stylesProfileScreen.container_profile_books}>
-								{userData.userBooks.map((book) => (
-									<BookProfileCard key={book.id} book={book} />
-								))}
+								{userData.userBooks.length !== 0
+									?
+									userData.userBooks.map((book) => (
+										<BookProfileCard key={book.id} book={book} />
+									))
+									:
+									<View style={{justifyContent:'center', alignItems:'center', padding:13}}>
+										<Image style={{width:55, height:55}} source={srcIcnOpenBook}/>
+										<Text style={stylesProfileScreen.empty_text}>Вы ещё не прочитали ни одной книги</Text>
+									</View>
+
+								}
 							</View>
 						</View>
 					</View>

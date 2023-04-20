@@ -7,7 +7,7 @@ export const achievements: TAchieves[] = [
         condition: 10,
         title: 'Любитель чтения',
         description: 'Прочитать 100 страниц',
-        img: require('../../assets/bookStackPin.png'),
+        img: require('../../assets/asianPin.png'),
     },
     {
         id: 1,
