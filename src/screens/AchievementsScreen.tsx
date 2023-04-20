@@ -17,14 +17,14 @@ export function AchievementsScreen() {
 
 	async function getAchievesStatus() {
 		const status = await getUserAchievesAS();
-		setAchieves(status);
+		setAchieves(status.sort((a: boolean, b: boolean) => Number(a) - Number(b)));
 	}
 
 	return (
 		<>
 			<View style={stylesAchievementsScreen.achievements_page}>
 				{/* Header */}
-				<View style={[stylesCheckoutScreen.container_header, { paddingLeft: 13, marginBottom:20 }]}>
+				<View style={[stylesCheckoutScreen.container_header, { paddingLeft: 13, marginBottom: 20 }]}>
 					<TouchableOpacity onPress={() => goBack()}
 					>
 						<MaterialIcons name="keyboard-backspace"
@@ -43,10 +43,10 @@ export function AchievementsScreen() {
 						renderItem={({ item }) => {
 							return (
 								<View style={stylesAchievementsScreen.container_achiv} key={item.id}>
-									<View style={[stylesAchievementsScreen.wrapper_pin, !achieves[item.id] && {backgroundColor:'#7A95A0'}]}>
+									<View style={[stylesAchievementsScreen.wrapper_pin, !achieves[item.id] && { backgroundColor: '#7A95A0' }]}>
 										<Image style={{ width: 80, height: 80 }} source={item.img} />
 									</View>
-									<View style={[stylesAchievementsScreen.wrapper_pin_info, !achieves[item.id] && {backgroundColor:'#7A95A0'}]}>
+									<View style={[stylesAchievementsScreen.wrapper_pin_info, !achieves[item.id] && { backgroundColor: '#7A95A0' }]}>
 										<Text style={stylesAchievementsScreen.title}>{item.title}</Text>
 										<Text style={stylesAchievementsScreen.author}>{item.description}</Text>
 									</View>
