@@ -5,13 +5,17 @@ import { pageChars } from '../../constants';
 import {
     getAllBooksAS,
     getBookNamesAS,
-    getThemeSettings,
+    getFontSizeSettingsAS,
+    getPaddingSizeSettingsAS,
+    getThemeSettingsAS,
     getUserBookStatsAS,
     incTodayPagesAS,
     incUserReadPagesAS,
     setBookIsReadAS,
     setFileBookPagesAS,
-    setThemeSettings,
+    setFontSizeSettingsAS,
+    setPaddingSizeSettingsAS,
+    setThemeSettingsAS,
     updateBookCurrentPageAS,
     updateBookReadDateAS,
     updateBookReadPagesAS,
@@ -60,11 +64,9 @@ export function Reader({ bookText, book }: ReaderProps) {
             setFileBookPagesAS(id, bookPages);
         }
         updateBookReadDateAS(id);
-        if(getThemeSettings!==null){
-            setReaderTheme(getThemeSettings())
-        }
-        
-
+        getThemeSettings();
+        getFontSizeSettings();
+        getPaddingSizeSettings();
     }, []);
 
     useEffect(() => {
@@ -192,48 +194,82 @@ export function Reader({ bookText, book }: ReaderProps) {
         refSwipePage[0]?.close();
     }
 
+
     // Reader settings
     //switch theme:0=white,1=yellow,2=black
     function switchTheme(theme:number){
         switch(theme){
             case 0:
                 setReaderTheme('white');
-                setThemeSettings('white');
+                setThemeSettingsAS('white');
                 break;
             case 1:
                 setReaderTheme(themeYellow);
-                setThemeSettings(themeYellow);
+                setThemeSettingsAS(themeYellow);
                 break;
             case 2:
                 setReaderTheme('black');
-                setThemeSettings('black');
+                setThemeSettingsAS('black');
                 break;
+        }
+    }
+
+    async function getThemeSettings(){
+        let res = await getThemeSettingsAS()
+        if(res !== null){
+            setReaderTheme(res);
+        }else{
+            setReaderTheme('white');
         }
     }
 
     //Increase fontSize text
     function increaseFontSize(){
-        if(fontSize<=48)
-        setFontSize(prev=> prev+1);
+        if(fontSize<=48){
+            setFontSize(prev=> prev+1);
+            setFontSizeSettingsAS(fontSize);
+        }
+
     }
 
     //Decrease fontSize text
     function decreaseFontSize(){
-        if(fontSize>=20)
-        setFontSize(prev=> prev-1);
+        if(fontSize>=20){
+            setFontSize(prev=> prev-1);
+            setFontSizeSettingsAS(fontSize);
+        }
+    }
+
+    async function getFontSizeSettings(){
+        let res = await getFontSizeSettingsAS()
+        if(res !== null){
+            setFontSize(res);
+        }
     }
 
     //Increase paddingSize text
     function increasePaddingSize(){
-        if(paddingSize>=0)
-        setPaddingSize(prev=> prev-3);
+        if(paddingSize>=0){
+            setPaddingSize(prev=> prev-3);
+            setPaddingSizeSettingsAS(paddingSize);
+        }
     }
     
     //Decrease paddingSize text
     function decreasePaddingSize(){
-        if(paddingSize<=60)
-        setPaddingSize(prev=> prev+3);
+        if(paddingSize<=60){
+            setPaddingSize(prev=> prev+3);
+            setPaddingSizeSettingsAS(paddingSize);
+        }
     }
+
+    async function getPaddingSizeSettings(){
+        let res = await getPaddingSizeSettingsAS()
+        if(res !== null){
+            setPaddingSize(res);
+        }
+    }
+
 
     const {height} =  Dimensions.get('window')
 

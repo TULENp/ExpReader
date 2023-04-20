@@ -178,14 +178,45 @@ export async function getAchievesStatusAS() {
 }
 
 //Reader settings
-export function getThemeSettings(){
+//theme settings
+export async function getThemeSettingsAS(){
     let res:string | null = '';
-    AsyncStorage.getItem('readerTheme').then(async (value)=> res= value)
+    await AsyncStorage.getItem('readerTheme').then(async (value)=> res = value)
     return res;
 }
 
-export function setThemeSettings(theme:string){
-    AsyncStorage.setItem('readerTheme',theme);
+export async function setThemeSettingsAS(theme:string){
+    await AsyncStorage.setItem('readerTheme',theme);
+}
+
+//font size settings
+export async function getFontSizeSettingsAS(){
+    let res:string | null = '';
+    await AsyncStorage.getItem('readerFontSize').then(async (value)=> res = value)
+    if(res!==null){
+        return Number(res);
+    }else{
+        return res;
+    }
+}
+
+export async function setFontSizeSettingsAS(fontSize:number){
+    await AsyncStorage.setItem('readerFontSize',fontSize.toString());
+}
+
+//padding settings
+export async function getPaddingSizeSettingsAS(){
+    let res:string | null = '';
+    await AsyncStorage.getItem('readerPaddingSize').then(async (value)=> res = value)
+    if(res!==null){
+        return Number(res);
+    }else{
+        return res;
+    }
+}
+
+export async function setPaddingSizeSettingsAS(padding:number){
+    await AsyncStorage.setItem('readerPaddingSize',padding.toString());
 }
 
 
