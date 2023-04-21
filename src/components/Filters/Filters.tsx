@@ -81,7 +81,7 @@ export function Filters({ filters, setFilters, filterBooks }: FiltersProps) {
 						buttonContainerStyle={stylesFilters.button_container_rarity}
 						selectedButtonStyle={{ backgroundColor: greenRarity, borderRadius: 8 }}
 						selectedTextStyle={{}}
-						buttonStyle={{ padding: 0, width: 50, borderWidth: 2, borderRadius: 8 }}
+						buttonStyle={{ padding: 0, width: 50, borderRadius: 8 }}
 					/>
 				</View>
 
