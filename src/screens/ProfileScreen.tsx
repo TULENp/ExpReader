@@ -1,6 +1,6 @@
 import { View, Text, ImageBackground, Image, ScrollView, Pressable } from 'react-native';
 import React, { useContext, useState } from 'react';
-import { srcIcnOpenBook, srcIcnPoints, srcIcnReward, srcImgProfileHeader } from '../constants/images';
+import { srcIcnFireworks, srcIcnOpenBook, srcIcnPoints, srcIcnReward, srcImgProfileHeader } from '../constants/images';
 import { stylesProfileScreen } from './stylesScreen';
 import { Avatar } from 'react-native-elements';
 import { LinearProgress } from '@rneui/themed';
@@ -100,10 +100,14 @@ export function ProfileScreen() {
 								<LinearProgress value={todayPages / dailyTaskPages} color={greenRarity} style={stylesProfileScreen.progress_bar} trackColor={'#D8D8D8'} variant='determinate' />
 								{todayPages >= dailyTaskPages
 									?
-									<>
-										<Text style={stylesProfileScreen.text_level_light}>Задание выполнено! Получено: {dailyTaskPages} очков чтения</Text>
-										<Text style={stylesProfileScreen.text_level_light}>За сегодня прочитано: {todayPages}</Text>
-									</>
+									<View style={{flexDirection:'row', maxWidth:'100%',paddingTop:10,paddingLeft:0,paddingRight:20,justifyContent:'center', alignItems:'center'}}>
+										<Image style={{width:30, height:30, marginRight:15,}} source={srcIcnFireworks}/>
+										<View style={{ justifyContent:'center', alignItems:'center', alignSelf:'center'}}>
+											<Text style={{fontFamily:'MontserratAlt500',fontSize:16, textAlign:'center'}}>Задание выполнено!</Text>
+											<Text style={{fontFamily:'MontserratAlt300',fontSize:14, textAlign:'center'}}>Получено: {dailyTaskPages} очков</Text>
+											<Text style={{fontFamily:'MontserratAlt300',fontSize:14, textAlign:'center'}}>Cегодня прочитано: {todayPages}</Text>
+										</View>
+									</View>
 									:
 									<>
 										<Text style={stylesProfileScreen.text_level_light}>Прочитано сегодня {todayPages} / {dailyTaskPages} страниц</Text>
