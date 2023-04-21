@@ -32,6 +32,7 @@ const srcIcnFieldDec = require('../../assets/fieldDec.png');
 const srcIcnCloudCry = require('../../assets/cry.png');
 const srcIcnOpenBook = require('../../assets/openBook.png');
 const srcIcnFireworks = require('../../assets/fireworks.png');
+const srcIcnNoInternet = require('../../assets/network-signal.png');
 
 export {
     srcImgLibraryHeader, srcImgHarryPotter3,
@@ -43,5 +44,5 @@ export {
     srcIcnHeart, srcIcnSberbank, srcIcnStarGreenRarity,
     srcIcnStarBlueRarity, srcIcnStarRedRarity, srcIcnStarYellowRarity,
     srcIcnLogo, srcIcnError,srcIcnReward, srcIcnFieldInc,srcIcnFieldDec,
-    srcIcnCloudCry,srcIcnOpenBook,srcIcnFireworks
+    srcIcnCloudCry,srcIcnOpenBook,srcIcnFireworks,srcIcnNoInternet
 };

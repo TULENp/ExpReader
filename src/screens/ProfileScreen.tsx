@@ -168,7 +168,7 @@ export function ProfileScreen() {
 									:
 									<View style={{justifyContent:'center', alignItems:'center', padding:13}}>
 										<Image style={{width:55, height:55}} source={srcIcnOpenBook}/>
-										<Text style={stylesProfileScreen.empty_text}>Вы ещё не прочитали ни одной книги</Text>
+										<Text style={stylesProfileScreen.empty_text}>Вы ещё не приобрели ни одной книги</Text>
 									</View>
 
 								}
