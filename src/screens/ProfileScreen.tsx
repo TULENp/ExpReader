@@ -1,10 +1,10 @@
-import { View, Text, ImageBackground, Image, ScrollView, Pressable } from 'react-native';
+import { View, Text, ImageBackground, Image, ScrollView, Pressable, ActivityIndicator } from 'react-native';
 import React, { useContext, useState } from 'react';
-import { srcIcnFireworks, srcIcnOpenBook, srcIcnPoints, srcIcnReward, srcImgProfileHeader } from '../constants/images';
+import { srcIcnCloudCry, srcIcnFireworks, srcIcnOpenBook, srcIcnPoints, srcIcnReward, srcImgProfileHeader } from '../constants/images';
 import { stylesProfileScreen } from './stylesScreen';
 import { Avatar } from 'react-native-elements';
 import { LinearProgress } from '@rneui/themed';
-import { greenRarity } from '../constants/colors';
+import { deepBlue, greenRarity, lightBlue } from '../constants/colors';
 import { ProfileStackParams, TDailyTask, TDailyTaskLevel, TUserData } from '../types';
 import { BookProfileCard } from '../components/BookProfileCard';
 import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native';
@@ -14,6 +14,7 @@ import { AppContext } from '../context/AppContext';
 import { Feather } from '@expo/vector-icons'; 
 import { Ionicons } from '@expo/vector-icons';
 import { achievements } from '../TestData/achievements';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export function ProfileScreen() {
 	const { setIsAuthorized, isGotBackend } = useContext(AppContext);
@@ -24,6 +25,7 @@ export function ProfileScreen() {
 	const [dailyTaskPages, setDailyTaskPages] = useState<TDailyTask>(60);
 	const [dailyTaskLevel, setDailyTaskLevel] = useState<TDailyTaskLevel>();
 	const [pins, setPins] = useState<JSX.Element[]>([]);
+	const [isLoading, setIsLoading] = useState<boolean>(true);
 
 	useFocusEffect(
 		React.useCallback(() => {
@@ -46,6 +48,7 @@ export function ProfileScreen() {
 			.slice(0, 5)
 			.map(item => (<Image key={item.id} style={stylesProfileScreen.img_pin} source={item.img} />));
 		setPins(pinsArray);
+		setIsLoading(false);
 	}
 
 	async function getTodayPages() {
@@ -67,8 +70,22 @@ export function ProfileScreen() {
 
 	return (
 		<>
-			{!userData
-				? <Text>Пользователь не найден</Text>
+			{isLoading
+				?
+				<View style={{width:'100%', height:'100%',backgroundColor:'white', justifyContent:'center', alignItems:'center'}}>
+					<ActivityIndicator  size={'large'} color={deepBlue}/>
+				</View>
+				:
+			<>
+				{!userData
+				? 
+				<View style={{width:'100%', height:'100%',paddingLeft:13, paddingRight:13, backgroundColor:'white', justifyContent:'center', alignItems:'center' }}>
+					<Image style={{width:80, height:80}} source={srcIcnCloudCry}/>
+					<Text style={{fontFamily:'MontserratAlt400', fontSize:20,textAlign:'center'}}>Произошла ошибка, пожалуйста перезайдите в аккаунт</Text>
+					<TouchableOpacity onPress={()=> LogOut()} style={{width:150, height:40,marginTop:20,justifyContent:'center', alignItems:'center',borderRadius:8, backgroundColor:lightBlue}}>
+						<Text style={{fontFamily:'MontserratAlt700',color:'white', fontSize:18}}>Выйти</Text>
+					</TouchableOpacity>
+				</View>
 				:
 				<ScrollView style={{backgroundColor:'white', flex:1}}>
 					<View style={stylesProfileScreen.profile_page}>
@@ -160,6 +177,8 @@ export function ProfileScreen() {
 					</View>
 				</ScrollView>
 			}
+			</>
+		}
 		</>
 	)
 }
