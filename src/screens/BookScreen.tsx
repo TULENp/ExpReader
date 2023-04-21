@@ -83,31 +83,38 @@ export function BookScreen() {
 
 									{/* Actions */}
 									<View style={stylesBookScreen.container_all_buttons}>
-										<Button title={<Text style={stylesBookScreen.button_buy_label_bold}
-											//TODO add conditional rendering depending on book.isBought
-											onPress={() => navigate('Checkout', { book })}>Купить за
-											<Text style={stylesBookScreen.button_buy_label_light}> {book.price}₽</Text></Text>}
+										{!book.isBought ?
+										<Button title={<Text style={stylesBookScreen.button_buy_label_bold}>Читать</Text>}
 											buttonStyle={stylesBookScreen.button_buy}
 											containerStyle={{ borderRadius: 8 }} />
+										:
+											<>
+												<Button onPress={() => navigate('Checkout', { book })} 
+													title={<Text style={stylesBookScreen.button_buy_label_bold}>Купить за
+													<Text style={stylesBookScreen.button_buy_label_light}> {book.price}₽</Text></Text>}
+													buttonStyle={stylesBookScreen.button_buy}
+													containerStyle={{ borderRadius: 8 }} />
 
-										<View style={stylesBookScreen.container_fav_fragment_buttons}>
-											<Button onPress={switchFavorite}
-												icon={
-													book.isFavorite ?
-														<Image style={stylesBookScreen.img_heart} source={srcIcnRedHeart} />
-														:
-														<Image style={stylesBookScreen.img_heart} source={srcIcnHeart} />
-												}
-												buttonStyle={stylesBookScreen.button_fav}
-												containerStyle={stylesBookScreen.button_fav_grow}
-											/>
-											<Button title={'Фрагмент'}
-												onPress={() => navigate('FragmentReader', { fragment: book.fragment })}
-												titleStyle={stylesBookScreen.button_title}
-												buttonStyle={stylesBookScreen.button_fragment}
-												containerStyle={stylesBookScreen.button_fragment_grow}
-											/>
-										</View>
+												<View style={stylesBookScreen.container_fav_fragment_buttons}>
+													<Button onPress={switchFavorite}
+														icon={
+															book.isFavorite ?
+																<Image style={stylesBookScreen.img_heart} source={srcIcnRedHeart} />
+																:
+																<Image style={stylesBookScreen.img_heart} source={srcIcnHeart} />
+														}
+														buttonStyle={stylesBookScreen.button_fav}
+														containerStyle={stylesBookScreen.button_fav_grow}
+													/>
+													<Button title={'Фрагмент'}
+														onPress={() => navigate('FragmentReader', { fragment: book.fragment })}
+														titleStyle={stylesBookScreen.button_title}
+														buttonStyle={stylesBookScreen.button_fragment}
+														containerStyle={stylesBookScreen.button_fragment_grow}
+													/>
+												</View>
+											</>
+										}
 									</View>
 								</View>
 							</View>

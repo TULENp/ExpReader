@@ -601,7 +601,8 @@ export const stylesDailyTaskScreen= StyleSheet.create({
         paddingLeft:13, 
         paddingRight:13, 
         paddingTop:20, 
-        flex:1
+        flex:1,
+        backgroundColor:'white',
     },
     text_bold_large:{
         fontFamily:'MontserratAlt700',
