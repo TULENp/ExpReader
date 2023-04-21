@@ -84,7 +84,7 @@ export function BookScreen() {
 
 									{/* Actions */}
 									<View style={stylesBookScreen.container_all_buttons}>
-										{!book.isBought ?
+										{book.isBought ?
 										<Button title={<Text style={stylesBookScreen.button_buy_label_bold}>Читать</Text>}
 											buttonStyle={stylesBookScreen.button_buy}
 											containerStyle={{ borderRadius: 8 }} />
