@@ -19,13 +19,14 @@ type BookParams = {
 }
 
 export function BookScreen() {
-	const { navigate, goBack } = useNavigation<NavigationProp<ShopStackParams>>();
+	const { navigate, goBack, getParent } = useNavigation<NavigationProp<ShopStackParams>>();
 	const { id } = useRoute<RouteProp<Record<string, BookParams>, string>>().params; // get book id from params
 	const [book, setBook] = useState<TBook>();
 	const [bookRarity, setBookRarity] = useState<TRarity>();
 
 	useEffect(() => {
 		getBook();
+		getParent()?.setOptions({tabBarStyle: {display: 'flex', height:'8%'}}); //show tab bar
 	}, [id])
 
 	async function getBook() {
@@ -94,7 +95,6 @@ export function BookScreen() {
 													<Text style={stylesBookScreen.button_buy_label_light}> {book.price}₽</Text></Text>}
 													buttonStyle={stylesBookScreen.button_buy}
 													containerStyle={{ borderRadius: 8 }} />
-
 												<View style={stylesBookScreen.container_fav_fragment_buttons}>
 													<Button onPress={switchFavorite}
 														icon={

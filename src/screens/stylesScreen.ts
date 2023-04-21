@@ -374,7 +374,8 @@ export const stylesFavoritesScreen = StyleSheet.create({
 export const stylesBookScreen = StyleSheet.create({
     book_screen:{
         flex:1,
-        width:width
+        width:width,
+        backgroundColor:'white',
     },
     book_header:{
         width:width,

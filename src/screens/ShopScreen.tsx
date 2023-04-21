@@ -32,7 +32,7 @@ const filtersInit: TFilters = {
 export function ShopScreen() {
 	const scrollToTop = useRef(null);
 	useScrollToTop(scrollToTop);
-	const { navigate } = useNavigation<NavigationProp<ShopStackParams>>();
+	const { navigate, getParent } = useNavigation<NavigationProp<ShopStackParams>>();
 	const ads = [require('../../assets/Ad1.png'), require('../../assets/Ad2.png'), require('../../assets/Ad3.png')];
 
 	const [books, setBooks] = useState<TShopBook[]>([]);
