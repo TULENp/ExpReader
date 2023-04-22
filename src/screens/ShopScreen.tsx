@@ -2,11 +2,11 @@ import { View, Text, KeyboardAvoidingView, ImageBackground, StatusBar, Image, To
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { stylesShopScreen } from './stylesScreen'
 import { BookShopCard } from '../components/BookShopCard';
-import { deepBlue } from '../constants/colors';
+import { deepBlue, lightBlue } from '../constants/colors';
 import { Input } from '@rneui/themed';
 import Carousel from 'react-native-reanimated-carousel';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { srcIcnFilter, srcIcnNoInternet, srcIcnRedHeart, srcImgShopHeader } from '../constants/images';
+import { srcIcnCloudCry, srcIcnFilter, srcIcnNoInternet, srcIcnRedHeart, srcImgShopHeader } from '../constants/images';
 import { ShopStackParams, TShopBook } from '../types';
 import { NavigationProp, useNavigation, useScrollToTop } from '@react-navigation/native';
 import { Filters } from '../components/Filters';
@@ -142,7 +142,17 @@ export function ShopScreen() {
 									{/* </View> */}
 									<Text style={stylesShopScreen.text_shop}>Магазин</Text>
 									<View style={stylesShopScreen.container_books_shop_card}>
-										{booksList}
+										{books.length === 0
+											?
+											<View style={{width:'100%', height:'100%', flex:1,justifyContent:'center', alignItems:'center'}}>
+												<Image style={{width:80, height:80}} source={srcIcnCloudCry}/>
+												<Text style={{fontFamily:'MontserratAlt400', fontSize:18}}>Книги не найдены</Text>
+												<TouchableOpacity onPress={()=>getBooks(true)} style={{width:'70%', height:40,marginTop:20, justifyContent:'center', alignItems:'center', backgroundColor:lightBlue, borderRadius:8}}>
+													<Text style={{fontFamily:'MontserratAlt700', fontSize:18, color:'white'}}>Сбросить фильтры</Text>
+												</TouchableOpacity>
+											</View>
+											:
+											booksList}
 									</View>
 								</ScrollView>
 							</KeyboardAvoidingView>
