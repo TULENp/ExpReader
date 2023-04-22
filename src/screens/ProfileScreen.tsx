@@ -114,7 +114,7 @@ export function ProfileScreen() {
 									</Text>
 									<Ionicons  name="settings-outline" size={24} color={'black'} />
 								</View>
-								<LinearProgress value={todayPages / dailyTaskPages} color={greenRarity} style={stylesProfileScreen.progress_bar} trackColor={'#D8D8D8'} variant='determinate' />
+								<LinearProgress value={todayPages / dailyTaskPages} color={dailyTaskLevel?.color} style={stylesProfileScreen.progress_bar} trackColor={'#D8D8D8'} variant='determinate' />
 								{todayPages >= dailyTaskPages
 									?
 									<View style={{flexDirection:'row', maxWidth:'100%',paddingTop:10,paddingLeft:0,paddingRight:20,justifyContent:'center', alignItems:'center'}}>
