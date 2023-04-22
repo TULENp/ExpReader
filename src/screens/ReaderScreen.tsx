@@ -1,10 +1,11 @@
-import { Text } from 'react-native'
+import { ActivityIndicator, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { LibStackParams, TLibBook } from '../types'
 import * as FileSystem from 'expo-file-system';
 import { booksDir, fileBooksDir } from '../constants';
 import { useRoute, RouteProp, useNavigation, NavigationProp } from '@react-navigation/native';
 import { Reader } from '../components/Reader';
+import { deepBlue } from '../constants/colors';
 
 type ReaderParams = {
     book: TLibBook;
@@ -19,8 +20,8 @@ export function ReaderScreen() {
 
     useEffect(() => {
         getBookText();
-        getParent()?.setOptions({tabBarStyle: {display: 'none'}}); //hide tab bar
-        
+        getParent()?.setOptions({ tabBarStyle: { display: 'none' } }); //hide tab bar
+
     }, [])
 
     async function getBookText() {
@@ -47,8 +48,12 @@ export function ReaderScreen() {
         <>
             {
                 bookText == ''
-                    ? <Text>Загрузка...</Text>
-                    : <Reader bookText={bookText} book={book} />
+                    ?
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
+                        <ActivityIndicator size={'large'} color={deepBlue} />
+                    </View>
+                    :
+                    <Reader bookText={bookText} book={book} />
             }
         </>
     )

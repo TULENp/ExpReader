@@ -31,11 +31,7 @@ export default function App() {
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [isGotBackend, setIsGotBackend] = useState(false);
 	const netInfo = useNetInfo();
-
-	// useEffect(()=>{
-	// 	AsyncStorage.clear();
-	// })
-
+	
 	useEffect(() => {
 		checkLogin();
 		createDirs();
@@ -65,7 +61,7 @@ export default function App() {
 			<>
 				{isLoading
 					?
-					<Text style={{ alignSelf: 'center', fontSize: 50 }}>Загрузка...</Text>
+					<AppLoading />
 					:
 					<>
 						{isAuth

@@ -14,7 +14,6 @@ export async function checkBookIsDownloaded(fileName: string) {
     return isDownloaded
 }
 
-//TODO add download loading
 export async function downloadBook(book: TLibBook) {
     const res = await DownloadBook(book.id);
     await FileSystem.writeAsStringAsync(booksDir + book.fileName, res);

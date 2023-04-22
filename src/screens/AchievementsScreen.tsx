@@ -37,7 +37,6 @@ export function AchievementsScreen() {
 
 				{/* Achievements list */}
 				{achieves &&
-					// TODO change style depends on isCompleted
 					<FlatList data={achievements}
 						keyExtractor={item => item.id.toString()}
 						renderItem={({ item }) => {

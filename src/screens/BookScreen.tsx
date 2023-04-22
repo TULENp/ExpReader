@@ -55,7 +55,6 @@ export function BookScreen() {
 		setBookRarity(rarity);
 	}
 
-	//TODO add Loading
 	return (
 		<>
 			{isLoading

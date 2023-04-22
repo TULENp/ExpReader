@@ -64,15 +64,12 @@ export function BookLibCard({ book }: { book: TLibBook }) {
                     <Text style={stylesBookLibCard.title}>{title}</Text>
                     <Text style={stylesBookLibCard.author}>{authors}</Text>
                     <View style={[stylesBookLibCard.btn_read, { backgroundColor: isDownloaded ? purple : deepBlue }]}>
-                        {isDownloaded ?
-                            <Image source={srcIcnBook} style={{ width: 14, height: 14 }} />
-                            :
-                            <Feather name="download" size={14} color="white" />}
-
-                        {/* TODO add loading  */}
+                        {isDownloaded
+                            ? <Image source={srcIcnBook} style={{ width: 14, height: 14 }} />
+                            : <Feather name="download" size={14} color="white" />
+                        }
                         <Text style={{ fontFamily: 'MontserratAlt500', fontSize: 12, color: white, marginLeft: 10 }}>
                             {isLoadingBook ? 'Загрузка' : isDownloaded ? 'Читать' : 'Скачать'}
-                            {/* {isDownloaded ? 'Читать' : isLoadingBook ? 'Загрузка' : 'Скачать'} */}
                         </Text >
                     </View >
                     <Text style={stylesBookLibCard.text_progress}>{`${percent}% прочитано`}</Text>

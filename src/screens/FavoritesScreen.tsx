@@ -1,7 +1,7 @@
-import { View, Text, ScrollView, TouchableOpacity, FlatList, Image, ActivityIndicator } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { View, Text, TouchableOpacity, FlatList, Image, ActivityIndicator } from 'react-native'
+import React, { useState } from 'react'
 import { BookShopCard } from '../components/BookShopCard'
-import { srcIcnBack, srcIcnCloudCry } from '../constants/images'
+import { srcIcnCloudCry } from '../constants/images'
 import { MaterialIcons } from '@expo/vector-icons';
 import { stylesFavoritesScreen } from './stylesScreen'
 import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native'
@@ -11,7 +11,6 @@ import { deepBlue } from '../constants/colors';
 
 export function FavoritesScreen() {
 	const { navigate } = useNavigation<NavigationProp<ShopStackParams>>();
-	// const listBooks: JSX.Element[] = books.map((book) => <BookShopCard book={book} />) // Map for Rasim
 	const [favorites, setFavorites] = useState<TShopBook[]>([]);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 

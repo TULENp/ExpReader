@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, FlatList, StatusBar, KeyboardAvoidingView, ImageBackground, Pressable, Image, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { View, Text, StatusBar, KeyboardAvoidingView, ImageBackground, Image, ActivityIndicator } from 'react-native';
 import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
@@ -8,8 +8,8 @@ import { getAllBooksAS, getBookNamesAS, setBookStatsAS } from '../service/asyncS
 import { BookLibCard } from '../components/BookLibCard';
 import { stylesLibraryScreen } from './stylesScreen';
 import { srcIcnCloudCry, srcImgLibraryHeader } from '../constants/images';
-import { ButtonGroup, FAB, Input, ListItem } from '@rneui/themed';
-import { black, deepBlue, gray, pink, white } from '../constants/colors';
+import { ButtonGroup, FAB, Input } from '@rneui/themed';
+import { deepBlue, white } from '../constants/colors';
 import { BookLastReadCard } from '../components/BookLastReadCard';
 import { fileBooksDir } from '../constants';
 import { AppContext } from '../context/AppContext';
@@ -17,7 +17,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 export function LibraryScreen() {
     const { isGotBackend } = useContext(AppContext);
-    const { navigate, getParent } = useNavigation<NavigationProp<LibStackParams>>();
+    const { getParent } = useNavigation<NavigationProp<LibStackParams>>();
     const [fileBooks, setFileBooks] = useState<TLibBook[]>([]);
     const [shopBooks, setShopBooks] = useState<TLibBook[]>([]);
     const [searchText, setSearchText] = useState<string>('');
@@ -41,8 +41,10 @@ export function LibraryScreen() {
         //! //FIXME if close picker window promise will never be resolved
         const result = await DocumentPicker.getDocumentAsync({
             copyToCacheDirectory: false,
-            type: ['text/plain', 'application/x-fictionbook+xml']
+            //FIXME .fb2 is not available
+            type: ["text/plain", "application/x-fictionbook+xml"]
         });
+
 
         if (result.type === "cancel") return;
 
@@ -78,7 +80,6 @@ export function LibraryScreen() {
         setFileBooks(booksArray);
     }
 
-    //TODO add loading
     async function getAllLibBooks() {
         const bookNames = await getBookNamesAS();
         const booksArray = await getAllBooksAS(bookNames);
@@ -101,7 +102,7 @@ export function LibraryScreen() {
                     <BookLibCard book={book} />
                 </View>)
         })
-        //TODO change styles add margin or smth
+
         return (
             <>
                 {searchText && data.length === 0
