@@ -166,7 +166,7 @@ export function ProfileScreen() {
 										<BookProfileCard key={book.id} book={book} />
 									))
 									:
-									<View style={{justifyContent:'center', alignItems:'center', padding:13}}>
+									<View style={{width:'100%',justifyContent:'center', alignItems:'center', padding:20}}>
 										<Image style={{width:55, height:55}} source={srcIcnOpenBook}/>
 										<Text style={stylesProfileScreen.empty_text}>Вы ещё не приобрели ни одной книги</Text>
 									</View>

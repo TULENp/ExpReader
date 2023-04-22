@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, StatusBar, Image } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { ScrollView } from 'react-native-gesture-handler'
 import { MaterialIcons } from '@expo/vector-icons';
 import { stylesCheckoutScreen } from './stylesScreen';
@@ -19,6 +19,8 @@ export function CheckoutScreen() {
     const { goBack } = useNavigation<NavigationProp<ShopStackParams>>();
     const { book } = useRoute<RouteProp<Record<string, BookParams>, string>>().params;
     const { id, title, cover, authors, price } = book;
+    const [isLoading,setIsLoading] = useState<boolean>(true);
+    const [error,setError] = useState<string>('');
 
     async function buyBook() {
         const res = await BuyBook(book.id);

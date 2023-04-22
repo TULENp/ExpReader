@@ -316,7 +316,7 @@ export const stylesProfileScreen = StyleSheet.create({
     },
     container_profile_books:{
         flex:1,
-        width:width,
+        width:'100%',
         flexWrap:'wrap',
         gap:24,
         marginTop:10,
