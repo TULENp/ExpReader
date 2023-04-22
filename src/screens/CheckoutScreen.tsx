@@ -25,15 +25,14 @@ export function CheckoutScreen() {
     async function buyBook() {
         setIsLoading(true);
         const res = await BuyBook(book.id);
-        if (res !== '200') {
-            setError(res);
-            setIsLoading(false);
-
-            return;
+        if (res == '200') {
+            GetAllLibBooks();
+            goBack();
         }
-        GetAllLibBooks();
+        else {
+            setError(res);
+        }
         setIsLoading(false);
-        goBack();
     }
 
     return (
