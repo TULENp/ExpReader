@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, FlatList, StatusBar, KeyboardAvoidingView, ImageBackground, Pressable, Image } from 'react-native';
+import { View, Text, FlatList, StatusBar, KeyboardAvoidingView, ImageBackground, Pressable, Image, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
@@ -22,6 +22,7 @@ export function LibraryScreen() {
     const [shopBooks, setShopBooks] = useState<TLibBook[]>([]);
     const [searchText, setSearchText] = useState<string>('');
     const [libCategory, setLibCategory] = useState<number>(0);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useFocusEffect(
         React.useCallback(() => {
@@ -79,11 +80,10 @@ export function LibraryScreen() {
     
 //TODO add loading
     async function getAllLibBooks() {
-        //loading true
         const bookNames = await getBookNamesAS();
         const booksArray = await getAllBooksAS(bookNames);
         setShopBooks(booksArray);
-        //loading false
+        setIsLoading(false);
     }
 
     function BooksList() {
@@ -106,7 +106,10 @@ export function LibraryScreen() {
             <>
                 {searchText && data.length === 0
                     ?
-                    <Text>Книги не найдены</Text>
+                    <View style={{width:'100%', height:'100%', flex:1,justifyContent:'center', alignItems:'center'}}>
+						<Image style={{width:80, height:80}} source={srcIcnCloudCry}/>
+						<Text style={{fontFamily:'MontserratAlt400', fontSize:18}}>Книги не найдены</Text>
+					</View>
                     :
                     !searchText && data.length === 0
                         ?
@@ -125,7 +128,14 @@ export function LibraryScreen() {
 
     return (
         <>
-            <ScrollView style={{backgroundColor:'white', flex:1}}>
+            {isLoading 
+                ?
+                <View style={{flex:1, height:'100%',backgroundColor:'white', justifyContent:'center', alignItems:'center'}}>
+                    <ActivityIndicator size={'large'} color={deepBlue}/>
+                </View>
+                :
+                <>
+                <ScrollView style={{backgroundColor:'white', flex:1}}>
                 <KeyboardAvoidingView behavior='height' style={stylesLibraryScreen.lib_page}>
                     <StatusBar backgroundColor={deepBlue} />
                     {/* SearchBar */}
@@ -173,6 +183,8 @@ export function LibraryScreen() {
                 icon={{ name: 'add', color: 'white' }}
                 color={deepBlue} size='large'
                 style={stylesLibraryScreen.fab_button} />
+                </>
+            }
         </>
     );
 }

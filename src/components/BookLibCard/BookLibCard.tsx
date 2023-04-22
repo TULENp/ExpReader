@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { LibStackParams, TLibBook, TRarity } from '../../types'
 import { stylesBookLibCard } from './style';
 import { Shadow } from 'react-native-shadow-2';
-import { gray, greenRarity, pink, white } from '../../constants/colors';
+import { deepBlue, gray, greenRarity, lightBlue, pink, purple, white } from '../../constants/colors';
 import { LinearProgress } from '@rneui/themed';
 import { srcIcnBook } from '../../constants/images';
 import { calculateRarity } from '../../service/motivation';
@@ -11,6 +11,7 @@ import { DownloadBook } from '../../service/api';
 import { coversDir, booksDir, fileBooksDir, imageURL } from '../../constants';
 import * as FileSystem from 'expo-file-system';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
+import { Feather } from '@expo/vector-icons'; 
 
 export function BookLibCard({ book }: { book: TLibBook }) {
     const { navigate } = useNavigation<NavigationProp<LibStackParams>>();
@@ -18,7 +19,7 @@ export function BookLibCard({ book }: { book: TLibBook }) {
     const percent = Math.floor((readPages / bookPages) * 100) || 0;
     const [bookRarity, setBookRarity] = useState<TRarity>();
     const [isDownloaded, setIsDownloaded] = useState(false);
-
+    const [isLoadingBook, setIsLoadingBook] = useState(false);
 
     useEffect(() => {
         setBookRarity(calculateRarity(book.bookPages));
@@ -39,9 +40,11 @@ export function BookLibCard({ book }: { book: TLibBook }) {
 
     //TODO add download loading
     async function downloadBook() {
+        setIsLoadingBook(true);
         const res = await DownloadBook(id);
         await FileSystem.writeAsStringAsync(booksDir + fileName, res);
         await FileSystem.downloadAsync(imageURL + cover, coversDir + cover);
+        setIsLoadingBook(false);
         setIsDownloaded(true);
     }
 
@@ -77,10 +80,16 @@ export function BookLibCard({ book }: { book: TLibBook }) {
                 <View style={stylesBookLibCard.container_info_book}>
                     <Text style={stylesBookLibCard.title}>{title}</Text>
                     <Text style={stylesBookLibCard.author}>{authors}</Text>
-                    <View style={stylesBookLibCard.btn_read}>
-                        <Image source={srcIcnBook} style={{ width: 14, height: 14 }} />
+                    <View style={[stylesBookLibCard.btn_read, {backgroundColor:isDownloaded ? purple : deepBlue}]}>
+                        {isDownloaded ? 
+                            <Image source={srcIcnBook} style={{ width: 14, height: 14 }} /> 
+                            :
+                            <Feather name="download" size={14} color="white" />}
+                        
                         {/* TODO add loading  */}
-                        <Text style={{ fontFamily: 'MontserratAlt500', fontSize: 12, color: white, marginLeft: 10 }}>{isDownloaded ? 'Читать' : 'Скачать'}</Text>
+                        <Text style={{ fontFamily: 'MontserratAlt500', fontSize: 12, color: white, marginLeft: 10 }}>
+                            {isDownloaded ? 'Читать' : isLoadingBook? 'Загрузка' : 'Скачать'}
+                        </Text>
                     </View>
                     <Text style={stylesBookLibCard.text_progress}>{`${percent}% прочитано`}</Text>
                     <LinearProgress value={percent / 100} color={pink} style={stylesBookLibCard.progress_bar} trackColor={gray} variant='determinate' />
