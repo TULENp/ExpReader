@@ -48,6 +48,7 @@ export function ShopScreen() {
 	}, [])
 
 	async function getBooks(isReset: boolean = false) {
+		setIsLoading(true);
 		const books = await GetAllShopBooks(isReset ? filtersInit : filters);
 		if (isReset) {
 			setFilters(filtersInit);

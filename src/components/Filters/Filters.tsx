@@ -119,8 +119,8 @@ export function Filters({ filters, setFilters, filterBooks }: FiltersProps) {
 				</TouchableOpacity>
 
 				{/* Btn Apply filters */}
-				<TouchableOpacity style={[stylesFilters.container_btn, {backgroundColor:deepBlue}]}onPress={() => filterBooks(true)}>
-					<Text style={stylesFilters.text_btn}>Сбросить</Text>
+				<TouchableOpacity style={[stylesFilters.container_btn, {backgroundColor:'#EEEEEE'}]}onPress={() => filterBooks(true)}>
+					<Text style={[stylesFilters.text_btn, {color:'black'}]}>Сбросить</Text>
 				</TouchableOpacity>
 			</View>
 		</>
