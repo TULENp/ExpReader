@@ -1,7 +1,7 @@
 import { View, Text, Image, TouchableOpacity, StatusBar, ImageBackground, Dimensions, FlatList, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { ShopStackParams, TBook, TRarity } from '../types';
-import { NavigationProp, RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { ShopStackParams, TBook, TRarity, TabParams } from '../types';
+import { NavigationProp, RouteProp, useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { stylesBookScreen } from './stylesScreen';
 import { srcIcnCloudCry, srcIcnHeart, srcIcnRedHeart, srcImgBookHeader } from '../constants/images';
@@ -19,16 +19,19 @@ type BookParams = {
 }
 
 export function BookScreen() {
-	const { navigate, goBack, getParent } = useNavigation<NavigationProp<ShopStackParams>>();
+	const { navigate: shopNavigate, goBack, getParent } = useNavigation<NavigationProp<ShopStackParams>>();
+	const { navigate: tabNavigate } = useNavigation<NavigationProp<TabParams>>();
 	const { id } = useRoute<RouteProp<Record<string, BookParams>, string>>().params; // get book id from params
 	const [book, setBook] = useState<TBook>();
 	const [bookRarity, setBookRarity] = useState<TRarity>();
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 
-	useEffect(() => {
-		getBook();
-		getParent()?.setOptions({tabBarStyle: {display: 'flex', height:'8%'}}); //show tab bar
-	}, [id])
+	useFocusEffect(
+		React.useCallback(() => {
+			getBook();
+			getParent()?.setOptions({ tabBarStyle: { display: 'flex', height: '8%' } }); //show tab bar
+		}, [id])
+	);
 
 	async function getBook() {
 		setIsLoading(true);
@@ -48,7 +51,7 @@ export function BookScreen() {
 	}
 
 	function GetAndSetBookRarity(bookPages: number) {
-		const rarity = calculateRarity(bookPages, true);
+		const rarity = calculateRarity(bookPages);
 		setBookRarity(rarity);
 	}
 
@@ -57,16 +60,16 @@ export function BookScreen() {
 		<>
 			{isLoading
 				?
-				<View style={{flex:1, justifyContent:'center', alignItems:'center', backgroundColor:'white'}}>
-					<ActivityIndicator size={'large'} color={deepBlue}/>
+				<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
+					<ActivityIndicator size={'large'} color={deepBlue} />
 				</View>
-				:	
+				:
 				<View style={stylesBookScreen.book_screen}>
 					{!book
 						?
-						<View style={{width:'100%', height:'100%', flex:1,justifyContent:'center', alignItems:'center'}}>
-							<Image style={{width:80, height:80}} source={srcIcnCloudCry}/>
-							<Text style={{fontFamily:'MontserratAlt400', fontSize:18}}>Книга не найдена</Text>
+						<View style={{ width: '100%', height: '100%', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+							<Image style={{ width: 80, height: 80 }} source={srcIcnCloudCry} />
+							<Text style={{ fontFamily: 'MontserratAlt400', fontSize: 18 }}>Книга не найдена</Text>
 						</View>
 						:
 						<ScrollView>
@@ -96,15 +99,16 @@ export function BookScreen() {
 
 										{/* Actions */}
 										<View style={stylesBookScreen.container_all_buttons}>
-											{book.isBought ?
-											<Button title={<Text style={stylesBookScreen.button_buy_label_bold}>Читать</Text>}
-												buttonStyle={stylesBookScreen.button_buy}
-												containerStyle={{ borderRadius: 8 }} />
-											:
+											{!book.isBought ?
+												<Button onPress={() => tabNavigate('LibraryTab')}
+													title={<Text style={stylesBookScreen.button_buy_label_bold}>Читать</Text>}
+													buttonStyle={stylesBookScreen.button_buy}
+													containerStyle={{ borderRadius: 8 }} />
+												:
 												<>
-													<Button onPress={() => navigate('Checkout', { book })} 
+													<Button onPress={() => shopNavigate('Checkout', { book })}
 														title={<Text style={stylesBookScreen.button_buy_label_bold}>Купить за
-														<Text style={stylesBookScreen.button_buy_label_light}> {book.price}₽</Text></Text>}
+															<Text style={stylesBookScreen.button_buy_label_light}> {book.price}₽</Text></Text>}
 														buttonStyle={stylesBookScreen.button_buy}
 														containerStyle={{ borderRadius: 8 }} />
 													<View style={stylesBookScreen.container_fav_fragment_buttons}>
@@ -119,7 +123,7 @@ export function BookScreen() {
 															containerStyle={stylesBookScreen.button_fav_grow}
 														/>
 														<Button title={'Фрагмент'}
-															onPress={() => navigate('FragmentReader', { fragment: book.fragment })}
+															onPress={() => shopNavigate('FragmentReader', { fragment: book.fragment })}
 															titleStyle={stylesBookScreen.button_title}
 															buttonStyle={stylesBookScreen.button_fragment}
 															containerStyle={stylesBookScreen.button_fragment_grow}

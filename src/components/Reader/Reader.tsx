@@ -123,9 +123,6 @@ export function Reader({ bookText, book }: ReaderProps) {
         }
     }
 
-
-
-
     function readCurrentPage() {
         if (bookText) {
             const pageFirstCharNum: number = (currentPage - 1) * pageChars; // number of the first char of current page

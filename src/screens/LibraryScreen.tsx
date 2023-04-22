@@ -106,17 +106,17 @@ export function LibraryScreen() {
             <>
                 {searchText && data.length === 0
                     ?
-                    <View style={{width:'100%', height:'100%', flex:1,justifyContent:'center', alignItems:'center'}}>
-						<Image style={{width:80, height:80}} source={srcIcnCloudCry}/>
-						<Text style={{fontFamily:'MontserratAlt400', fontSize:18}}>Книги не найдены</Text>
-					</View>
+                    <View style={{ width: '100%', height: '100%', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        <Image style={{ width: 80, height: 80 }} source={srcIcnCloudCry} />
+                        <Text style={{ fontFamily: 'MontserratAlt400', fontSize: 18 }}>Книги не найдены</Text>
+                    </View>
                     :
                     !searchText && data.length === 0
                         ?
                         <View style={{ alignItems: 'center', padding: 13, flex: 1, justifyContent: 'center' }}>
-                            <Image style={{ width: 55, height: 55 }} source={srcIcnCloudCry} />
+                            {(libCategory === 1 || shopBooks.length === 0) && <Image style={{ width: 55, height: 55 }} source={srcIcnCloudCry} />}
                             <Text style={stylesLibraryScreen.text_empty_list}>
-                                {libCategory === 0 ? 'Вы ещё не приобрели ни одной книги' : 'Вы ещё не добавили ни одной книги'}
+                                {libCategory === 0 ? shopBooks.length === 0 && 'Вы ещё не приобрели ни одной книги' : 'Вы ещё не добавили ни одной книги'}
                             </Text>
                         </View>
                         :
@@ -128,58 +128,58 @@ export function LibraryScreen() {
 
     return (
         <>
-            {isLoading 
+            {isLoading
                 ?
-                <View style={{flex:1, height:'100%',backgroundColor:'white', justifyContent:'center', alignItems:'center'}}>
-                    <ActivityIndicator size={'large'} color={deepBlue}/>
+                <View style={{ flex: 1, height: '100%', backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
+                    <ActivityIndicator size={'large'} color={deepBlue} />
                 </View>
                 :
                 <>
-                <ScrollView style={{backgroundColor:'white', flex:1}}>
-                <KeyboardAvoidingView behavior='height' style={stylesLibraryScreen.lib_page}>
-                    <StatusBar backgroundColor={deepBlue} />
-                    {/* SearchBar */}
-                    <ImageBackground source={srcImgLibraryHeader} style={stylesLibraryScreen.container_header}>
-                        <View style={stylesLibraryScreen.container_search_input}>
-                            <Input onChangeText={text => setSearchText(text)}
-                                placeholder={'Найти книги'}
-                                inputContainerStyle={{ borderBottomWidth: 0 }}
-                                leftIcon={{ type: 'octicons', name: 'search' }}
-                                style={[stylesLibraryScreen.search_input, { fontFamily: 'MontserratAlt400' }]} />
+                    <ScrollView style={{ backgroundColor: 'white', flex: 1 }}>
+                        <KeyboardAvoidingView behavior='height' style={stylesLibraryScreen.lib_page}>
+                            <StatusBar backgroundColor={deepBlue} />
+                            {/* SearchBar */}
+                            <ImageBackground source={srcImgLibraryHeader} style={stylesLibraryScreen.container_header}>
+                                <View style={stylesLibraryScreen.container_search_input}>
+                                    <Input onChangeText={text => setSearchText(text)}
+                                        placeholder={'Найти книги'}
+                                        inputContainerStyle={{ borderBottomWidth: 0 }}
+                                        leftIcon={{ type: 'octicons', name: 'search' }}
+                                        style={[stylesLibraryScreen.search_input, { fontFamily: 'MontserratAlt400' }]} />
+                                </View>
+                            </ImageBackground>
+                            {!searchText &&
+                                <>
+                                    {/* LastReadBook card */}
+                                    {shopBooks[0] && libCategory === 0 && <BookLastReadCard book={shopBooks[0]} />}
+                                    {/* Tabs */}
+                                    <View style={{ paddingTop: 25, }}>
+                                        <Text style={stylesLibraryScreen.h1_library}>Библиотека</Text>
+                                        <ButtonGroup buttons={['Купленные книги', 'Добавленные книги']}
+                                            selectedIndex={libCategory}
+                                            onPress={(value) => {
+                                                setLibCategory(value);
+                                            }}
+                                            containerStyle={stylesLibraryScreen.button_group_containerStyle}
+                                            textStyle={stylesLibraryScreen.button_group_textStyle}
+                                            buttonContainerStyle={{}}
+                                            selectedButtonStyle={{ backgroundColor: deepBlue }}
+                                            buttonStyle={{}}
+                                        />
+                                    </View>
+                                </>
+                            }
+                        </KeyboardAvoidingView>
+                        {/* List of books */}
+                        <View style={{ marginTop: 20 }}>
+                            <BooksList />
                         </View>
-                    </ImageBackground>
-                    {!searchText &&
-                        <>
-                            {/* LastReadBook card */}
-                            {shopBooks[0] && libCategory === 0 && <BookLastReadCard book={shopBooks[0]} />}
-                            {/* Tabs */}
-                            <View style={{ paddingTop: 25, }}>
-                                <Text style={stylesLibraryScreen.h1_library}>Библиотека</Text>
-                                <ButtonGroup buttons={['Купленные книги', 'Добавленные книги']}
-                                    selectedIndex={libCategory}
-                                    onPress={(value) => {
-                                        setLibCategory(value);
-                                    }}
-                                    containerStyle={stylesLibraryScreen.button_group_containerStyle}
-                                    textStyle={stylesLibraryScreen.button_group_textStyle}
-                                    buttonContainerStyle={{}}
-                                    selectedButtonStyle={{ backgroundColor: deepBlue }}
-                                    buttonStyle={{}}
-                                />
-                            </View>
-                        </>
-                    }
-                </KeyboardAvoidingView>
-                {/* List of books */}
-                <View style={{marginTop:20}}>
-                    <BooksList />
-                </View>
-            </ScrollView>
-            {/* add book button */}
-            <FAB onPress={addBookFromFile}
-                icon={{ name: 'add', color: 'white' }}
-                color={deepBlue} size='large'
-                style={stylesLibraryScreen.fab_button} />
+                    </ScrollView>
+                    {/* add book button */}
+                    <FAB onPress={addBookFromFile}
+                        icon={{ name: 'add', color: 'white' }}
+                        color={deepBlue} size='large'
+                        style={stylesLibraryScreen.fab_button} />
                 </>
             }
         </>

@@ -86,7 +86,7 @@ export function Filters({ filters, setFilters, filterBooks }: FiltersProps) {
 				</View>
 
 				{/* Select */}
-				<View style={{ marginTop: 10 }}>
+				<View style={{ marginTop: 10, borderBottomWidth: 3, borderBottomColor: '#CACACA', paddingBottom: 20 }}>
 					<Text style={stylesFilters.h2}>Сортировка</Text>
 					<Dropdown data={listSort}
 						mode='modal'
@@ -114,13 +114,13 @@ export function Filters({ filters, setFilters, filterBooks }: FiltersProps) {
 
 				{/* Actions */}
 				{/* Btn Apply filters */}
-				<TouchableOpacity style={[stylesFilters.container_btn, {marginTop:25, marginBottom:15}]} onPress={() => filterBooks(false)}>
+				<TouchableOpacity style={[stylesFilters.container_btn, { marginTop: 25, marginBottom: 15 }]} onPress={() => filterBooks(false)}>
 					<Text style={stylesFilters.text_btn}>Применить</Text>
 				</TouchableOpacity>
 
 				{/* Btn Apply filters */}
-				<TouchableOpacity style={[stylesFilters.container_btn, {backgroundColor:'#EEEEEE'}]}onPress={() => filterBooks(true)}>
-					<Text style={[stylesFilters.text_btn, {color:'black'}]}>Сбросить</Text>
+				<TouchableOpacity style={[stylesFilters.container_btn, { backgroundColor: '#EEEEEE' }]} onPress={() => filterBooks(true)}>
+					<Text style={[stylesFilters.text_btn, { color: 'black' }]}>Сбросить</Text>
 				</TouchableOpacity>
 			</View>
 		</>

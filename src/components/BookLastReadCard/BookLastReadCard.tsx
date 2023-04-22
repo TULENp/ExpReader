@@ -17,7 +17,7 @@ export function BookLastReadCard({ book }: { book: TLibBook }) {
 
     useEffect(() => {
         checkDownload();
-    }, [isDownloaded])
+    }, [isDownloaded, id])
 
     async function checkDownload() {
         const res = await checkBookIsDownloaded(fileName);

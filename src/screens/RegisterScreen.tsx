@@ -39,7 +39,8 @@ export function RegisterScreen() {
             return;
         }
 
-        const res = await Register(login, password, repeatPassword);
+        // login = nickname
+        const res = await Register(login, password, login);
         if (res !== '200') {
             alert(res);
             return;
@@ -54,6 +55,7 @@ export function RegisterScreen() {
                 <MaterialIcons name="keyboard-backspace" size={36} color="black" />
             </TouchableOpacity>
             <Image style={stylesSignInScreen.logo} source={srcIcnLogo} />
+            
             <View style={{ width: '100%', alignItems: 'center' }}>
                 <View style={{ width: '100%', justifyContent: 'flex-start', }}>
                     <Text style={stylesSignInScreen.h1}>Логин</Text>

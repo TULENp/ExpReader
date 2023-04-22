@@ -15,6 +15,7 @@ export {
     TAchieveStatus,
     TBookStats,
     TDailyTaskLevel,
+    TabParams,
 };
 
 type TShopBook = {
@@ -74,6 +75,12 @@ type ShopStackParams = {
     Favorites: undefined,
     Checkout: { book: TBook },
     FragmentReader: { fragment: string },
+};
+
+type TabParams = {
+    ShopTab: undefined,
+    LibraryTab: undefined,
+    ProfileTab: undefined,
 };
 
 type TUserData = {
