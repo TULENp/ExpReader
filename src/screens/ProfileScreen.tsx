@@ -1,6 +1,6 @@
 import { View, Text, ImageBackground, Image, ScrollView, Pressable, ActivityIndicator } from 'react-native';
 import React, { useContext, useState } from 'react';
-import { srcIcnCloudCry, srcIcnFireworks, srcIcnOpenBook, srcIcnPoints, srcIcnReward, srcImgProfileHeader } from '../constants/images';
+import { srcIcnBooks, srcIcnCloudCry, srcIcnFireworks, srcIcnOpenBook, srcIcnPage, srcIcnPoints, srcIcnReward, srcImgProfileHeader } from '../constants/images';
 import { stylesProfileScreen } from './stylesScreen';
 import { Avatar } from 'react-native-elements';
 import { LinearProgress } from '@rneui/themed';
@@ -97,8 +97,14 @@ export function ProfileScreen() {
 									<View style={stylesProfileScreen.container_avatar_points}>
 										<Text style={stylesProfileScreen.text_name}>{userData.nickname}</Text>
 										<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-											<Image style={stylesProfileScreen.icn_points} source={srcIcnPoints} />
+											
+											{/* Pages stats */}
+											<Image style={stylesProfileScreen.icn_points} source={srcIcnPage} />
 											<Text style={stylesProfileScreen.text_points}>{userData.readPagesNum}</Text>
+
+											{/* Books stats */}
+											<Image style={[stylesProfileScreen.icn_points,{marginLeft:20}]} source={srcIcnBooks} />
+											<Text style={stylesProfileScreen.text_points}>{userData.userBooks.length}</Text>
 										</View>
 									</View>
 									<Feather name="log-out" onPress={LogOut} style={{ position: 'absolute', top: 10, right: 10 }} size={28} color="white" />
