@@ -1,10 +1,10 @@
-import { View, Text, Image, TouchableOpacity, StatusBar, ImageBackground, Dimensions, FlatList, ActivityIndicator } from 'react-native'
+import { View, Text, Image, TouchableOpacity, StatusBar, ImageBackground, Dimensions, FlatList, ActivityIndicator, Pressable } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { ShopStackParams, TBook, TRarity, TabParams } from '../types';
+import { ShopStackParams, TBook, TRarity, TShopBook, TabParams } from '../types';
 import { NavigationProp, RouteProp, useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { stylesBookScreen } from './stylesScreen';
-import { srcIcnCloudCry, srcIcnHeart, srcIcnRedHeart, srcImgBookHeader } from '../constants/images';
+import { stylesBookScreen, stylesShopScreen } from './stylesScreen';
+import { srcIcnCloudCry, srcIcnHeart, srcIcnRedHeart, srcImgBookHeader, srcImgHarryPotter3 } from '../constants/images';
 import { MaterialIcons } from '@expo/vector-icons'
 import { Button } from '@rneui/themed';
 import { deepBlue } from '../constants/colors';
@@ -13,6 +13,7 @@ import { Feather } from '@expo/vector-icons';
 import { GetBook, SwitchFavorite } from '../service/api';
 import { imageURL } from '../constants';
 import { calculateRarity } from '../service/motivation';
+import { BookShopCard } from '../components/BookShopCard';
 
 type BookParams = {
 	id: string;
@@ -54,6 +55,50 @@ export function BookScreen() {
 		const rarity = calculateRarity(bookPages);
 		setBookRarity(rarity);
 	}
+
+	// test data for render Similar books list
+	const testSimilarbooks:TShopBook[]=[{
+		id:'0',
+		authors:['Бубин'],
+		title:'Чикрыж',
+		cover:'cover_MonteCristo.jpg',
+		price:420
+	},
+	{
+		id:'1',
+		authors:['Бубин'],
+		title:'Чикрыж',
+		cover:'cover_MonteCristo.jpg',
+		price:420
+	},
+	{
+		id:'2',
+		authors:['Бубин'],
+		title:'Чикрыж',
+		cover:'cover_MonteCristo.jpg',
+		price:420
+	},
+	{
+		id:'3',
+		authors:['Бубин'],
+		title:'Чикрыж',
+		cover:'cover_MonteCristo.jpg',
+		price:420
+	},
+	{
+		id:'4',
+		authors:['Бубин'],
+		title:'Чикрыж',
+		cover:'cover_MonteCristo.jpg',
+		price:420
+	},
+	{
+		id:'5',
+		authors:['Бубин'],
+		title:'Чикрыж',
+		cover:'cover_MonteCristo.jpg',
+		price:420
+	},]
 
 	return (
 		<>
@@ -135,7 +180,7 @@ export function BookScreen() {
 								</View>
 							</View>
 
-							{/* section genres of book */}
+							{/* Section genres of book */}
 							<View style={{ paddingLeft: 13, marginTop: 20 }}>
 								<Text style={stylesBookScreen.text_header}>Жанры</Text>
 								<FlatList horizontal
@@ -150,19 +195,34 @@ export function BookScreen() {
 							<Text style={stylesBookScreen.text_amount_pages}>Кол-во страниц:
 								<Text style={{ fontFamily: 'MontserratAlt500' }}> {book.bookPages}</Text>
 							</Text>
-							{/* rarity of book */}
+
+							{/* Rarity of book */}
 							<View style={{ flexDirection: 'row', marginLeft: 13, marginTop: 20 }}>
 								<Feather name="info" size={24} color="#737373" />
 								<Text style={stylesBookScreen.text_rarity_light}>Редкость:</Text>
 								<Text style={[{ color: bookRarity?.color }, stylesBookScreen.text_rarity_bold]}> {bookRarity?.rarity}</Text>
 							</View>
-							{/* description of book */}
+
+							{/* Description of book */}
 							<View style={{ marginLeft: 13, marginTop: 20, marginRight: 13 }}>
 								<Text style={stylesBookScreen.text_header}>Синопсис</Text>
 								<Text style={stylesBookScreen.text_description}>
 									{book.description}
 								</Text>
 							</View>
+
+							{/* Similar books */}
+							<Text style={[stylesShopScreen.text_shop, {fontSize:22}]}>Похожие книги</Text>
+								<FlatList data={testSimilarbooks}
+								contentContainerStyle={{gap:8, paddingLeft:13,paddingRight:13}}
+								horizontal
+								showsHorizontalScrollIndicator={false}
+								renderItem={({item})=> 
+									<Pressable onPress={() => shopNavigate('ShopBook', { id: item.id })}>
+										<BookShopCard key={item.id} book={item}/>
+									</Pressable>	
+								}												
+								/>
 						</ScrollView>
 					}
 				</View>

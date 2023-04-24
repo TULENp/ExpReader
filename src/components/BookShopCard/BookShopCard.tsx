@@ -20,7 +20,6 @@ export function BookShopCard({ book }: { book: TShopBook }) {
 			return str[0];
 		}
 	}
-
 	return (
 		<View style={stylesBookShopCard.wrapper_book_shop_card}>
 			<Image style={stylesBookShopCard.img_cover} source={{ uri: imageURL + cover }} />
