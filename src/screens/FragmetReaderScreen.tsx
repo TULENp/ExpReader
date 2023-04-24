@@ -212,37 +212,12 @@ export function FragmentReaderScreen() {
 
     return (
         <>
-            {/* TODO remove scroll animation
-            <ScrollView >
-                <Text style={{ alignSelf: 'center', fontSize: 25, margin: 10 }}>{pageText}</Text>
-            </ScrollView>
-            <View >
-                <Button title={'<'} onPress={toPrevPage} />
-                <Text style={{ alignSelf: 'center', fontSize: 15 }}>{currentPage}/{bookPages}</Text>
-                <Button title={'>'} onPress={toNextPage} />
-            </View> */}
             <ScrollView scrollEnabled={true} style={{ backgroundColor: readerTheme }} ref={scrollViewRef}>
                 <GestureHandlerRootView style={{ flex: 1, position: 'relative' }}>
                     <StatusBar backgroundColor={visibleModal ? purple : readerTheme} barStyle={readerTheme === 'black' ? 'light-content' : 'dark-content'} />
-                    <Swipeable
-                    containerStyle={{flex:1,minHeight:height}}
-                        ref={ref => refSwipePage[0] = ref}
-                        // render empty view for swipe animation (it`s crutch)
-                        renderRightActions={() => <View style={{ width: 10 }}></View>}
-                        renderLeftActions={() => <View style={{ width: 10 }}></View>}
-
-                        onSwipeableLeftOpen={() => {
-                            toPrevPage();
-                            closeSwipe();
-                        }}
-                        onSwipeableRightOpen={() => {
-                            toNextPage();
-                            closeSwipe();
-                        }}>
                         <Pressable style={{flex:1,height:'100%'}}>
                             <Text style={{ alignSelf: 'center',flex:1, height:'100%', textAlign: 'justify', fontSize: fontSize, paddingTop: 10, paddingLeft: paddingSize, paddingRight: paddingSize, color: readerTheme === 'black' ? 'white' : 'black' }}>{pageText}</Text>
                         </Pressable>
-                    </Swipeable>
 
                     {/* Left btn prev page */}
                     <Pressable pointerEvents={'box-only'} onPress={() => toPrevPage()} style={[stylesReader.btn_prev_next]} />

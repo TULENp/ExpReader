@@ -333,25 +333,9 @@ export function Reader({ bookText, book }: ReaderProps) {
                 <ScrollView scrollEnabled={true} style={{ backgroundColor: readerTheme }} ref={scrollViewRef}>
                     <GestureHandlerRootView style={{ flex: 1, position: 'relative' }}>
                         <StatusBar backgroundColor={visibleModal ? purple : readerTheme} barStyle={readerTheme === 'black' ? 'light-content' : 'dark-content'} />
-                        <Swipeable
-                        containerStyle={{flex:1,minHeight:height}}
-                            ref={ref => refSwipePage[0] = ref}
-                            // render empty view for swipe animation (it`s crutch)
-                            renderRightActions={() => <View style={{ width: 10 }}></View>}
-                            renderLeftActions={() => <View style={{ width: 10 }}></View>}
-
-                            onSwipeableLeftOpen={() => {
-                                toPrevPage();
-                                closeSwipe();
-                            }}
-                            onSwipeableRightOpen={() => {
-                                toNextPage();
-                                closeSwipe();
-                            }}>
-                            <Pressable style={{flex:1,height:'100%'}}>
+                            <Pressable style={{flex:1,height:'100%',minHeight:height}}>
                                 <Text style={{ alignSelf: 'center',flex:1, height:'100%', textAlign: 'justify', fontSize: fontSize, paddingTop: 10, paddingLeft: paddingSize, paddingRight: paddingSize, color: readerTheme === 'black' ? 'white' : 'black' }}>{pageText}</Text>
                             </Pressable>
-                        </Swipeable>
 
                         {/* Left btn prev page */}
                         <Pressable pointerEvents={'box-only'} onPress={() => toPrevPage()} style={[stylesReader.btn_prev_next]} />
