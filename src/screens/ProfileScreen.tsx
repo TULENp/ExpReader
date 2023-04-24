@@ -99,7 +99,7 @@ export function ProfileScreen() {
 										<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 											
 											{/* Pages stats */}
-											<Image style={stylesProfileScreen.icn_points} source={srcIcnPage} />
+											<Image style={[stylesProfileScreen.icn_points, { marginRight: 6 }]} source={srcIcnPage} />
 											<Text style={stylesProfileScreen.text_points}>{userData.readPagesNum}</Text>
 
 											{/* Books stats */}

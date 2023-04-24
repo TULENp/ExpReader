@@ -183,8 +183,8 @@ export const stylesProfileScreen = StyleSheet.create({
         backgroundColor: lightBlue
     },
     icn_points:{
-        width:25,
-        height:25,
+        width:28,
+        height:28,
         marginRight:10,
     },
     container_avatar_points:{
@@ -197,7 +197,7 @@ export const stylesProfileScreen = StyleSheet.create({
     },
     text_name:{
         fontFamily:'Montserrat700',
-        fontSize:20,
+        fontSize:24,
         color:white,
         marginBottom:10,
     },
