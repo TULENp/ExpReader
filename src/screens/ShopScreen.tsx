@@ -1,11 +1,11 @@
-import { View, Text, KeyboardAvoidingView, ImageBackground, StatusBar, Image, TouchableOpacity, Dimensions, ScrollView, ActivityIndicator } from 'react-native'
+import { View, Text, KeyboardAvoidingView, ImageBackground, StatusBar, Image, TouchableOpacity, Dimensions, ScrollView, ActivityIndicator, Pressable } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { stylesShopScreen } from './stylesScreen'
 import { BookShopCard } from '../components/BookShopCard';
 import { deepBlue, lightBlue } from '../constants/colors';
 import { Input } from '@rneui/themed';
 import Carousel from 'react-native-reanimated-carousel';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { FlatList, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { srcIcnCloudCry, srcIcnError, srcIcnFilter, srcIcnNoInternet, srcIcnRedHeart, srcImgShopHeader } from '../constants/images';
 import { ShopStackParams, TShopBook } from '../types';
 import { NavigationProp, useNavigation, useScrollToTop } from '@react-navigation/native';
@@ -139,7 +139,8 @@ export function ShopScreen() {
 													<Image style={{ width: 36, height: 36, }} source={srcIcnFilter} />
 												</TouchableOpacity>
 											</ImageBackground>
-											{/* <View style={{ flex: 1, marginTop: 10 }}> */}
+
+												{/* Adds */}
 											<GestureHandlerRootView style={{ flex: 1, marginTop: 10 }}>
 												<Carousel width={width} autoPlay={true}
 													autoPlayInterval={3000}
@@ -152,7 +153,21 @@ export function ShopScreen() {
 														</View>
 													} />
 											</GestureHandlerRootView>
-											{/* </View> */}
+
+											{/* Recommendations */}
+											<Text style={stylesShopScreen.text_shop}>Рекомендуем</Text>
+											<FlatList data={books}
+												contentContainerStyle={{gap:8, paddingLeft:13,paddingRight:13}}
+												horizontal
+												showsHorizontalScrollIndicator={false}
+												renderItem={({item})=> 
+													<Pressable onPress={() => navigate('ShopBook', { id: item.id })}>
+														<BookShopCard key={item.id} book={item}/>
+													</Pressable>	
+												}												
+											/>
+
+											{/* Shop books list */}
 											<Text style={stylesShopScreen.text_shop}>Магазин</Text>
 											<View style={stylesShopScreen.container_books_shop_card}>
 												{books.length === 0
