@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, StatusBar, ImageBackground, Dimensions, FlatList, ActivityIndicator, Pressable } from 'react-native'
+import { View, Text, Image, TouchableOpacity, StatusBar, ImageBackground, Dimensions, FlatList, ActivityIndicator, Pressable, Modal } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { ShopStackParams, TBook, TRarity, TShopBook, TabParams } from '../types';
 import { NavigationProp, RouteProp, useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
@@ -14,6 +14,7 @@ import { GetBook, SwitchFavorite } from '../service/api';
 import { imageURL } from '../constants';
 import { calculateRarity } from '../service/motivation';
 import { BookShopCard } from '../components/BookShopCard';
+import { booksDir } from '../constants';
 
 type BookParams = {
 	id: string;
@@ -25,6 +26,7 @@ export function BookScreen() {
 	const { id } = useRoute<RouteProp<Record<string, BookParams>, string>>().params; // get book id from params
 	const [book, setBook] = useState<TBook>();
 	const [bookRarity, setBookRarity] = useState<TRarity>();
+	const [isVisibleModal, setIsVisibleModal] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 
 	useFocusEffect(
@@ -197,11 +199,35 @@ export function BookScreen() {
 							</Text>
 
 							{/* Rarity of book */}
-							<View style={{ flexDirection: 'row', marginLeft: 13, marginTop: 20 }}>
+							<Pressable onPress={()=> setIsVisibleModal(true)} style={{ flexDirection: 'row', marginLeft: 13, marginTop: 20 }}>
 								<Feather name="info" size={24} color="#737373" />
 								<Text style={stylesBookScreen.text_rarity_light}>Редкость:</Text>
 								<Text style={[{ color: bookRarity?.color }, stylesBookScreen.text_rarity_bold]}> {bookRarity?.rarity}</Text>
-							</View>
+							</Pressable>
+
+							<Modal visible={isVisibleModal}
+								transparent
+								onRequestClose={()=>setIsVisibleModal(false)}
+								style={{justifyContent:'center', alignItems:'center'}}
+								>
+								
+								{/* Gray View */}
+								<Pressable onPress={()=> setIsVisibleModal(false)} style={{ justifyContent:'center', alignItems:'center',flex: 1, backgroundColor: '#00000070', }}>
+									
+									{/* Rarity modal View */}
+										<View style={{backgroundColor:'white',width:250, height:280, borderRadius:8}}>
+											{/* <Shadow  offset={[0,8]} distance={0} startColor={bookRarity?.color}> */}
+											<View style={{width:'100%', height:'40%', paddingBottom:15, backgroundColor:bookRarity?.color, borderRadius:8}}>
+												<Image blurRadius={3} style={{width:'100%', height:'100%', resizeMode:'cover', borderRadius:8}} source={{uri:imageURL+book.cover}}/>
+											</View>
+											{/* </Shadow> */}
+											<Text style={{width:'100%', textAlign:'center', fontFamily:'MontserratAlt700', fontSize:18, color:bookRarity?.color, marginTop:10}}>{bookRarity?.rarity}</Text>
+											<Text style={{width:'100%', textAlign:'center', fontFamily:'MontserratAlt400', fontSize:16, marginTop:5}}>{book.bookPages} стр.</Text>
+											<Text style={{width:'100%',textAlign:'center', fontFamily:'MontserratAlt400', fontSize:14, color:'#9d9d9d', marginTop:10}}>Редкость зависит от количества страниц книги. Чем больше страниц - тем выше редкость. </Text>
+										</View>
+								</Pressable>
+
+							</Modal>
 
 							{/* Description of book */}
 							<View style={{ marginLeft: 13, marginTop: 20, marginRight: 13 }}>
