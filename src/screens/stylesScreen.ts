@@ -475,7 +475,9 @@ export const stylesBookScreen = StyleSheet.create({
         backgroundColor:lightBlue,
         borderWidth:1,
         borderColor:black,
-        borderRadius:8,
+        borderRadius: 8,
+        width: 50,
+        height: 45
     },
     button_fragment:{
         backgroundColor:deepBlue,
