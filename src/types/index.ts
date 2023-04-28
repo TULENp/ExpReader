@@ -85,7 +85,7 @@ type AdminStackParams = {
     AddBook: undefined,
     Genres: undefined,
     Authors: undefined,
-    // FragmentReader: { fragment: string },
+    Fragment: { fragment: string },
 };
 
 type TabParams = {
