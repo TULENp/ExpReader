@@ -63,37 +63,47 @@ export function AdminAddBookScreen() {
         console.log(coverImage);
         console.log(bookFile);
     };
-    
+
     //TODO add author and genres picker 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <TextInput
-                style={styles.input}
-                placeholder="Название"
-                value={book.title}
-                onChangeText={(text) => setBook({ ...book, title: text })}
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Цена"
-                keyboardType="numeric"
-                value={book.price.toString()}
-                onChangeText={(text) => setBook({ ...book, price: parseFloat(text) || 0 })}
-            />
-            <TextInput
-                style={[styles.input, { height: 80 }]}
-                placeholder="Синопсис"
-                multiline
-                value={book.description}
-                onChangeText={(text) => setBook({ ...book, description: text })}
-            />
-            <TextInput
-                style={[styles.input, { height: 80 }]}
-                placeholder="Фрагмент"
-                multiline
-                value={book.excerpt}
-                onChangeText={(text) => setBook({ ...book, excerpt: text })}
-            />
+            <View>
+                <Text>Название</Text>
+                <TextInput
+                    style={styles.input}
+                    value={book.title}
+                    onChangeText={(text) => setBook({ ...book, title: text })}
+                />
+            </View>
+            <View>
+                <Text>Цена</Text>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Цена"
+                    keyboardType="numeric"
+                    value={book.price.toString()}
+                    onChangeText={(text) => setBook({ ...book, price: parseFloat(text) || 0 })}
+                />
+            </View>
+            <View>
+                <Text>Синопсис</Text>
+                <TextInput
+                    style={[styles.input, { height: 80 }]}
+                    value={book.description}
+                    multiline
+                    onChangeText={(text) => setBook({ ...book, description: text })}
+                />
+            </View>
+            <View>
+                <Text>Фрагмент</Text>
+                <TextInput
+                    style={[styles.input, { height: 80 }]}
+                    value={book.excerpt}
+                    multiline
+                    onChangeText={(text) => setBook({ ...book, excerpt: text })}
+                />
+            </View>
+
             <TouchableOpacity style={styles.button} onPress={handlePickCoverImage}>
                 <Text style={styles.buttonText}>Pick cover image</Text>
             </TouchableOpacity>
@@ -110,8 +120,7 @@ export function AdminAddBookScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-around',
         padding: 20,
         backgroundColor: '#fff',
     },

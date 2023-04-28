@@ -1,21 +1,21 @@
-import { View, Text, FlatList, Button, TextInput, Alert } from 'react-native'
+import { View, Text, FlatList, Button, TextInput, Alert, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
 import { gray, redRarity, white } from '../constants/colors'
 
 export function AdminAuthorsScreen() {
 
     const [author, setAuthor] = useState<string>('');
-    const authors = ['Груша А.Я.', 'Груша И.Я.'];
+    const [authorsList, setAuthorsList] = useState<string[]>(['Груша А.Я.', 'Груша И.Я.']);
 
     function addAuthor() {
-        if (authors.includes(author)) {
+        if (authorsList.includes(author)) {
             alert('Такой автор уже существует');
             return;
         }
         if (author == '') return;
 
-        authors.push(author);
-        console.log(authors);
+        setAuthorsList([...authorsList, author]);
+        setAuthor('');
     }
 
     function removeAuthor(author: string) {
@@ -30,38 +30,89 @@ export function AdminAuthorsScreen() {
                 {
                     text: 'Да',
                     //TODO remove author
-                    onPress: () => alert('Удалено'),
+                    onPress: () => {
+                        const newAuthors = authorsList.filter(item => item !== author);
+                        setAuthorsList(newAuthors);
+                    },
                 },
             ],
             { cancelable: false }
         );
     }
 
-
     return (
-        <View style={{ padding: 10 }}>
-            <View >
-                <Text>Добавить автора</Text>
-                <TextInput style={{ backgroundColor: white }}
+        <View style={styles.container}>
+            <View style={styles.inputContainer}>
+                <Text style={styles.label}>Добавить автора</Text>
+                <TextInput
+                    style={styles.input}
                     value={author}
                     onChangeText={setAuthor}
+                    placeholder="Введите имя автора"
+                    placeholderTextColor={gray}
                     selectionColor={redRarity}
                 />
                 <Button title='Добавить' onPress={addAuthor} />
             </View>
             <FlatList
-                data={authors}
+                data={authorsList}
                 keyExtractor={item => item}
                 renderItem={({ item }) => {
                     return (
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 10, backgroundColor: gray }}>
-                            <Text>{item}</Text>
+                        <View style={styles.authorContainer}>
+                            <Text style={styles.author}>{item}</Text>
                             <Button title='Удалить' onPress={() => removeAuthor(item)} />
                         </View>
                     )
-                }
+                }}
+                ListEmptyComponent={
+                    <Text style={styles.emptyList}>Список авторов пуст</Text>
                 }
             />
-        </View >
+        </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: white,
+        paddingVertical: 20,
+        paddingHorizontal: 10,
+    },
+    inputContainer: {
+        marginBottom: 20,
+    },
+    label: {
+        fontSize: 16,
+        marginBottom: 10,
+        color: gray,
+    },
+    input: {
+        backgroundColor: white,
+        borderWidth: 1,
+        borderColor: gray,
+        borderRadius: 5,
+        padding: 10,
+        marginBottom: 10,
+        color: gray,
+    },
+    authorContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginVertical: 5,
+        padding: 10,
+        borderRadius: 5,
+        backgroundColor: gray,
+    },
+    author: {
+        fontSize: 16,
+        color: white,
+    },
+    emptyList: {
+        fontSize: 16,
+        color: gray,
+        alignSelf: 'center',
+    }
+})
