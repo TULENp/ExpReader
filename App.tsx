@@ -30,6 +30,8 @@ export default function App() {
 	//FIXME //! fix app loading time and render
 	const [isAuth, setIsAuth] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
+	//TODO get isAdmin on auth
+	const [isAdmin, setIsAdmin] = useState<boolean>(true);
 	const [isGotBackend, setIsGotBackend] = useState(false);
 	const netInfo = useNetInfo();
 
@@ -60,18 +62,22 @@ export default function App() {
 	return (
 		<AppContext.Provider value={{ isGotBackend: isGotBackend, setIsGotBackend: setIsGotBackend, netInfo: netInfo, setIsAuthorized: setIsAuth, }}>
 			<>
-				<AdminNavigation />
-				{/* {isLoading
+				{isLoading
 					?
 					<AppLoading />
 					:
 					<>
-						{isAuth
-							? <TabNavigation />
-							: <AuthNavigation />
+						{!isAuth
+							?
+							<AuthNavigation />
+							:
+							(isAdmin
+								? <AdminNavigation />
+								: <TabNavigation />
+							)
 						}
 					</>
-				} */}
+				}
 			</>
 		</AppContext.Provider>
 	);

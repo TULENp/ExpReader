@@ -86,7 +86,8 @@ const styles = StyleSheet.create({
     label: {
         fontSize: 16,
         marginBottom: 10,
-        color: gray,
+        color: '#000',
+
     },
     input: {
         backgroundColor: white,
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         padding: 10,
         marginBottom: 10,
-        color: gray,
+        color: '#000',
     },
     authorContainer: {
         flexDirection: 'row',
@@ -108,7 +109,8 @@ const styles = StyleSheet.create({
     },
     author: {
         fontSize: 16,
-        color: white,
+        color: '#000',
+
     },
     emptyList: {
         fontSize: 16,
