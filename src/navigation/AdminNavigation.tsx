@@ -8,7 +8,7 @@ import { AdminBookScreen } from "../screens/AdminBookScreen";
 import { AdminGenresScreen } from "../screens/AdminGenresScreen";
 import { AdminMainScreen } from "../screens/AdminMainScreen";
 import { AdminStackParams } from "../types";
-import { FragmentReaderScreen } from "../screens/FragmetReaderScreen";
+import { FragmentReaderScreen } from "../screens/FragmentReaderScreen";
 
 const Stack = createNativeStackNavigator<AdminStackParams>();
 

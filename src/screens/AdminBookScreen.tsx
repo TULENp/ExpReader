@@ -1,20 +1,17 @@
-import { View, Text, Image, TouchableOpacity, StatusBar, ImageBackground, Dimensions, FlatList, ActivityIndicator, Pressable, Modal } from 'react-native'
+import { View, Text, Image, TouchableOpacity, StatusBar, ImageBackground, FlatList, ActivityIndicator, Pressable, Modal, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { AdminStackParams, ShopStackParams, TBook, TRarity, TShopBook, TabParams } from '../types';
-import { NavigationProp, RouteProp, useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
+import { AdminStackParams, TBook, TRarity } from '../types';
+import { NavigationProp, RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { stylesBookScreen, stylesShopScreen } from './stylesScreen';
-import { srcIcnCloudCry, srcIcnHeart, srcIcnRedHeart, srcImgBookHeader, srcImgHarryPotter3 } from '../constants/images';
+import { stylesBookScreen } from './stylesScreen';
+import { srcIcnCloudCry, srcImgBookHeader } from '../constants/images';
 import { MaterialIcons } from '@expo/vector-icons'
 import { Button } from '@rneui/themed';
 import { deepBlue } from '../constants/colors';
 import { Shadow } from 'react-native-shadow-2';
-import { Feather } from '@expo/vector-icons';
-import { GetBook, SwitchFavorite } from '../service/api';
+import { GetBook } from '../service/api';
 import { imageURL } from '../constants';
 import { calculateRarity } from '../service/motivation';
-import { BookShopCard } from '../components/BookShopCard';
-import { booksDir } from '../constants';
 
 type BookParams = {
     id: string;
@@ -26,31 +23,46 @@ export function AdminBookScreen() {
     const [book, setBook] = useState<TBook>();
     const [bookRarity, setBookRarity] = useState<TRarity>();
     const [isVisibleModal, setIsVisibleModal] = useState<boolean>(false);
-    const [isFavLoading, setIsFavLoading] = useState<boolean>(true);
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
 
-    useFocusEffect(
-        React.useCallback(() => {
-            setIsLoading(true);
-            getBook();
-            getParent()?.setOptions({ tabBarStyle: { display: 'flex', height: '8%' } }); //show tab bar
-        }, [id])
-    );
+    useEffect(() => {
+        getBook();
+        getParent()?.setOptions({ tabBarStyle: { display: 'flex', height: '8%' } }); //show tab bar
+    }, [id]);
 
     async function getBook() {
+        setIsLoading(true);
         const result = await GetBook(id);
         if (typeof result !== "number") {
             setBook(result);
             GetAndSetBookRarity(result.bookPages);
         }
-        setIsFavLoading(false);
         setIsLoading(false);
     }
 
     function GetAndSetBookRarity(bookPages: number) {
         const rarity = calculateRarity(bookPages);
         setBookRarity(rarity);
+    }
+
+    function removeBook() {
+        Alert.alert(
+            `Вы действительно хотите удалить книгу?`,
+            '',
+            [
+                {
+                    text: 'Нет',
+                    style: 'cancel',
+                },
+                {
+                    text: 'Да',
+                    //TODO remove book
+                    onPress: () => alert('Удалено'),
+                },
+            ],
+            { cancelable: false }
+        );
     }
 
     return (
@@ -103,7 +115,7 @@ export function AdminBookScreen() {
                                                 containerStyle={stylesBookScreen.button_fragment_grow}
                                             />
                                             <Button title={'Удалить'}
-                                                onPress={() => alert('Удалить?')}
+                                                onPress={removeBook}
                                                 titleStyle={stylesBookScreen.button_title}
                                                 buttonStyle={stylesBookScreen.button_fragment}
                                                 containerStyle={stylesBookScreen.button_fragment_grow}

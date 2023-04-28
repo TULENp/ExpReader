@@ -1,4 +1,4 @@
-import { View, Text, FlatList, TouchableOpacity, ActivityIndicator, Image, ScrollView } from 'react-native'
+import { View, Text, FlatList, TouchableOpacity, ActivityIndicator, Image, ScrollView, Button } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { AdminStackParams, TShopBook } from '../types';
@@ -62,6 +62,7 @@ export function AdminAllBooksScreen() {
                         </View>
                         :
                         <>
+                            <Button title={'Добавить книгу'} onPress={() => navigate('AddBook')} />
                             <ScrollView>
                                 <View style={stylesShopScreen.container_books_shop_card}>
                                     {books.length === 0

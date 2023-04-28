@@ -5,7 +5,7 @@ import { ShopScreen } from "../screens/ShopScreen";
 import { BookScreen } from "../screens/BookScreen";
 import { FavoritesScreen } from "../screens/FavoritesScreen";
 import { CheckoutScreen } from "../screens/CheckoutScreen";
-import { FragmentReaderScreen } from "../screens/FragmetReaderScreen";
+import { FragmentReaderScreen } from "../screens/FragmentReaderScreen";
 
 const Stack = createNativeStackNavigator<ShopStackParams>();
 
