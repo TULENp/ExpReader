@@ -13,7 +13,7 @@ import { clearTokenAS, getDailyTaskAS, getTodayPagesAS, getUserDataAS } from '..
 import { AppContext } from '../context/AppContext';
 import { Feather } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import { achievements } from '../TestData/achievements';
+import { achievements } from '../AppData/achievements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export function ProfileScreen() {
@@ -97,13 +97,13 @@ export function ProfileScreen() {
 									<View style={stylesProfileScreen.container_avatar_points}>
 										<Text style={stylesProfileScreen.text_name}>{userData.nickname}</Text>
 										<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-											
+
 											{/* Pages stats */}
 											<Image style={[stylesProfileScreen.icn_points, { marginRight: 6 }]} source={srcIcnPage} />
 											<Text style={stylesProfileScreen.text_points}>{userData.readPagesNum}</Text>
 
 											{/* Books stats */}
-											<Image style={[stylesProfileScreen.icn_points,{marginLeft:20}]} source={srcIcnBooks} />
+											<Image style={[stylesProfileScreen.icn_points, { marginLeft: 20 }]} source={srcIcnBooks} />
 											<Text style={stylesProfileScreen.text_points}>{userData.userBooks.length}</Text>
 										</View>
 									</View>

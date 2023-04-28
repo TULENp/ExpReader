@@ -1,6 +1,6 @@
 import { View, Text, Image, TouchableOpacity, FlatList } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { achievements } from '../TestData/achievements'
+import { achievements } from '../AppData/achievements'
 import { stylesAchievementsScreen, stylesCheckoutScreen } from './stylesScreen'
 import { MaterialIcons } from '@expo/vector-icons';
 import { NavigationProp, useNavigation } from '@react-navigation/native';

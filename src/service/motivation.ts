@@ -1,5 +1,5 @@
 import { ImageSourcePropType } from "react-native";
-import { achievements } from "../TestData/achievements";
+import { achievements } from "../AppData/achievements";
 import { srcIcnBronze, srcIcnGold, srcIcnSilver } from "../constants/images";
 import { TDailyTask, TDailyTaskLevel, TRarity, TUserData } from "../types";
 import { incUserReadPagesAS } from "./asyncStorage";

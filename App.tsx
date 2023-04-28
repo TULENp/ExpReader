@@ -13,6 +13,7 @@ import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import { useNetInfo } from '@react-native-community/netinfo';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AdminNavigation } from './src/navigation/AdminNavigation';
 
 export default function App() {
 
@@ -31,7 +32,7 @@ export default function App() {
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [isGotBackend, setIsGotBackend] = useState(false);
 	const netInfo = useNetInfo();
-	
+
 	useEffect(() => {
 		checkLogin();
 		createDirs();
@@ -59,7 +60,8 @@ export default function App() {
 	return (
 		<AppContext.Provider value={{ isGotBackend: isGotBackend, setIsGotBackend: setIsGotBackend, netInfo: netInfo, setIsAuthorized: setIsAuth, }}>
 			<>
-				{isLoading
+				<AdminNavigation />
+				{/* {isLoading
 					?
 					<AppLoading />
 					:
@@ -69,7 +71,7 @@ export default function App() {
 							: <AuthNavigation />
 						}
 					</>
-				}
+				} */}
 			</>
 		</AppContext.Provider>
 	);
