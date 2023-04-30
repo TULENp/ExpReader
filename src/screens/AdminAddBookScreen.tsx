@@ -36,7 +36,7 @@ export function AdminAddBookScreen() {
         const result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
-            aspect: [139, 199],
+            aspect: [7, 10],
             quality: 1,
             allowsMultipleSelection: false
         });

@@ -8,7 +8,7 @@ import { NavigationProp, RouteProp, useNavigation, useRoute } from '@react-navig
 import { ShopStackParams, TBook } from '../types';
 import { srcIcnError, srcIcnSberbank, srcImgHarryPotter3 } from '../constants/images';
 import { Button } from 'react-native-elements';
-import { BuyBook, GetAllLibBooks } from '../service/api';
+import { BuyBook, GetAllLibBooks, GetUserData } from '../service/api';
 import { imageURL } from '../constants';
 
 type BookParams = {
@@ -27,6 +27,7 @@ export function CheckoutScreen() {
         const res = await BuyBook(book.id);
         if (res == '200') {
             GetAllLibBooks();
+            GetUserData();
             goBack();
         }
         else {
