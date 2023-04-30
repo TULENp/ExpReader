@@ -47,5 +47,5 @@ export {
     srcIcnStarBlueRarity, srcIcnStarRedRarity, srcIcnStarYellowRarity,
     srcIcnLogo, srcIcnError,srcIcnReward, srcIcnFieldInc,srcIcnFieldDec,
     srcIcnCloudCry,srcIcnOpenBook,srcIcnFireworks,srcIcnNoInternet,srcIcnPage,
-    srcIcnBooks,
+    srcIcnBooks
 };

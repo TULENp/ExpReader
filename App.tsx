@@ -31,7 +31,7 @@ export default function App() {
 	const [isAuth, setIsAuth] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	//TODO get isAdmin on auth
-	const [isAdmin, setIsAdmin] = useState<boolean>(true);
+	const [isAdmin, setIsAdmin] = useState<boolean>(false);
 	const [isGotBackend, setIsGotBackend] = useState(false);
 	const netInfo = useNetInfo();
 
@@ -71,7 +71,7 @@ export default function App() {
 							?
 							<AuthNavigation />
 							:
-							(isAdmin
+							(!isAdmin
 								? <AdminNavigation />
 								: <TabNavigation />
 							)

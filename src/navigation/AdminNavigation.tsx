@@ -17,7 +17,7 @@ export function AdminNavigation() {
         <NavigationContainer>
             <Stack.Navigator initialRouteName="Main">
                 <Stack.Screen name="Main" options={{ title: 'Главная' }} component={AdminMainScreen} />
-                <Stack.Screen name="AllBooks" options={{ title: 'Книги' }} component={AdminAllBooksScreen} />
+                <Stack.Screen name="AllBooks" options={{ headerShown: false }} component={AdminAllBooksScreen} />
                 <Stack.Screen name="Book" options={{ headerShown: false }} component={AdminBookScreen} />
                 <Stack.Screen name="AddBook" options={{ title: 'Добавление книги' }} component={AdminAddBookScreen} />
                 <Stack.Screen name="Genres" options={{ title: 'Жанры' }} component={AdminGenresScreen} />
