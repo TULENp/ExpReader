@@ -47,7 +47,7 @@ export function AchievementsScreen() {
 									</View>
 									<View style={[stylesAchievementsScreen.wrapper_pin_info, !achieves[item.id] && { backgroundColor: '#7A95A0' }]}>
 										<Text style={stylesAchievementsScreen.title}>{item.title}</Text>
-										<Text style={stylesAchievementsScreen.author}>{item.description}</Text>
+										<Text style={stylesAchievementsScreen.text}>{item.description}</Text>
 									</View>
 								</View>
 							);

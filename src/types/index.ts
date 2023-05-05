@@ -86,6 +86,11 @@ type AdminStackParams = {
     Genres: undefined,
     Authors: undefined,
     Fragment: { fragment: string },
+
+    Achieves: undefined,
+    Rarity: undefined,
+    DailyTask: undefined,
+    AddAchieve: undefined,
 };
 
 type TabParams = {

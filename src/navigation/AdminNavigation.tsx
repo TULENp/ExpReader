@@ -9,6 +9,10 @@ import { AdminGenresScreen } from "../screens/AdminGenresScreen";
 import { AdminMainScreen } from "../screens/AdminMainScreen";
 import { AdminStackParams } from "../types";
 import { FragmentReaderScreen } from "../screens/FragmentReaderScreen";
+import { AdminAddAchieveScreen } from "../screens/AdminAddAchievesScreen";
+import { AdminDailyTaskScreen } from "../screens/AdminDailyTaskScreen";
+import { AdminRarityScreen } from "../screens/AdminRarityScreen";
+import { AdminAchievesScreen } from "../screens/AdminAchievesScreen";
 
 const Stack = createNativeStackNavigator<AdminStackParams>();
 
@@ -23,6 +27,10 @@ export function AdminNavigation() {
                 <Stack.Screen name="Genres" options={{ title: 'Жанры' }} component={AdminGenresScreen} />
                 <Stack.Screen name="Authors" options={{ title: 'Авторы' }} component={AdminAuthorsScreen} />
                 <Stack.Screen name="Fragment" options={{ headerShown: false }} component={FragmentReaderScreen} />
+                <Stack.Screen name="Achieves" options={{ title: 'Достижения' }} component={AdminAchievesScreen} />
+                <Stack.Screen name="DailyTask" options={{ title: 'Ежедневная цель' }} component={AdminDailyTaskScreen} />
+                <Stack.Screen name="Rarity" options={{ title: 'Редкость' }} component={AdminRarityScreen} />
+                <Stack.Screen name="AddAchieve" options={{ title: 'Добавление достижения' }} component={AdminAddAchieveScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );

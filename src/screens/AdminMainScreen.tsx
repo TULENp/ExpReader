@@ -20,6 +20,9 @@ export function AdminMainScreen() {
                 <Button title={'Книги'} onPress={() => navigate('AllBooks')} />
                 <Button title={'Жанры'} onPress={() => navigate('Genres')} />
                 <Button title={'Авторы'} onPress={() => navigate('Authors')} />
+                <Button title={'Достижения'} onPress={() => navigate('Achieves')} />
+                <Button title={'Ежедневная цель'} onPress={() => navigate('DailyTask')} />
+                <Button title={'Редкость'} onPress={() => navigate('Rarity')} />
             </View>
             <Button title={'Выйти'} onPress={LogOut} />
         </View>
