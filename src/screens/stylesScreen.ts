@@ -771,5 +771,25 @@ export const stylesAdminScreen = StyleSheet.create({
         fontFamily:'MontserratAlt700',
         fontSize:18,
         color:'white'
+    },
+    text_h2:{
+        fontFamily:'MontserratAlt500',
+        fontSize:18,
+        
+    },
+    standard_btn: {
+        // backgroundColor:purple,
+        width:'100%',
+        height:40,
+        justifyContent:'center',
+        alignItems:'center',
+        borderRadius:8,
+        marginBottom:15,
+        flexDirection:'row',
+    },
+    standard_btn_text: {
+        fontFamily:'MontserratAlt500',
+        fontSize:16,
+        color:'white',
     }
 })
