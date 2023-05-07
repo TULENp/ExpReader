@@ -1,9 +1,11 @@
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import React, { useContext } from 'react';
 import { AdminStackParams } from '../types';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { AppContext } from '../context/AppContext';
 import { clearTokenAS } from '../service/asyncStorage';
+import { pink, purple, redRarity } from '../constants/colors';
+import { stylesAdminScreen } from './stylesScreen';
 
 export function AdminMainScreen() {
     const { setIsAuthorized, isGotBackend } = useContext(AppContext)
@@ -17,14 +19,29 @@ export function AdminMainScreen() {
     return (
         <View style={styles.container}>
             <View style={styles.buttonsContainer}>
-                <Button title={'Книги'} onPress={() => navigate('AllBooks')} />
-                <Button title={'Жанры'} onPress={() => navigate('Genres')} />
-                <Button title={'Авторы'} onPress={() => navigate('Authors')} />
-                <Button title={'Достижения'} onPress={() => navigate('Achieves')} />
-                <Button title={'Ежедневная цель'} onPress={() => navigate('DailyTask')} />
-                <Button title={'Редкость'} onPress={() => navigate('Rarity')} />
+                <TouchableOpacity style={stylesAdminScreen.buttons} onPress={() => navigate('AllBooks')}>
+                    <Text style={stylesAdminScreen.buttons_text}>Книги</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={stylesAdminScreen.buttons} onPress={() => navigate('Genres')}>
+                    <Text style={stylesAdminScreen.buttons_text}>Жанры</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={stylesAdminScreen.buttons} onPress={() => navigate('Authors')}>
+                    <Text style={stylesAdminScreen.buttons_text}>Авторы</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={stylesAdminScreen.buttons} onPress={() => navigate('Achieves')}>
+                    <Text style={stylesAdminScreen.buttons_text}>Достижения</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={stylesAdminScreen.buttons} onPress={() => navigate('DailyTask')}>
+                    <Text style={stylesAdminScreen.buttons_text}>Ежедневная цель</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={stylesAdminScreen.buttons} onPress={() => navigate('Rarity')}>
+                    <Text style={stylesAdminScreen.buttons_text}>Редкость</Text>
+                </TouchableOpacity>
             </View>
-            <Button title={'Выйти'} onPress={LogOut} />
+            
+            <TouchableOpacity style={[stylesAdminScreen.buttons,{backgroundColor:redRarity}]} onPress={LogOut}>
+                    <Text style={stylesAdminScreen.buttons_text}>Выйти</Text>
+            </TouchableOpacity>
         </View>
     );
 }
@@ -41,4 +58,5 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
     },
+    
 });

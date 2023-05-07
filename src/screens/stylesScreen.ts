@@ -756,3 +756,20 @@ export const stylesSignInScreen = StyleSheet.create({
     },
     
 })
+
+export const stylesAdminScreen = StyleSheet.create({
+    buttons: {
+        backgroundColor:purple,
+        width:350,
+        height:40,
+        justifyContent:'center',
+        alignItems:'center',
+        borderRadius:8,
+        marginBottom:15
+    },
+    buttons_text: {
+        fontFamily:'MontserratAlt700',
+        fontSize:18,
+        color:'white'
+    }
+})

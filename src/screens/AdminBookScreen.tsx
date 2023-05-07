@@ -7,7 +7,7 @@ import { stylesBookScreen } from './stylesScreen';
 import { srcIcnCloudCry, srcImgBookHeader } from '../constants/images';
 import { MaterialIcons } from '@expo/vector-icons'
 import { Button } from '@rneui/themed';
-import { deepBlue } from '../constants/colors';
+import { deepBlue, redRarity } from '../constants/colors';
 import { Shadow } from 'react-native-shadow-2';
 import { GetBook } from '../service/api';
 import { imageURL } from '../constants';
@@ -117,7 +117,7 @@ export function AdminBookScreen() {
                                             <Button title={'Удалить'}
                                                 onPress={removeBook}
                                                 titleStyle={stylesBookScreen.button_title}
-                                                buttonStyle={stylesBookScreen.button_fragment}
+                                                buttonStyle={[stylesBookScreen.button_fragment, {backgroundColor:redRarity, marginTop:10}]}
                                                 containerStyle={stylesBookScreen.button_fragment_grow}
                                             />
                                         </View>
