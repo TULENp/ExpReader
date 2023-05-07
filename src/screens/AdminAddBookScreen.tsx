@@ -118,7 +118,7 @@ export function AdminAddBookScreen() {
             <TouchableOpacity style={[stylesAdminScreen.standard_btn,{backgroundColor:purple}]} onPress={handlePickBookFile}>
                 <Text style={stylesAdminScreen.standard_btn_text}>Добавить файл книги</Text>
             </TouchableOpacity>
-            {bookFile && <Text style={styles.bookFileName}>{bookFile.uri}</Text>}
+            {bookFile && <Text style={styles.bookFileName}>Файл успешно добавлен!</Text>}
             <TouchableOpacity style={[stylesAdminScreen.standard_btn,{backgroundColor:greenRarity}]} onPress={handleAddBook}>
                 <Text style={stylesAdminScreen.standard_btn_text}>Добавить книгу</Text>
             </TouchableOpacity>
@@ -171,8 +171,11 @@ const styles = StyleSheet.create({
         borderRadius: 5,
     },
     bookFileName: {
-        marginVertical: 10,
+        // marginVertical: 10,
+        marginBottom:15,
         fontSize: 16,
+        color:greenRarity,
+        fontFamily:'MontserratAlt700',
     },
 });
 
