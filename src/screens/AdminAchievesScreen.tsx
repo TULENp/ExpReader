@@ -1,9 +1,10 @@
-import { View, Text, Image, FlatList, Button, Alert } from 'react-native'
+import { View, Text, Image, FlatList, Button, Alert, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { achievements } from '../AppData/achievements'
-import { stylesAchievementsScreen } from './stylesScreen'
+import { stylesAchievementsScreen, stylesAdminScreen } from './stylesScreen'
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { AdminStackParams, TAchieves } from '../types';
+import { greenRarity, redRarity } from '../constants/colors';
 
 export function AdminAchievesScreen() {
     const { navigate } = useNavigation<NavigationProp<AdminStackParams>>();
@@ -33,8 +34,12 @@ export function AdminAchievesScreen() {
 
     return (
         <>
-            <View>
-                <Button title='Добавить достижение' onPress={() => navigate('AddAchieve')} />
+            <View style={{flex:1,backgroundColor:'white'}}>
+                <View style={{marginLeft:13,marginRight:13,marginTop:10}}>
+                    <TouchableOpacity style={[stylesAdminScreen.standard_btn,{backgroundColor:greenRarity,}]} onPress={() => navigate('AddAchieve')}>
+                        <Text style={stylesAdminScreen.standard_btn_text}>Добавить достижение</Text>
+                    </TouchableOpacity>
+                </View>
                 {/* Achievements list */}
                 {achieves &&
                     <FlatList data={achieves}
@@ -48,7 +53,10 @@ export function AdminAchievesScreen() {
                                     <View style={stylesAchievementsScreen.wrapper_pin_info}>
                                         <Text style={stylesAchievementsScreen.title}>{item.title}</Text>
                                         <Text style={stylesAchievementsScreen.author}>{item.description}</Text>
-                                        <Button title='Удалить' onPress={() => removeAchieve(item.title)} />
+                                        <TouchableOpacity style={[{backgroundColor:redRarity, padding:10,borderRadius:5,marginTop:10}]} onPress={() => removeAchieve(item.title)}>
+                                            <Text style={[stylesAdminScreen.standard_btn_text,{fontFamily:'MontserratAlt700', fontSize:14, textAlign:'center'}]}>Удалить</Text>
+                                        </TouchableOpacity>
+                                        {/* <Button title='Удалить' onPress={() => removeAchieve(item.title)} /> */}
                                     </View>
                                 </View>
                             );

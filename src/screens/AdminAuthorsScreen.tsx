@@ -42,7 +42,7 @@ export function AdminAuthorsScreen() {
     }
 
     return (
-        <ScrollView style={styles.container}>
+        <View style={styles.container}>
             <View style={styles.inputContainer}>
                 <Text style={stylesAdminScreen.text_h2}>Добавить автора</Text>
                 <TextInput
@@ -75,7 +75,7 @@ export function AdminAuthorsScreen() {
                     <Text style={styles.emptyList}>Список авторов пуст</Text>
                 }
             />
-        </ScrollView>
+        </View>
     )
 }
 

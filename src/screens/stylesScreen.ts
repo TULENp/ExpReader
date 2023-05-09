@@ -678,6 +678,8 @@ export const stylesAchievementsScreen = StyleSheet.create({
         paddingRight:10,
         borderTopRightRadius:10,
         borderBottomEndRadius:10,
+        justifyContent:'center',
+        alignItems:'center',
     },
     wrapper_pin_info:{
         flexGrow:3,
