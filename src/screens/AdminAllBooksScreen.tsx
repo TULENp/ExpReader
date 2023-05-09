@@ -4,14 +4,15 @@ import { useNavigation, NavigationProp, useScrollToTop } from '@react-navigation
 import { AdminStackParams, TShopBook } from '../types';
 import { GetAllShopBooks } from '../service/api';
 import { BookShopCard } from '../components/BookShopCard';
-import { deepBlue, lightBlue } from '../constants/colors';
+import { deepBlue, greenRarity, lightBlue } from '../constants/colors';
 import { srcIcnCloudCry, srcIcnError, srcIcnFilter, srcIcnNoInternet, srcImgShopHeader } from '../constants/images';
-import { stylesShopScreen } from './stylesScreen';
+import { stylesAdminScreen, stylesShopScreen } from './stylesScreen';
 import Drawer from 'react-native-drawer';
 import { Button, Input } from 'react-native-elements';
 import { Filters } from '../components/Filters';
 import { AppContext } from '../context/AppContext';
 import { TFilters } from './ShopScreen';
+import { AntDesign } from '@expo/vector-icons'; 
 
 const filtersInit: TFilters = {
     sortID: '0',
@@ -123,7 +124,14 @@ export function AdminAllBooksScreen() {
                                                     <Image style={{ width: 36, height: 36, }} source={srcIcnFilter} />
                                                 </TouchableOpacity>
                                             </ImageBackground>
-                                            <Button title='Добавить книгу' onPress={() => navigate('AddBook')} />
+
+                                            {/* Add book Button */}
+                                            <View style={{width:'100%', justifyContent:'center',paddingTop:15, alignItems:'center'}}>
+                                                <TouchableOpacity style={[stylesAdminScreen.buttons,{backgroundColor:greenRarity, flexDirection:'row'}]} onPress={() => navigate('AddBook')}>
+                                                    <AntDesign name="pluscircleo" size={22} color="white" />
+                                                    <Text style={[stylesAdminScreen.buttons_text, {marginLeft:10}]}>Добавить книгу</Text>
+                                                </TouchableOpacity>
+                                            </View>
                                             {/* Shop books list */}
                                             <Text style={stylesShopScreen.text_shop}>Каталог</Text>
                                             <View style={stylesShopScreen.container_books_shop_card}>

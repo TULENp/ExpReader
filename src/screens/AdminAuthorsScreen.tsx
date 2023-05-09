@@ -1,6 +1,7 @@
-import { View, Text, FlatList, Button, TextInput, Alert, StyleSheet } from 'react-native'
+import { View, Text, FlatList, Button, TextInput, Alert, StyleSheet, ScrollView, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
-import { gray, redRarity, white } from '../constants/colors'
+import { gray, greenRarity, redRarity, white } from '../constants/colors'
+import { stylesAdminScreen } from './stylesScreen';
 
 export function AdminAuthorsScreen() {
 
@@ -41,27 +42,32 @@ export function AdminAuthorsScreen() {
     }
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             <View style={styles.inputContainer}>
-                <Text style={styles.label}>Добавить автора</Text>
+                <Text style={stylesAdminScreen.text_h2}>Добавить автора</Text>
                 <TextInput
-                    style={styles.input}
+                    style={[stylesAdminScreen.input,{marginTop:10}]}
                     value={author}
                     onChangeText={setAuthor}
                     placeholder="Введите имя автора"
                     placeholderTextColor={gray}
                     selectionColor={redRarity}
                 />
-                <Button title='Добавить' onPress={addAuthor} />
+                <TouchableOpacity style={[stylesAdminScreen.standard_btn,{backgroundColor:greenRarity}]} onPress={addAuthor}>
+                    <Text style={stylesAdminScreen.standard_btn_text}>Добавить автора</Text>
+                </TouchableOpacity>
+                {/* <Button title='Добавить' onPress={addAuthor} /> */}
             </View>
             <FlatList
                 data={authorsList}
                 keyExtractor={item => item}
                 renderItem={({ item }) => {
                     return (
-                        <View style={styles.authorContainer}>
+                        <View style={stylesAdminScreen.list_container}>
                             <Text style={styles.author}>{item}</Text>
-                            <Button title='Удалить' onPress={() => removeAuthor(item)} />
+                            <TouchableOpacity style={[{backgroundColor:redRarity, padding:10,borderRadius:5}]} onPress={() => removeAuthor(item)}>
+                                <Text style={[stylesAdminScreen.standard_btn_text,{fontFamily:'MontserratAlt700', fontSize:14}]}>Удалить</Text>
+                            </TouchableOpacity>
                         </View>
                     )
                 }}
@@ -69,7 +75,7 @@ export function AdminAuthorsScreen() {
                     <Text style={styles.emptyList}>Список авторов пуст</Text>
                 }
             />
-        </View>
+        </ScrollView>
     )
 }
 
@@ -110,6 +116,7 @@ const styles = StyleSheet.create({
     author: {
         fontSize: 16,
         color: '#000',
+        fontFamily:'MontserratAlt500'
 
     },
     emptyList: {

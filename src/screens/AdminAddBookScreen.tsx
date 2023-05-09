@@ -8,9 +8,14 @@ import {
     Image,
     TouchableOpacity,
     ScrollView,
+    KeyboardAvoidingView,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
+import { stylesAdminScreen } from './stylesScreen';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { deepBlue, greenRarity, purple } from '../constants/colors';
+import { AntDesign } from '@expo/vector-icons'; 
 
 interface Book {
     title: string;
@@ -67,8 +72,9 @@ export function AdminAddBookScreen() {
     //TODO add author and genres picker 
     return (
         <ScrollView contentContainerStyle={styles.container}>
+            <KeyboardAwareScrollView showsVerticalScrollIndicator={false} style={styles.wrapper}>   
             <View>
-                <Text>Название</Text>
+                <Text style={stylesAdminScreen.text_h2}>Название</Text>
                 <TextInput
                     style={styles.input}
                     value={book.title}
@@ -76,7 +82,7 @@ export function AdminAddBookScreen() {
                 />
             </View>
             <View>
-                <Text>Цена</Text>
+                <Text style={stylesAdminScreen.text_h2}>Цена</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="Цена"
@@ -86,7 +92,7 @@ export function AdminAddBookScreen() {
                 />
             </View>
             <View>
-                <Text>Синопсис</Text>
+                <Text style={stylesAdminScreen.text_h2}>Синопсис</Text>
                 <TextInput
                     style={[styles.input, { height: 80 }]}
                     value={book.description}
@@ -95,7 +101,7 @@ export function AdminAddBookScreen() {
                 />
             </View>
             <View>
-                <Text>Фрагмент</Text>
+                <Text style={stylesAdminScreen.text_h2}>Фрагмент</Text>
                 <TextInput
                     style={[styles.input, { height: 80 }]}
                     value={book.excerpt}
@@ -104,15 +110,20 @@ export function AdminAddBookScreen() {
                 />
             </View>
 
-            <TouchableOpacity style={styles.button} onPress={handlePickCoverImage}>
-                <Text style={styles.buttonText}>Pick cover image</Text>
+            <TouchableOpacity style={[stylesAdminScreen.standard_btn,{borderStyle:'dashed', borderWidth:1, borderColor:deepBlue}]} onPress={handlePickCoverImage}>
+                <AntDesign name="pluscircleo" size={22} color={deepBlue} />
+                <Text style={[stylesAdminScreen.standard_btn_text,{color:deepBlue, marginLeft:10}]}>Добавить обложку</Text>
             </TouchableOpacity>
             {coverImage && <Image source={{ uri: coverImage.uri }} style={styles.coverImage} />}
-            <TouchableOpacity style={styles.button} onPress={handlePickBookFile}>
-                <Text style={styles.buttonText}>Pick book file</Text>
+            <TouchableOpacity style={[stylesAdminScreen.standard_btn,{backgroundColor:purple}]} onPress={handlePickBookFile}>
+                <Text style={stylesAdminScreen.standard_btn_text}>Добавить файл книги</Text>
             </TouchableOpacity>
-            {bookFile && <Text style={styles.bookFileName}>{bookFile.uri}</Text>}
-            <Button title="Добавить книгу" onPress={handleAddBook} />
+            {bookFile && <Text style={styles.bookFileName}>Файл успешно добавлен!</Text>}
+            <TouchableOpacity style={[stylesAdminScreen.standard_btn,{backgroundColor:greenRarity}]} onPress={handleAddBook}>
+                <Text style={stylesAdminScreen.standard_btn_text}>Добавить книгу</Text>
+            </TouchableOpacity>
+            {/* <Button title="Добавить книгу" onPress={handleAddBook} /> */}
+            </KeyboardAwareScrollView>
         </ScrollView>
     );
 }
@@ -120,19 +131,27 @@ export function AdminAddBookScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'space-around',
+        // justifyContent: 'space-around',
         padding: 20,
+        paddingTop:5,
         backgroundColor: '#fff',
+    },
+    wrapper: {
+        // flex:1,
+        // justifyContent: 'space-around',
+        // padding: 20,
+        // backgroundColor: '#fff',
     },
     input: {
         width: '100%',
         height: 40,
         marginVertical: 10,
         padding: 10,
-        borderRadius: 5,
+        borderRadius: 8,
         borderColor: '#ccc',
         borderWidth: 1,
         fontSize: 16,
+        fontFamily:'Montserrat500'
     },
     button: {
         backgroundColor: '#2196F3',
@@ -152,8 +171,11 @@ const styles = StyleSheet.create({
         borderRadius: 5,
     },
     bookFileName: {
-        marginVertical: 10,
+        // marginVertical: 10,
+        marginBottom:15,
         fontSize: 16,
+        color:greenRarity,
+        fontFamily:'MontserratAlt700',
     },
 });
 

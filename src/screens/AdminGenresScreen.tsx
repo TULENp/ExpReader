@@ -1,6 +1,7 @@
-import { View, Text, FlatList, Button, TextInput, Alert, StyleSheet } from 'react-native'
+import { View, Text, FlatList, Button, TextInput, Alert, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
-import { gray, redRarity, white } from '../constants/colors'
+import { gray, greenRarity, redRarity, white } from '../constants/colors'
+import { stylesAdminScreen } from './stylesScreen';
 
 export function AdminGenresScreen() {
 
@@ -9,9 +10,9 @@ export function AdminGenresScreen() {
         'Роман', 'Поэзия', 'Хоррор', 'Нон-Фикшн', 'Комедия', 'Исторический роман',
         'Детектив', 'Детские книги'])
 
-    function addAuthor() {
+    function addGenre() {
         if (genresList.includes(genre)) {
-            alert('Такой автор уже существует');
+            alert('Такой жанр уже существует');
             return;
         }
         if (genre == '') return;
@@ -20,7 +21,7 @@ export function AdminGenresScreen() {
         setGenre('');
     }
 
-    function removeAuthor(genre: string) {
+    function removeGenre(genre: string) {
         Alert.alert(
             `Вы действительно хотите удалить жанр "${genre}"?`,
             '',
@@ -45,25 +46,31 @@ export function AdminGenresScreen() {
     return (
         <View style={styles.container}>
             <View style={styles.inputContainer}>
-                <Text style={styles.label}>Добавить жанр</Text>
+                <Text style={stylesAdminScreen.text_h2}>Добавить жанр</Text>
                 <TextInput
-                    style={styles.input}
+                    style={[styles.input,{marginTop:10}]}
                     value={genre}
                     onChangeText={setGenre}
                     placeholder="Введите жанр"
                     placeholderTextColor={gray}
                     selectionColor={redRarity}
                 />
-                <Button title='Добавить' onPress={addAuthor} />
+                {/* <Button title='Добавить' onPress={addAuthor} /> */}
+                <TouchableOpacity style={[stylesAdminScreen.standard_btn,{backgroundColor:greenRarity}]} onPress={addGenre}>
+                    <Text style={stylesAdminScreen.standard_btn_text}>Добавить жанр</Text>
+                </TouchableOpacity>
             </View>
             <FlatList
                 data={genresList}
                 keyExtractor={item => item}
                 renderItem={({ item }) => {
                     return (
-                        <View style={styles.authorContainer}>
-                            <Text style={styles.author}>{item}</Text>
-                            <Button title='Удалить' onPress={() => removeAuthor(item)} />
+                        <View style={styles.genresContainer}>
+                            <Text style={styles.genre}>{item}</Text>
+                            {/* <Button title='Удалить' onPress={() => removeGenre(item)} /> */}
+                            <TouchableOpacity style={[{backgroundColor:redRarity, padding:10,borderRadius:5}]} onPress={() => removeGenre(item)}>
+                                <Text style={[stylesAdminScreen.standard_btn_text,{fontFamily:'MontserratAlt700', fontSize:14}]}>Удалить</Text>
+                            </TouchableOpacity>
                         </View>
                     )
                 }}
@@ -98,19 +105,21 @@ const styles = StyleSheet.create({
         padding: 10,
         marginBottom: 10,
         color: '#000',
+        fontFamily:'Montserrat500',
     },
-    authorContainer: {
+    genresContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
         marginVertical: 5,
         padding: 10,
         borderRadius: 5,
-        backgroundColor: gray,
+        backgroundColor: '#EEEEEE',
     },
-    author: {
+    genre: {
         fontSize: 16,
         color: '#000',
+        fontFamily:'MontserratAlt500'
     },
     emptyList: {
         fontSize: 16,

@@ -756,3 +756,60 @@ export const stylesSignInScreen = StyleSheet.create({
     },
     
 })
+
+export const stylesAdminScreen = StyleSheet.create({
+    buttons: {
+        backgroundColor:purple,
+        width:350,
+        height:40,
+        justifyContent:'center',
+        alignItems:'center',
+        borderRadius:8,
+        marginBottom:15
+    },
+    buttons_text: {
+        fontFamily:'MontserratAlt700',
+        fontSize:18,
+        color:'white'
+    },
+    text_h2:{
+        fontFamily:'MontserratAlt500',
+        fontSize:18,
+        
+    },
+    standard_btn: {
+        // backgroundColor:purple,
+        width:'100%',
+        height:40,
+        justifyContent:'center',
+        alignItems:'center',
+        borderRadius:8,
+        marginBottom:15,
+        flexDirection:'row',
+    },
+    standard_btn_text: {
+        fontFamily:'MontserratAlt500',
+        fontSize:16,
+        color:'white',
+    },
+    input:{
+        fontFamily:'MontserratAlt500',
+        fontSize:14,
+        backgroundColor: white,
+        borderWidth: 1,
+        borderColor: gray,
+        borderRadius: 5,
+        padding: 10,
+        marginBottom: 10,
+        color: '#000',
+    },
+    list_container:{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginVertical: 5,
+        padding: 10,
+        borderRadius: 5,
+        backgroundColor: '#EEEEEE',
+    }
+})
