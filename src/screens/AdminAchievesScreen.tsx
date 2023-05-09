@@ -47,7 +47,7 @@ export function AdminAchievesScreen() {
                                     </View>
                                     <View style={stylesAchievementsScreen.wrapper_pin_info}>
                                         <Text style={stylesAchievementsScreen.title}>{item.title}</Text>
-                                        <Text style={stylesAchievementsScreen.author}>{item.description}</Text>
+                                        <Text style={stylesAchievementsScreen.text}>{item.description}</Text>
                                         <Button title='Удалить' onPress={() => removeAchieve(item.title)} />
                                     </View>
                                 </View>

@@ -103,7 +103,7 @@ export function AdminAddAchieveScreen() {
                 </View>
                 <View style={stylesAchievementsScreen.wrapper_pin_info}>
                     <Text style={stylesAchievementsScreen.title}>{achieve.title || 'Заголовок'}</Text>
-                    <Text style={stylesAchievementsScreen.author}>{achieve.description || 'Описание'}</Text>
+                    <Text style={stylesAchievementsScreen.text}>{achieve.description || 'Описание'}</Text>
                 </View>
             </View>
             <Button title="Добавить достижение" onPress={handleAddAchieve} />
