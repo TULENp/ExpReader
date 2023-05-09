@@ -74,7 +74,7 @@ export function BookLibCard({ book }: { book: TLibBook }) {
                     </View >
                     <Text style={stylesBookLibCard.text_progress}>{`${percent}% прочитано`}</Text>
                     <LinearProgress value={percent / 100} color={pink} style={stylesBookLibCard.progress_bar} trackColor={gray} variant='determinate' />
-                    <Button title='Удалить' onPress={() => deleteBook(book)} />
+                    {/* <Button title='Удалить' onPress={() => deleteBook(book)} /> */}
                 </View >
             </View >
         </Pressable >

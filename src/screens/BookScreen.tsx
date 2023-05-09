@@ -1,10 +1,10 @@
-import { View, Text, Image, TouchableOpacity, StatusBar, ImageBackground, Dimensions, FlatList, ActivityIndicator, Pressable, Modal } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { ShopStackParams, TBook, TRarity, TShopBook, TabParams } from '../types';
+import { View, Text, Image, TouchableOpacity, StatusBar, ImageBackground, FlatList, ActivityIndicator, Pressable, Modal } from 'react-native'
+import React, { useState } from 'react'
+import { ShopStackParams, TBook, TRarity, TabParams } from '../types';
 import { NavigationProp, RouteProp, useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { stylesBookScreen, stylesShopScreen } from './stylesScreen';
-import { srcIcnCloudCry, srcIcnHeart, srcIcnRedHeart, srcImgBookHeader, srcImgHarryPotter3 } from '../constants/images';
+import { stylesBookScreen } from './stylesScreen';
+import { srcIcnCloudCry, srcIcnHeart, srcIcnRedHeart, srcImgBookHeader } from '../constants/images';
 import { MaterialIcons } from '@expo/vector-icons'
 import { Button } from '@rneui/themed';
 import { deepBlue } from '../constants/colors';
@@ -13,8 +13,6 @@ import { Feather } from '@expo/vector-icons';
 import { GetBook, SwitchFavorite } from '../service/api';
 import { imageURL } from '../constants';
 import { calculateRarity } from '../service/motivation';
-import { BookShopCard } from '../components/BookShopCard';
-import { booksDir } from '../constants';
 
 type BookParams = {
 	id: string;
@@ -61,50 +59,6 @@ export function BookScreen() {
 		const rarity = calculateRarity(bookPages);
 		setBookRarity(rarity);
 	}
-
-	// test data for render Similar books list
-	const testSimilarbooks: TShopBook[] = [{
-		id: '0',
-		authors: ['Бубин'],
-		title: 'Чикрыж',
-		cover: 'cover_MonteCristo.jpg',
-		price: 420
-	},
-	{
-		id: '1',
-		authors: ['Бубин'],
-		title: 'Чикрыж',
-		cover: 'cover_MonteCristo.jpg',
-		price: 420
-	},
-	{
-		id: '2',
-		authors: ['Бубин'],
-		title: 'Чикрыж',
-		cover: 'cover_MonteCristo.jpg',
-		price: 420
-	},
-	{
-		id: '3',
-		authors: ['Бубин'],
-		title: 'Чикрыж',
-		cover: 'cover_MonteCristo.jpg',
-		price: 420
-	},
-	{
-		id: '4',
-		authors: ['Бубин'],
-		title: 'Чикрыж',
-		cover: 'cover_MonteCristo.jpg',
-		price: 420
-	},
-	{
-		id: '5',
-		authors: ['Бубин'],
-		title: 'Чикрыж',
-		cover: 'cover_MonteCristo.jpg',
-		price: 420
-	},]
 
 	return (
 		<>
@@ -237,7 +191,6 @@ export function BookScreen() {
 										<Text style={{ width: '100%', textAlign: 'center', fontFamily: 'MontserratAlt400', fontSize: 14, color: '#9d9d9d', marginTop: 10 }}>Редкость зависит от количества страниц книги. Чем больше страниц - тем выше редкость. </Text>
 									</View>
 								</Pressable>
-
 							</Modal>
 
 							{/* Description of book */}
@@ -247,19 +200,6 @@ export function BookScreen() {
 									{book.description}
 								</Text>
 							</View>
-
-							{/* Similar books */}
-							<Text style={[stylesShopScreen.text_shop, { fontSize: 22 }]}>Похожие книги</Text>
-							<FlatList data={testSimilarbooks}
-								contentContainerStyle={{ gap: 8, paddingLeft: 13, paddingRight: 13 }}
-								horizontal
-								showsHorizontalScrollIndicator={false}
-								renderItem={({ item }) =>
-									<Pressable onPress={() => shopNavigate('ShopBook', { id: item.id })}>
-										<BookShopCard key={item.id} book={item} />
-									</Pressable>
-								}
-							/>
 						</ScrollView>
 					}
 				</View>

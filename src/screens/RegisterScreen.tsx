@@ -56,13 +56,25 @@ export function RegisterScreen() {
             </TouchableOpacity>
             <Image style={stylesSignInScreen.logo} source={srcIcnLogo} />
             
-            <View style={{ width: '100%', alignItems: 'center' }}>
-                <View style={{ width: '100%', justifyContent: 'flex-start', }}>
-                    <Text style={stylesSignInScreen.h1}>Логин</Text>
-                </View>
+            {/* <View style={{ width: '100%', alignItems: 'center' }}>
                 <TextInput
                     style={stylesSignInScreen.input}
                     autoCapitalize="none"
+                    placeholder='Имя пользователя'
+                    value={login}
+                    onChangeText={setLogin}
+                    selectionColor={redRarity}
+                />
+            </View> */}
+
+            <View style={{ width: '100%', alignItems: 'center' }}>
+                {/* <View style={{ width: '100%', justifyContent: 'flex-start', }}>
+                    <Text style={stylesSignInScreen.h1}>Логин</Text>
+                </View> */}
+                <TextInput
+                    style={stylesSignInScreen.input}
+                    autoCapitalize="none"
+                    placeholder='Логин'
                     value={login}
                     onChangeText={setLogin}
                     selectionColor={redRarity}
@@ -70,13 +82,14 @@ export function RegisterScreen() {
             </View>
 
             <View style={{ width: '100%', alignItems: 'center', marginTop: 20, }}>
-                <View style={{ width: '100%', justifyContent: 'flex-start', }}>
+                {/* <View style={{ width: '100%', justifyContent: 'flex-start', }}>
                     <Text style={stylesSignInScreen.h1}>Пароль</Text>
-                </View>
+                </View> */}
                 <TextInput
                     style={stylesSignInScreen.input}
                     secureTextEntry
                     autoCapitalize="none"
+                    placeholder='Пароль'
                     value={password}
                     onChangeText={setPassword}
                     selectionColor={redRarity}
@@ -84,13 +97,14 @@ export function RegisterScreen() {
             </View>
 
             <View style={{ width: '100%', alignItems: 'center', marginTop: 20, marginBottom: 30 }}>
-                <View style={{ width: '100%', justifyContent: 'flex-start', }}>
+                {/* <View style={{ width: '100%', justifyContent: 'flex-start', }}>
                     <Text style={stylesSignInScreen.h1}>Повторите пароль</Text>
-                </View>
+                </View> */}
                 <TextInput
                     style={stylesSignInScreen.input}
                     secureTextEntry
                     autoCapitalize="none"
+                    placeholder='Повторите пароль'
                     value={repeatPassword}
                     onChangeText={setRepeatPassword}
                     selectionColor={redRarity}
