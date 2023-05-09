@@ -52,7 +52,7 @@ export function AdminAchievesScreen() {
                                     </View>
                                     <View style={stylesAchievementsScreen.wrapper_pin_info}>
                                         <Text style={stylesAchievementsScreen.title}>{item.title}</Text>
-                                        <Text style={stylesAchievementsScreen.author}>{item.description}</Text>
+                                        <Text style={stylesAchievementsScreen.text}>{item.description}</Text>
                                         <TouchableOpacity style={[{backgroundColor:redRarity, padding:10,borderRadius:5,marginTop:10}]} onPress={() => removeAchieve(item.title)}>
                                             <Text style={[stylesAdminScreen.standard_btn_text,{fontFamily:'MontserratAlt700', fontSize:14, textAlign:'center'}]}>Удалить</Text>
                                         </TouchableOpacity>

@@ -697,7 +697,7 @@ export const stylesAchievementsScreen = StyleSheet.create({
         fontSize:14,
         color:white,
     },
-    author:{
+    text:{
         fontFamily:'MontserratAlt500',
         fontSize:12,
         color:white,

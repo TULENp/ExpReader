@@ -1,44 +1,33 @@
 import { View, Text, ImageBackground, Image, ScrollView, Pressable, ActivityIndicator } from 'react-native';
-import React, { useContext, useState } from 'react';
-import { srcIcnBooks, srcIcnCloudCry, srcIcnFireworks, srcIcnOpenBook, srcIcnPage, srcIcnPoints, srcIcnReward, srcImgProfileHeader } from '../constants/images';
+import React, { useEffect, useState } from 'react';
+import { srcIcnBooks, srcIcnCloudCry, srcIcnOpenBook, srcIcnPage, srcIcnReward, srcImgProfileHeader } from '../constants/images';
 import { stylesProfileScreen } from './stylesScreen';
 import { Avatar } from 'react-native-elements';
-import { LinearProgress } from '@rneui/themed';
-import { deepBlue, greenRarity, lightBlue } from '../constants/colors';
-import { ProfileStackParams, TDailyTask, TDailyTaskLevel, TUserData } from '../types';
+import { deepBlue, lightBlue } from '../constants/colors';
+import { ProfileStackParams, TUserData } from '../types';
 import { BookProfileCard } from '../components/BookProfileCard';
-import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native';
-import { getDailyTaskLevel } from '../service/motivation';
-import { clearTokenAS, getDailyTaskAS, getTodayPagesAS, getUserDataAS } from '../service/asyncStorage';
-import { AppContext } from '../context/AppContext';
-import { Feather } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
+import { NavigationProp, RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { getUserDataAS } from '../service/asyncStorage';
 import { achievements } from '../AppData/achievements';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export function ProfileScreen() {
-	const { setIsAuthorized, isGotBackend } = useContext(AppContext);
+type ProfileParams = {
+	userID: number;
+}
+
+export function CommunityProfileScreen() {
 	const { navigate } = useNavigation<NavigationProp<ProfileStackParams>>();
+	const { userID } = useRoute<RouteProp<Record<string, ProfileParams>, string>>().params; // get user id from params
 
 	const [userData, setUserData] = useState<TUserData | null>(null);
-	const [todayPages, setTodayPages] = useState<number>(0);
-	const [dailyTaskPages, setDailyTaskPages] = useState<TDailyTask>(60);
-	const [dailyTaskLevel, setDailyTaskLevel] = useState<TDailyTaskLevel>();
 	const [pins, setPins] = useState<JSX.Element[]>([]);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 
-	useFocusEffect(
-		React.useCallback(() => {
-			if (isGotBackend) {
-				getUserData();
-			}
-			getTodayPages();
-			getDailyTask();
-		}, [isGotBackend])
-	);
+	useEffect(() => {
+		getUserData();
+	}, [])
 
-	//FIXME data can be received from AS before than from DB
 	async function getUserData() {
+		//use userID to get user data
 		const data = await getUserDataAS();
 		setUserData(data);
 
@@ -51,20 +40,11 @@ export function ProfileScreen() {
 		setIsLoading(false);
 	}
 
-	async function getTodayPages() {
-		const todayPages = await getTodayPagesAS();
-		setTodayPages(todayPages);
-	}
-
-	async function getDailyTask() {
-		const dailyTask = await getDailyTaskAS();
-		setDailyTaskLevel(getDailyTaskLevel(dailyTask));
-		setDailyTaskPages(dailyTask);
-	}
-
-	function LogOut() {
-		clearTokenAS();
-		setIsAuthorized(false);
+	async function subscribe() {
+		setIsLoading(true);
+		// handle sub
+		await getUserData();
+		setIsLoading(false);
 	}
 
 	return (
@@ -81,14 +61,10 @@ export function ProfileScreen() {
 						<View style={{ width: '100%', height: '100%', paddingLeft: 13, paddingRight: 13, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
 							<Image style={{ width: 80, height: 80 }} source={srcIcnCloudCry} />
 							<Text style={{ fontFamily: 'MontserratAlt400', fontSize: 20, textAlign: 'center' }}>Произошла ошибка, пожалуйста перезайдите в аккаунт</Text>
-							<Pressable onPress={LogOut} style={{ width: 150, height: 40, marginTop: 20, justifyContent: 'center', alignItems: 'center', borderRadius: 8, backgroundColor: lightBlue }}>
-								<Text style={{ fontFamily: 'MontserratAlt700', color: 'white', fontSize: 18 }}>Выйти</Text>
-							</Pressable>
 						</View>
 						:
 						<ScrollView style={{ backgroundColor: 'white', flex: 1 }}>
 							<View style={stylesProfileScreen.profile_page}>
-								{/* <StatusBar  backgroundColor={deepBlue}/> */}
 								{/* Header */}
 								<ImageBackground style={stylesProfileScreen.img_header} source={srcImgProfileHeader}>
 									<Avatar title={userData.nickname[0].toUpperCase()} size={'large'}
@@ -107,39 +83,11 @@ export function ProfileScreen() {
 											<Text style={stylesProfileScreen.text_points}>{userData.userBooks.length}</Text>
 										</View>
 									</View>
-									<Feather name="log-out" onPress={LogOut} style={{ position: 'absolute', top: 10, right: 10 }} size={28} color="white" />
 								</ImageBackground>
 
-								{/* Daily task */}
-								<Pressable style={stylesProfileScreen.test}>
-									<Pressable style={stylesProfileScreen.container_level} onPress={() => navigate('DailyTask', { todayPages })}>
-										<View style={stylesProfileScreen.wrapper_text_level_settings}>
-											<Text style={stylesProfileScreen.text_level_bold}>Уровень:
-												<Text style={[stylesProfileScreen.text_level_medium, { color: dailyTaskLevel?.color }]}> {dailyTaskLevel?.level}</Text>
-											</Text>
-											<Ionicons name="settings-outline" size={24} color={'black'} />
-										</View>
-										<LinearProgress value={todayPages / dailyTaskPages} color={dailyTaskLevel?.color} style={stylesProfileScreen.progress_bar} trackColor={'#D8D8D8'} variant='determinate' />
-										{todayPages >= dailyTaskPages
-											?
-											<View style={{ flexDirection: 'row', maxWidth: '100%', paddingTop: 10, paddingLeft: 0, paddingRight: 20, justifyContent: 'center', alignItems: 'center' }}>
-												<Image style={{ width: 30, height: 30, marginRight: 15, }} source={srcIcnFireworks} />
-												<View style={{ justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}>
-													<Text style={{ fontFamily: 'MontserratAlt500', fontSize: 16, textAlign: 'center' }}>Задание выполнено!</Text>
-													<Text style={{ fontFamily: 'MontserratAlt300', fontSize: 14, textAlign: 'center' }}>Получено: {dailyTaskPages} очков</Text>
-													<Text style={{ fontFamily: 'MontserratAlt300', fontSize: 14, textAlign: 'center' }}>Cегодня прочитано: {todayPages}</Text>
-												</View>
-											</View>
-											:
-											<>
-												<Text style={stylesProfileScreen.text_level_light}>Прочитано сегодня {todayPages} / {dailyTaskPages} страниц</Text>
-											</>
-										}
-									</Pressable>
-								</Pressable>
 								{/* Subscriptions */}
-								<Pressable onPress={() => navigate('Community')} style={{ justifyContent: 'center', alignItems: 'center', borderRadius: 8, backgroundColor: lightBlue }}>
-									<Text style={{ fontFamily: 'MontserratAlt700', color: 'white', fontSize: 18 }}>Пользователи (или Сообщество)</Text>
+								<Pressable onPress={subscribe} style={{ justifyContent: 'center', alignItems: 'center', borderRadius: 8, backgroundColor: lightBlue }}>
+									<Text style={{ fontFamily: 'MontserratAlt700', color: 'white', fontSize: 18 }}>{userData.isSub ? 'Отписаться' : 'Подписаться'}</Text>
 								</Pressable>
 
 								{/* Favorites */}
@@ -160,7 +108,7 @@ export function ProfileScreen() {
 										?
 										<View style={stylesProfileScreen.empty_component_achiv}>
 											<Image style={{ width: 44, height: 44 }} source={srcIcnReward} />
-											<Text style={stylesProfileScreen.text_empry}>Вы пока не получили ни одного достижения</Text>
+											<Text style={stylesProfileScreen.text_empry}>Пользователь пока не получил ни одного достижения</Text>
 										</View>
 										:
 										<View style={stylesProfileScreen.wrapper_pins}>
@@ -184,9 +132,8 @@ export function ProfileScreen() {
 											:
 											<View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', padding: 20 }}>
 												<Image style={{ width: 55, height: 55 }} source={srcIcnOpenBook} />
-												<Text style={stylesProfileScreen.empty_text}>Вы ещё не приобрели ни одной книги</Text>
+												<Text style={stylesProfileScreen.empty_text}>Пользователя пока не приобрел ни одной книги</Text>
 											</View>
-
 										}
 									</View>
 								</View>

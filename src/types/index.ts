@@ -68,6 +68,8 @@ type ProfileStackParams = {
     Profile: undefined;
     DailyTask: { todayPages: number };
     Achievements: undefined;
+    Community: undefined;
+    CommunityProfile: { userID: number };
 };
 
 type ShopStackParams = {
@@ -99,12 +101,17 @@ type TabParams = {
     ProfileTab: undefined,
 };
 
+//FIXME remove '?'
 type TUserData = {
+    id?: number,
     nickname: string,
     readPagesNum: number,
     readBooksNum: number,
     achievements: boolean[],
     userBooks: TLibBook[],
+    favGenre?: string,
+    favAuthor?: string,
+    isSub?: boolean,
 }
 
 type TBookStats = {

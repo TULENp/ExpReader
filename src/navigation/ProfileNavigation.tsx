@@ -4,6 +4,8 @@ import { ProfileScreen } from "../screens/ProfileScreen";
 import { DailyTaskScreen } from "../screens/DailyTaskScreen";
 import { AchievementsScreen } from "../screens/AchievementsScreen";
 import { ProfileStackParams } from "../types";
+import { CommunityScreen } from "../screens/CommunityScreen";
+import { CommunityProfileScreen } from "../screens/CommunityProfileScreen";
 
 const Stack = createNativeStackNavigator<ProfileStackParams>();
 export function ProfileNavigation() {
@@ -12,6 +14,8 @@ export function ProfileNavigation() {
             <Stack.Screen name="Profile" component={ProfileScreen} />
             <Stack.Screen name="DailyTask" component={DailyTaskScreen} />
             <Stack.Screen name="Achievements" component={AchievementsScreen} />
+            <Stack.Screen name="Community" options={{ headerShown: true, title: 'Сообщество' }} component={CommunityScreen} />
+            <Stack.Screen name="CommunityProfile" component={CommunityProfileScreen} />
         </Stack.Navigator>
     );
 }

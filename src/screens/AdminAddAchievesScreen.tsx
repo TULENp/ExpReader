@@ -68,7 +68,7 @@ export function AdminAddAchieveScreen() {
                     </View>
                     <View style={stylesAchievementsScreen.wrapper_pin_info}>
                         <Text style={stylesAchievementsScreen.title}>{achieve.title || 'Заголовок'}</Text>
-                        <Text style={stylesAchievementsScreen.author}>{achieve.description || 'Описание'}</Text>
+                        <Text style={stylesAchievementsScreen.text}>{achieve.description || 'Описание'}</Text>
                     </View>
                 </View>
                 <View style={{marginTop:10,paddingLeft:13,paddingRight:13}}>
@@ -118,9 +118,6 @@ export function AdminAddAchieveScreen() {
                 
                 </KeyboardAwareScrollView>
             </ScrollView>
-            
-            
-            
         </View>
     );
 }

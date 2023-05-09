@@ -6,7 +6,16 @@ import { stylesAdminScreen } from './stylesScreen';
 export function AdminAuthorsScreen() {
 
     const [author, setAuthor] = useState<string>('');
-    const [authorsList, setAuthorsList] = useState<string[]>(['Груша А.Я.', 'Груша И.Я.']);
+    const [authorsList, setAuthorsList] = useState<string[]>([
+        'Федор Достоевский',
+        'Виктор Пелевин',
+        'Эрнест Миллер Хемингуэй',
+        'Александр Дюма',
+        'Владимир Набоков',
+        'Михаил Лермонтов',
+        'Джоан Роулинг',
+        'Кэтрин Ласки',
+    ]);
 
     function addAuthor() {
         if (authorsList.includes(author)) {

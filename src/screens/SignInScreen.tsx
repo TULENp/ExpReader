@@ -44,9 +44,9 @@ export function SignInScreen() {
 
 			{/* Login input */}
 			<View style={{width:'100%',  alignItems:'center'}}>
-				<View style={{width:'100%', justifyContent:'flex-start',}}>
+				{/* <View style={{width:'100%', justifyContent:'flex-start',}}>
 					<Text style={stylesSignInScreen.h1}>Логин</Text>
-				</View>
+				</View> */}
 				<TextInput
 					style={stylesSignInScreen.input}
 					placeholder="Логин"
@@ -62,9 +62,9 @@ export function SignInScreen() {
 
 			{/* Password input */}
 			<View style={{width:'100%',  alignItems:'center', marginTop:20, marginBottom:50}}>
-				<View style={{width:'100%', justifyContent:'flex-start',}}>
+				{/* <View style={{width:'100%', justifyContent:'flex-start',}}>
 					<Text style={stylesSignInScreen.h1}>Пароль</Text>
-				</View>
+				</View> */}
 				<TextInput
 					style={stylesSignInScreen.input}
 					placeholder="Пароль"

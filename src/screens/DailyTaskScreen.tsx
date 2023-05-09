@@ -49,6 +49,15 @@ export function DailyTaskScreen() {
 						<Text style={stylesCheckoutScreen.text_header}>Ежедневная цель</Text>
 					</View>
 
+					{/* Description */}
+					<View style={{ flexDirection: 'row', marginTop: 40 }}>
+						<Text style={[stylesDailyTaskScreen.text_description, { fontSize: 16 }]}>
+							<Text>При выполнении данной ежедневной цели вам зачислится</Text>
+							<Text style={{ fontWeight: 'bold', fontSize: 20 }}> {dailyTask} </Text>
+							<Text>очков чтения </Text>
+						</Text>
+					</View>
+
 					{/* Daily Tasks */}
 					<View style={stylesDailyTaskScreen.wrapper_containers}>
 						<Pressable onPress={() => changeDailyTask(60)}>
@@ -85,7 +94,7 @@ export function DailyTaskScreen() {
 						</Pressable>
 					</View>
 
-					{/* Description */}
+					{/* Info */}
 					<View style={{ flexDirection: 'row', marginTop: 40 }}>
 						<Feather name="info" size={24} color="black" />
 						<Text style={stylesDailyTaskScreen.text_description}>

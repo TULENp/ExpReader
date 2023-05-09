@@ -20,7 +20,7 @@ export function AdminNavigation() {
     return (
         <NavigationContainer>
             <Stack.Navigator initialRouteName="Main">
-                <Stack.Screen name="Main" options={{ title: 'Главная' }} component={AdminMainScreen} />
+                <Stack.Screen name="Main" options={{ title: 'Панель администратора' }} component={AdminMainScreen} />
                 <Stack.Screen name="AllBooks" options={{ headerShown: false }} component={AdminAllBooksScreen} />
                 <Stack.Screen name="Book" options={{ headerShown: false }} component={AdminBookScreen} />
                 <Stack.Screen name="AddBook" options={{ title: 'Добавление книги' }} component={AdminAddBookScreen} />
