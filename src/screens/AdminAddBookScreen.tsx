@@ -50,6 +50,7 @@ export function AdminAddBookScreen() {
         }
     };
 
+    //TODO Add feedback
     const handleAddBook = () => {
         // TODO Implement logic for adding book to database or server
         console.log(book);

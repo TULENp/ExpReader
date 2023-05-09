@@ -6,7 +6,16 @@ import { stylesAdminScreen } from './stylesScreen';
 export function AdminAuthorsScreen() {
 
     const [author, setAuthor] = useState<string>('');
-    const [authorsList, setAuthorsList] = useState<string[]>(['Груша А.Я.', 'Груша И.Я.']);
+    const [authorsList, setAuthorsList] = useState<string[]>([
+        'Федор Достоевский',
+        'Виктор Пелевин',
+        'Эрнест Миллер Хемингуэй',
+        'Александр Дюма',
+        'Владимир Набоков',
+        'Михаил Лермонтов',
+        'Джоан Роулинг',
+        'Кэтрин Ласки',
+    ]);
 
     function addAuthor() {
         if (authorsList.includes(author)) {
@@ -42,7 +51,7 @@ export function AdminAuthorsScreen() {
     }
 
     return (
-        <ScrollView style={styles.container}>
+        <View style={styles.container}>
             <View style={styles.inputContainer}>
                 <Text style={stylesAdminScreen.text_h2}>Добавить автора</Text>
                 <TextInput
@@ -75,7 +84,7 @@ export function AdminAuthorsScreen() {
                     <Text style={styles.emptyList}>Список авторов пуст</Text>
                 }
             />
-        </ScrollView>
+        </View>
     )
 }
 
