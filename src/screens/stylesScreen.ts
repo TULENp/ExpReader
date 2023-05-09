@@ -791,5 +791,25 @@ export const stylesAdminScreen = StyleSheet.create({
         fontFamily:'MontserratAlt500',
         fontSize:16,
         color:'white',
+    },
+    input:{
+        fontFamily:'MontserratAlt500',
+        fontSize:14,
+        backgroundColor: white,
+        borderWidth: 1,
+        borderColor: gray,
+        borderRadius: 5,
+        padding: 10,
+        marginBottom: 10,
+        color: '#000',
+    },
+    list_container:{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginVertical: 5,
+        padding: 10,
+        borderRadius: 5,
+        backgroundColor: '#EEEEEE',
     }
 })
