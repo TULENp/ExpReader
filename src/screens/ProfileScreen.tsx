@@ -140,7 +140,7 @@ export function ProfileScreen() {
 								</Pressable>
 
 								{/* Subscriptions */}
-								<Pressable onPress={() => navigate('Community')} style={{ alignItems: 'center', borderRadius: 8,marginTop:15, backgroundColor: '#EEE',flexDirection:'row',marginLeft:13,marginRight:13,padding:13 }}>
+								<Pressable onPress={() => navigate('Community')} style={{ alignItems: 'center', borderRadius: 8,marginTop:15, backgroundColor: 'white',elevation:13,flexDirection:'row',marginLeft:13,marginRight:13,padding:13 }}>
 									<FontAwesome5 name="user-friends" size={24} color={redRarity} />
 									<Text style={{ fontFamily: 'MontserratAlt500', color: 'black', fontSize: 18,marginLeft:10 }}>Мои подписки</Text>
 								</Pressable>
