@@ -10,7 +10,10 @@ import {
     ScrollView,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { stylesAchievementsScreen } from './stylesScreen';
+import { stylesAchievementsScreen, stylesAdminScreen } from './stylesScreen';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { AntDesign } from '@expo/vector-icons'; 
+import { deepBlue, greenRarity } from '../constants/colors';
 
 interface achieve {
     title: string;
@@ -50,21 +53,37 @@ export function AdminAddAchieveScreen() {
     };
 
     return (
-        <View style={{ flex: 1, justifyContent: "space-around" }}>
+        <View style={{ flex: 1, }}>
             <ScrollView contentContainerStyle={styles.container}>
-                <View>
-                    <Text>Заголовок</Text>
+            <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
+                <View style={{
+                flexDirection: 'row',
+                gap: 8,
+                marginBottom: 10,
+                marginTop: 10,
+                height: 90
+                }}>
+                    <View style={stylesAchievementsScreen.wrapper_pin}>
+                        {image && <Image style={{ width: 80, height: 80 }} source={image} />}
+                    </View>
+                    <View style={stylesAchievementsScreen.wrapper_pin_info}>
+                        <Text style={stylesAchievementsScreen.title}>{achieve.title || 'Заголовок'}</Text>
+                        <Text style={stylesAchievementsScreen.text}>{achieve.description || 'Описание'}</Text>
+                    </View>
+                </View>
+                <View style={{marginTop:10,paddingLeft:13,paddingRight:13}}>
+                    <Text style={stylesAdminScreen.text_h2}>Заголовок</Text>
                     <TextInput
-                        style={styles.input}
+                        style={[stylesAdminScreen.input,{marginTop:10}]}
                         value={achieve.title}
                         onChangeText={(text) => setAchieve({ ...achieve, title: text })}
                     />
                 </View>
                 {/* TODO add type picker */}
-                <View>
-                    <Text>Условие выполнения</Text>
+                <View style={{marginTop:10,paddingLeft:13,paddingRight:13}}>
+                    <Text style={stylesAdminScreen.text_h2}>Условие выполнения</Text>
                     <TextInput
-                        style={styles.input}
+                        style={[stylesAdminScreen.input,{marginTop:10}]}
                         keyboardType="numeric"
                         value={achieve.condition.toString()}
                         onChangeText={(value) => {
@@ -76,37 +95,29 @@ export function AdminAddAchieveScreen() {
                         }}
                     />
                 </View>
-                <View>
-                    <Text>Описание</Text>
+                <View style={{marginTop:10,paddingLeft:13,paddingRight:13}}>
+                    <Text style={stylesAdminScreen.text_h2}>Описание</Text>
                     <TextInput
-                        style={[styles.input, { height: 80 }]}
+                        style={[stylesAdminScreen.input, { height: 80, marginTop:10 }]}
                         value={achieve.description}
                         multiline
                         onChangeText={(text) => setAchieve({ ...achieve, description: text })}
                     />
                 </View>
-
-                <TouchableOpacity style={styles.button} onPress={handlePickImage}>
-                    <Text style={styles.buttonText}>Выбрать изображение</Text>
-                </TouchableOpacity>
+                
+                <View style={{marginLeft:13,marginRight:13}}>
+                    <TouchableOpacity style={[stylesAdminScreen.standard_btn,{borderStyle:'dashed', borderWidth:1, borderColor:deepBlue}]} onPress={handlePickImage}>
+                        <AntDesign name="pluscircleo" size={22} color={deepBlue} />
+                        <Text style={[stylesAdminScreen.standard_btn_text,{color:deepBlue, marginLeft:10}]}>Добавить изображение</Text>
+                    </TouchableOpacity>
+                    {/* <Button title="Добавить достижение" onPress={handleAddAchieve} /> */}
+                    <TouchableOpacity style={[stylesAdminScreen.standard_btn,{backgroundColor:greenRarity,}]} onPress={handleAddAchieve}>
+                        <Text style={stylesAdminScreen.standard_btn_text}>Добавить достижение</Text>
+                    </TouchableOpacity>
+                </View>
+                
+                </KeyboardAwareScrollView>
             </ScrollView>
-            
-            <View style={{
-                flexDirection: 'row',
-                gap: 8,
-                marginBottom: 10,
-                marginTop: 10,
-                height: 90
-            }}>
-                <View style={stylesAchievementsScreen.wrapper_pin}>
-                    {image && <Image style={{ width: 80, height: 80 }} source={image} />}
-                </View>
-                <View style={stylesAchievementsScreen.wrapper_pin_info}>
-                    <Text style={stylesAchievementsScreen.title}>{achieve.title || 'Заголовок'}</Text>
-                    <Text style={stylesAchievementsScreen.text}>{achieve.description || 'Описание'}</Text>
-                </View>
-            </View>
-            <Button title="Добавить достижение" onPress={handleAddAchieve} />
         </View>
     );
 }
@@ -115,7 +126,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'space-around',
-        padding: 20,
+        // padding: 20,
         backgroundColor: '#fff',
     },
     input: {

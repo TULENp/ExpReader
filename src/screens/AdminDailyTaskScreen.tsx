@@ -1,6 +1,7 @@
-import { View, Text, FlatList, Button, TextInput, Alert, StyleSheet } from 'react-native'
+import { View, Text, FlatList, Button, TextInput, Alert, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
-import { gray, redRarity, white } from '../constants/colors'
+import { gray, greenRarity, redRarity, white } from '../constants/colors'
+import { stylesAdminScreen } from './stylesScreen';
 
 interface task {
     title: string;
@@ -51,20 +52,20 @@ export function AdminDailyTaskScreen() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.label}>Добавить ежедневную цель</Text>
+            {/* <Text style={stylesAdminScreen.text_h2}>Добавить ежедневную цель</Text> */}
             <View style={styles.inputContainer}>
-                <Text style={styles.label}>Уровень цели</Text>
+                <Text style={stylesAdminScreen.text_h2}>Уровень цели</Text>
                 <TextInput
-                    style={styles.input}
+                    style={[stylesAdminScreen.input,{marginTop:10}]}
                     value={task.title}
                     onChangeText={(text) => setTask({ ...task, title: text })}
                     placeholder="например: Легкий"
                     placeholderTextColor={gray}
                     selectionColor={redRarity}
                 />
-                <Text style={styles.label}>Условие выполнения</Text>
+                <Text style={[stylesAdminScreen.text_h2,{marginTop:10}]}>Условие выполнения</Text>
                 <TextInput
-                    style={styles.input}
+                    style={[stylesAdminScreen.input,{marginTop:10}]}
                     keyboardType="numeric"
                     value={task.condition.toString()}
                     onChangeText={(value) => {
@@ -75,17 +76,21 @@ export function AdminDailyTaskScreen() {
                         });
                     }}
                 />
-                <Button title='Добавить' onPress={addDailyTask} />
+                <TouchableOpacity style={[stylesAdminScreen.standard_btn,{backgroundColor:greenRarity,}]} onPress={addDailyTask}>
+                    <Text style={stylesAdminScreen.standard_btn_text}>Добавить ежедневную цель</Text>
+                </TouchableOpacity>
             </View>
             <FlatList
                 data={taskList}
                 keyExtractor={item => item.title}
                 renderItem={({ item }) => {
                     return (
-                        <View style={styles.taskContainer}>
+                        <View style={[stylesAdminScreen.list_container,{alignItems:'center'}]}>
                             <Text style={styles.text}>{item.title}</Text>
                             <Text style={styles.text}>{item.condition}</Text>
-                            <Button title='Удалить' onPress={() => removeTask(item.title)} />
+                            <TouchableOpacity style={[{backgroundColor:redRarity, padding:10,borderRadius:5,}]} onPress={() => removeTask(item.title)}>
+                                <Text style={[stylesAdminScreen.standard_btn_text,{fontFamily:'MontserratAlt700', fontSize:14, textAlign:'center'}]}>Удалить</Text>
+                            </TouchableOpacity>
                         </View>
                     )
                 }}
@@ -134,6 +139,8 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 16,
         color: '#000',
+        fontFamily:'MontserratAlt500',
+        textAlign:'center',
     },
     emptyList: {
         fontSize: 16,
