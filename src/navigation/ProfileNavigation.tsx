@@ -14,7 +14,7 @@ export function ProfileNavigation() {
             <Stack.Screen name="Profile" component={ProfileScreen} />
             <Stack.Screen name="DailyTask" component={DailyTaskScreen} />
             <Stack.Screen name="Achievements" component={AchievementsScreen} />
-            <Stack.Screen name="Community" options={{ headerShown: false, title: 'Сообщество' }} component={CommunityScreen} />
+            <Stack.Screen name="Community" component={CommunityScreen} />
             <Stack.Screen name="CommunityProfile" component={CommunityProfileScreen} />
         </Stack.Navigator>
     );

@@ -38,10 +38,9 @@ export const stylesBookLibCard = StyleSheet.create({
         color: 'white',
         textAlign: 'center',
     },
-    container_info_book: {
+     container_info_book: {
         flex: 1,
-        marginLeft: 39,
-        marginTop: 10,
+        marginLeft: 20,
     },
     title: {
         fontFamily: 'Montserrat700',

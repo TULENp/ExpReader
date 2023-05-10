@@ -9,7 +9,7 @@ import { BookProfileCard } from '../components/BookProfileCard';
 import { NavigationProp, RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { getUserDataAS } from '../service/asyncStorage';
 import { achievements } from '../AppData/achievements';
-import { FontAwesome5 } from '@expo/vector-icons'; 
+import { FontAwesome5 } from '@expo/vector-icons';
 
 type ProfileParams = {
 	userID: number;
@@ -81,35 +81,32 @@ export function CommunityProfileScreen() {
 
 											{/* Books stats */}
 											<Image style={[stylesProfileScreen.icn_points, { marginLeft: 20 }]} source={srcIcnBooks} />
-											<Text style={stylesProfileScreen.text_points}>{userData.userBooks.length}</Text>
+											<Text style={stylesProfileScreen.text_points}>{userData.readBooksNum}</Text>
 										</View>
 									</View>
 								</ImageBackground>
 
 								{/* Subscriptions */}
-								{/* <Pressable onPress={subscribe} style={{ justifyContent: 'center', alignItems: 'center', borderRadius: 8, backgroundColor: lightBlue }}>
-									<Text style={{ fontFamily: 'MontserratAlt700', color: 'white', fontSize: 18 }}>{userData.isSub ? 'Отписаться' : 'Подписаться'}</Text>
-								</Pressable> */}
-								<Pressable onPress={subscribe} style={{ alignItems: 'center', borderRadius: 8,marginTop:-30, backgroundColor: 'white',elevation:13,flexDirection:'row',marginLeft:13,marginRight:13,padding:13 }}>
+								<Pressable onPress={subscribe} style={{ alignItems: 'center', justifyContent: 'center', borderRadius: 8, marginTop: -30, backgroundColor: 'white', elevation: 13, flexDirection: 'row', marginLeft: 13, marginRight: 13, padding: 13 }}>
 									<FontAwesome5 name="user-friends" size={24} color={redRarity} />
-									<Text style={{ fontFamily: 'MontserratAlt500', color: 'black', fontSize: 18,marginLeft:10 }}>{userData.isSub ? 'Отписаться' : 'Подписаться'}</Text>
+									<Text style={{ fontFamily: 'MontserratAlt500', color: 'black', fontSize: 18, marginLeft: 10 }}>{userData.isSub ? 'Отписаться' : 'Подписаться'}</Text>
 								</Pressable>
 
 								{/* Favorites */}
 								{/* FIXME change to this after backend will be ready */}
 								{/* <Text style={stylesProfileScreen.text_points}>Любимый жанр: {userData.favGenre}</Text>
 								<Text style={stylesProfileScreen.text_points}>Любимый автор: {userData.favAuthor}</Text> */}
-								<View style={{ marginTop: 20,paddingLeft:13,paddingRight:13 }}>
-									<View style={{flexDirection:'row',alignItems:'center'}}>
-										<Text style={[stylesProfileScreen.text_points,{color:'black',fontSize:16}]}>Любимый жанр: </Text>
+								<View style={{ marginTop: 20, paddingLeft: 13, paddingRight: 13 }}>
+									<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+										<Text style={[stylesProfileScreen.text_points, { color: 'black', fontSize: 16 }]}>Любимый жанр: </Text>
 										<View style={stylesBookScreen.container_genres}>
 											<Text style={stylesBookScreen.text_genres}>Роман</Text>
 										</View>
 									</View>
-									<View style={{flexDirection:'row',alignItems:'center', marginTop:15}}>
-										<Text style={[stylesProfileScreen.text_points,{color:'black',fontSize:16}]}>Любимый автор: </Text>
+									<View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 15 }}>
+										<Text style={[stylesProfileScreen.text_points, { color: 'black', fontSize: 16 }]}>Любимый автор: </Text>
 										<View style={[stylesBookScreen.container_genres]}>
-											<Text style={[stylesBookScreen.text_genres,{color:deepBlue}]}>Фёдор Достоевский</Text>
+											<Text style={[stylesBookScreen.text_genres, { color: deepBlue }]}>Фёдор Достоевский</Text>
 										</View>
 									</View>
 								</View>
@@ -130,7 +127,6 @@ export function CommunityProfileScreen() {
 											{pins}
 										</View>
 									}
-
 								</Pressable>
 
 								{/* Book shelf */}

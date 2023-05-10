@@ -12,20 +12,16 @@ export function UserCard({ userData }: { userData: TUserData }) {
     const { navigate } = useNavigation<NavigationProp<ProfileStackParams>>();
 
     return (
-        <Pressable onPress={() => navigate('CommunityProfile', { userID: userData.id})}>
+        <Pressable onPress={() => navigate('CommunityProfile', { userID: userData.id })}>
             <View style={stylesUserCard.container}>
                 <Avatar title={userData.nickname[0].toUpperCase()} size={'large'} rounded
-                    titleStyle={{ fontSize: 24, fontFamily: 'Montserrat700' }} 
+                    titleStyle={{ fontSize: 24, fontFamily: 'Montserrat700' }}
                     containerStyle={stylesProfileScreen.avatar} />
                 <View style={stylesBookLibCard.container_info_book}>
                     <Text style={stylesUserCard.name}>{userData.nickname}</Text>
                     <Text style={stylesUserCard.countBook}>{userData.userBooks.length} книг</Text>
-                    <Text style={stylesUserCard.genre}>Любимый жанр: 
-                        <Text style={{color:pink}}> {userData.favGenre}</Text>
-                    </Text>
-                    <Text style={stylesUserCard.author}>Любимый автор:
-                        <Text style={{color:deepBlue}}> {userData.favAuthor}</Text>
-                    </Text>
+                    <Text style={[stylesUserCard.value, { color: pink }]}>{userData.favGenre}</Text>
+                    <Text style={[stylesUserCard.value, { color: deepBlue }]}>{userData.favAuthor}</Text>
                 </View >
             </View >
         </Pressable >
