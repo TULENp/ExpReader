@@ -71,7 +71,7 @@ export default function App() {
 							?
 							<AuthNavigation />
 							:
-							(!isAdmin
+							(isAdmin
 								? <AdminNavigation />
 								: <TabNavigation />
 							)
