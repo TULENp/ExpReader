@@ -15,7 +15,7 @@ import { Feather } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { achievements } from '../AppData/achievements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { FontAwesome5 } from '@expo/vector-icons'; 
+import { FontAwesome5 } from '@expo/vector-icons';
 
 export function ProfileScreen() {
 	const { setIsAuthorized, isGotBackend } = useContext(AppContext);
@@ -140,26 +140,26 @@ export function ProfileScreen() {
 								</Pressable>
 
 								{/* Subscriptions */}
-								<Pressable onPress={() => navigate('Community')} style={{ alignItems: 'center', justifyContent: 'center', borderRadius: 8,marginTop:15, backgroundColor: 'white',elevation:13,flexDirection:'row',marginLeft:13,marginRight:13,padding:13 }}>
+								{/* <Pressable onPress={() => navigate('Community')} style={{ alignItems: 'center', justifyContent: 'center', borderRadius: 8,marginTop:15, backgroundColor: 'white',elevation:13,flexDirection:'row',marginLeft:13,marginRight:13,padding:13 }}>
 									<FontAwesome5 name="user-friends" size={24} color={redRarity} />
 									<Text style={{ fontFamily: 'MontserratAlt500', color: 'black', fontSize: 18,marginLeft:10 }}>Сообщество</Text>
-								</Pressable>
+								</Pressable> */}
 
 								{/* Favorites */}
 								{/* FIXME change to this after backend will be ready */}
 								{/* <Text style={stylesProfileScreen.text_points}>Любимый жанр: {userData.favGenre}</Text>
 								<Text style={stylesProfileScreen.text_points}>Любимый автор: {userData.favAuthor}</Text> */}
-								<View style={{ marginTop: 20,paddingLeft:13,paddingRight:13 }}>
-									<View style={{flexDirection:'row',alignItems:'center'}}>
-										<Text style={[stylesProfileScreen.text_points,{color:'black',fontSize:16}]}>Любимый жанр: </Text>
+								<View style={{ marginTop: 20, paddingLeft: 13, paddingRight: 13 }}>
+									<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+										<Text style={[stylesProfileScreen.text_points, { color: 'black', fontSize: 16 }]}>Любимый жанр: </Text>
 										<View style={stylesBookScreen.container_genres}>
 											<Text style={stylesBookScreen.text_genres}>Роман</Text>
 										</View>
 									</View>
-									<View style={{flexDirection:'row',alignItems:'center', marginTop:15}}>
-										<Text style={[stylesProfileScreen.text_points,{color:'black',fontSize:16}]}>Любимый автор: </Text>
+									<View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 15 }}>
+										<Text style={[stylesProfileScreen.text_points, { color: 'black', fontSize: 16 }]}>Любимый автор: </Text>
 										<View style={[stylesBookScreen.container_genres]}>
-											<Text style={[stylesBookScreen.text_genres,{color:deepBlue}]}>Фёдор Достоевский</Text>
+											<Text style={[stylesBookScreen.text_genres, { color: deepBlue }]}>Фёдор Достоевский</Text>
 										</View>
 									</View>
 								</View>
@@ -191,9 +191,15 @@ export function ProfileScreen() {
 									<View style={stylesProfileScreen.container_profile_books}>
 										{userData.userBooks.length !== 0
 											?
-											userData.userBooks.map((book) => (
-												<BookProfileCard key={book.id} book={book} />
-											))
+											userData.userBooks
+												.sort((a, b) => {
+													const percentA = a.readPages / a.bookPages;
+													const percentB = b.readPages / b.bookPages;
+													return percentA === percentB ? b.bookPages - a.bookPages : percentB - percentA;
+												})
+												.map((book) => (
+													<BookProfileCard key={book.id} book={book} />
+												))
 											:
 											<View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', padding: 20 }}>
 												<Image style={{ width: 55, height: 55 }} source={srcIcnOpenBook} />

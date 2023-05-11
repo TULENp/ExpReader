@@ -155,7 +155,7 @@ export function LibraryScreen() {
                                     {shopBooks[0] && libCategory === 0 && <BookLastReadCard book={shopBooks[0]} />}
                                     {/* Tabs */}
                                     <View style={{ paddingTop: 25, }}>
-                                        <Text style={stylesLibraryScreen.h1_library}>Библиотека</Text>
+                                        <Text style={stylesLibraryScreen.h1_library}>Личная библиотека</Text>
                                         <ButtonGroup buttons={['Купленные книги', 'Добавленные книги']}
                                             selectedIndex={libCategory}
                                             onPress={(value) => {
