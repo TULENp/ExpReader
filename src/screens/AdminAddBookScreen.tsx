@@ -4,8 +4,10 @@ import * as ImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
 import { stylesAdminScreen } from './stylesScreen';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { deepBlue, greenRarity, purple } from '../constants/colors';
+import { blueRarity, deepBlue, greenRarity, purple, redRarity } from '../constants/colors';
 import { AntDesign } from '@expo/vector-icons';
+import { Dropdown } from 'react-native-element-dropdown';
+import { stylesFilters } from '../components/Filters/style';
 
 interface Book {
     title: string;
@@ -24,6 +26,77 @@ export function AdminAddBookScreen() {
 
     const [coverImage, setCoverImage] = useState<{ uri: string } | null>(null);
     const [bookFile, setBookFile] = useState<DocumentPicker.DocumentResult | null>(null);
+    const [selectedAuthors, setSelectedAuthors] = useState<string[]>([]);
+    const [valueAuthor,setValueAuthor] = useState();
+    const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+    const [valueGenre,setValueGenre] = useState();
+    // const listSort = [
+	// 	{ label: 'Федор Достоевский', value: '0' },
+	// 	{ label: 'Виктор Пелевин', value: '1' },
+	// 	{ label: 'Эрнест Миллер Хемингуэй', value: '2' },
+	// ]
+    // const [authorsList, setAuthorsList] = useState([
+    //     { label: 'Федор Достоевский', value:0},
+    //     { label: 'Виктор Пелевин', value:1},
+    //     { label: 'Эрнест Миллер Хемингуэй', value:2},
+    //     { label: 'Александр Дюма', value:3},
+    //     { label: 'Владимир Набоков', value:4},
+    //     { label: 'Михаил Лермонтов', value:5},
+    //     { label: 'Джоан Роулинг', value:6},
+    //     { label: 'Кэтрин Ласки', value:7},
+    // ]);
+
+    // const [genresList, setGenresList] = useState<string[]>(['Фантастика', 'Приключения', 'Фэнтези', 'Классика',
+    //     'Роман', 'Поэзия', 'Хоррор', 'Нон-Фикшн', 'Комедия', 'Исторический роман',
+    //     'Детектив', 'Детские книги'])
+
+    const authorsList = [
+        { label: 'Федор Достоевский', value:0},
+        { label: 'Виктор Пелевин', value:1},
+        { label: 'Эрнест Миллер Хемингуэй', value:2},
+        { label: 'Александр Дюма', value:3},
+        { label: 'Владимир Набоков', value:4},
+        { label: 'Михаил Лермонтов', value:5},
+        { label: 'Джоан Роулинг', value:6},
+        { label: 'Кэтрин Ласки', value:7},
+    ]
+
+    const genresList = [
+        { label: 'Фантастика', value:0},
+        { label: 'Приключения', value:1},
+        { label: 'Фэнтези', value:2},
+        { label: 'Классика', value:3},
+        { label: 'Роман', value:4},
+        { label: 'Поэзия', value:5},
+        { label: 'Хоррор', value:6},
+        { label: 'Нон-Фикшн', value:7},
+        { label: 'Комедия', value:7},
+        { label: 'Исторический роман', value:7},
+        { label: 'Детектив', value:7},
+        { label: 'Детские книги', value:7},
+    ]
+
+    const renderSelectedAuthors: JSX.Element[] = selectedAuthors.map((author, index) => {
+		return (
+			<TouchableOpacity key={index} style={{ width: '100%',backgroundColor:'#EEE',borderRadius:8, padding:10, marginBottom:10 }}>
+				<Text style={{fontFamily:'MontserratAlt500', fontSize:14,marginBottom:5}}>{author}</Text>
+                <TouchableOpacity onPress={()=> RemoveAuthor(author)} style={{padding:5,backgroundColor:redRarity, borderRadius:8}}>
+                    <Text style={{fontFamily:'MontserratAlt700', fontSize:14, color:'white', textAlign:'center'}}>Удалить</Text>
+                </TouchableOpacity>
+			</TouchableOpacity>
+		)
+	})
+
+    const renderSelectedGenres: JSX.Element[] = selectedGenres.map((genre, index) => {
+		return (
+			<TouchableOpacity key={index} style={{ width: '100%',backgroundColor:'#EEE',borderRadius:8, padding:10, marginBottom:10 }}>
+				<Text style={{fontFamily:'MontserratAlt500', fontSize:14,marginBottom:5}}>{genre}</Text>
+                <TouchableOpacity onPress={()=> removeGenre(genre)} style={{padding:5,backgroundColor:redRarity, borderRadius:8}}>
+                    <Text style={{fontFamily:'MontserratAlt700', fontSize:14, color:'white', textAlign:'center'}}>Удалить</Text>
+                </TouchableOpacity>
+			</TouchableOpacity>
+		)
+	})
 
     const handlePickCoverImage = async () => {
         const result = await ImagePicker.launchImageLibraryAsync({
@@ -58,6 +131,32 @@ export function AdminAddBookScreen() {
         console.log(bookFile);
     };
 
+    function AddAuthor(author:string) {
+        if (selectedAuthors.includes(author)) {
+            alert('Такой автор уже есть');
+            return;
+        }
+
+        setSelectedAuthors([...selectedAuthors, author]);
+    }
+
+    function RemoveAuthor(author:string) {
+        setSelectedAuthors(selectedAuthors.filter(item => item !== author))
+    }
+
+    function AddGenre(genre:string) {
+        if (selectedGenres.includes(genre)) {
+            alert('Такой жанр уже есть');
+            return;
+        }
+
+        setSelectedGenres([...selectedGenres, genre]);
+    }
+
+    function removeGenre(genre:string) {
+        setSelectedGenres(selectedGenres.filter(item => item !== genre))
+    }
+
     //TODO add author and genres picker 
     return (
         <ScrollView contentContainerStyle={styles.container}>
@@ -69,6 +168,52 @@ export function AdminAddBookScreen() {
                         value={book.title}
                         onChangeText={(text) => setBook({ ...book, title: text })}
                     />
+                </View>
+                <View>
+                    <Text style={[stylesAdminScreen.text_h2, {marginBottom:10}]}>Автор</Text>
+                    <Dropdown data={authorsList}
+						mode='modal'
+						maxHeight={300}
+						style={stylesFilters.select}
+						fontFamily='MontserratAlt700'
+						placeholderStyle={{ color: 'white' }}
+						selectedTextStyle={{ color: 'white' }}
+						activeColor={greenRarity}
+						itemContainerStyle={{ borderRadius: 8 }}
+						containerStyle={{ borderRadius: 8 }}
+						iconColor='white'
+						placeholder='Выбрать'
+						labelField={'label'}
+						valueField={'value'}
+						value={valueAuthor}
+						onChange={(item) => AddAuthor(item.label)
+						} />
+                    <View style={{width:'100%', marginTop:15,}}>
+                        {renderSelectedAuthors}
+                    </View>
+                </View>
+                <View>
+                    <Text style={[stylesAdminScreen.text_h2, {marginBottom:10}]}>Жанр</Text>
+                    <Dropdown data={genresList}
+						mode='modal'
+						maxHeight={300}
+						style={[stylesFilters.select, {backgroundColor:blueRarity}]}
+						fontFamily='MontserratAlt700'
+						placeholderStyle={{ color: 'white' }}
+						selectedTextStyle={{ color: 'white' }}
+						activeColor={blueRarity}
+						itemContainerStyle={{ borderRadius: 8 }}
+						containerStyle={{ borderRadius: 8 }}
+						iconColor='white'
+						placeholder='Выбрать'
+						labelField={'label'}
+						valueField={'value'}
+						value={valueGenre}
+						onChange={(item) => AddGenre(item.label)
+						} />
+                    <View style={{width:'100%', marginTop:15,}}>
+                        {renderSelectedGenres}
+                    </View>
                 </View>
                 <View>
                     <Text style={stylesAdminScreen.text_h2}>Цена</Text>
