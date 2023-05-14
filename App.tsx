@@ -1,6 +1,5 @@
 
 import React, { useEffect, useState } from 'react';
-import { Text } from 'react-native'
 import { TabNavigation } from './src/navigation/TabNavigation';
 import { getTokenAS } from './src/service/asyncStorage';
 import { AuthNavigation } from './src/navigation/AuthNavigation';
@@ -12,11 +11,10 @@ import { MontserratAlternates_300Light, MontserratAlternates_400Regular, Montser
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import { useNetInfo } from '@react-native-community/netinfo';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AdminNavigation } from './src/navigation/AdminNavigation';
 
 export default function App() {
-
+	
 	let [fontsLoaded] = useFonts({
 		'Montserrat300': Montserrat_300Light,
 		'Montserrat400': Montserrat_400Regular,
@@ -27,7 +25,7 @@ export default function App() {
 		'MontserratAlt500': MontserratAlternates_500Medium,
 		'MontserratAlt700': MontserratAlternates_700Bold,
 	})
-	//FIXME //! fix app loading time and render
+
 	const [isAuth, setIsAuth] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	//TODO get isAdmin on auth
@@ -58,9 +56,16 @@ export default function App() {
 	if (!fontsLoaded) {
 		return <AppLoading />;
 	}
+	console.log(isAdmin);
 
 	return (
-		<AppContext.Provider value={{ isGotBackend: isGotBackend, setIsGotBackend: setIsGotBackend, netInfo: netInfo, setIsAuthorized: setIsAuth, }}>
+		<AppContext.Provider value={{
+			isGotBackend: isGotBackend,
+			setIsGotBackend: setIsGotBackend,
+			netInfo: netInfo,
+			setIsAuthorized: setIsAuth,
+			setIsAdmin: setIsAdmin,
+		}}>
 			<>
 				{isLoading
 					?
@@ -71,7 +76,7 @@ export default function App() {
 							?
 							<AuthNavigation />
 							:
-							(!isAdmin
+							(isAdmin
 								? <AdminNavigation />
 								: <TabNavigation />
 							)

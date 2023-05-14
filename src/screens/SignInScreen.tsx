@@ -1,49 +1,51 @@
 import React, { useContext, useState } from 'react';
-import { StyleSheet, View, TextInput, TouchableOpacity, Text, Image } from 'react-native';
+import { View, TextInput, TouchableOpacity, Text, Image, Pressable } from 'react-native';
 import { SignIn } from '../service/api';
 import { AuthStackParams } from '../types';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { AppContext } from '../context/AppContext';
 import { stylesSignInScreen } from './stylesScreen';
 import { deepBlue, redRarity } from '../constants/colors';
-import { srcIcnError, srcIcnLogo } from '../constants/images';
+import { srcIcnLogo } from '../constants/images';
 
 export function SignInScreen() {
-    const { navigate } = useNavigation<NavigationProp<AuthStackParams>>();
-    const { setIsAuthorized } = useContext(AppContext);
+	const { navigate } = useNavigation<NavigationProp<AuthStackParams>>();
+	const { setIsAuthorized, setIsAdmin } = useContext(AppContext);
 
-    const [login, setLogin] = useState('');
-    const [password, setPassword] = useState('');
+	const [login, setLogin] = useState('');
+	const [password, setPassword] = useState('');
 
 	const [loginError, setLoginError] = useState<string>('');
 	const [passwordError, setPasswordError] = useState<string>('');
 
-    async function handleSignIn() {
-        // const validationErrors: string[] = [];
+	async function handleSignIn() {
+		// const validationErrors: string[] = [];
 
-        if (!login || !password) {
-            // validationErrors.push('Введите логин');
-			if(!login) 
+		if (!login || !password) {
+			// validationErrors.push('Введите логин');
+			if (!login)
 				setLoginError('Введите логин');
-			if(!password)  
+			if (!password)
 				setPasswordError('Введите пароль')
 			return;
-        }
+		}
 
-        const res = await SignIn(login, password);
-        if (res) {
-            alert(res);
-            return;
-        }
-        setIsAuthorized(true);
-    }
+		const res = await SignIn(login, password);
+		if (res) {
+			alert(res);
+			return;
+		}
+		setIsAuthorized(true);
+	}
 
-    return (
-        <View style={stylesSignInScreen.page}>
-			<Image style={stylesSignInScreen.logo} source={srcIcnLogo}/>
+	return (
+		<View style={stylesSignInScreen.page}>
+			<Pressable onPress={() => setIsAdmin((prev) => !prev)}>
+				<Image style={stylesSignInScreen.logo} source={srcIcnLogo} />
+			</Pressable>
 
 			{/* Login input */}
-			<View style={{width:'100%',  alignItems:'center'}}>
+			<View style={{ width: '100%', alignItems: 'center' }}>
 				{/* <View style={{width:'100%', justifyContent:'flex-start',}}>
 					<Text style={stylesSignInScreen.h1}>Логин</Text>
 				</View> */}
@@ -55,13 +57,13 @@ export function SignInScreen() {
 					onChangeText={setLogin}
 					selectionColor={redRarity}
 				/>
-				<View style={{width:'100%', justifyContent:'flex-start',}}>
-					<Text style={{color:redRarity}}>{loginError}</Text>
+				<View style={{ width: '100%', justifyContent: 'flex-start', }}>
+					<Text style={{ color: redRarity }}>{loginError}</Text>
 				</View>
 			</View>
 
 			{/* Password input */}
-			<View style={{width:'100%',  alignItems:'center', marginTop:20, marginBottom:50}}>
+			<View style={{ width: '100%', alignItems: 'center', marginTop: 20, marginBottom: 50 }}>
 				{/* <View style={{width:'100%', justifyContent:'flex-start',}}>
 					<Text style={stylesSignInScreen.h1}>Пароль</Text>
 				</View> */}
@@ -74,20 +76,20 @@ export function SignInScreen() {
 					onChangeText={setPassword}
 					selectionColor={redRarity}
 				/>
-				<View style={{width:'100%', justifyContent:'flex-start',}}>
-					<Text style={{color:redRarity}}>{passwordError}</Text>
+				<View style={{ width: '100%', justifyContent: 'flex-start', }}>
+					<Text style={{ color: redRarity }}>{passwordError}</Text>
 				</View>
 			</View>
 
 			{/* Action buttons */}
-            <TouchableOpacity style={stylesSignInScreen.button} onPress={handleSignIn}>
-                <Text style={stylesSignInScreen.buttonText}>Войти</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[stylesSignInScreen.button, {backgroundColor:'white'}]} onPress={() => navigate('Register')}>
-                <Text style={[stylesSignInScreen.buttonText, {color:deepBlue,}]}>Регистрация</Text>
-            </TouchableOpacity>
-        </View >
-    );
+			<TouchableOpacity style={stylesSignInScreen.button} onPress={handleSignIn}>
+				<Text style={stylesSignInScreen.buttonText}>Войти</Text>
+			</TouchableOpacity>
+			<TouchableOpacity style={[stylesSignInScreen.button, { backgroundColor: 'white' }]} onPress={() => navigate('Register')}>
+				<Text style={[stylesSignInScreen.buttonText, { color: deepBlue, }]}>Регистрация</Text>
+			</TouchableOpacity>
+		</View >
+	);
 };
 
 

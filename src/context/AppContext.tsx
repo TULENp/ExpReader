@@ -1,12 +1,13 @@
 import { NetInfoState } from '@react-native-community/netinfo';
-import { createContext } from 'react';
+import { Dispatch, SetStateAction, createContext } from 'react';
 
 type AppContextType = {
     // isAuthorized: boolean | null;
     netInfo: NetInfoState | null;
-    setIsAuthorized: (b: boolean) => void;
+    setIsAuthorized: Dispatch<SetStateAction<boolean>>;
     isGotBackend: boolean,
-    setIsGotBackend: (b: boolean) => void;
+    setIsGotBackend: Dispatch<SetStateAction<boolean>>;
+    setIsAdmin: Dispatch<SetStateAction<boolean>>;
 };
 
 export const AppContext = createContext<AppContextType>({
@@ -15,4 +16,5 @@ export const AppContext = createContext<AppContextType>({
     setIsAuthorized: () => { },
     isGotBackend: false,
     setIsGotBackend: () => { },
+    setIsAdmin: () => { },
 });
