@@ -30,25 +30,6 @@ export function AdminAddBookScreen() {
     const [valueAuthor,setValueAuthor] = useState();
     const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
     const [valueGenre,setValueGenre] = useState();
-    // const listSort = [
-	// 	{ label: 'Федор Достоевский', value: '0' },
-	// 	{ label: 'Виктор Пелевин', value: '1' },
-	// 	{ label: 'Эрнест Миллер Хемингуэй', value: '2' },
-	// ]
-    // const [authorsList, setAuthorsList] = useState([
-    //     { label: 'Федор Достоевский', value:0},
-    //     { label: 'Виктор Пелевин', value:1},
-    //     { label: 'Эрнест Миллер Хемингуэй', value:2},
-    //     { label: 'Александр Дюма', value:3},
-    //     { label: 'Владимир Набоков', value:4},
-    //     { label: 'Михаил Лермонтов', value:5},
-    //     { label: 'Джоан Роулинг', value:6},
-    //     { label: 'Кэтрин Ласки', value:7},
-    // ]);
-
-    // const [genresList, setGenresList] = useState<string[]>(['Фантастика', 'Приключения', 'Фэнтези', 'Классика',
-    //     'Роман', 'Поэзия', 'Хоррор', 'Нон-Фикшн', 'Комедия', 'Исторический роман',
-    //     'Детектив', 'Детские книги'])
 
     const authorsList = [
         { label: 'Федор Достоевский', value:0},
