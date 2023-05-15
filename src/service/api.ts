@@ -178,6 +178,20 @@ export async function GetAllShopBooks(filter: TFilters) {
         .catch(error => error.response.status)
 }
 
+export async function GetRecommendedBooks() {
+    const token = await getTokenAS();
+    if (!token) return 401;
+
+    return await axios.get('/books/getRecommendedBooks',
+        {
+            headers: {
+                Authorization: token
+            }
+        })
+        .then(response => response.data)
+        .catch(error => error.response.status)
+}
+
 
 //* Favorites 
 

@@ -11,7 +11,7 @@ import { ShopStackParams, TShopBook } from '../types';
 import { NavigationProp, useNavigation, useScrollToTop } from '@react-navigation/native';
 import { Filters } from '../components/Filters';
 import Drawer from 'react-native-drawer';
-import { GetAllShopBooks } from '../service/api';
+import { GetAllShopBooks, GetRecommendedBooks } from '../service/api';
 import { AppContext } from '../context/AppContext';
 
 const width = Dimensions.get('window').width;
@@ -37,6 +37,7 @@ export function ShopScreen() {
 	const ads = [require('../../assets/Ad1.png'), require('../../assets/Ad2.png'), require('../../assets/Ad3.png')];
 
 	const [books, setBooks] = useState<TShopBook[]>([]);
+	const [recommendedBooks, setRecommendedBooks] = useState<TShopBook[]>([]);
 	const [isOpenDrawer, setIsOpenDrawer] = useState<boolean>(false);
 	const [filters, setFilters] = useState<TFilters>(filtersInit);
 
@@ -46,6 +47,7 @@ export function ShopScreen() {
 
 	useEffect(() => {
 		getBooks();
+		getRecommendedBooks();
 	}, [])
 
 	async function getBooks(isReset: boolean = false) {
@@ -59,6 +61,20 @@ export function ShopScreen() {
 		}
 		else {
 			setBooks(books);
+		}
+		setIsLoading(false);
+	}
+
+	async function getRecommendedBooks() {
+		setIsLoading(true);
+		const recBooks = await GetRecommendedBooks();
+		console.log(recBooks);
+
+		if (typeof recBooks == 'number') {
+			// setError(recBooks);
+		}
+		else {
+			setRecommendedBooks(recBooks);
 		}
 		setIsLoading(false);
 	}
@@ -140,7 +156,7 @@ export function ShopScreen() {
 												</TouchableOpacity>
 											</ImageBackground>
 
-												{/* Adds */}
+											{/* Adds */}
 											<GestureHandlerRootView style={{ flex: 1, marginTop: 10 }}>
 												<Carousel width={width} autoPlay={true}
 													autoPlayInterval={3000}
@@ -156,15 +172,15 @@ export function ShopScreen() {
 
 											{/* Recommendations */}
 											<Text style={stylesShopScreen.text_shop}>Рекомендуем</Text>
-											<FlatList data={books}
-												contentContainerStyle={{gap:8, paddingLeft:13,paddingRight:13}}
+											<FlatList data={recommendedBooks}
+												contentContainerStyle={{ gap: 8, paddingLeft: 13, paddingRight: 13 }}
 												horizontal
 												showsHorizontalScrollIndicator={false}
-												renderItem={({item})=> 
+												renderItem={({ item }) =>
 													<Pressable onPress={() => navigate('ShopBook', { id: item.id })}>
-														<BookShopCard key={item.id} book={item}/>
-													</Pressable>	
-												}												
+														<BookShopCard key={item.id} book={item} />
+													</Pressable>
+												}
 											/>
 
 											{/* Shop books list */}
