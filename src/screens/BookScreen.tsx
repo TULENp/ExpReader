@@ -104,10 +104,37 @@ export function BookScreen() {
 										{/* Actions */}
 										<View style={stylesBookScreen.container_all_buttons}>
 											{book.isBought ?
-												<Button onPress={() => tabNavigate('LibraryTab')}
-													title={<Text style={stylesBookScreen.button_buy_label_bold}>Читать</Text>}
-													buttonStyle={stylesBookScreen.button_buy}
-													containerStyle={{ borderRadius: 8 }} />
+												<View>
+													<Button onPress={() => tabNavigate('LibraryTab')}
+														title={<Text style={stylesBookScreen.button_buy_label_bold}>Читать</Text>}
+														buttonStyle={stylesBookScreen.button_buy}
+														containerStyle={{ borderRadius: 8, minWidth: 150 }} />
+													<View style={stylesBookScreen.container_fav_fragment_buttons}>
+														{isFavLoading
+															?
+															<View style={[stylesBookScreen.button_fav, { justifyContent: 'center', alignItems: 'center' }]}>
+																<ActivityIndicator size={'large'} color={deepBlue} />
+															</View>
+															:
+															<Button onPress={switchFavorite}
+																icon={
+																	book.isFavorite ?
+																		<Image style={stylesBookScreen.img_heart} source={srcIcnRedHeart} />
+																		:
+																		<Image style={stylesBookScreen.img_heart} source={srcIcnHeart} />
+																}
+																buttonStyle={stylesBookScreen.button_fav}
+																containerStyle={stylesBookScreen.button_fav_grow}
+															/>
+														}
+														<Button title={'Фрагмент'}
+															onPress={() => shopNavigate('FragmentReader', { fragment: book.fragment })}
+															titleStyle={stylesBookScreen.button_title}
+															buttonStyle={stylesBookScreen.button_fragment}
+															containerStyle={stylesBookScreen.button_fragment_grow}
+														/>
+													</View>
+												</View>
 												:
 												<>
 													<Button onPress={() => shopNavigate('Checkout', { book })}

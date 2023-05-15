@@ -16,7 +16,7 @@ type FiltersProps = {
 
 export function Filters({ filters, setFilters, filterBooks }: FiltersProps) {
 
-	const listButtonsGenres = ['Фантастика', 'Приключения', 'Фэнтези', 'Классика',
+	const listButtonsGenres = ['Фантастика', 'Приключения', 'Фэнтези', 'Киберпанк',
 		'Роман', 'Поэзия', 'Хоррор', 'Нон-Фикшн', 'Комедия', 'Исторический роман',
 		'Детектив', 'Детские книги']
 
