@@ -682,7 +682,7 @@ export const stylesAchievementsScreen = StyleSheet.create({
         alignItems:'center',
     },
     wrapper_pin_info:{
-        flexGrow:3,
+        flexGrow:1,
         maxWidth:'100%',
         backgroundColor:deepBlue,
         borderBottomStartRadius:10,
