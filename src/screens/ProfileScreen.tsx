@@ -180,7 +180,6 @@ export function ProfileScreen() {
 											{pins}
 										</View>
 									}
-
 								</Pressable>
 
 								{/* Book shelf */}

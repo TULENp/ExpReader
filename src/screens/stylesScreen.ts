@@ -291,10 +291,11 @@ export const stylesProfileScreen = StyleSheet.create({
         elevation:15,
         backgroundColor:'white',
         marginTop:10,
+        gap:4,
     },
     img_pin:{
-        width:70,
-        height:70,
+        width:65,
+        height:65,
     },
     text_empry:{
         fontFamily:'MontserratAlt700',
