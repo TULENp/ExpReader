@@ -500,8 +500,8 @@ export const stylesBookScreen = StyleSheet.create({
         borderRadius:8,
         paddingTop:8,
         paddingBottom:8,
-        paddingRight:13,
-        paddingLeft:13,
+        paddingRight:10,
+        paddingLeft:10,
         marginRight:8,
     },
     text_genres:{
