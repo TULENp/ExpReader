@@ -105,7 +105,7 @@ export function ProfileScreen() {
 
 											{/* Books stats */}
 											<Image style={[stylesProfileScreen.icn_points, { marginLeft: 20 }]} source={srcIcnBooks} />
-											<Text style={stylesProfileScreen.text_points}>{userData.userBooks.length}</Text>
+											<Text style={stylesProfileScreen.text_points}>{userData.readBooksNum}</Text>
 										</View>
 									</View>
 									<Feather name="log-out" onPress={LogOut} style={{ position: 'absolute', top: 10, right: 10 }} size={28} color="white" />
@@ -146,23 +146,22 @@ export function ProfileScreen() {
 								</Pressable> */}
 
 								{/* Favorites */}
-								{/* FIXME change to this after backend will be ready */}
-								{/* <Text style={stylesProfileScreen.text_points}>Любимый жанр: {userData.favGenre}</Text>
-								<Text style={stylesProfileScreen.text_points}>Любимый автор: {userData.favAuthor}</Text> */}
-								<View style={{ marginTop: 20, paddingLeft: 13, paddingRight: 13 }}>
-									<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-										<Text style={[stylesProfileScreen.text_points, { color: 'black', fontSize: 16 }]}>Любимый жанр: </Text>
-										<View style={stylesBookScreen.container_genres}>
-											<Text style={stylesBookScreen.text_genres}>Роман</Text>
+								{(userData.favAuthor || userData.favGenre) &&
+									<View style={{ marginTop: 20, paddingLeft: 13, paddingRight: 13 }}>
+										<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+											<Text style={[stylesProfileScreen.text_points, { color: 'black', fontSize: 16 }]}>Любимый жанр: </Text>
+											<View style={stylesBookScreen.container_genres}>
+												<Text style={stylesBookScreen.text_genres}>{userData.favGenre}</Text>
+											</View>
+										</View>
+										<View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 15 }}>
+											<Text style={[stylesProfileScreen.text_points, { color: 'black', fontSize: 16 }]}>Любимый автор: </Text>
+											<View style={[stylesBookScreen.container_genres]}>
+												<Text style={[stylesBookScreen.text_genres, { color: deepBlue }]}>{userData.favAuthor}</Text>
+											</View>
 										</View>
 									</View>
-									<View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 15 }}>
-										<Text style={[stylesProfileScreen.text_points, { color: 'black', fontSize: 16 }]}>Любимый автор: </Text>
-										<View style={[stylesBookScreen.container_genres]}>
-											<Text style={[stylesBookScreen.text_genres, { color: deepBlue }]}>Фёдор Достоевский</Text>
-										</View>
-									</View>
-								</View>
+								}
 
 								{/* Achievements */}
 								<Pressable onPress={() => navigate('Achievements')} style={stylesProfileScreen.container_achievements}>

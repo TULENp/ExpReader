@@ -1,6 +1,7 @@
-import { View, Text, FlatList, Button, TextInput, Alert, StyleSheet } from 'react-native'
+import { View, Text, FlatList, Button, TextInput, Alert, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { blueRarity, gray, greenRarity, redRarity, white, yellowRarity } from '../constants/colors'
+import { stylesAdminScreen } from './stylesScreen';
 
 interface rarity {
     title: string;
@@ -97,29 +98,28 @@ export function AdminRarityScreen() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.label}>Добавить редкость</Text>
             <View style={styles.inputContainer}>
-                <Text style={styles.label}>Название редкости</Text>
+                <Text style={stylesAdminScreen.text_h2}>Название редкости</Text>
                 <TextInput
-                    style={styles.input}
+                    style={[stylesAdminScreen.input, {marginTop:10}]}
                     value={rarity.title}
                     onChangeText={(text) => setRarity({ ...rarity, title: text })}
-                    placeholder="например: обычная"
+                    placeholder="Например: обычная"
                     placeholderTextColor={gray}
                     selectionColor={redRarity}
                 />
-                <Text style={styles.label}>Цвет</Text>
+                <Text style={stylesAdminScreen.text_h2}>Цвет</Text>
                 <TextInput
-                    style={styles.input}
+                    style={[stylesAdminScreen.input, {marginTop:10}]}
                     maxLength={7}
                     value={rarity.color}
                     onChangeText={handleColorChange}
                     placeholder="например: ff0000"
                     placeholderTextColor="#999"
                 />
-                <Text style={styles.label}>Условие</Text>
+                <Text style={[stylesAdminScreen.text_h2, {marginBottom:10}]}>Условие</Text>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Text style={styles.label}>от</Text>
+                    <Text style={[stylesAdminScreen.text_h2, {marginBottom:10}]}>от</Text>
                     <TextInput
                         style={styles.numberInput}
                         keyboardType="numeric"
@@ -132,7 +132,7 @@ export function AdminRarityScreen() {
                             });
                         }}
                     />
-                    <Text style={styles.label}>до</Text>
+                    <Text style={[stylesAdminScreen.text_h2, {marginBottom:10}]}>до</Text>
                     <TextInput
                         style={styles.numberInput}
                         keyboardType="numeric"
@@ -146,17 +146,22 @@ export function AdminRarityScreen() {
                         }}
                     />
                 </View>
-                <Button title='Добавить' onPress={addRarity} />
+                {/* <Button title='Добавить' onPress={addRarity} /> */}
+                <TouchableOpacity style={[stylesAdminScreen.standard_btn, { backgroundColor: greenRarity }]} onPress={addRarity}>
+                    <Text style={stylesAdminScreen.standard_btn_text}>Добавить редкость</Text>
+                </TouchableOpacity>
             </View>
             <FlatList
                 data={rarityList}
                 keyExtractor={item => item.title}
                 renderItem={({ item }) => {
                     return (
-                        <View style={styles.rarityContainer}>
+                        <View style={[stylesAdminScreen.list_container, {alignItems:'center'}]}>
                             <Text style={[styles.rarity, { color: item.color }]}>{item.title}</Text>
                             <Text style={styles.text}>от {item.conditionStart} до {item.conditionEnd}</Text>
-                            <Button title='Удалить' onPress={() => removeRarity(item.title)} />
+                            <TouchableOpacity style={[stylesAdminScreen.standard_btn, { backgroundColor: redRarity, width:90,marginBottom:0 }]} onPress={() => removeRarity(item.title)}>
+                                <Text style={stylesAdminScreen.standard_btn_text}>Удалить</Text>
+                            </TouchableOpacity>
                         </View>
                     )
                 }}
@@ -201,7 +206,8 @@ const styles = StyleSheet.create({
         padding: 10,
         marginBottom: 10,
         color: '#000',
-        width: 150
+        width: 150,
+        fontFamily:'MontserratAlt500'
     },
     rarityContainer: {
         flexDirection: 'row',
@@ -213,13 +219,15 @@ const styles = StyleSheet.create({
         backgroundColor: gray,
     },
     text: {
-        fontSize: 16,
+        fontSize: 12,
         color: '#000',
+        fontFamily:'MontserratAlt400'
     },
     rarity: {
         fontSize: 16,
         color: '#000',
-        fontWeight: 'bold'
+        // fontWeight: 'bold',
+        fontFamily:'MontserratAlt700'
     },
     emptyList: {
         fontSize: 16,
