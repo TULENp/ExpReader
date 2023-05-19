@@ -22,14 +22,14 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.kildan325.ExpReader"
+      "package": "com.teamEqual.ExpReader"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "76036787-a16e-45de-b16a-48d3c71be64f"
+        "projectId": "0ccfa766-4c80-4048-9add-2f55ca0e319c"
       }
     }
   }
