@@ -62,17 +62,6 @@ export function FavoritesScreen() {
 						</View>
 						:
 						<View style={stylesFavoritesScreen.container_books}>
-							{/* <FlatList
-								ItemSeparatorComponent={()=><View style={{width:8}}/>}
-								style={{width:'100%'}}
-								contentContainerStyle={{width:'100%', height:'100%'}}
-								horizontal
-								data={favorites}
-								keyExtractor={(item) => item.id}
-								renderItem={({ item: book }) => 
-								<TouchableOpacity key={book.id} onPress={() => navigate('ShopBook', { id: book.id })}>
-									<BookShopCard book={book} />
-								</TouchableOpacity>	} /> */}
 								{favBooksList}
 						</View>
 					}
