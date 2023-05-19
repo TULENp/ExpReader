@@ -14,6 +14,14 @@ export function FavoritesScreen() {
 	const [favorites, setFavorites] = useState<TShopBook[]>([]);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 
+	const favBooksList = favorites.map((book)=> {
+		return(
+			<TouchableOpacity key={book.id} onPress={() => navigate('ShopBook', { id: book.id })}>
+				<BookShopCard book={book} />
+			</TouchableOpacity>
+		)
+	})
+
 	useFocusEffect(
 		React.useCallback(() => {
 			getFavorites();
@@ -53,7 +61,7 @@ export function FavoritesScreen() {
 						</View>
 						:
 						<View style={stylesFavoritesScreen.container_books}>
-							<FlatList
+							{/* <FlatList
 								ItemSeparatorComponent={()=><View style={{width:8}}/>}
 								style={{width:'100%'}}
 								contentContainerStyle={{width:'100%', height:'100%'}}
@@ -63,7 +71,8 @@ export function FavoritesScreen() {
 								renderItem={({ item: book }) => 
 								<TouchableOpacity key={book.id} onPress={() => navigate('ShopBook', { id: book.id })}>
 									<BookShopCard book={book} />
-								</TouchableOpacity>	} />
+								</TouchableOpacity>	} /> */}
+							{favBooksList}
 						</View>
 					}
 				</View>
